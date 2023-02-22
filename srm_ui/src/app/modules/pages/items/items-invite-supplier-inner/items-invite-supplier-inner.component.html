@@ -1,0 +1,177 @@
+<div class="items-page flex flex-auto min-w-0">
+    <drawer-mini class="drawer-mini"></drawer-mini>
+
+    <div class="flex flex-col overflow-hidden flex-auto sm:p-6 md:p-8">
+        <div class="flex justify-between items-start">
+            <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+                Invite Suppliers
+                <!-- Breadcrumbs -->
+                <div class="flex flex-wrap items-center font-medium text-xl ml-px mt-2">
+                    <div>
+                        <a *ngIf="from_where == 'i'" routerLink="/items/invite-supplier"
+                            class="whitespace-nowrap text-primary-500 font-semibold ml-px">All Invite Suppliers</a>
+                        <a *ngIf="from_where == 'd'" routerLink="/dashboard"
+                            class="whitespace-nowrap text-primary-500 font-semibold ml-px">Dashboard</a>
+                    </div>
+                    <div class="flex items-center ml-2 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a class="ml-1">Invite Supplier {{ supplier_code }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center pl-1">
+                Options
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+                    <mat-icon color="primary" class="icon-size-6" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <div class="flex flex-col max-h-60">
+                        <button mat-menu-item>
+                            <button class="flex items-center" (click)="openConfirmationDialog()">
+                                <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                <span>Delete Supplier</span>
+                            </button>
+                        </button>
+                    </div>
+                </mat-menu>
+            </div>
+        </div>
+
+        <div class="relative overflow-hidden min-h-80 w-full">
+
+            <div class="overflow-auto srm-bg rounded-lg mb-6">
+                <form class="flex flex-col w-full">
+                    <div class="flex flex-col sm:flex-row p-6">
+                        <div class="flex flex-auto flex-wrap">
+                            <div class="flex flex-col w-full">
+                                <div class="flex">
+                                    <mat-form-field class="w-1/3 pr-2">
+                                        <mat-label>Supplier Code</mat-label>
+                                        <input matInput value={{supplier_code}} readonly>
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/3 px-2">
+                                        <mat-label>Supplier Name</mat-label>
+                                        <input matInput value={{name}} readonly>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="overflow-auto srm-bg rounded-lg rounded-t-none">
+                <div class="test p-6">
+                    <form class="flex flex-col w-full">
+                        <p class="mb-6 font-medium w-3/5 text-xl">
+                            Contact of Supplier
+                        </p>
+                        <div class="flex">
+                            <mat-form-field class="w-1/3 pr-2">
+                                <mat-label>First Name</mat-label>
+                                <input matInput value={{first_name}} readonly>
+                                <mat-select matPrefix [(value)]="title_value" [disabled]="'true'">
+                                    <mat-option [value]="1">Mr.</mat-option>
+                                    <mat-option [value]="2">Ms.</mat-option>
+                                    <mat-option [value]="3">Mrs.</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="w-1/3 px-2">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput value={{last_name}} readonly>
+                            </mat-form-field>
+                            <mat-form-field class="w-1/3 pl-2">
+                                <mat-label>Email</mat-label>
+                                <input matInput #inviteSupplierEmail
+                                    [formControl]="inviteSupplierForm.controls.emailFormControl"
+                                    placeholder=" E-mail eg : example@exp.com" (focusout)="onKeySearch($event,'E')">
+                                <mat-error
+                                    *ngIf="inviteSupplierForm.get('emailFormControl').hasError('invalidpattern')">
+                                    Please enter a valid E-mail Address eg : example@exp.com
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="inviteSupplierForm.controls.emailFormControl.errors?.required || inviteSupplierForm.get('emailFormControl').hasError('required')">
+                                    This field is required
+                                </mat-error>
+                                <mat-error *ngIf="inviteSupplierForm.get('emailFormControl').hasError('invalid')">Email
+                                    already
+                                    exists
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex">
+                            <mat-form-field class="w-1/3 pr-2">
+                                <mat-label>Remarks</mat-label>
+                                <textarea matInput [rows]="3" value={{justification}} readonly></textarea>
+                            </mat-form-field>
+                            <mat-form-field class="w-1/3 px-2">
+                                <mat-label>Information to Supplier</mat-label>
+                                <input matInput readonly hidden>
+                                <input *ngIf="length == 0" matInput value="Not available" readonly>
+                                <a *ngIf="length != 0" (click)="download(photos)"
+                                    style="cursor: pointer;">{{ first_name }}_{{ photos }}</a>
+                                <mat-icon matSuffix class="icon-size-5 text-secondary"
+                                    [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <p class="my-6 font-medium mt-8 w-3/5 text-xl">
+                            Information to Supplier
+                        </p>
+                        <div class="flex">
+                            <mat-form-field class="w-1/3 pr-2">
+                                <mat-label>Invitation Sent By</mat-label>
+                                <input matInput value={{invite_by}} readonly>
+                            </mat-form-field>
+                            <mat-form-field class="w-1/3 px-2">
+                                <mat-label>Invited On</mat-label>
+                                <input matInput value={{create_date_time}} readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex">
+                            <mat-form-field class="w-1/3 pr-2">
+                                <mat-label>Last Re-Invite By</mat-label>
+                                <input matInput *ngIf="re_invite_by !='' " value={{re_invite_by}} readonly>
+                                <input matInput *ngIf="re_invite_by =='' " readonly>
+                            </mat-form-field>
+                            <mat-form-field class="w-1/3 px-2">
+                                <mat-label>Last Re-Invite On</mat-label>
+                                <input matInput *ngIf="re_invite_date_time !='' " value={{re_invite_date_time}}
+                                    readonly>
+                                <input matInput *ngIf="re_invite_date_time =='' " readonly>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="flex">
+                    <div class="flex justify-start mt-5 flex-col">
+                        <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                            <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green">
+                            </mat-icon>
+                            <span>{{message}}</span>
+                        </div>
+                        <div class="flex align-center text-warn font-medium mb-2" *ngIf="isfailed">
+                            <mat-icon [svgIcon]="'warning_amber'" class="mr-2 text-warn"></mat-icon>
+                            <span>{{message}}</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-end ml-auto p-6">
+                        <button class="sm:inline-flex mr-4" mat-raised-button [color]="'primary'"
+                            [cdkCopyToClipboard]="link" (click)="copyInviteLink()">
+                            <span class="mx-8">Copy Invite Link</span>
+                        </button>
+                        <button class="sm:inline-flex mr-4" mat-raised-button [color]="'primary'"
+                            (click)="updateEmail()">
+                            <span class="mx-8">Update Email</span>
+                        </button>
+                        <button class="sm:inline-flex" mat-raised-button [color]="'primary'" (click)="reinvite()">
+                            <span class="mx-8">Re-invite to Reminder</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

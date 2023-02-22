@@ -1,0 +1,45 @@
+<div class="internal-user-record-page flex flex-col flex-auto min-w-0 px-4">
+    <div class="flex justify-between flex-col  w-full">
+        <!-- Breadcrumbs -->
+        <div class="srm-user-header">
+            <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+                <div class="flex flex-wrap items-center font-medium text-lg ml-px mt-1">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500 font-semibold ml-px">Setup</a>
+                    </div>
+                    <div class="flex items-center ml-2 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a class="whitespace-nowrap text-primary-500 font-semibold ml-px">User Management ></a>
+                    </div>
+                    <div class="flex items-center ml-2 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a class="whitespace-nowrap text-primary-500 font-semibold ml-px">Internal Users</a>
+                    </div>
+                    <div class="flex items-center ml-2 whitespace-nowrap" *ngIf="userTabComponentrt?.userRef">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a class="whitespace-nowrap text-primary-500 font-semibold ml-px">
+                            {{ userTabComponentrt?.userRef ? userTabComponentrt?.userRef?.userName: ''}}
+                        </a>
+                    </div>
+                </div>
+            </div>           
+        </div>
+
+        <div class="flex  w-full">
+            <mat-tab-group>
+                <!-- User tab -->
+                <mat-tab label="User Details">
+                    <app-user-tab #userTabComponentrt></app-user-tab>
+                </mat-tab>
+
+                <!-- Roles tab -->
+                <mat-tab label="Roles" *ngIf="userTabComponentrt?.userId">
+                    <user-role-assign-tab [userId]="userTabComponentrt?.userId"></user-role-assign-tab>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

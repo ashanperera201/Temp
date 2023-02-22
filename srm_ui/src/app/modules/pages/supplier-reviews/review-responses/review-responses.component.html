@@ -1,0 +1,172 @@
+<div *ngIf="show" class="review-responses-page" class="px-4 py-2 srm-bg rounded-lg">
+    <div class="pb-4">
+        <div class="relative">
+            <!--base table component-->
+            <div class="overflow-auto bg-gray-50 rounded-lg">
+                <div class="loader-inline" *ngIf='loading'>
+                    <img src="assets/images/xitricon-loader.gif" alt="loading">
+                </div>
+                <table mat-table [dataSource]="reviews" matSort class="expanded-rows-table font-helvetica text-gray-500"
+                    style="width: calc(100% - 2px); background: #fafafa !important; padding: 0 2px;">
+                    <!--  Evaluation Name Column -->
+                    <ng-container matColumnDef="evalName">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 120px; min-width: 100px">
+                            <div class="flex flex-col">
+                                <div mat-sort-header style=" text-align: left;">Evaluation Name</div>
+                                <mat-form-field class="filter" floatLabel="never">
+                                    <input matInput placeholder="Search" [formControl]="evalNameFilter">
+                                    <mat-icon matSuffix>search</mat-icon>
+                                </mat-form-field>
+
+                            </div>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.evaluationName}} </td>
+                    </ng-container>
+                    <!--  Requested By Column -->
+                    <ng-container matColumnDef="supplierName">
+                        <th mat-header-cell *matHeaderCellDef style=" padding: 5px; max-width: 120px; min-width: 100px">
+                            <div class="flex flex-col">
+                                <div mat-sort-header style=" text-align: left;">Supplier</div>
+                                <mat-form-field class="filter" floatLabel="never">
+                                    <input matInput placeholder="Search" [formControl]="supplierNameFilter">
+                                    <mat-icon matSuffix>search</mat-icon>
+                                </mat-form-field>
+
+                            </div>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.supplierName}} </td>
+                    </ng-container>
+                    <!--  Requested By Column -->
+                    <ng-container matColumnDef="conBy">
+                        <th mat-header-cell *matHeaderCellDef style=" padding: 5px; max-width: 120px; min-width: 100px">
+                            <div class="flex flex-col">
+                                <div mat-sort-header style=" text-align: left;">Conducted By</div>
+                                <mat-form-field class="filter" floatLabel="never">
+                                    <input matInput placeholder="Search" [formControl]="conByFilter">
+                                    <mat-icon matSuffix>search</mat-icon>
+                                </mat-form-field>
+
+                            </div>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.conductedUser}} </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef style=" padding: 5px; max-width: 120px; min-width: 100px">
+                            <div class="flex flex-col">
+                                <div mat-sort-header style=" text-align: left;">Status</div>
+                                <mat-form-field class="filter" floatLabel="never">
+                                    <mat-icon matSuffix>search</mat-icon>
+                                    <input matInput placeholder="Search" [formControl]="statusFilter">
+                                </mat-form-field>
+
+                            </div>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.status}} </td>
+                    </ng-container>
+                    <!-- Created Date Column -->
+                    <ng-container matColumnDef="iniDate">
+                        <th mat-header-cell *matHeaderCellDef style=" padding: 5px; max-width: 120px; min-width: 100px">
+                            <div class="flex flex-col">
+                                <div mat-sort-header style=" text-align: left;">Initiated Date</div>
+                                <mat-form-field class="filter" floatLabel="never">
+                                    <input matInput placeholder="Search" [formControl]="iniDateFilter">
+                                    <mat-icon matSuffix>search</mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.createdDate}} </td>
+                    </ng-container>
+                    <!-- Published Date Column -->
+                    <ng-container matColumnDef="modDate">
+                        <th mat-header-cell *matHeaderCellDef style=" padding: 5px; max-width: 120px; min-width: 100px">
+                            <div class="flex flex-col">
+                                <div mat-sort-header style=" text-align: left;">Last responded Date</div>
+                                <mat-form-field class="filter" floatLabel="never">
+                                    <input matInput placeholder="Search" [formControl]="modDateFilter">
+                                    <mat-icon matSuffix>search</mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.modifiedDate}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="score">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 180px; min-width: 150px">
+                            Score
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.score.toFixed(2)}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="sendForApprovalsButton">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 180px; min-width: 150px">
+                            Approval
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+
+                            <button  [disabled]=!canViewApproval(row) (click)="goToReviewResponse(row.id)" mat-stroked-button
+                                color="primary">
+                                Scores and Approvals</button>
+                        </td>
+
+                    </ng-container>
+                    <ng-container matColumnDef="approvalInitiatedDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 120px; min-width: 100px">
+                            Approval Initiated Date
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.approvalInitiationDate}} </td>
+                    </ng-container>
+<!-- 
+                    <ng-container matColumnDef="viewApprovalHistoryButton">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 180px; min-width: 150px">
+                            Approval History
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+
+                            <button  [disabled]=!canViewApprovalHistory(row) (click)="viewApprovalHistory(row)" mat-stroked-button
+                                color="primary">
+                                View</button>
+                        </td>
+
+                    </ng-container> -->
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns13"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns13;"></tr>
+
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="6" style="text-align: center;">
+                            <span>No data matching
+                                the filter</span>
+                        </td>
+                        <td class="mat-cell" colspan="6" style="text-align: center;"><span>
+                                No data</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="flex justify-end">
+                <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+            </div>
+            <!--table component end-->
+        </div>
+    </div>
+</div>
+
+<div class="card-div"  *ngIf="!show" >    
+    <mat-card class="example-card">
+        <mat-card-header>
+            <mat-card-title> Not authorized to view this content.</mat-card-title>
+            <mat-card-subtitle> 
+                Please contact Admin.  
+            </mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+</div>

@@ -1,0 +1,231 @@
+<div class="min-w-full p-4">
+    <mat-dialog-content class="min-w-full" style="max-height: 79vh !important; height: 613px !important;">
+        <div class="pb-4">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Criticality Matrix
+            </div>
+
+           
+            <div class="overflow-auto srm-bg rounded-lg">
+                <form class="flex flex-col w-full">
+                    <div class="flex flex-col sm:flex-row p-6">
+                        <div class="flex flex-auto flex-wrap">
+                            <div class="flex flex-col w-full">
+
+                                <div class="flex">
+                                    <mat-form-field class="w-1/2 pr-2">
+                                        <mat-label>Sr.No</mat-label>
+                                        <input matInput value="161" readonly>
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/2 pl-2">
+                                        <mat-label>Name (in English)</mat-label>
+                                        <input matInput value="ABC Group" readonly>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="flex">
+                                    <mat-form-field class="w-1/2 pr-2">
+                                        <mat-label>Supplier Code</mat-label>
+                                        <input matInput value="IIMI-2021-0149" readonly>
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/2 pl-2">
+                                        <mat-label>Criticality Score</mat-label>
+                                        <input matInput value="0" readonly>
+                                    </mat-form-field>
+                                    
+                                </div>
+                              
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+      
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Existing Categories
+            </div>
+                                <div class="overflow-auto srm-bg rounded-lg">
+
+                                    <!--table component-->
+               
+                                    <table mat-table [dataSource]="dataSource1" matSort class="expanded-rows-table font-helvetica text-gray-500"  style="width: calc(100% - 2px); background: #fafafa !important; padding: 0 2px;"  id="htmlData" #htmlData>
+
+                                        <ng-container matColumnDef="id">
+                                            <th style=" background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> S. No </th>
+                                             <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let row">
+                                                {{row.id}}
+                                               </td>
+                                        </ng-container>
+                        
+                                        <ng-container matColumnDef="generalCategory">
+                                            <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> General Category </th>
+                                             <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let row">
+                                                {{row.generalCategory}}
+                                               </td>
+                                        </ng-container>
+                        
+                                        <ng-container matColumnDef="subCategory">
+                                            <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> Sub Category </th>
+                                            <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let row">
+                                                {{row.subCategory}}
+                                               </td>
+                                        </ng-container>
+                        
+                                        <ng-container matColumnDef="detailCategory">
+                                            <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> Detail Category </th>
+                                        <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let row">
+                                            {{row.detailCategory}}
+                                           </td>
+                                        </ng-container>
+            
+                                        
+                        
+                                        <tr style="text-align: center;" mat-header-row *matHeaderRowDef="displayedCategoriesColumns"></tr>
+                                        <tr style="text-align: center;" mat-row *matRowDef="let row; columns: displayedCategoriesColumns;"></tr>
+
+                                    </table>
+                              
+                                </div>
+    
+        <br />
+      
+            <div class="text-3xl font-cairo font-bold mb-6">
+                New Additions to the Category List
+            </div>
+
+            <div class="overflow-auto srm-bg rounded-lg">
+
+                        <!--table component-->
+               
+                        <table mat-table [dataSource]="dataSource1" matSort class="expanded-rows-table font-helvetica text-gray-500"  style="width: calc(100% - 2px); background: #fafafa !important; padding: 0 2px;"  id="htmlData" #htmlData>
+                            
+                            <ng-container matColumnDef="id">
+                                <th style=" background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> S. No </th>
+                              <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let row">
+                                {{row.id}}
+                               </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="generalCategory">
+                                <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> General Category </th>
+                                <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let row">
+                                    {{row.generalCategory}}
+                                   </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="subCategory">
+                                <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> Sub Category </th>
+                               <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let row">
+                                {{row.subCategory}}
+                               </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="detailCategory">
+                                <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> Detail Category </th>
+                                 <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let row">
+                                    {{row.detailCategory}}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="selection">
+                                <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> Selection </th>
+                                <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let element">
+                                    <mat-slide-toggle> </mat-slide-toggle>
+                                </td>
+                            </ng-container>
+            
+                            <tr style="text-align: center;" mat-header-row *matHeaderRowDef="CategoriesColumnsNew"></tr>
+                            <tr style="text-align: center;" mat-row *matRowDef="let row; columns: CategoriesColumnsNew;"></tr>
+                        </table>
+                   
+            </div>
+    
+
+   
+    <br />
+  
+        <div class="text-3xl font-cairo font-bold mb-6">
+            Scope of Supply
+        </div>
+
+        <div class="overflow-auto srm-bg rounded-lg">
+           
+                    
+            <table style="border-collapse: collapse; width: 100%;background-color: white;zoom: 0.8 !Important;" mat-table  [dataSource]="checkboxesDataList" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="position">
+                <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> No </th>
+                <td mat-cell *matCellDef="let element" style="border: 1px solid #dddddd;text-align: left;padding: 24px;color:black;">
+                    {{element.position}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="scope">
+                <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> Detail</th>
+                <td mat-cell *matCellDef="let element" style="border: 1px solid #dddddd;text-align: left; padding: 24px;color:black;"> 
+                    {{element.scope}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="check">
+                <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900; color: black;" mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element" style="border: 1px solid #dddddd;text-align: center; padding: 24px;color:black;">
+                    <mat-slide-toggle> </mat-slide-toggle>
+                </td>
+            </ng-container>
+
+            <tr mat-row *matRowDef="let row; columns:scopeColumns;">
+            </tr>
+
+            <tr mat-header-row style="display: none;" *matHeaderRowDef="scopeColumns"></tr>
+
+            </table>
+               
+        </div>
+      
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex="100" class="pr-4">
+            <table style="border-collapse: collapse; width: 100%;">
+                <tr style="background-color: white;">
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 25px 5px;"> </td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Total Number of "Yes" Scored</td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px; color:red; text-align:center;width: 188px;font-weight: 900;">
+                       5 Critical
+                    </td>
+                </tr>
+
+                <tr style="background-color: white;">
+                    <td style="border: 1px solid #dddddd; text-align: left;padding: 25px 5px;"> </td>
+                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">*Rating >= 7 Yes will be considered as "Highly Critical" and require site audit.</td>
+                    <td style="border: 1px solid #dddddd; text-align: left;padding: 24px; text-align:center;width: 188px;">Highly Critical</td>
+                </tr>
+
+                <tr style="background-color: white;">
+                    <td style="border: 1px solid #dddddd;text-align: left;padding: 25px 5px;"> </td>
+                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">*Rating 5 Yes to 6 Yes will be considered as "Critical" and requires a desk review all required document.</td>
+                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;text-align:center;width: 188px;">Critical</td>
+                </tr>
+
+                <tr style="background-color: white;">
+                    <td style="border: 1px solid #dddddd;text-align: left;padding: 25px 5px;"> </td>
+                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">*Rating less than 5 Yes will be considered as "Non Critical".</td>
+                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;text-align:center;width: 188px;">Non Critical</td>
+                </tr>
+            </table>
+        </div>
+    </div> 
+    
+    <mat-dialog-actions class="flex justify-end">
+        <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()">Close</button>
+        
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" >
+                <span class="mx-8">Save & Submit</span>
+            </button>        
+    </mat-dialog-actions>
+    
+    
+
+<!-- </div> -->

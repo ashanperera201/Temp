@@ -1,0 +1,45 @@
+<div class="pb-4 px-4 srm-bg rounded-lg">
+    <div class="pt-5 pb-2">
+        <div class="flex">
+            <mat-form-field class="w-1/4 pr-2">
+                <mat-label>RFQ No</mat-label>
+                <input matInput [(ngModel)]='rfqModel.rfqNo' name="rfqNo" disabled>
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>REV No</mat-label>
+                <input matInput [(ngModel)]='rfqModel.revNo' name="rEVNo" disabled>
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>RFQ Name</mat-label>
+                <input matInput [(ngModel)]='rfqModel.rfqName' name="rfqName" disabled>
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pl-2">
+                <mat-label>RFQ Description</mat-label>
+                <input matInput [(ngModel)]='rfqModel.rfqDescription' name="rfqDescription" disabled>
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field class="w-1/4 pr-2">
+                <mat-label>Program ID</mat-label>
+                <input matInput matInput [(ngModel)]='rfqModel.programName' name="ifsProjectID" disabled>
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Project Code</mat-label>
+                <input matInput matInput [(ngModel)]='rfqModel.project' name="project" disabled>
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Select Supplier Response</mat-label>
+                <mat-select (selectionChange)="fetchResponse()" [(ngModel)]='supplierId' [disabled]="rfqModel.statusName == 'Bid Open' || !rfqModel.bidClosingDateTimeArrived">
+                    <mat-option *ngFor="let cur of rfqSupplierSearchModel.supplierViewModels" [value]="cur.supplierID">
+                        {{cur.supplierName}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pl-2">
+                <mat-label>Bid Received Date</mat-label>
+                <input matInput [(ngModel)]='rfqModel.bidOpeningDate' [matDatepicker]="picker121" disabled>
+                <mat-datepicker-toggle matSuffix [for]="picker121"></mat-datepicker-toggle>
+                <mat-datepicker #picker121></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,965 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0">
+    <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+        PO Information Transfer
+    </div>
+
+    <!-- project details -->
+    <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">
+        Project Details
+    </div>
+
+    <!-- Header block -->
+    <div class="header-block border rounded bg-white mt-1 mb-2 p-4 divide-solid divide-gray-300">
+        <div class="block flex flex-col px-6 my-3 items-center justify-center text-center"
+            *ngFor="let x of data.projectDetails">
+            <h3 class="text-base font-medium leading-none text-secondary">
+                {{ x.title }}
+            </h3>
+            <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">
+                {{ x.value }}
+            </p>
+        </div>
+    </div>
+
+    <!-- tab group -->
+    <mat-tab-group #tabGroup class="tab-type-one is-parent-tab with-immediate-sticky-child sticky-tab-only"
+        [animationDuration]="'0'" color="primary">
+        <!-- Header tab -->
+        <mat-tab label="Header Information">
+            <div class="relative">
+                <div class="flex flex-col">
+
+                    <!-- Extention panel for supplier in header -->
+                    <mat-accordion multi class="custom-accordian">
+                        <mat-expansion-panel class="card-style mb-6 p-0" (opened)="panelOpenState = true"
+                            (closed)="panelOpenState = false" hideToggle="true"
+                            *ngFor="let x of data.headerInformation">
+                            <mat-expansion-panel-header class="h-full pt-4 pb-2">
+                                <div class="flex flex-col w-full">
+                                    <mat-panel-title class="text-xl mb-3 flex justify-between">
+                                        <div class="flex items-center">
+                                            <p class="font-bold text-lg mb-1 mt-4">
+                                                Supplier -{{ x.supplierNo }}
+                                            </p>
+                                            <div
+                                                class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none divide-solid divide-x divide-gray-300">
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Supplier ID :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ x.ifsSupplierID }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Awarded Supplier Name :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ x.supplierName }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Contact Person :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ x.contactPerson }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Status :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ x.status }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Currency :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ x.currency }}
+                                                    </p>
+                                                </div>
+                                                <div *ngIf="x.isAgreementVisible" class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <button class="sm:inline-flex mr-4"  (click)="showRFI(x.supplierID)" mat-stroked-button [color]="'primary'">
+                                                    <span class="mx-8">Agreement Information</span>
+                                                </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </mat-panel-title>
+                                </div>
+                            </mat-expansion-panel-header>
+
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+
+                <!--button-->
+                <div class="flex justify-end ml-auto p-6">
+                    <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'"
+                        (click)="tabGroup.selectedIndex = 1">
+                        <span class="mx-8">Next</span>
+                    </button>
+                </div>
+            </div>
+        </mat-tab>
+
+        <!-- Lines tabs -->
+        <mat-tab label="Lines Information">
+
+            <!-- Extention panel for suppliers in lines -->
+            <mat-accordion multi class="custom-accordian">
+                <mat-expansion-panel class="card-style mb-6 p-0" (opened)="panelOpenState2 = true"
+                    (closed)="panelOpenState2 = false" hideToggle="true" *ngFor="let y of data.linesInformation">
+                    <mat-expansion-panel-header class="h-full pt-4 pb-2">
+                        <div class="flex flex-col w-full">
+                            <mat-panel-title class="text-xl mb-3 flex justify-between">
+                                <div class="flex items-center">
+                                    <p class="font-bold text-lg mb-1 mt-4">
+                                        Supplier - {{ y.supplierNo }}
+                                    </p>
+                                    <div
+                                        class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none divide-solid divide-x divide-gray-300">
+                                        <div
+                                            class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                            <p class="font-base text-base mb-1 mt-4">
+                                                Supplier ID :
+                                            </p>
+                                            <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                {{ y.ifsSupplierID }}
+                                            </p>
+                                        </div>
+                                        <div
+                                            class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                            <p class="font-base text-base mb-1 mt-4">
+                                                Company Name :
+                                            </p>
+                                            <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                {{ y.companyName }}
+                                            </p>
+                                        </div>
+                                        <div
+                                            class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                            <p class="font-base text-base mb-1 mt-4">
+                                                Contact Person :
+                                            </p>
+                                            <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                {{ y.contactPerson }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <mat-icon color="primary" *ngIf="!panelOpenState2"
+                                        svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                                    <mat-icon color="primary" *ngIf="panelOpenState2"
+                                        svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                                </div>
+                            </mat-panel-title>
+                        </div>
+                    </mat-expansion-panel-header>
+
+                    <!-- Extention panel for Line No in lines -->
+                    <mat-accordion multi class="custom-accordian">
+                        <mat-expansion-panel class="card-style mb-6 p-0" (opened)="panelOpenState1 = true"
+                            (closed)="panelOpenState1 = false" hideToggle="true" *ngFor="let x of y.lineDetails">
+                            <mat-expansion-panel-header class="h-full pt-4 pb-2">
+                                <div class="flex flex-col w-full">
+                                    <mat-panel-title class="text-xl mb-3 flex justify-between">
+                                        <div class="flex items-center">
+                                            <p class="font-bold text-lg mb-1 textcolor">
+                                                Line No -{{ x.lineNo }}
+                                            </p>
+                                            <p class="font-base text-base mb-1 pl-2 textcolor">
+                                                {{ x.partDiscription }}
+                                            </p>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <mat-icon color="primary" *ngIf="!panelOpenState1"
+                                                svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                                            <mat-icon color="primary" *ngIf="panelOpenState1"
+                                                svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                                        </div>
+                                    </mat-panel-title>
+                                </div>
+                            </mat-expansion-panel-header>
+
+                            <div class="overflow-auto srm-bg rounded-lg mt-4 px-2">
+                                <div class="flex">
+                                    <div class="flex flex-col w-1/2 mr-2">
+                                        <div class="bg-white rounded-lg p-4 m-4">
+                                            <div class="font-bold text-base mb-2">
+                                                Basic Information
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-medium base text-base mb-2">
+                                                    Line No :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.lineNo }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Part No :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.partNo }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Part Discription :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.partDiscription }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    PO Qty :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.poQty }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Purchase UOM :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.purchaseUOM }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-white rounded-lg p-4 m-4">
+                                            <div class="font-bold text-base mb-2">
+                                                Total price Information
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-medium base text-base mb-2">
+                                                    Net Amt/Curr :
+                                                </div>
+                                                <div class="font-base flex justify-end text-base pr-4 mb-2">
+                                                    {{ x.netAmtCurr }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Net Amt/Base :
+                                                </div>
+                                                <div class="font-base flex justify-end text-base pr-4 mb-2">
+                                                    {{ x.netAmtBase }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Discount % :
+                                                </div>
+                                                <div class="font-base flex justify-end text-base pr-4 mb-2">
+                                                    {{ x.discount }}
+                                                </div>
+
+                                                <!-- <div
+                                                    class="font-medium base text-base mb-2"
+                                                >
+                                                    Additional Cost :
+                                                </div>
+                                                <div
+                                                    class="font-base flex justify-end text-base pr-4 mb-2"
+                                                >
+                                                    {{ x.additionalCost }}
+                                                </div> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-white rounded-lg p-4 m-4">
+                                            <div class="font-bold text-base mb-2">
+                                                Other Information
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-medium base text-base mb-2">
+                                                    Project ID :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.projectID }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Destination Warehouse ID :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{
+                                                    x.ifsSiteId
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col w-1/2 ml-2">
+                                        <div class="bg-white rounded-lg p-4 m-4">
+                                            <div class="font-bold text-base mb-2">
+                                                Unit price Information
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-medium base text-base mb-2">
+                                                    Unit price Currency :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.unitpriceCurrency }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Unit price :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.unitprice1 }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Price UoM :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.purchaseUOM }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Unit Price Base Currency :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{
+                                                    x.unitPriceBaseCurrency
+                                                    }}
+                                                </div>
+
+                                                <div class="font-medium base text-base mb-2">
+                                                    Unit Price :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.unitprice2 }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-white rounded-lg p-4 m-4">
+                                            <div class="font-bold text-base mb-2">
+                                                Delivery & Date Information
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-medium base text-base mb-2">
+                                                    Promised Delivery Date :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{
+                                                    x.promisedDeliveryDate
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="font-bold text-base flex justify-end pr-4">
+                                            Rental Part Specific Fields
+                                        </div>
+                                        <div class="border srm-bg rounded">
+                                            <div class="bg-white rounded-lg p-4 m-4">
+                                                <div class="font-bold text-base mb-2">
+                                                    Delivery & Date Information
+                                                </div>
+                                        
+                                                <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                    <div class="font-medium base text-base mb-2">
+                                                        Planned Rental Start
+                                                        Date :
+                                                    </div>
+                                                    <div class="font-base text-base mb-2">
+                                                        {{
+                                                        x.plannedRentalStartDate| date: "dd/MM/yy"
+                                                        }}
+                                                    </div>
+                                        
+                                                    <div class="font-medium base text-base mb-2">
+                                                        Planned Rental Duration
+                                                        :
+                                                    </div>
+                                                    <div class="font-base text-base mb-2">
+                                                        {{
+                                                        x.plannedRentalDuration
+                                                        }}
+                                                    </div>
+                                        
+                                                    <div class="font-medium base text-base mb-2">
+                                                        Rental Duration UoM :
+                                                    </div>
+                                                    <div class="font-base text-base mb-2">
+                                                        {{
+                                                        x.rentalDurationUoM
+                                                        }}
+                                                    </div>
+                                        
+                                                    <div class="font-medium base text-base mb-2">
+                                                        Chargeable Days :
+                                                    </div>
+                                                    <div class="font-base text-base mb-2">
+                                                        {{ x.chargeableDays }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <!--button-->
+            <div class="flex justify-end ml-auto p-6">
+                <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'"
+                    (click)="tabGroup.selectedIndex = 2">
+                    <span class="mx-8">Next</span>
+                </button>
+            </div>
+        </mat-tab>
+
+        <!-- Payment Deatails tabs -->
+        <mat-tab label="Payment Details">
+            <div class="relative">
+                <div class="flex flex-col">
+
+                    <!-- Extention panel for suppliers in Payment details -->
+                    <mat-accordion multi class="custom-accordian">
+                        <mat-expansion-panel class="card-style mb-6 p-0" (opened)="panelOpenState4 = true"
+                            (closed)="panelOpenState4 = false" hideToggle="true" (click)="selectExpansion(i)"
+                            *ngFor="let x of data.paymentDetails; let i = index ">
+                            <mat-expansion-panel-header class="h-full pt-4 pb-2">
+                                <div class="flex flex-col w-full">
+                                    <mat-panel-title class="text-xl mb-3 flex justify-between">
+                                        <div class="flex items-center">
+                                            <p class="font-bold text-lg mb-1 mt-4">
+                                                Supplier -{{ x.supplierNo }}
+                                            </p>
+                                            <div
+                                                class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none divide-solid divide-x divide-gray-300">
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Supplier ID :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ x.ifsSupplierID }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Company Name :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ x.companyName }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Contact Person :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ x.contactPerson }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <mat-icon color="primary" *ngIf="!panelOpenState4"
+                                                svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                                            <mat-icon color="primary" *ngIf="panelOpenState4"
+                                                svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                                        </div>
+                                    </mat-panel-title>
+                                </div>
+                            </mat-expansion-panel-header>
+
+                            <div class="overflow-auto srm-bg rounded-lg mt-4 px-2">
+                                <div class="flex">
+                                    <div class="flex flex-col w-1/2 mr-2">
+                                        <div class="bg-white rounded-lg p-4 m-4">
+                                            <div class="font-bold text-base mb-2">
+                                                Basic Information
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-medium base text-base mb-2">
+                                                    PO No :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.poNo }}
+                                                </div>
+                                                <div class="font-medium base text-base mb-2">
+                                                    Supplier ID :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.ifsSupplierID }}
+                                                </div>
+                                                <div class="font-medium base text-base mb-2">
+                                                    Supplier Name :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.supplierName }}
+                                                </div>
+                                                <div class="font-medium base text-base mb-2">
+                                                    Site :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.site }}
+                                                </div>
+                                                <div class="font-medium base text-base mb-2">
+                                                    Currency :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.currency }}
+                                                </div>
+                                                <div class="font-medium base text-base mb-2">
+                                                    Payment Term :
+                                                </div>
+                                                <div class="font-base text-base mb-2">
+                                                    {{ x.paymentTermName }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col w-1/2 mr-2">
+                                        <div class="bg-white rounded-lg p-4 m-4">
+                                            <div class="font-bold text-base mb-2">
+                                                Order Amounts
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-medium base text-base mb-2">
+                                                    Total Gross Amt / Curr :
+                                                </div>
+                                                <div class="font-base flex justify-end pr-4 text-base mb-2">
+                                                    {{ x.totalAmont }}
+                                                </div>
+
+                                                <!-- <div class="font-medium base text-base mb-2">
+                                                    Gross Incl Charge / Curr :
+                                                </div>
+                                                <div class="font-base flex justify-end pr-4 text-base mb-2">
+                                                    {{ x.totalInclChargeCurr }}
+                                                </div> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-white rounded-lg p-4 m-4">
+                                            <div class="font-bold text-base mb-2">
+                                                Retention Amounts
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-medium base text-base mb-2">
+                                                    Planned :
+                                                </div>
+                                                <div class="font-base flex justify-end pr-4 text-base mb-2">
+                                                    {{ retentionAmount }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-white rounded-lg p-4 m-4">
+                                            <div class="font-bold text-base mb-2">
+                                                Down Payment Amounts
+                                            </div>
+
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-medium base text-base mb-2">
+                                                    Planned :
+                                                </div>
+                                                <div class="font-base flex justify-end pr-4 text-base mb-2">
+                                                    {{ downPaymentAmount }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="overflow-auto bg-gray-50 rounded-lg">
+                                <table mat-table [dataSource]="dataSource[i]" matSort
+                                    class="expanded-rows-table font-helvetica text-gray-500"
+                                    style="width: calc(100% - 2px)">
+                                    <ng-container hidden matColumnDef="PaySchedID">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Pay Sched ID
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element.payScheduleNo }}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ScheduleLineDesc">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Schedule Line Desc
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element.description }}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- <ng-container matColumnDef="LinkedtoDel">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Linked to Deliverables
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <mat-checkbox class="example-margin pl-2" color="primary">Yes</mat-checkbox>
+                                        </td>
+                                    </ng-container> -->
+
+                                    <ng-container matColumnDef="ScheduleLineType">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Schedule Line Type
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <mat-form-field
+                                                class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-50 mt-2 sm:mt-0 pt-2 mr-1 mb-3">
+                                                <mat-select [value]="row.scheduleLineType">
+                                                    <mat-option>Select Schedule Line
+                                                        Type</mat-option>
+                                                    <ng-container>
+                                                        <mat-option value="Down Payment">Down Payment</mat-option>
+                                                        <mat-option value="Retention">Retention</mat-option>
+                                                    </ng-container>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="DownPaymentType">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Down Payment Type
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <mat-form-field
+                                                class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-50 mt-2 pt-2 sm:mt-0 mr-1 mb-3">
+                                                <mat-select [value]="row.downPaymentType">
+                                                    <mat-option>Down Payment
+                                                        Type</mat-option>
+                                                    <ng-container>
+                                                        <mat-option value="Advance">Advance
+                                                        </mat-option>
+                                                        <mat-option value="Milestone">Milestone
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="PlannedAmount">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Planned Amount
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <mat-form-field appearance="fill" floatLabel="always"
+                                                class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-50 mt-2 pt-2 sm:mt-0 mr-1 mb-3">
+                                                <input matInput type="number" class="example-right-align"
+                                                    placeholder="0" [value]="row.plannedAmount" />
+                                                <span matSuffix>.00</span>
+                                            </mat-form-field>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Percenatge">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Percentage
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <mat-form-field
+                                                class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-50 mt-2 pt-2 sm:mt-0 mr-1 mb-3 px-2">
+                                                <input matInput placeholder="Enter the presentage"
+                                                    [value]="row.percentage" />
+                                            </mat-form-field>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="DueDate">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Due Date
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <mat-form-field appearance="fill"
+                                                class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-50 mt-2 pt-2 sm:mt-0 mr-1 mb-3 px-2"
+                                                (click)="picker.open()">
+                                                <input matInput [matDatepicker]="picker" [value]="row.dueDate" />
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                    <tr mat-row *matRowDef="
+                                            let row;
+                                            columns: displayedColumns1
+                                        "></tr>
+
+
+                                </table>
+
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+
+                <!--button-->
+                <div class="flex justify-end ml-auto p-6">
+                    <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'"
+                        (click)="tabGroup.selectedIndex = 3">
+                        <span class="mx-8">Next</span>
+                    </button>
+                </div>
+            </div>
+        </mat-tab>
+
+        <!-- Miscellaneous tabs -->
+        <mat-tab label="Miscellaneous">
+            <div class="relative">
+                <div class="flex flex-col">
+
+                    <!-- Extention panel for suppliers in Miscelloneous -->
+                    <mat-accordion multi class="custom-accordian">
+                        <mat-expansion-panel class="card-style mb-6 p-0" (opened)="panelOpenState4 = true"
+                            (closed)="panelOpenState4 = false" hideToggle="true" *ngFor="let X of data.miscellaneous">
+                            <mat-expansion-panel-header class="h-full pt-4 pb-2">
+                                <div class="flex flex-col w-full">
+                                    <mat-panel-title class="text-xl mb-3 flex justify-between">
+                                        <div class="flex items-center">
+                                            <p class="font-bold text-lg mb-1 mt-4">
+                                                Supplier -{{ X.supplierNo }}
+                                            </p>
+                                            <div
+                                                class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none divide-solid divide-x divide-gray-300">
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Supplier ID :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ X.ifsSupplierID }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Company Name :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ X.companyName }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none pr-2 pl-2">
+                                                    <p class="font-base text-base mb-1 mt-4">
+                                                        Contact Person :
+                                                    </p>
+                                                    <p class="font-medium base text-base mb-1 mt-4 pl-2 textcolor">
+                                                        {{ X.contactPerson }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <mat-icon color="primary" *ngIf="!panelOpenState4"
+                                                svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                                            <mat-icon color="primary" *ngIf="panelOpenState4"
+                                                svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                                        </div>
+                                    </mat-panel-title>
+                                </div>
+                            </mat-expansion-panel-header>
+
+                            <div class="overflow-auto srm-bg rounded-lg mt-4 px-2">
+                                <p class="mt-6 mb-2 font-medium text-l pl-5 text-secondary">
+                                    Supplier Info
+                                </p>
+                                <div class="bg-white rounded-lg p-4 m-4">
+                                    <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                        <div class="font-medium base text-base mb-2">
+                                            Delivery Address :
+                                        </div>
+                                        <div class="font-base text-base mb-2">
+                                            {{ X.deliveryAddressId }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="mt-6 mb-2 font-medium text-l pl-5 text-secondary">
+                                    Document Text
+                                </p>
+                                <div class="bg-white rounded-lg p-4 m-4">
+                                    <div class="font-bold text-base mb-2">
+                                        Document Text (Header)
+                                    </div>
+
+                                    <div *ngFor="let xx of X.documentTextHeader"
+                                        class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                        <div class="font-medium base text-base mb-2">
+                                            Output Type :
+                                        </div>
+                                        <div class="font-base text-base mb-2">
+                                            {{ xx.name }}
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 m-4">
+                                    <div class="font-bold text-base mb-2">
+                                        Document Text (Lines)
+                                    </div>
+
+                                    <div *ngFor="let xx of X.documentTextLines"
+                                        class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                        <div class="font-medium base text-base mb-2">
+                                            Output Type :
+                                        </div>
+                                        <div class="font-base text-base mb-2">
+                                            {{ xx.name }}
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <p class="mt-6 mb-2 font-medium text-l pl-5 text-secondary">
+                                    Notes
+                                </p>
+                                <div class="bg-white rounded-lg p-4 m-4">
+                                    <div class="font-bold text-base mb-2">
+                                        Notes (Header)
+                                    </div>
+                                    <div *ngFor="let xx of X.headerNotes"
+                                        class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                        <div class="font-medium base text-base mb-2">
+                                            {{xx.description}}
+                                        </div>
+
+                                        <div class="font-base text-base mb-2"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 m-4">
+                                    <div class="font-bold text-base mb-2">
+                                        Notes (Lines)
+                                    </div>
+
+                                    <div *ngFor="let xx of X.partLineNotes"
+                                        class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                        <div class="font-medium base text-base mb-2">
+                                            {{xx.description}}
+                                        </div>
+                                        <div class="font-base text-base mb-2"></div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <p class="mt-6 mb-2 font-medium text-l pl-5 text-secondary">
+                                Charges
+                            </p>
+
+                            <div class="overflow-auto bg-gray-50 rounded-lg">
+                                <table mat-table [dataSource]="dataSource" matSort
+                                    class="expanded-rows-table font-helvetica text-gray-500"
+                                    style="width: calc(100% - 2px)">
+                                    <ng-container hidden matColumnDef="ChargeTypeDescription">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Charge Type Description
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            {{ row.Charge }}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ChargeType">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Charge Type
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"></td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ChargePrice/Base">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Charge Price/Base
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"></td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ChargePrice/Curr">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Charge Price/Curr
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"></td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ChargePriceInclTax/Base">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Charge Price InclTax/Base
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"></td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ChargePriceInclTax/Curr">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Charge Price InclTax/Curr
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"></td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row;
+                                            columns: displayedColumns"></tr>
+
+                                    Row shown when there is no matching data.
+                                    <tr class="mat-row" *matNoDataRow>
+                                        <td class="mat-cell" colspan="4">
+                                            No data matching the filter "{{
+                                            input.value
+                                            }}"
+                                        </td>
+                                    </tr>
+                                </table> 
+                                <div class="flex justify-end">
+                                    <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]">
+                                    </mat-paginator>
+                                </div>
+                            </div> -->
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+
+                <!--button-->
+                <div class="flex justify-end ml-auto p-6">
+                    <button *ngIf="isPOCreated=='0'" type="button" (click)="CreatePO()" [disabled]="!isPOTransferVisible" class="sm:inline-flex mr-4" mat-raised-button [color]="'primary'">
+                        <span class="mx-8">Proceed for PO Creation</span>
+                    </button>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

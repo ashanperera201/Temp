@@ -1,0 +1,348 @@
+<!--Create group screen-->
+<div class="min-w-full p-2" *ngIf="creategroupScreen">
+    <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+
+        <!--header-->
+        <div class="text-3xl font-cairo font-bold mb-5 pl-1 pt-2">
+            <p>{{existingData ? 'Update User Group': 'Create New Group'}}</p>
+        </div>
+
+        <div>
+            <!--input fields-->
+            <div class="mr-4">
+                <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+                    <mat-form-field class="sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                        <mat-label>Group name</mat-label>
+                        <input matInput [(ngModel)]="gname" placeholder="Group name">
+                    </mat-form-field>
+                    <div class="sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                        <p class="text-base font-medium leading-none text-secondary">Group status</p>
+                        <mat-slide-toggle [(ngModel)]="isChecked" color="primary">Active</mat-slide-toggle>
+                    </div>
+                    <mat-form-field class="sm:w-30 mt-4 sm:mt-0 mr-1 mb-3">
+                        <mat-select [(ngModel)]="checksource">
+                            <mat-option>Select source</mat-option>
+                            <ng-container>
+                                <mat-option value="ifs">IFS</mat-option>
+                                <mat-option value="xitricon">XITRICON</mat-option>
+                            </ng-container>
+
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <mat-form-field class="w-full px-2">
+                <mat-label>Description</mat-label>
+                <input matInput [(ngModel)]="des" placeholder="Add your Description here">
+            </mat-form-field>
+
+        </div>
+    </div>
+
+    <!--buttons-->
+    <div class="flex justify-end ml-auto p-6">
+        <button type="button" class="sm:inline-flex mr-4" (click)="doAction()" mat-stroked-button [color]="'primary'">
+            <span class="mx-8">Cancel</span>
+        </button>
+        <button class="sm:inline-flex mr-4" (click)="confirmCreateGroup()" mat-raised-button [color]="'primary'">
+            <span class="mx-8">Save</span>
+        </button>
+    </div>
+</div>
+
+
+<!--View user screen-->
+<div class="min-w-full p-2" style=" max-height: 79vh; height: 613px;" *ngIf="viewScreen">
+
+    <div class="pb-1">
+        <div class="text-3xl font-cairo font-bold mb-5 pl-1 pt-1">
+            View User Groups
+        </div>
+    </div>
+
+    <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+        <div class="flex justify-between border rounded bg-white pt-4   mb-2 p-4 divide-solid divide-x divide-gray-300">
+            <div class="block flex flex-col px-6  my-3 items-center justify-center text-center w-full">
+                <h3 class="text-base font-medium leading-none text-secondary">Created Date</h3>
+                <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{source?.createdOn|
+                    date:'dd/MM/yy'}}</p>
+            </div>
+            <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                <h3 class="text-base font-medium leading-none text-secondary">Created By</h3>
+                <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{source?.companyCode}}</p>
+            </div>
+        </div>
+
+
+        <!--input fields-->
+        <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+            <div class="mr-4">
+                <mat-form-field appearance="fill" class="sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                    <mat-label>User Group</mat-label>
+                    <input matInput [(ngModel)]="gname">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                    <mat-label>Description</mat-label>
+                    <input matInput [(ngModel)]="des">
+                </mat-form-field>
+            </div>
+
+            <button class="sm:inline-flex ml-auto" (click)="addMember(row)" mat-stroked-button [color]="'primary'"
+                type="button">
+                <mat-icon color="primary">person_add</mat-icon>
+                <span class="mx-8">Add Member</span>
+            </button>
+        </div>
+    </div>
+
+    <p class="mt-6 mb-2 font-medium w-3/5 text-l">
+        Group Members
+    </p>
+
+    <table mat-table [dataSource]="userGroupView" matSort #userGroupViewSort="matSort"
+        class="expanded-rows-table font-helvetica text-gray-500" style="width: calc(100% - 2px);">
+
+        <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef>
+                <div class="flex-col flex text-left header">
+                    <span mat-sort-header> User Name</span>
+                    <mat-form-field style="margin-top: 10px;">
+                        <input matInput class="form-field" (keyup)="filterChange('userName','user', $event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let row">{{row.userName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="emailAddress">
+            <th mat-header-cell *matHeaderCellDef>
+                <div class="flex-col flex text-left header">
+                    <span mat-sort-header> Email</span>
+                    <mat-form-field style="margin-top: 10px;">
+                        <input matInput class="form-field" (keyup)="filterChange('emailAddress','user',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let row">{{row.emailAddress}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>
+                <div class="flex-col flex text-left header">
+                    <span mat-sort-header> Name</span>
+                    <mat-form-field style="margin-top: 10px;">
+                        <input matInput class="form-field" (keyup)="filterChange('name','user',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let row">{{row.name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="isActive">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+            <td mat-cell *matCellDef="let row">{{row.isActive ? 'Active' : 'In Active'}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let row; let i = index">
+                <button type="button" (click)="removeCart(row)">
+                    <mat-icon color="primary">cancel</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="viewUserColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: viewUserColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No records found</td>
+        </tr>
+    </table>
+    <mat-paginator #userGroupViewPaginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
+    </mat-paginator>
+    <div class="flex justify-end ml-auto p-6">
+        <button type="button" class="sm:inline-flex mr-4" (click)="doAction()" mat-stroked-button [color]="'primary'">
+            <span class="mx-8">Cancel</span>
+        </button>
+        <button class="sm:inline-flex mr-4" (click)="addUserGroup()" mat-raised-button [color]="'primary'">
+            <span class="mx-8">Save</span>
+        </button>
+    </div>
+
+</div>
+
+<!--Add user screen-->
+<div class="min-w-full p-2" style=" max-height: 79vh; height: 613px;" *ngIf="adduserScreen">
+    <cdk-virtual-scroll-viewport class="example-viewport" itemSize="60">
+
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-5 pl-1 pt-1">
+                Add User Groups
+            </div>
+        </div>
+
+        <div class="flex justify-between border rounded bg-white pt-4   mb-2 p-4 divide-solid divide-x divide-gray-300">
+            <div class="block flex flex-col px-6  my-3 items-center justify-center text-center w-full">
+                <h3 class="text-base font-medium leading-none text-secondary">User Groups</h3>
+                <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{source?.userGroup}}</p>
+            </div>
+            <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                <h3 class="text-base font-medium leading-none text-secondary">Description</h3>
+                <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{source?.description}}</p>
+            </div>
+            <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                <h3 class="text-base font-medium leading-none text-secondary">Source</h3>
+                <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{source?.companyCode}}</p>
+            </div>
+        </div>
+        <div *ngIf="selectedUserDataSource.data.length!==0" class="selected">
+            <p class="mt-6 mb-2 font-medium w-3/5 text-l">
+                Selection
+            </p>
+
+            <table mat-table [dataSource]="selectedUserDataSource" matSort #selectedUserSort="matSort"
+                class="expanded-rows-table font-helvetica text-gray-500" style="width: calc(100% - 2px);">
+
+                <ng-container matColumnDef="userName">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex-col flex text-left header">
+                            <span mat-sort-header> User Name</span>
+                            <mat-form-field style="margin-top: 10px;">
+                                <input matInput class="form-field" (keyup)="filterChange('userName','selected',$event)">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.userName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="emailAddress">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex-col flex text-left header">
+                            <span mat-sort-header>Email</span>
+                            <mat-form-field style="margin-top: 10px;">
+                                <input matInput class="form-field" (keyup)="filterChange('emailAddress','selected',$event)">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.emailAddress}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="flex-col flex text-left header">
+                            <span mat-sort-header>Name</span>
+                            <mat-form-field style="margin-top: 10px;">
+                                <input matInput class="form-field" (keyup)="filterChange('name','selected',$event)">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="isActive">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                    <td mat-cell *matCellDef="let row">{{row.isActive ? 'Active' : 'In Active'}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="selectedUserColumns"></tr>
+                <tr mat-row *matRowDef="let element; columns: selectedUserColumns;"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No records found</td>
+                </tr>
+            </table>
+            <mat-paginator #selectedUserPaginator [pageSizeOptions]="[5, 10, 25, 100]"
+                aria-label="Select page of users"></mat-paginator>
+        </div>
+        <table mat-table [dataSource]="dataSource" matSort #dataSourceSort="matSort"
+            class="expanded-rows-table font-helvetica text-gray-500" style="width: calc(100% - 2px);">
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                    <mat-checkbox color="primary" (change)="onUserSelection(row, $event)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="userName">
+                <th mat-header-cell *matHeaderCellDef>
+                    <div class="flex-col flex text-left header">
+                        <span mat-sort-header> User Name</span>
+                        <mat-form-field style="margin-top: 10px;">
+                            <input matInput class="form-field" (keyup)="filterChange('userName', 'dt', $event)">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.userName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="emailAddress">
+                <th mat-header-cell *matHeaderCellDef>
+                    <div class="flex-col flex text-left header">
+                        <span mat-sort-header> Email</span>
+                        <mat-form-field style="margin-top: 10px;">
+                            <input matInput class="form-field" (keyup)="filterChange('emailAddress','dt',$event)">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.emailAddress}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                    <div class="flex-col flex text-left header">
+                        <span mat-sort-header> Name</span>
+                        <mat-form-field style="margin-top: 10px;">
+                            <input matInput class="form-field" (keyup)="filterChange('name','dt',$event)">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="isActive">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let row">{{row.isActive ? 'Active' : 'In Active'}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="userColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: userColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No records found</td>
+            </tr>
+        </table>
+        <mat-paginator #dataSourcePaginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
+        </mat-paginator>
+
+
+        <div class="flex justify-end ml-auto p-6">
+            <button type="button" class="sm:inline-flex mr-4" (click)="doAction()" mat-stroked-button
+                [color]="'primary'">
+                <span class="mx-8">Cancel</span>
+            </button>
+            <button class="sm:inline-flex mr-4" mat-raised-button [color]="'primary'" (click)="addUserGroup()">
+                <span class="mx-8">Save</span>
+            </button>
+        </div>
+
+    </cdk-virtual-scroll-viewport>
+
+</div>
+
+<style>
+    .selected{
+        padding: 1rem;
+        background-color: rgb(219, 219, 219);
+    }
+</style>

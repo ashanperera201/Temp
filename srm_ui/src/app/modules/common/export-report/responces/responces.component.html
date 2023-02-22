@@ -1,0 +1,270 @@
+<div class="font-bold text-base mb-2 mt-6">Attributes</div>
+
+<div class="flex justify-end ml-auto">
+    <div class="square_green"></div>
+    <span class="pl-2">Supplier Responses</span>
+</div>
+
+<div *ngFor="let item of data_SampleAttribute">
+    <div class="flex mt-6">
+        <div class="w-full">
+            <app-item-tables
+                [columns]="columns_Attributes"
+                [displayedColumns]="displayedColumns_Attributes"
+                [dataSource]="item.ATTRIBUTES"
+            ></app-item-tables>
+        </div>
+    </div>
+    <div class="mt-4 px-4 w-full">
+        <app-item-tables
+            [columns]="columns_AttributeItem"
+            [displayedColumns]="displayedColumns_AttributeItem"
+            [dataSource]="item.ATTRIBUTE_ITEMS"
+        ></app-item-tables>
+    </div>
+    <div class="table-block">
+            <div class="mt-4 px-4 w-full">
+                <app-item-tables
+                    class="tablehead_green"
+                    [columns]="columns_SupplierResponces"
+                    [displayedColumns]="displayedColumns_SupplierResponces"
+                    [dataSource]="item.SUPPLIERS"
+                ></app-item-tables>
+            </div>
+       
+    </div>
+</div>
+
+<div class="font-bold base text-base mb-2 mt-6">Cost Factors</div>
+
+<div class="flex justify-end ml-auto">
+    <div class="square_green"></div>
+    <span class="pl-2 pr-2">Supplier Responses</span>
+    <div class="square_red pl-4"></div>
+    <span class="pl-2">Cost factor by supplier</span>
+</div>
+
+<div *ngFor="let item of data_SampleCostFactors">
+    <div class="flex mt-6">
+        <div class="w-1/2">
+            <app-item-tables
+                [columns]="columns_CostFactors"
+                [displayedColumns]="displayedColumns_CostFactors"
+                [dataSource]="item.CostFactors"
+            ></app-item-tables>
+        </div>
+    </div>
+
+    <div class="pt-4 w-full">
+        <app-item-tables
+            [columns]="columns_CostFactorItems"
+            [displayedColumns]="displayedColumns_CostFactorItems"
+            [dataSource]="item.CostFactorItems"
+        ></app-item-tables>
+    </div>
+    <div class="table-block">
+            <div class="px-4 pt-4  w-full">
+                <app-item-tables
+                    class="tablehead_green"
+                    [columns]="columns_SupplierResponces1"
+                    [displayedColumns]="displayedColumns_SupplierResponces1"
+                    [dataSource]="item.SupplierResponces1"
+                ></app-item-tables>
+            </div>
+    </div>
+
+    <div class="pt-4 w-full">
+        <app-item-tables
+            class="tablehead_red"
+            [columns]="columns_CostFactorbySuppliers"
+            [displayedColumns]="displayedColumns_columns_CostFactorbySuppliers"
+            [dataSource]="item.CostFactorbySuppliers"
+        ></app-item-tables>
+    </div>
+    <div class="table-block">
+            <div class="px-4 pt-4 w-full">
+                <app-item-tables
+                    class="tablehead_green"
+                    [columns]="columns_SupplierResponces2"
+                    [displayedColumns]="displayedColumns_SupplierResponces2"
+                    [dataSource]="item.SupplierResponces2"
+                ></app-item-tables>
+            </div>
+    </div>
+</div>
+
+<div class="font-bold base text-base mb-2 mt-6">Payment Schedule</div>
+
+<div class="flex justify-end ml-auto">
+    <div class="square_green"></div>
+    <span class="pl-2 pr-2">Supplier Responses</span>
+    <div class="square_red pl-2"></div>
+    <span class="pl-2">Proposed Payment Milestone by Supplier</span>
+</div>
+
+<div *ngFor="let item of data_SamplePaymentSchedule">
+    <div class="pt-4 w-full">
+        <app-item-tables
+            [columns]="columns_PaymentSchedule"
+            [displayedColumns]="displayedColumns_PaymentSchedule"
+            [dataSource]="item.PaymentSchedule"
+        ></app-item-tables>
+    </div>
+    <div class="table-block">
+            <div class="px-4 pt-4 w-full">
+                <app-item-tables
+                    class="tablehead_green"
+                    [columns]="columns_PaymentSchedulebySuppliers"
+                    [displayedColumns]="displayedColumns_PaymentSchedulebySuppliers"
+                    [dataSource]="item.PaymentSchedulebySuppliers"
+                ></app-item-tables>
+            </div>    
+    </div>
+
+    <!-- <div class="pt-4 w-full">
+        <app-item-tables
+            class="tablehead_red"
+            [columns]="columns_PaymentSchedulebySuppliers"
+            [displayedColumns]="displayedColumns_PaymentSchedulebySuppliers"
+            [dataSource]="item.PaymentSchedulebySuppliers"
+        ></app-item-tables>
+    </div> -->
+    <div class="table-block">
+            <div class="px-4 pt-4 w-full">
+                <app-item-tables
+                    class="tablehead_green"
+                    [columns]="columns_Responces2"
+                    [displayedColumns]="displayedColumns_Responces2"
+                    [dataSource]="item.Responces2"
+                ></app-item-tables>
+            </div>
+    </div>
+</div>
+
+<div class="font-bold base text-base mb-2 mt-6">Attachments</div>
+
+<div class="flex justify-end ml-auto">
+    <div class="square_green"></div>
+    <span class="pl-2">Supplier Responses</span>
+</div>
+
+<div *ngFor="let item of data_SampleAttachments">
+    <div class="pt-4 w-full">
+        <app-item-tables
+            [columns]="columns_Attachments"
+            [displayedColumns]="displayedColumns_Attachments"
+            [dataSource]="item.Attachments"
+        ></app-item-tables>
+    </div>
+    <div class="table-block">
+            <div class="px-4 pt-4 w-full">
+                <app-item-tables
+                class="tablehead_green"
+                [columns]="columns_AttachmentResponces"
+                [displayedColumns]="displayedColumns_AttachmentResponces"
+                [dataSource]="item.AttachmentResponces"
+            ></app-item-tables>
+            </div>
+    </div>
+</div>
+
+<div class="font-bold base text-base mb-2 mt-6">Document text</div>
+
+<div class="flex justify-end ml-auto">
+    <div class="square_green"></div>
+    <span class="pl-2">Supplier Responses</span>
+</div>
+
+<div *ngFor="let item of data_SampleDocument">
+    <div class="pt-4 w-full">
+        <app-item-tables
+            [columns]="columns_Document"
+            [displayedColumns]="displayedColumns_Documents"
+            [dataSource]="item.Documents"
+        ></app-item-tables>
+    </div>
+    <div class="table-block">
+            <div class="px-4 pt-4 w-full">
+                <app-item-tables
+                class="tablehead_green"
+                [columns]="columns_DocumentResponces"
+                [displayedColumns]="displayedColumns_DocumentResponces"
+                [dataSource]="item.DocumentResponces"
+            ></app-item-tables>
+            </div>
+    </div>
+</div>
+
+<div class="font-bold base text-base mb-2 mt-6">Notes</div>
+
+<div class="flex justify-end ml-auto">
+    <div class="square_green"></div>
+    <span class="pl-2">Supplier Responses</span>
+</div>
+
+<div *ngFor="let item of data_SampleNotes">
+    <div class="pt-4 w-full">
+        <app-item-tables
+            [columns]="columns_Notes"
+            [displayedColumns]="displayedColumns_Notes"
+            [dataSource]="item.Notes"
+        ></app-item-tables>
+    </div>
+    <div class="table-block">
+            <div class="px-4 pt-4 w-full">
+                <app-item-tables
+                class="tablehead_green"
+                [columns]="columns_NotesResponces"
+                [displayedColumns]="displayedColumns_NotesResponces"
+                [dataSource]="item.NotesResponces"
+            ></app-item-tables>
+            </div>
+    </div>
+</div>
+
+<div class="font-bold base text-base mb-2 mt-6">Deliverables</div>
+
+<div class="flex justify-end ml-auto">
+    <div class="square_green"></div>
+    <span class="pl-2 pr-2">Supplier Responses</span>
+    <!-- <div class="square_red pl-2"></div>
+    <span class="pl-2">Proposed Payment Milestone by Supplier</span> -->
+</div>
+
+<div *ngFor="let item of data_SampleDeliverables">
+    <div class="pt-4 w-full">
+        <app-item-tables
+            [columns]="columns_Deliverables"
+            [displayedColumns]="displayedColumns_Deliverables"
+            [dataSource]="item.Deliverables"
+        ></app-item-tables>
+    </div>
+    <div class="table-block">
+            <div class="px-4 pt-4 w-full">
+                <app-item-tables
+                class="tablehead_green"
+                [columns]="columns_DeliverablesbySuppliers"
+            [displayedColumns]="displayedColumns_DeliverablesbySuppliers"
+            [dataSource]="item.DeliverablesbySuppliers"
+            ></app-item-tables>
+            </div>
+    </div>
+    <!-- <div class="pt-4 w-full">
+        <app-item-tables
+            class="DeliverableResponces1"
+            [columns]="columns_DeliverablesbySuppliers"
+            [displayedColumns]="displayedColumns_DeliverablesbySuppliers"
+            [dataSource]="item.DeliverablesbySuppliers"
+        ></app-item-tables>
+    </div> -->
+    <div class="table-block">
+            <div class="px-4 pt-4 w-full">
+                <app-item-tables
+                class="tablehead_green"
+                [columns]="columns_DeliverableResponces2"
+                [displayedColumns]="displayedColumns_DeliverableResponces2"
+                [dataSource]="item.DeliverableResponces2"
+            ></app-item-tables>
+            </div>
+    </div>
+</div>

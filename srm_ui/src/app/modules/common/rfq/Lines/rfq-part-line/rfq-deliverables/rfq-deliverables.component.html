@@ -1,0 +1,164 @@
+<!-- <fuse-alert *ngIf="Message" [appearance]="'fill'" [dismissible]="true" [dismissed]="false" [name]="'successerror'"
+    [type]="'success'">
+
+    {{Message}} Successfully
+
+</fuse-alert> -->
+
+<div class="relative">
+    <!--table component-->
+    <div class="flex justify-end">
+        <button type="button" class="inline-flex" mat-stroked-button [color]="'primary'" (click)="addDeliverable()"
+            [disabled]="!RFQModel.isSaveAsDraft">
+            <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            <span class="mr-8">Add Deliverable</span>
+        </button>
+    </div>
+    <!--base table component-->
+    <div class="overflow-auto bg-gray-50 rounded-lg pt-4">
+        <table mat-table [dataSource]="deliverableModel" matSort
+            class="expanded-rows-table font-helvetica text-gray-500">
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef style="max-width: 50px; width: 50px"></th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns"
+                        [disabled]="!RFQModel.isSaveAsDraft">
+                        <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical">
+                        </mat-icon>
+                    </button>
+                    <mat-menu #options="matMenu" class="min-width-235 z-1">
+                        <button mat-menu-item (click)="EditPartLineDeliverables(row)">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil"></mat-icon>
+                            Edit
+                        </button>
+                        <button mat-menu-item (click)="DeleteRFQPartLineDeliverable(row)">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash"></mat-icon>
+                            Delete
+                        </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <!--  Milestone Number Column -->
+            <ng-container matColumnDef="milestonenumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 140px; min-width: 120px">
+                    Milestone #
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row?.mileStoneNo}}
+                </td>
+            </ng-container>
+
+            <!-- Milestone Name Column -->
+            <ng-container matColumnDef="milestonename">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 140px">
+                    Milestone Name
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row?.name}} </td>
+            </ng-container>
+
+            <!-- Description Name Column -->
+            <ng-container matColumnDef="deliverabledescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                    Description
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row?.description}} </td>
+            </ng-container>
+
+            <!--type Column -->
+            <ng-container matColumnDef="type5">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 140px; min-width: 120px">
+                    Type
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <div class="flex">
+                        <mat-form-field class="standalone-input">
+                            <!-- <mat-select [value]="1">
+                                <mat-option [value]="1">Commercial</mat-option>
+                                <mat-option [value]="2">Technical</mat-option>
+                            </mat-select> -->
+
+                            <!-- <mat-select formControlName="attributeCategoryId">
+
+                    <mat-option *ngFor="let attributecat of attributeCategories" [value]="attributecat.id">{{attributecat.text}}</mat-option>
+
+                </mat-select> -->
+
+                            <mat-select [(ngModel)]="row.attributeCategoryId"
+                                (selectionChange)="UpdateRFQPartLineDeliverable(row,true,$event)"
+                                [disabled]="!RFQModel.isSaveAsDraft">
+
+                                <mat-option *ngFor="let categoryType of attributeCategories" [value]="categoryType.id">
+
+                                    {{categoryType?.text}}
+
+                                </mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </td>
+
+            </ng-container>
+
+            <!-- Previous Milestone Number Column -->
+            <ng-container matColumnDef="prevmilestonenumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 170px; min-width: 160px">
+                    Previous Milestone #
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row?.previousMilestone}} </td>
+            </ng-container>
+
+            <!-- Progress % Column -->
+            <ng-container matColumnDef="progresspercentage">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 140px">
+                    Progress %
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row?.progressPercentage}} </td>
+            </ng-container>
+
+            <!-- Stage Progress % Column -->
+            <ng-container matColumnDef="stagepercentage">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 140px">
+                    Stage Progress %
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row?.stagePaymentPercentage}} </td>
+            </ng-container>
+
+            <!-- Begin Date Column -->
+            <ng-container matColumnDef="begindate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 140px">
+                    Begin Date
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row?.beginDate}} </td>
+            </ng-container>
+
+            <!--visibility Column -->
+            <ng-container matColumnDef="visibility5">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 170px; min-width: 160px">
+                    Visibility to Suppliers
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- {{row.IsVisibleToSuppliers}} -->
+                    <!-- <mat-checkbox [color]="'primary'" ></mat-checkbox> -->
+                    <mat-checkbox [color]="'primary'" name="{{row.id}}" [checked]="row.displayToSupplier"
+                        (change)="UpdateRFQPartLineDeliverable(row,false,$event)" [(ngModel)]="row.displayToSupplier"
+                        [disabled]="!RFQModel.isSaveAsDraft"></mat-checkbox>
+                </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumn9"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumn9;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter</td>
+            </tr>
+        </table>
+    </div>
+    <!--table component end-->
+
+</div>

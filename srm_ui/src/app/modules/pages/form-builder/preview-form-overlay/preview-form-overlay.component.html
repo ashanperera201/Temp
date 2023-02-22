@@ -1,0 +1,270 @@
+<mat-dialog-content class="min-w-full relative">
+    <div class="min-w-full p-2">
+        <div class="relative srm-bg border rounded-lg py-6 px-4">
+            <div class="heading-area relative">
+                <!-- Logo Section -->
+                <div class="relative flex flex-auto items-end max-w-xs mb-6">
+                    <!-- Logo -->
+                    <div class="flex items-center justify-center w-full h-16 overflow-hidden">
+                        <img class="object-none w-full h-full" [src]="'assets/images/logo/srm-logo.svg'">
+                        <!--                    <div class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-sm font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">-->
+                        <!--                        Logo Image-->
+                        <!--                    </div>-->
+                    </div>
+                </div>
+
+                <h1 class="text-3xl font-roboto font-semibold text-capitalize text-center w-1/2 m-auto relative">
+                    Supplier Performance Review
+                </h1>
+                <p class="text-base font-roboto font-normal text-capitalize text-center w-1/2 m-auto my-4 relative">
+                    This is a standard annual supplier performance review form
+                </p>
+
+                <!-- Banner Section -->
+                <div class="relative flex flex-auto items-end mb-6">
+                    <!-- Banner -->
+                    <div class="flex items-center justify-center w-full h-32 overflow-hidden">
+                        <img class="object-cover w-full h-full" [src]="'assets/images/bg/bg.png'">
+                        <!--                        <img class="object-cover w-full h-full" [src]="contact.avatar">-->
+                        <!--                    <div class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-sm font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">-->
+                        <!--                        Banner Image-->
+                        <!--                    </div>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-blocks flex flex-col">
+
+                <div class="custom-accordian">
+                    <div class="section-block card-style mb-1 p-0">
+                        <div class="h-full pt-4 pb-2">
+                            <div class="flex flex-col w-full">
+                                <div class="text-xl flex justify-between items-center">
+                                    <p class="font-medium text-lg w-1/2 p-1 flex justify-between relative">
+                                        Basic Questions
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded">
+                            <div class="overflow-auto">
+                                <div class="questions">
+                                    <div class="question-wrapper flex py-3 px-5 border divide-solid divide-x divide-gray-300">
+                                        <div class="question-section w-full">
+                                            <div class="flex flex-col">
+                                                <div class="question-item flex">
+                                                    <div class="flex flex-col w-full pr-4">
+                                                        <!-- if radio is the type -->
+                                                        <div class="pb-4">
+                                                            <p class="mb-2 font-medium text-default">
+                                                                Quality of parts/products/Material upon delivery
+                                                            </p>
+                                                            <mat-radio-group class="flex flex-col" [color]="'primary'">
+                                                                <mat-radio-button class="mb-2 mr-4" [value]="'01'" [checked]="false" (change)="onQualityItemChange($event.source.value)">
+                                                                    No Damaged Items
+                                                                </mat-radio-button>
+                                                                <mat-radio-button class="mb-2 mr-4" [value]="'02'" [checked]="true" (change)="onQualityItemChange($event.source.value)">
+                                                                    Damaged & Missing Items
+                                                                </mat-radio-button>
+                                                                <mat-radio-button class="mb-2 mr-4" [value]="'03'" [checked]="false" (change)="onQualityItemChange($event.source.value)">
+                                                                    Good Condition Items
+                                                                </mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                        <!-- end radio type -->
+                                                    </div>
+                                                    <div class="flex flex-col w-full">
+                                                        <mat-form-field class="w-1/2">
+                                                            <mat-label>Score</mat-label>
+                                                            <mat-select [value]="2">
+                                                                <mat-option [value]="1">01</mat-option>
+                                                                <mat-option [value]="2">02</mat-option>
+                                                                <mat-option [value]="3">03</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                        <mat-form-field class="fuse-mat-textarea w-full">
+                                                            <mat-label>Comment</mat-label>
+                                                            <textarea class="m-0" matInput [rows]="3" cdkTextareaAutosize value="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <!--sub question item-->
+                                                <div class="question-item flex" *ngIf="qualityQuestionAnswer=='01'">
+                                                    <div class="flex flex-col w-1/2 pr-4">
+                                                        <!-- if radio is the type -->
+                                                        <div class="pb-4">
+                                                            <p class="mb-2 font-medium text-default">
+                                                                Make Full Payment?
+                                                            </p>
+                                                            <mat-radio-group class="flex flex-col" [color]="'primary'">
+                                                                <mat-radio-button class="mb-2 mr-4" [value]="'01'" [checked]="false">
+                                                                    Yes, Make The Full Payment
+                                                                </mat-radio-button>
+                                                                <mat-radio-button class="mb-2 mr-4" [value]="'02'" [checked]="true">
+                                                                    No, Make Half Payment
+                                                                </mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                        <!-- end radio type -->
+                                                    </div>
+                                                </div>
+                                                <!--sub question item-->
+                                                <div class="question-item flex" *ngIf="qualityQuestionAnswer=='02'">
+                                                    <div class="flex flex-col w-1/2 pr-4">
+                                                        <!-- if dropdown is the type -->
+                                                        <div class="pb-4">
+                                                            <mat-form-field class="w-full">
+                                                                <mat-label>Accept Returns?</mat-label>
+                                                                <mat-select [value]="1">
+                                                                    <mat-option [value]="1">Yes, Accept Returns with a Fee</mat-option>
+                                                                    <mat-option [value]="2">Yes, Accept Returns without a Fee</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <!-- end dropdown type -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="question-wrapper flex py-3 px-5 border border-t-0 divide-solid divide-x divide-gray-300">
+                                        <div class="question-section w-full">
+                                            <div class="flex flex-col">
+                                                <div class="question-item flex">
+                                                    <div class="flex flex-col w-full pr-4">
+                                                        <!-- if radio is the type -->
+                                                        <mat-form-field class="w-full">
+                                                            <mat-label>Select Deadline Date</mat-label>
+                                                            <input matInput [matDatepicker]="picker2" [value]="getDate()">
+                                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                        </mat-form-field>
+                                                        <!-- end radio type -->
+                                                    </div>
+                                                    <div class="flex flex-col w-full">
+                                                        <mat-form-field class="w-1/2">
+                                                            <mat-label>Score</mat-label>
+                                                            <mat-select [value]="2">
+                                                                <mat-option [value]="1">01</mat-option>
+                                                                <mat-option [value]="2">02</mat-option>
+                                                                <mat-option [value]="3">03</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                        <mat-form-field class="fuse-mat-textarea w-full">
+                                                            <mat-label>Comment</mat-label>
+                                                            <textarea class="m-0" matInput [rows]="3" cdkTextareaAutosize value="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-block card-style mb-1 p-0">
+                        <div class="h-full pt-4 pb-2">
+                            <div class="flex flex-col w-full">
+                                <div class="text-xl flex justify-between items-center">
+                                    <p class="font-medium text-lg w-1/2 p-1 flex justify-between relative">
+                                        Recommendations
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded">
+                            <div class="overflow-auto">
+                                <div class="questions">
+                                    <div class="question-wrapper flex py-3 px-5 border divide-solid divide-x divide-gray-300">
+                                        <div class="question-section w-full">
+                                            <div class="flex flex-col">
+                                                <div class="question-item flex">
+                                                    <div class="flex flex-col w-full pr-4">
+                                                        <!-- if radio is the type -->
+                                                        <div class="pb-4">
+                                                            <p class="mb-2 font-medium text-default">
+                                                                Please select the countries of supply from this supplier
+                                                            </p>
+                                                            <div class="flex flex-col">
+                                                                <mat-checkbox [color]="'primary'" class="mb-2" value="01" [checked]="true" (change)="onSaudiArabiaSelected($event)">Kingdom of Saudi Arabia</mat-checkbox>
+                                                                <mat-checkbox [color]="'primary'" class="mb-2" value="02">United Arab Emirates</mat-checkbox>
+                                                                <mat-checkbox [color]="'primary'" class="mb-2" value="03">Kuwait</mat-checkbox>
+                                                            </div>
+                                                        </div>
+                                                        <!-- end radio type -->
+                                                    </div>
+                                                    <div class="flex flex-col w-full">
+<!--                                                        <mat-form-field class="max-w-64">-->
+<!--                                                            <mat-label>Score</mat-label>-->
+<!--                                                            <mat-select [value]="2">-->
+<!--                                                                <mat-option [value]="1">01</mat-option>-->
+<!--                                                                <mat-option [value]="2">02</mat-option>-->
+<!--                                                                <mat-option [value]="3">03</mat-option>-->
+<!--                                                            </mat-select>-->
+<!--                                                        </mat-form-field>-->
+<!--                                                        <mat-form-field class="fuse-mat-textarea w-full">-->
+<!--                                                            <mat-label>Comment</mat-label>-->
+<!--                                                            <textarea class="m-0" matInput [rows]="3" cdkTextareaAutosize value="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy"></textarea>-->
+<!--                                                        </mat-form-field>-->
+                                                    </div>
+                                                </div>
+
+                                                <!--sub question item-->
+                                                <div class="question-item flex" *ngIf="saudiArabiaSelected">
+                                                    <div class="flex flex-col w-1/2 pr-4">
+                                                        <!-- if dropdown is the type -->
+                                                        <div class="pb-4">
+                                                            <mat-form-field class="w-full">
+                                                                <mat-label>Accept Returns?</mat-label>
+                                                                <mat-select [value]="1">
+                                                                    <mat-option [value]="1">With 10% Tax</mat-option>
+                                                                    <mat-option [value]="2">Tax Free</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <!-- end dropdown type -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between border rounded bg-white mt-8 mb-4 p-8 divide-solid divide-x divide-gray-300">
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Creator Name</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">Buddika Abeyratne</p>
+                </div>
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Status</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">Draft</p>
+                </div>
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Form ID</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">FID-23986</p>
+                </div>
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Creation Date</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">23/12/2021</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="flex justify-end sticky">
+    <button class="sm:inline-flex" mat-stroked-button [color]="'primary'">
+        <span class="mx-4">Close Preview</span>
+    </button>
+    <button class="sm:inline-flex ml-4 mr-4" mat-raised-button [color]="'primary'">
+        <span class="mx-4">Send For Approval</span>
+    </button>
+</mat-dialog-actions>

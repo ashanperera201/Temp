@@ -1,0 +1,386 @@
+<div class="flex user-permission-details w-full">
+    <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Role Name</mat-label>
+            <input matInput placeholder="Role Name" id="roleName" formControlName="roleName" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Description" id="description" formControlName="description" required>
+        </mat-form-field>
+
+        <mat-slide-toggle formControlName="roleStatus" color="primary">Role Status
+            ({{roleForm.value.roleStatus?'Active':'Inactive'}})
+        </mat-slide-toggle>
+        <mat-slide-toggle formControlName="roleType" color="primary">Role Type
+            ({{roleForm.value.roleType?'External':'Internal'}})
+        </mat-slide-toggle>
+
+        <button type="submit" [disabled]="!roleForm.valid" mat-raised-button color="primary">Create & Next</button>
+    </form>
+    <div *ngIf="displayForm">Role Configuration</div>
+    <ng-container *ngIf="(mainTabs | async) === null">
+        Loading tabs...
+    </ng-container>
+
+    <mat-tab-group *ngIf="displayForm">
+        <mat-tab *ngFor="let tab of mainTabs | async">
+            <ng-template mat-tab-label>{{tab.label}}</ng-template>
+            <mat-tab-group>
+                <mat-tab *ngFor="let tab of subTabs | async">
+                    <ng-template mat-tab-label>{{tab.label}}</ng-template>
+                    <!-- visibility tab content -->
+                    <ng-template matExpansionPanelContent [ngIf]="tab.label==='Visibility'">
+                        <section class="checkbox" [formGroup]="visibilityForm" (ngSubmit)="onCheckFormSubmit()">
+                            <mat-accordion class="example-headers-align" multi>
+                                <!-- main menu selector -->
+                                <mat-expansion-panel [expanded]="true">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Level 2 - Main Menus
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+
+                                    <section class="example-section">
+                                        <p *ngFor="let menu of mainMenu; let i = index">
+                                            <mat-checkbox [formControlName]="menu.ctrlName" color="primary"
+                                                (change)="visibilitySelect(menu.ctrlName, $event, 'mainMenu', i)">
+                                                {{menu.label}}</mat-checkbox>
+                                        </p>
+                                    </section>
+                                </mat-expansion-panel>
+
+                                <!-- sub menu selector -->
+                                <mat-expansion-panel [expanded]="true" *ngIf="submenuCtrl.length>0">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Level 3 - Sub Menus
+                                        </mat-panel-title>
+
+                                    </mat-expansion-panel-header>
+                                    <section class="example-section" *ngFor="let menu of subMenu; let i = index">
+                                        <div *ngIf="menu.ctrlName === submenuCtrl[i]">
+                                            <span>{{menu.label}}</span>
+
+                                            <p *ngFor="let x of menu.level1">
+                                                <mat-checkbox [formControlName]="x.ctrlName" color="primary"
+                                                    (change)="visibilitySelect(x.ctrlName, $event, 'subMenu', i)">
+                                                    {{x.label}}</mat-checkbox>
+
+                                            </p>
+                                        </div>
+                                    </section>
+                                </mat-expansion-panel>
+
+                                <!-- pages selector -->
+                                <mat-expansion-panel [expanded]="true" *ngIf="pagesCtrl.length>0">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Level 4 - Pages
+                                        </mat-panel-title>
+
+                                    </mat-expansion-panel-header>
+                                    <section class="example-section" *ngFor="let menu of pages; let i = index">
+                                        <div *ngIf="menu.ctrlName === pagesCtrl[i]">
+                                            <span>{{menu.label}}</span>
+
+                                            <p *ngFor="let x of menu.level1">
+                                                <mat-checkbox [formControlName]="x.ctrlName" color="primary"
+                                                    (change)="visibilitySelect(x.ctrlName, $event, 'pages', i)">
+                                                    {{x.label}}</mat-checkbox>
+
+                                            </p>
+                                        </div>
+                                    </section>
+                                </mat-expansion-panel>
+
+                                <!-- main tabs selector -->
+                                <mat-expansion-panel [expanded]="true" *ngIf="mainTabsCtrl.length>0">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Level 5 - Main Tabs
+                                        </mat-panel-title>
+
+                                    </mat-expansion-panel-header>
+                                    <section class="example-section"
+                                        *ngFor="let menu of mainTabVisibilityTabs; let i = index">
+                                        <div *ngIf="menu.ctrlName === mainTabsCtrl[i]">
+                                            <span>{{menu.label}}</span>
+
+                                            <p *ngFor="let x of menu.level1">
+                                                <mat-checkbox [formControlName]="x.ctrlName" color="primary"
+                                                    (change)="visibilitySelect(x.ctrlName, $event, 'mainTabs', i)">
+                                                    {{x.label}}</mat-checkbox>
+
+                                            </p>
+                                        </div>
+                                    </section>
+                                </mat-expansion-panel>
+
+                                <!-- sub tabs selector -->
+                                <mat-expansion-panel [expanded]="true" *ngIf="subTabsCtrl.length>0">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Level 6 - Sub Tab
+                                        </mat-panel-title>
+
+                                    </mat-expansion-panel-header>
+                                    <section class="example-section"
+                                        *ngFor="let menu of subTabVisibilityTabs; let i = index">
+                                        <div *ngIf="menu.ctrlName === subTabsCtrl[i]">
+                                            <span>{{menu.label}}</span>
+
+                                            <p *ngFor="let x of menu.level1">
+                                                <mat-checkbox [formControlName]="x.ctrlName" color="primary"
+                                                    (change)="visibilitySelect(x.ctrlName, $event, 'subTabs', i)">
+                                                    {{x.label}}</mat-checkbox>
+
+                                            </p>
+                                        </div>
+                                    </section>
+
+                                </mat-expansion-panel>
+
+                                <!-- section selector -->
+                                <mat-expansion-panel [expanded]="true" *ngIf="sectionCtrl.length>0">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Level 7 - Section
+                                        </mat-panel-title>
+
+                                    </mat-expansion-panel-header>
+                                    <section class="example-section"
+                                        *ngFor="let menu of sectionVisibility; let i = index">
+                                        <div *ngIf="menu.ctrlName === sectionCtrl[i]">
+                                            <span>{{menu.label}}</span>
+
+                                            <p *ngFor="let x of menu.level1">
+                                                <mat-checkbox [formControlName]="x.ctrlName" color="primary"
+                                                    (change)="visibilitySelect(x.ctrlName, $event, 'section', i)">
+                                                    {{x.label}}</mat-checkbox>
+
+                                            </p>
+                                        </div>
+                                    </section>
+
+                                </mat-expansion-panel>
+
+                                <!-- sub section selector -->
+                                <mat-expansion-panel [expanded]="true" *ngIf="subSectionCtrl.length>0">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Level 8 - Sub Section
+                                        </mat-panel-title>
+
+                                    </mat-expansion-panel-header>
+                                    <section class="example-section"
+                                        *ngFor="let menu of subSectionVisibility; let i = index">
+                                        <div *ngIf="menu.ctrlName === subSectionCtrl[i]">
+                                            <span>{{menu.label}}</span>
+
+                                            <p *ngFor="let x of menu.level1">
+                                                <mat-checkbox [formControlName]="x.ctrlName" color="primary"
+                                                    (change)="visibilitySelect(x.ctrlName, $event, 'subSection', i)">
+                                                    {{x.label}}</mat-checkbox>
+
+                                            </p>
+                                        </div>
+                                    </section>
+
+                                </mat-expansion-panel>
+
+                            </mat-accordion>
+                            <button type="submit" mat-raised-button color="primary">Save and Next</button>
+                        </section>
+                    </ng-template>
+
+                    <!-- permission tab content -->
+                    <ng-template matExpansionPanelContent [ngIf]="tab.label!=='Visibility'">
+                        <div>
+                            <form [formGroup]="formPermission" (ngSubmit)="onFormPermissionSubmit()">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Level 2 - Main Menus</mat-label>
+                                    <mat-select formControlName="selectedMainMenu" name="menu" required>
+                                        <mat-option *ngFor="let menu of mainMenuPermission" [value]="menu.value">
+                                            {{menu.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Level 3 - Sub Menus</mat-label>
+                                    <mat-select formControlName="selectedSubMenu" name="subMenu" required>
+                                        <mat-option *ngFor="let menu of subMenuPermission" [value]="menu.value">
+                                            {{menu.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Level 4 - Page</mat-label>
+                                    <mat-select formControlName="selectedPages" name="pages" required>
+                                        <mat-option *ngFor="let menu of pagesPermission" [value]="menu.value">
+                                            {{menu.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Level 5 - Main Tab</mat-label>
+                                    <mat-select formControlName="selectedMainTabs" name="mainTabs">
+                                        <mat-option *ngFor="let menu of mainTabsPermission" [value]="menu.value">
+                                            {{menu.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Level 6 - Sub Tab</mat-label>
+                                    <mat-select formControlName="selectedSubTabs" name="subTabs">
+                                        <mat-option *ngFor="let menu of subTabsPermission" [value]="menu.value">
+                                            {{menu.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Level 7 - Section</mat-label>
+                                    <mat-select formControlName="selectedSection" name="section">
+                                        <mat-option *ngFor="let menu of sectionPermission" [value]="menu.value">
+                                            {{menu.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Level 8 - Sub Section</mat-label>
+                                    <mat-select formControlName="selectedSubSection" name="subSection">
+                                        <mat-option *ngFor="let menu of subSectionPermission" [value]="menu.value">
+                                            {{menu.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <button type="submit" [disabled]="!formPermission.valid" mat-raised-button
+                                    style="margin: 1rem;" color="primary">Show Available Fields</button>
+                            </form>
+                        </div>
+                        <div class="">
+                            <div class="overflow-auto bg-gray-50 rounded-lg">
+                                <!-- loading image -->
+                                <div class="loader-inline" *ngIf="dataSource.filteredData.length === 0 && isLoading">
+                                    <img src="assets/images/xitricon-loader.gif" alt="loading">
+                                </div>
+
+                                <!-- data table -->
+                                <table mat-table [dataSource]="dataSource" matSort
+                                    class="expanded-rows-table font-helvetica text-gray-500 w-full">
+
+                                    <!-- L1 -Module  column -->
+                                    <ng-container matColumnDef="module">
+                                        <th mat-header-cell *matHeaderCellDef> <span mat-sort-header>L1 -Module </span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"><a
+                                                (click)="getRowInfo(row)">{{element.module}}</a> </td>
+                                    </ng-container>
+
+                                    <!-- mainMenuCol column -->
+                                    <ng-container matColumnDef="mainMenuCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>L2 - Main
+                                                Menu</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.mainMenuCol}} </td>
+                                    </ng-container>
+
+                                    <!-- L3 -Sub Menu column -->
+                                    <ng-container matColumnDef="subMenuCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>L3 -Sub Menu</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.subMenuCol}} </td>
+                                    </ng-container>
+
+                                    <!-- pagesCol column -->
+                                    <ng-container matColumnDef="pagesCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>L4 -Page</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.pagesCol}} </td>
+                                    </ng-container>
+
+                                    <!-- mainTabCol column -->
+                                    <ng-container matColumnDef="mainTabCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>L5 -Main Tab</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.mainTabCol}} </td>
+                                    </ng-container>
+
+                                    <!-- subTabCol column -->
+                                    <ng-container matColumnDef="subTabCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>L6 - Sub Tab</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.subTabCol}} </td>
+                                    </ng-container>
+
+                                    <!-- sectionCol - Section column -->
+                                    <ng-container matColumnDef="sectionCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>L7 - Section</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.sectionCol}} </td>
+                                    </ng-container>
+
+                                    <!-- subSectionCol column -->
+                                    <ng-container matColumnDef="subSectionCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>L8 - Sub
+                                                Section</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.subSectionCol}} </td>
+                                    </ng-container>
+
+                                    <!-- fieldNameCol column -->
+                                    <ng-container matColumnDef="fieldNameCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>L9 -Field Name
+                                            </span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.fieldNameCol}} </td>
+                                    </ng-container>
+
+                                    <!-- viewCol column -->
+                                    <ng-container matColumnDef="viewCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>View</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <mat-checkbox [(ngModel)]="element.viewCol" color="primary">
+                                                {{element.viewCol}}
+                                            </mat-checkbox>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- editCol column -->
+                                    <ng-container matColumnDef="editCol">
+                                        <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Edit</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <mat-checkbox [(ngModel)]="element.editCol" color="primary">
+                                                {{element.editCol}}
+                                            </mat-checkbox>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                    <!-- Row shown when there is no matching data. -->
+                                    <tr class="mat-row" *matNoDataRow [hidden]="isLoading">
+                                        <td class="mat-cell" colspan="4">No data matching the filter</td>
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
+                                </mat-paginator>
+                            </div>
+                            <div class="flex justify-end">
+                                <mat-paginator class="flex text-lg" [pageSizeOptions]="[5, 10, 25, 100]"
+                                    aria-label="Select page "></mat-paginator>
+                            </div>
+                        </div>
+                        <button type="submit" mat-raised-button color="primary"> Save & Finish</button>
+
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-tab>
+    </mat-tab-group>
+</div>

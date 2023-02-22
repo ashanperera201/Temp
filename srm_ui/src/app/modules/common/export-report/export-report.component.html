@@ -1,0 +1,2340 @@
+<div class="export-report-page flex flex-col flex-auto min-w-0">
+    <div class="font-bold text-lg mb-1 mt-4 textcolor">RFX Archive Report</div>
+
+    <div class="flex justify-end ml-auto pr-8 pb-2">
+        <button mat-raised-button (click)="downloadPdf('Report')" color="warn" class="myelement1">
+            Download PDF
+        </button>
+    </div>
+    <div>
+        <mat-card>
+            <mat-card-actions class="sticky bottom-0">
+                <button mat-button color="primary" (click)="scroll(RFXInformation)">
+                    RFX Information
+                </button>
+                <button mat-button color="primary" (click)="scroll(Header)">
+                    Header
+                </button>
+                <button mat-button color="primary" (click)="scroll(Lines)">
+                    Lines
+                </button>
+                <button mat-button color="primary" (click)="scroll(Suppliers)">
+                    Suppliers
+                </button>
+                <button mat-button color="primary" (click)="scroll(CollaborationTeam)">
+                    Collaboration Team
+                </button>
+                <button mat-button color="primary" (click)="scroll(Rules)">
+                    Rules
+                </button>
+                <button mat-button color="primary" (click)="scroll(Scoring)">
+                    Scoring
+                </button>
+                <button mat-button color="primary" (click)="scroll(Evaluations)">
+                    Evaluations
+                </button>
+                <button mat-button color="primary" (click)="scroll(CBA)">
+                    CBA
+                </button>
+                <button mat-button color="primary" (click)="scroll(ROA)">
+                    ROA
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <div id="Report">
+        <div id="RFQDetails" class="mainBlock">
+            <div class="flex justify-end ml-auto">
+                <button mat-raised-button *ngIf="proceedDownload" (click)="downloadPdf('RFQDetails')" color="primary">
+                    Download RFQ Details & Responses
+                </button>
+            </div>
+
+            <div #RFXInformation id="RFXInformation" class="pb-6">
+                <div class="font-medium base text-base mb-2 mt-4 textcolor">
+                    RFX Information
+                </div>
+
+                <div>
+                    <div class="font-medium base text-base mb-2 mt-4">
+                        Basic Information
+                    </div>
+                    <div class="flex overflow-auto srm-bg rounded-lg mt-4 px-2 block">
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    RFX No :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].rfqno}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Negotiation Style :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].negitiationStyle}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Main Currency :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].currencyName}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    REV No :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].revNo}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Bidding Style :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].biddingStyle}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Payment Term :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].paymentTermName}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    RFX Name :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].rfqName}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Buyer Name :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].buyerName}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Estimated RFX Value :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].estimatedAmount}} {{rfqModel.table[0].currencyName}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Outcome :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].outcomeID}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Buyer Department :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].employeePosition}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Alternate Currencies :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].alternateCurrencies}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-medium base text-base mb-2 mt-4">
+                        Project Information
+                    </div>
+                    <div class="flex overflow-auto mt-4 px-2 block">
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Project Code :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].project}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Sub project Code :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].subProject}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Programme ID :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].program}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Project Type :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].projectType}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Activity :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].activity}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-medium base text-base mb-2 mt-4">
+                        Timeline Information
+                    </div>
+                    <div class="flex overflow-auto mt-4 px-2 block">
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex pt-2" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Time Zone :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].timeZone}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Bid Opening Date & Time :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].bidOpeningDate}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Publish Date & Time :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].publishDate}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Bid Closing Date & Time :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].bidClosingDate}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Award Date & Time :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].awardDate}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-medium base text-base mb-2 mt-4">
+                        Date Information
+                    </div>
+                    <div class="flex overflow-auto mt-4 px-2 block">
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex pt-2" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Preview Date :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].preview}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Award Date :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqModel.table[0].award}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-medium base text-base mb-2 mt-4">
+                        Delivery Information
+                    </div>
+                    <div class="flex overflow-auto mt-4 px-2 block" style="display: flex; flex-direction: column">
+                        <div style="display: flex; flex-direction: row">
+                            <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                <div class="flex" style="justify-content: center">
+                                    <div class="font-medium base text-base mb-2">
+                                        Delivery Address :
+                                    </div>
+                                    <div class="font-base text-base pl-2 mb-2">
+                                        {{rfqModel.table[0].deliveryAddressID}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                <div class="flex" style="justify-content: center">
+                                    <div class="font-medium base text-base mb-2">
+                                        Delivery Terms :
+                                    </div>
+                                    <div class="font-base text-base pl-2 mb-2">
+                                        {{rfqModel.table[0].deliveryTerms}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: row">
+                            <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                <div class="flex" style="justify-content: center">
+                                    <div class="font-medium base text-base mb-2">
+                                        Ship Via Code :
+                                    </div>
+                                    <div class="font-base text-base pl-2 mb-2">
+                                        {{rfqModel.table[0].shipViaCodeID}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                <div class="flex" style="justify-content: center">
+                                    <div class="font-medium base text-base mb-2">
+                                        Country :
+                                    </div>
+                                    <div class="font-base text-base pl-2 mb-2">
+                                        {{rfqModel.table[0].country}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                <div class="flex" style="justify-content: center">
+                                    <div class="font-medium base text-base mb-2">
+                                        City :
+                                    </div>
+                                    <div class="font-base text-base pl-2 mb-2">
+                                        {{rfqModel.table[0].city}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                <div class="flex" style="justify-content: center">
+                                    <div class="font-medium base text-base mb-2">
+                                        Site :
+                                    </div>
+                                    <div class="font-base text-base pl-2 mb-2">
+                                        {{rfqModel.table[0].site}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="false">
+                    <div class="font-medium base text-base mb-2 mt-4">
+                        Agreement Information
+                    </div>
+                    <div class="flex overflow-auto mt-4 px-2 block">
+                        <div class="flex flex-col w-1/5 mr-2 pt-4">
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Purchase Type</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Contract Rev No</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Agreement Group</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Termination Condition</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/5 mr-2 pt-4">
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Purchase Type Description</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Sign Date</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Agreement Group Description</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/5 mr-2 pt-4">
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Priority</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Review Date</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Agreement Type</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/5 mr-2 pt-4">
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Step Pricing Basis</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Valid From Date</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Max Amount Option</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/5 mr-2 pt-4">
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Contract Title</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Valid to Date</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Max Amount</mat-label>
+                                    <input matInput />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end ml-auto p-6">
+                        <mat-checkbox class="example-margin" color="primary">Group Agreement</mat-checkbox>
+                        <mat-checkbox class="example-margin" color="primary">Active Change Agreement Exists
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+
+
+            <mat-divider></mat-divider>
+
+            <div #Header id="Header" class="mt-6 pb-6">
+                <div class="flex justify-end ml-auto">
+                    <button *ngIf="proceedDownload" mat-button mat-raised-button (click)="scrollToTop()">
+                        Go to top
+                    </button>
+                </div>
+                <div class="font-medium base text-base mb-2 mt-4 textcolor">
+                    Header
+                </div>
+                <div class="font-bold base text-base mb-2 mt-6">
+                    Supplier Responses
+                </div>
+                <div class="block_1">
+                    <app-item-tables [columns]="columns_supplierResponses_header" [displayedColumns]="
+                            displayedColumns_supplierResponses_header
+                        " [dataSource]="supplierResponses_header_DataSource"></app-item-tables>
+                </div>
+
+                <div class="font-bold base text-base mb-2 mt-6">Header</div>
+                <div class="">
+                    <app-item-tables [columns]="columns_header" [displayedColumns]="displayedColumns_header"
+                        [dataSource]="header_DataSource"></app-item-tables>
+                </div>
+
+                <div class="font-bold base text-base mb-2 mt-6">Notes</div>
+
+                <app-responces [data_SampleAttribute]="SampleAttribute" [columns_Attributes]="columns_Attributes"
+                    [columns_AttributeItem]="columns_AttributeItem"
+                    [columns_SupplierResponces]="columns_SupplierResponces" [displayedColumns_AttributeItem]="
+                        displayedColumns_AttributeItem
+                    " [displayedColumns_Attributes]="displayedColumns_Attributes" [displayedColumns_SupplierResponces]="
+                        displayedColumns_SupplierResponces
+                    " [data_SampleCostFactors]="SampleCostFactors" [columns_CostFactors]="columns_CostFactors"
+                    [columns_CostFactorItems]="columns_CostFactorItems" [columns_CostFactorbySuppliers]="
+                        columns_CostFactorbySuppliers
+                    " [columns_SupplierResponces1]="columns_SupplierResponces1"
+                    [columns_SupplierResponces2]="columns_SupplierResponces2" [displayedColumns_CostFactors]="
+                        displayedColumns_CostFactors
+                    " [displayedColumns_CostFactorItems]="
+                        displayedColumns_CostFactorItems
+                    " [displayedColumns_columns_CostFactorbySuppliers]="
+                        displayedColumns_columns_CostFactorbySuppliers
+                    " [displayedColumns_SupplierResponces1]="
+                        displayedColumns_SupplierResponces1
+                    " [displayedColumns_SupplierResponces2]="
+                        displayedColumns_SupplierResponces2
+                    " [displayedColumns_PaymentSchedule]="
+                        displayedColumns_PaymentSchedule
+                    " [columns_PaymentSchedulebySuppliers]="
+                        columns_PaymentSchedulebySuppliers
+                    " [displayedColumns_PaymentSchedulebySuppliers]="
+                        displayedColumns_PaymentSchedulebySuppliers
+                    " [columns_PaymentSchedule]="columns_PaymentSchedule"
+                    [displayedColumns_Responces1]="displayedColumns_Responces1"
+                    [columns_Responces1]="columns_Responces1"
+                    [displayedColumns_Responces2]="displayedColumns_Responces2"
+                    [columns_Responces2]="columns_Responces2" [data_SamplePaymentSchedule]="SamplePaymentSchedule"
+                    [data_SampleAttachments]="SampleAttachments" [data_SampleDocument]="SampleDocument"
+                    [data_SampleNotes]="SampleNotes" [displayedColumns_Attachments]="
+                        displayedColumns_Attachments
+                    " [columns_Attachments]="columns_Attachments" [displayedColumns_AttachmentResponces]="
+                        displayedColumns_AttachmentResponces
+                    " [columns_AttachmentResponces]="columns_AttachmentResponces"
+                    [displayedColumns_Documents]="displayedColumns_Documents" [columns_Document]="columns_Document"
+                    [displayedColumns_DocumentResponces]="
+                        displayedColumns_DocumentResponces
+                    " [columns_DocumentResponces]="columns_DocumentResponces"
+                    [displayedColumns_Notes]="displayedColumns_Notes" [columns_Notes]="columns_Notes"
+                    [displayedColumns_NotesResponces]="
+                        displayedColumns_NotesResponces
+                    " [columns_NotesResponces]="columns_NotesResponces" [data_SampleDeliverables]="SampleDeliverables"
+                    [displayedColumns_Deliverables]="
+                        displayedColumns_Deliverables
+                    " [columns_Deliverables]="columns_Deliverables" [displayedColumns_DeliverablesbySuppliers]="
+                        displayedColumns_DeliverablesbySuppliers
+                    " [columns_DeliverablesbySuppliers]="
+                        columns_DeliverablesbySuppliers
+                    " [displayedColumns_DeliverableResponces1]="
+                        displayedColumns_DeliverableResponces1
+                    " [columns_DeliverableResponces1]="
+                        columns_DeliverableResponces1
+                    " [displayedColumns_DeliverableResponces2]="
+                        displayedColumns_DeliverableResponces2
+                    " [columns_DeliverableResponces2]="
+                        columns_DeliverableResponces2
+                    "></app-responces>
+            </div>
+            <mat-divider></mat-divider>
+
+            <div #Lines id="Lines" class="mt-6 pb-6">
+                <div class="flex justify-end ml-auto">
+                    <button *ngIf="proceedDownload" mat-button mat-raised-button (click)="scrollToTop()">
+                        Go to top
+                    </button>
+                </div>
+                <div class="font-medium base text-base mb-2 mt-4 textcolor">
+                    Lines
+                </div>
+                <div class="font-bold base text-base mb-2 mt-6">
+                    Supplier Responses
+                </div>
+                <div class="block_1">
+                    <app-item-tables [columns]="columns_supplierResponses_header" [displayedColumns]="
+                            displayedColumns_supplierResponses_header
+                        " [dataSource]="supplierResponses_header_DataSource"></app-item-tables>
+                </div>
+                <div class="font-bold base text-base mb-2 mt-6">Lines</div>
+                <div class="">
+
+                    <div class="flex flex-col flex-auto w-full">
+                        <ng-container>
+                            <ng-container>
+                                <div class="grid line-items-parent overflow-x-auto w-full">
+                                    <!-- Header -->
+                                    <div class="line-items-parent-grid z-12 sticky top-0 grid gap-9 pt-4 pb-2 px-2 text-secondary"
+                                        matSort matSortDisableClear>
+                                        <div class="font-medium base text-base" [mat-sort-header]="'lineno'">Line No
+                                        </div>
+                                        <div class="font-medium base text-base" [mat-sort-header]="'prno'">PR Number
+                                        </div>
+                                        <div class="font-medium base text-base" [mat-sort-header]="'partid'">Part ID
+                                        </div>
+                                        <div class="font-medium base text-base" [mat-sort-header]="'partdescription'">
+                                            Part Description</div>
+                                        <div class="font-medium base text-base" [mat-sort-header]="'needbydate'">Need by
+                                            Date</div>
+                                        <div class="font-medium base text-base" [mat-sort-header]="'targetprice'">Target
+                                            Price</div>
+                                        <div class="font-medium base text-base" [mat-sort-header]="'showprices'">Show
+                                            Prices</div>
+                                        <div class="font-medium base text-base" [mat-sort-header]="'uom'">UOM</div>
+                                        <div class="font-medium base text-base" [mat-sort-header]="'quantity'">Quantity
+                                        </div>
+                                    </div>
+                                    <!-- Rows -->
+                                    <ng-container *ngIf="Lines_DataSource && Lines_DataSource.length > 0">
+                                        <ng-container *ngFor="let line of Lines_DataSource">
+                                            <div
+                                                class="line-items-parent-grid grid items-center gap-9 py-px px-2 custom-tbl-row">
+                                                <!-- <div>01</div>
+                                                    <div>10101</div>
+                                                    <div>1121247</div>
+                                                    <div>Ball Bearing - 62065</div>
+                                                    <div>03/04/2021</div>
+                                                    <div>55 USD</div>
+                                                    <div>Yes</div>
+                                                    <div>Each</div>
+                                                    <div>75</div> -->
+                                                <div>{{line.no}}</div>
+                                                <div>{{line.prNo}}</div>
+                                                <div>{{line.partId}}</div>
+                                                <div>{{line.description}}</div>
+                                                <div>{{line.date}}</div>
+                                                <div>{{line.target}}</div>
+                                                <div>{{line.price}}</div>
+                                                <div>{{line.uom}}</div>
+                                                <div>{{line.qty}}</div>
+                                                <!-- <div class="ml-auto">
+                                                    <button class="px-2 leading-6" mat-icon-button
+                                                        (click)="toggleDisplay(line.id,line)">
+                                                        <mat-icon color="primary" class="icon-size-6"
+                                                            [svgIcon]="line.isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                        </mat-icon>
+                                                    </button>
+                                                </div> -->
+                                            </div>
+                                            <div>
+
+                                                 <ng-container *ngIf="true"> <!--getActiveDetailsTab(line.id) -->
+                                                    <div *ngFor="let sup of line.SUPPLIERS">
+                                                        <div class="font-medium base text-base mb-1 mt-4">{{sup.name}}
+                                                        </div>
+                                                        <div class="px-4">
+                                                            <div class="font-bold base text-base mb-2 mt-6 block_2 w-1/3"
+                                                                style="text-align: center">
+                                                                Price Response
+                                                            </div>
+
+                                                            <div class="flex overflow-auto mt-4 px-2">
+                                                                <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                                                    <div class="flex" style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Currency :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.currency}}</div>
+                                                                    </div>
+                                                                    <div class="flex pt-4"
+                                                                        style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Discount Value :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.discountedValue}}</div>
+                                                                    </div>
+                                                                    <div class="flex pt-4"
+                                                                        style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Lead Times :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.leadTime}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="flex pt-4"
+                                                                        style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Notes :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.comment}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                                                    <div class="flex" style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Unit Price :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.currency}}</div>
+                                                                    </div>
+                                                                    <div class="flex pt-4"
+                                                                        style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Net Unit Price :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.netUnitPrice}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="flex pt-4"
+                                                                        style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Manufacturer :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.manufacter}}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                                                    <div class="flex" style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Discount Type :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.discountType}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="flex pt-4"
+                                                                        style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Total Price :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.totalPrice}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="flex pt-4"
+                                                                        style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Origin :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.origin}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                                                    <div class="flex" style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Discount % :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.discount}}</div>
+                                                                    </div>
+                                                                    <div class="flex pt-4"
+                                                                        style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Promised Date :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.promisedDate}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="flex pt-4"
+                                                                        style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Attachments :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            {{sup.lineRow.attachmentId}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="font-bold base text-base mb-2 mt-6 block_2 w-1/3"
+                                                                style="text-align: center">
+                                                                Deviation Details
+                                                            </div>
+
+                                                            <div class="flex overflow-auto mt-4 px-2">
+                                                                <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                                                    <div class="flex" style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Substitute Part ID :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            1345625
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                                                    <div class="flex" style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Description :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            Ball Bearings - SKF 6206
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                                                    <div class="flex" style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Manufacturer :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            Nachi
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                                                    <div class="flex" style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Origin :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            Japan
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex flex-col w-1/2 mr-2 pt-4">
+                                                                    <div class="flex" style="justify-content: center">
+                                                                        <div class="font-medium base text-base mb-2">
+                                                                            Net Unit Price :
+                                                                        </div>
+                                                                        <div class="font-base text-base pl-2 mb-2">
+                                                                            USD 3,800
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="font-bold base text-base mb-2 mt-6 block_2 w-1/3"
+                                                                style="text-align: center">
+                                                                Line Shipment Details
+                                                            </div>
+                                                        </div>
+
+                                                        <app-responces [data_SampleAttribute]="sup.SampleAttribute"
+                                                            [columns_Attributes]="columns_Attributes"
+                                                            [columns_AttributeItem]="columns_AttributeItem"
+                                                            [columns_SupplierResponces]="columns_SupplierResponces"
+                                                            [displayedColumns_AttributeItem]="
+                                                                                                            displayedColumns_AttributeItem
+                                                                                                        "
+                                                            [displayedColumns_Attributes]="displayedColumns_Attributes"
+                                                            [displayedColumns_SupplierResponces]="
+                                                                                                            displayedColumns_SupplierResponces
+                                                                                                        "
+                                                            [data_SampleCostFactors]="sup.SampleCostFactors"
+                                                            [columns_CostFactors]="columns_CostFactors"
+                                                            [columns_CostFactorItems]="columns_CostFactorItems"
+                                                            [columns_CostFactorbySuppliers]="
+                                                                                                            columns_CostFactorbySuppliers
+                                                                                                        "
+                                                            [columns_SupplierResponces1]="columns_SupplierResponces1"
+                                                            [columns_SupplierResponces2]="columns_SupplierResponces2"
+                                                            [displayedColumns_CostFactors]="
+                                                                                                            displayedColumns_CostFactors
+                                                                                                        "
+                                                            [displayedColumns_CostFactorItems]="
+                                                                                                            displayedColumns_CostFactorItems
+                                                                                                        "
+                                                            [displayedColumns_columns_CostFactorbySuppliers]="
+                                                                                                            displayedColumns_columns_CostFactorbySuppliers
+                                                                                                        "
+                                                            [displayedColumns_SupplierResponces1]="
+                                                                                                            displayedColumns_SupplierResponces1
+                                                                                                        "
+                                                            [displayedColumns_SupplierResponces2]="
+                                                                                                            displayedColumns_SupplierResponces2
+                                                                                                        "
+                                                            [displayedColumns_PaymentSchedule]="
+                                                                                                            displayedColumns_PaymentSchedule
+                                                                                                        "
+                                                            [columns_PaymentSchedulebySuppliers]="
+                                                                                                            columns_PaymentSchedulebySuppliers
+                                                                                                        "
+                                                            [displayedColumns_PaymentSchedulebySuppliers]="
+                                                                                                            displayedColumns_PaymentSchedulebySuppliers
+                                                                                                        "
+                                                            [columns_PaymentSchedule]="columns_PaymentSchedule"
+                                                            [displayedColumns_Responces1]="displayedColumns_Responces1"
+                                                            [columns_Responces1]="columns_Responces1"
+                                                            [displayedColumns_Responces2]="displayedColumns_Responces2"
+                                                            [columns_Responces2]="columns_Responces2"
+                                                            [data_SamplePaymentSchedule]="sup.SamplePaymentSchedule"
+                                                            [data_SampleAttachments]="sup.SampleAttachments"
+                                                            [data_SampleDocument]="sup.SampleDocument"
+                                                            [data_SampleNotes]="sup.SampleNotes"
+                                                            [displayedColumns_Attachments]="
+                                                                                                            displayedColumns_Attachments
+                                                                                                        "
+                                                            [columns_Attachments]="columns_Attachments"
+                                                            [displayedColumns_AttachmentResponces]="
+                                                                                                            displayedColumns_AttachmentResponces
+                                                                                                        "
+                                                            [columns_AttachmentResponces]="columns_AttachmentResponces"
+                                                            [displayedColumns_Documents]="displayedColumns_Documents"
+                                                            [columns_Document]="columns_Document"
+                                                            [displayedColumns_DocumentResponces]="
+                                                                                                            displayedColumns_DocumentResponces
+                                                                                                        "
+                                                            [columns_DocumentResponces]="columns_DocumentResponces"
+                                                            [displayedColumns_Notes]="displayedColumns_Notes"
+                                                            [columns_Notes]="columns_Notes"
+                                                            [displayedColumns_NotesResponces]="
+                                                                                                            displayedColumns_NotesResponces
+                                                                                                        "
+                                                            [columns_NotesResponces]="columns_NotesResponces"
+                                                            [data_SampleDeliverables]="sup.SampleDeliverables"
+                                                            [displayedColumns_Deliverables]="
+                                                                                                            displayedColumns_Deliverables
+                                                                                                        "
+                                                            [columns_Deliverables]="columns_Deliverables"
+                                                            [displayedColumns_DeliverablesbySuppliers]="
+                                                                                                            displayedColumns_DeliverablesbySuppliers
+                                                                                                        "
+                                                            [columns_DeliverablesbySuppliers]="
+                                                                                                            columns_DeliverablesbySuppliers
+                                                                                                        "
+                                                            [displayedColumns_DeliverableResponces1]="
+                                                                                                            displayedColumns_DeliverableResponces1
+                                                                                                        "
+                                                            [columns_DeliverableResponces1]="
+                                                                                                            columns_DeliverableResponces1
+                                                                                                        "
+                                                            [displayedColumns_DeliverableResponces2]="
+                                                                                                            displayedColumns_DeliverableResponces2
+                                                                                                        "
+                                                            [columns_DeliverableResponces2]="
+                                                                                                            columns_DeliverableResponces2
+                                                                                                        ">
+                                                        </app-responces>
+                                                    </div>
+
+                                                </ng-container>
+
+                                            </div>
+
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                </div>
+                <mat-divider></mat-divider>
+
+                <div #Suppliers id="Suppliers" class="mt-6 pb-6">
+                    <div class="flex justify-end ml-auto">
+                        <button *ngIf="proceedDownload" mat-button mat-raised-button (click)="scrollToTop()">
+                            Go to top
+                        </button>
+                    </div>
+                    <div class="font-bold text-lg mb-1 mt-4 textcolor">
+                        Suppliers
+                    </div>
+                    <div class="font-medium base text-base mb-2 mt-4">
+                        Supplier Information
+                    </div>
+                    <app-item-tables class="tablehead_blue" [columns]="supliercolumns_Information"
+                        [displayedColumns]="displayedSupplierColumns_Information"
+                        [dataSource]="Supplier_Inormation_DataSource"></app-item-tables>
+                </div>
+                <mat-divider></mat-divider>
+
+                <div #CollaborationTeam id="CollaborationTeam" class="mt-6 pb-6">
+                    <div class="flex justify-end ml-auto">
+                        <button *ngIf="proceedDownload" mat-button mat-raised-button (click)="scrollToTop()">
+                            Go to top
+                        </button>
+                    </div>
+                    <div class="font-bold text-lg mb-1 mt-4 textcolor">
+                        Collaboration Team
+                    </div>
+                    <div class="font-medium base text-base mb-2 mt-4">
+                        Team Information
+                    </div>
+                    <app-item-tables class="tablehead_blue" [columns]="columns_Information"
+                        [displayedColumns]="displayedColumns_Information" [dataSource]="Team_Inormation_DataSource">
+                    </app-item-tables>
+                </div>
+                <mat-divider></mat-divider>
+
+                <div #Rules id="Rules" class="mt-6 pb-6">
+                    <div class="flex justify-end ml-auto">
+                        <button *ngIf="proceedDownload" mat-button mat-raised-button (click)="scrollToTop()">
+                            Go to top
+                        </button>
+                    </div>
+                    <div class="font-bold text-lg mb-1 mt-4 textcolor">Rules</div>
+                    <div class="font-medium base text-base mb-2 mt-4">
+                        Scoring Criteria
+                    </div>
+                    <div style="display: flex; flex-direction: row">
+                        <div class="flex flex-col w-1/4 mr-2 pt-4">
+                            <mat-checkbox class="example-margin" [checked]="rfqModel.table[0].headerScoring">Enable
+                                Header Scoring</mat-checkbox>
+                            <mat-checkbox class="example-margin" [checked]="rfqModel.table[0].isTechnicalScoring">Enable
+                                Technical Scoring</mat-checkbox>
+                        </div>
+                        <div class="flex flex-col w-1/4 mr-2 pt-4">
+                            <mat-checkbox class="example-margin" [checked]="rfqModel.table[0].linesScoring">Enable Lines
+                                Scoring</mat-checkbox>
+                            <mat-checkbox class="example-margin" [checked]="rfqModel.table[0].isCommercialScoring">
+                                Enable Commercial Scoring</mat-checkbox>
+                        </div>
+                        <div class="flex flex-col w-1/4 mr-2 pt-4">
+                            <mat-checkbox class="example-margin" [checked]="rfqModel.table[0].scoringTabToSuppliers">
+                                Show Scoring Tab to Suppliers</mat-checkbox>
+                            <mat-checkbox class="example-margin"
+                                [checked]="rfqModel.table[0].showScoringWeightToSuppliers">Show Scoring weightages to
+                                Suppliers</mat-checkbox>
+                        </div>
+                        <div class="flex flex-col w-1/4 mr-2 pt-5">
+                            <mat-checkbox class="example-margin pt-4"
+                                [checked]="rfqModel.table[0].showScoringCriteriaToSuppliers">Show Scoring Criteria to
+                                Suppliers</mat-checkbox>
+                        </div>
+                    </div>
+
+                    <div class="font-medium base text-base mb-2 mt-6">
+                        Response Rules
+                    </div>
+                    <div class="flex justify-end ml-auto">
+                        <div class="font-bold base text-base mb-2 mt-6 block_T w-50" style="text-align: center">
+                            T : Technical
+                        </div>
+                        <div class="font-bold base text-base mb-2 mt-6 block_C w-50 pl-2" style="text-align: center">
+                            C : Commercial
+                        </div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="w-1/3 pt-4">
+                            <app-selection-tables [columns]="columns_Rules_RFX_header" [displayedColumns]="
+                                displayedColumns_Rules_RFX_header
+                            " [dataSource]="Rules_RFX_header_DataSource"></app-selection-tables>
+                        </div>
+                        <div class="w-1/3 pt-4 px-4">
+                            <app-selection-tables [columns]="columns_Rules_Lines_header" [displayedColumns]="
+                                displayedColumns_Rules_Lines_header
+                            " [dataSource]="Rules_Lines_header_DataSource"></app-selection-tables>
+                        </div>
+                        <!-- <div class="w-1/3 pt-4 px-4">
+                        <app-selection-tables
+                            [columns]="columns_GeneralRules"
+                            [displayedColumns]="displayedColumns_GeneralRules"
+                            [dataSource]="GeneralRules_DataSource"
+                        ></app-selection-tables>
+                    </div> -->
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+
+                <div #Scoring id="Scoring" class="mt-6 pb-6">
+                    <div class="flex justify-end ml-auto">
+                        <button *ngIf="proceedDownload" mat-button mat-raised-button (click)="scrollToTop()">
+                            Go to top
+                        </button>
+                    </div>
+                    <div class="font-bold text-lg mb-1 mt-4 textcolor">Scoring</div>
+            
+                        <div class="flex flex-col">
+                            <div class="font-medium base text-base mb-2 mt-4">
+                                Header Tabs
+                            </div>
+                            <div [disabled]="true" *ngFor="let hdrscoring of scoringModel.rfqHeaderScoringCriterias"
+                            class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                            <div class="line-items-parent-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                <div>
+                                    <p class="font-medium text-base">
+                                        {{hdrscoring.criteriaName}}
+                                    </p>
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                        <input matInput [(ngModel)]="hdrscoring.points" type="number"
+                                        [disabled]="true">
+                                        </mat-form-field>
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                        <input matInput [(ngModel)]="hdrscoring.percentatge" type="number"
+                                        [disabled]="true">
+                                        </mat-form-field>
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                        <input matInput [(ngModel)]="hdrscoring.knockOutScore" type="number"
+                                        [disabled]="true">
+                                        </mat-form-field>
+                                </div>                                   
+                                <!-- <div class="ml-auto">
+                                    <button class="px-2 leading-6" mat-icon-button
+                                        (click)="toggleDisplay(hdrscoring)">
+                                        <mat-icon color="primary" class="icon-size-6"
+                                            [svgIcon]="hdrscoring.isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                        </mat-icon>
+                                    </button>
+                                </div> -->
+                            </div>
+                            <ng-container>
+                                <div class="overflow-hidden srm-bg">
+                                    <div class="flex">
+                                        <!-- Selected product details panel -->
+                                        <div class="overflow-auto srm-bg rounded-lg mt-4 w-full">
+                                            <div class="grid pl-4 line-items-inner">
+                                                <!-- Header -->
+                                               <!--  <div class="line-items-inner-grid custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary"
+                                                    matSort matSortDisableClear>
+                                                    <div [mat-sort-header]="'name'"></div>
+                                                    <div [mat-sort-header]="'type'"></div>
+                                                    <div [mat-sort-header]="'description'"></div>
+                                                  
+                                                </div> -->
+                                                <!-- Rows -->
+                                                <ng-container>
+                                                    <ng-container>
+                                                        <div *ngFor="let headerModel of hdrscoring.rfqScoringHeaderDetailModel"
+                                                            class="line-items-inner-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                                           
+                                                            <div>
+                                                                <p class="font-medium text-base">
+                                                                    {{headerModel.itemName}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="flex">
+                                                                <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                                                    <input matInput [(ngModel)]="headerModel.weightInPoints" type="number"
+                                                                    [disabled]="true">
+                                                                    </mat-form-field>
+                                                            </div>
+                                                            <div class="flex">
+                                                                <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                                                    <input matInput [(ngModel)]="headerModel.weightInPercentage" type="number"
+                                                                    [disabled]="true">
+                                                                    </mat-form-field>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="custom-tbl-item summary overflow-hidden m-1">
+                            <div
+                                class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+                               
+                                <div>
+                                    <p class="font-medium text-base">
+                                        {{headerTotalPoints}}: Total Weights in Points
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-base">
+                                        {{headerTotalPercentage}}%: Total Weights in %
+                                    </p>
+                                </div>
+                                <div class="ml-auto"></div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="font-medium base text-base mb-2 mt-4 px-4">
+                                Lines Tabs
+                            </div>
+                            <div class="grid partline-items-parent overflow-x-auto w-full">
+                                <!-- Header -->
+                                <div class="partline-items-parent-grid z-12 sticky top-0 grid gap-9 pt-4 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                   
+                                    <div>Line #</div>
+                                    <div>Part No</div>
+                                    <div>Part Description</div>
+                                    <div [mat-sort-header]="'points'">Weights in points</div>
+                                    <div [mat-sort-header]="'percentage'">Weights in %</div>
+                                    <div [mat-sort-header]="'knockOutScore'">Knock Out Score</div>
+                                    <div></div>
+                                </div>
+                                <!-- Rows -->
+                                <ng-container>
+                                    <ng-container>
+                                        <div  *ngFor="let partscoring of scoringModel.rfqPartLineScoringCriterias"
+                                            class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                            <div class="partline-items-parent-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                                <div>
+                                                    <p class="font-medium text-base">
+                                                        {{partscoring.lineNumber}}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-base">
+                                                        {{partscoring.partName}}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-base">
+                                                        {{partscoring.partDescirption}}
+                                                    </p>
+                                                </div>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                                        <input matInput [(ngModel)]="partscoring.points" type="number"
+                                                       [disabled]="true">
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                                        <input matInput [(ngModel)]="partscoring.percentatge" type="number"
+                                                        [disabled]="true">
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                                        <input matInput [(ngModel)]="partscoring.knockOutScore" type="number"
+                                                        [disabled]="true">
+                                                       
+                                                        </mat-form-field>
+                                                </div>
+                                                <!-- <div class="ml-auto">
+                                                    <button class="px-2 leading-6" mat-icon-button
+                                                        (click)="toggleDisplay(partscoring)">
+                                                        <mat-icon color="primary" class="icon-size-6"
+                                                            [svgIcon]="partscoring.isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                        </mat-icon>
+                                                    </button>
+                                                </div> -->
+                                             
+                                            </div>
+                                            <ng-container>
+                                                <div class="overflow-hidden srm-bg">
+                                                    <div class="flex">
+                                                        <!-- Selected product details panel -->
+                                                        <div class="overflow-auto srm-bg rounded-lg mt-4 w-full">
+                                                            <div class="grid pl-4 partline-items-inner">
+                                                              
+                                                                 <ng-container>
+                                                                    <ng-container>
+                                                                        <div *ngFor="let linecreteriaModel of partscoring.rfqLineScoringCriteriaModel" class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                                                            <div 
+                                                                            class="partline-items-inner-grid grid items-center gap-5 py-px px-2 pt-2 custom-tbl-row">
+                                                                           
+                                                                            
+                                                                            <div class="flex">
+                                                                                <div class="mr-auto">
+                                                                                   
+                                                                                </div>
+                                                                                <div class="flex w-full" style="max-width:250px;">  <p class="font-medium text-base ">
+                                                                                    {{linecreteriaModel.criteriaName}}
+                                                                                </p></div>
+                                                                                <div class="flex w-full" style="max-width:100px;">
+                                                                                   
+                                                                                </div>
+                                                                                <div class="flex w-full" style="max-width:250px;"><mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                                    <input matInput [(ngModel)]="linecreteriaModel.points" type="number"
+                                                                                    [disabled]="true">
+                                                                                    </mat-form-field></div>
+                                                                                <div class="flex w-full" style="max-width:250px;"> <mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                                    <input matInput [(ngModel)]="linecreteriaModel.percentatge" type="number"
+                                                                                    [disabled]="true">
+                                                                                    </mat-form-field>
+                                                                                   </div>
+                                                                                <div class="flex w-full" style="max-width:250px;"> <mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                                    <input matInput [(ngModel)]="linecreteriaModel.knockOutScore" type="number" [disabled]="true">
+                                                                                    
+                                                                            </mat-form-field></div>
+                                                                                
+<!--                                                                                    
+                                                                                    <div class="mr-auto">
+                                                                                        <button class="px-2 leading-6" mat-icon-button
+                                                                                            (click)="toggleDisplay(linecreteriaModel)">
+                                                                                            <mat-icon color="primary" class="icon-size-6"
+                                                                                                [svgIcon]="linecreteriaModel.isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                                                            </mat-icon>
+                                                                                        </button>
+                                                                                    </div> -->
+                                                                            </div>
+                                                                            
+                                                                            
+                                                                         
+                                                                    
+                                                                            <ng-container>
+                                                                                <div class="overflow-hidden srm-bg">
+                                                                                    <div class="flex ">
+                                                                                     
+                                                                                        <div class="overflow-auto srm-bg rounded-lg mt-4 mb-5 w-full">
+                                                                                            <div class="grid pl-4 partline-subitem-inner">
+                                                                                                <ng-container>
+                                                                                                    <div *ngFor="let lineinnerModel of linecreteriaModel.rfqScoringLineDetailModel"
+                                                                                                    class="partline-subitem subitem-center gap-4 py-px px-2 custom-tbl-row">
+                                                                                                    <div class="flex">
+                                                                                                        <div class="flex w-full" style="max-width:250px;">
+                                                                                   
+                                                                                                        </div>
+                                                                                                        <div class="flex w-full" style="max-width:200px;">
+                                                                                                            <p class="font-medium text-base">
+                                                                                                                {{lineinnerModel.itemName}}
+                                                                                                            </p>
+                                                                                                        </div>
+                                                                                                        <div class="flex w-full" style="max-width:250px;">
+                                                                                                            <mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                                                                <input matInput [(ngModel)]="lineinnerModel.weightInPoints" type="number"
+                                                                                                               [disabled]="true">
+                                                                                                                </mat-form-field>
+                                                                                                        </div>
+                                                                                                        <div class="flex w-full" style="max-width:250px;">
+                                                                                                            <mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                                                                <input matInput [(ngModel)]="lineinnerModel.weightInPercentage" type="number"
+                                                                                                                [disabled]="true">
+                                                                                                                </mat-form-field>
+                                                                                                        </div>
+            
+                                                                                                    </div>
+                                                                                                        
+                                                                                                        
+                                                                                                    </div>
+                                                                                                </ng-container>
+                                                                                                </div>
+                                                                                        </div>
+                                            
+                                                                                    </div>
+                                                                                </div>
+                                                                            </ng-container>
+                                                                          
+                                                                        </div>
+                                                                        </div>
+                                                                        
+                                                                    </ng-container>
+                                                                </ng-container> 
+                                                            </div>
+                                                        </div>
+            
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <div class="partline-items-parent-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                               
+                                                <div class="flex"></div>
+                                                <div class="flex"></div>
+                                                <div class="flex"> <p class="font-medium text-base">
+                                                    {{partscoring.totalPoint}}: Total Weights in Points
+                                                </p></div>
+                                                <div class="flex"> <p class="font-medium text-base">
+                                                    {{partscoring.totalPercent}}%: Total Weights in %
+                                                </p></div>
+                                            </div>
+                                        </div>
+                                        <div class="custom-tbl-item summary overflow-hidden m-1">
+                                            <div
+                                                class="part-grid grid items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+
+                                                <div></div>
+                                                <div></div>
+                                                <div>
+                                                    <p class="font-medium text-base">
+                                                        {{partlineTotalPoints}}: Total Weights in Points
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-base">
+                                                        {{partlineTotalPercentage}}%: Total Weights in %
+                                                    </p>
+                                                </div>
+                                                <div class="ml-auto"></div>
+                                            </div>
+                                        </div>
+                                       
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </div>
+                    
+                    
+                </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div #Evaluations id="Evaluations" class="mt-6 pb-6">
+                <div class="mainBlock">
+                    <div class="flex justify-end ml-auto">
+                        <button mat-button mat-raised-button *ngIf="proceedDownload" (click)="scrollToTop()">
+                            Go to top
+                        </button>
+                    </div>
+                    <div class="font-medium base text-base mb-2 mt-4 textcolor">
+                        Evaluations
+                    </div>
+                </div>
+                <div id="Technical_BID_Evaluations" class="mainBlock">
+                    <div class="flex justify-end ml-auto">
+                        <button *ngIf="proceedDownload" mat-raised-button
+                            (click)="downloadPdf('Technical_BID_Evaluations')" color="primary">
+                            Download Technical BID Evaluations
+                        </button>
+                    </div>
+                    <div class="font-bold base text-base mb-2 mt-4">
+                        Technical BID Evaluations
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    RFQ No :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].rfqNo}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Technical Evaluation Number :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].tEvaluationNumber}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    REV Name :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].revNo}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Evaluator’s Name :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].tEvaluationName}}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Project ID:
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].projectID}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Project Name:
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="flex flex-row mt-8">
+                        <div class="w-1/4">
+                            <div class="font-medium base text-base mb-2" style="text-align: center">
+                                Final Overall Score
+                            </div>
+                            <div class="pt-2">
+                                <app-item-tables class="table_brown" [columns]="columns_technicalEvaluation_Score"
+                                    [displayedColumns]="
+                                    displayedColumns_technicalEvaluation_Score
+                                " [dataSource]="
+                                    technicalEvaluation_Score_DataSource
+                                "></app-item-tables>
+                            </div>
+                        </div>
+                        <div class="w-3/4 chart-block">
+                            <app-charts [supplierCharts]="supplier_TBEchartdata" [horizontal]="false"
+                                [y_axis]="'Total Score'"></app-charts>
+                        </div>
+                    </div>
+
+                    <div class="font-medium base text-base mb-2 mt-8">
+                        Header Level Breakdown
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [dataSource]="Evaluation_Attribute_Data"
+                            [columnNames]="columnNames_Evaluation_Attribute_Data" [title]="'Attributes'">
+                        </app-evaluation-tables>
+
+
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [dataSource]="Evaluation_CostFactors_Data"
+                            [columnNames]="columnNames_Evaluation_CostFactors_Data" [title]="'Cost Factors'">
+                        </app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [columnNames]="
+                            columnNames_Evaluation_PaymentSchedule_Data
+                        " [dataSource]="Evaluation_PaymentSchedule_Data" [title]="'Payment Schedules'">
+                        </app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown"
+                            [columnNames]="columnNames_Evaluation_Attachments_Data"
+                            [dataSource]="Evaluation_Attachments_Data" [title]="'Attachments'"></app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [columnNames]="columnNames_Evaluation_Document_Data"
+                            [dataSource]="Evaluation_Document_Data" [title]="'Document Text'"></app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [columnNames]="columnNames_Evaluation_Notes_Dataa"
+                            [dataSource]="Evaluation_Notes_Data" [title]="'Notes'"></app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown"
+                            [columnNames]="columnNames_Evaluation_Deliverables_Data"
+                            [dataSource]="Evaluation_Deliverables_Data" [title]="'Deliverables'">
+                        </app-evaluation-tables>
+                    </div>
+
+                    <div class="font-medium base text-base mb-2 mt-8">
+                        Line item Level Breakdown
+                    </div>
+
+                    <div class="pt-4">
+                        <div *ngFor="let line of evaluationLines" class="font-bold base text-base mb-2 mt-6 block"
+                            style="text-align: center">
+                            {{line.lineNo}} - {{line.lineDesc}}
+
+                            <div *ngFor="let a of line.t_attributeEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.Attributes"
+                                    [columnNames]="line.columnNames_Evaluation_LineAttribute_Data"
+                                    [title]="'Attributes'">
+                                </app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.t_cfEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.CFs"
+                                    [columnNames]="columnNames_Evaluation_CostFactors_Data" [title]="'Cost Factors'">
+                                </app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.t_psEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.PSs"
+                                    [columnNames]="columnNames_Evaluation_PaymentSchedule_Data"
+                                    [title]="'Payment Schedules'"></app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.t_attachmentsEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.Attachments"
+                                    [columnNames]="columnNames_Evaluation_Attachments_Data" [title]="'Attachments'">
+                                </app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.t_dtsEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.DTs"
+                                    [columnNames]="columnNames_Evaluation_Document_Data" [title]="'Document Text'">
+                                </app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.t_notesEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.Notes"
+                                    [columnNames]="columnNames_Evaluation_Notes_Dataa" [title]="'Notes'">
+                                </app-evaluation-tables>
+
+                            </div>
+
+                            <div *ngFor="let a of line.t_delsEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.Deliverables"
+                                    [columnNames]="columnNames_Evaluation_Deliverables_Data" [title]="'Deliverables'">
+                                </app-evaluation-tables>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <mat-divider class="pt-5"></mat-divider>
+                <div id="Commercial_BID_Evaluations" class="mainBlock">
+                    <div class="flex justify-end ml-auto">
+                        <button *ngIf="proceedDownload" mat-raised-button
+                            (click)="downloadPdf('Commercial_BID_Evaluations')" color="primary">
+                            Download Commercial BID Evaluations
+                        </button>
+                    </div>
+                    <div class="font-bold base text-base mb-2 mt-4">
+                        Commercial BID Evaluations
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    RFQ No :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].rfqNo}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Commercial Evaluation Number :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].cEvaluationNumber}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    REV Name :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].revNo}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Evaluator’s Name :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].cEvaluationName}}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Project ID:
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].projectID}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Project Name:
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="flex flex-row mt-8">
+                        <div class="w-1/4">
+                            <div class="font-medium base text-base mb-2" style="text-align: center">
+                                Final Overall Score
+                            </div>
+                            <div class="pt-2">
+                                <app-item-tables class="table_brown" [columns]="columns_commercialEvaluation_Score"
+                                    [displayedColumns]="
+                                    displayedColumns_commercialEvaluation_Score
+                                " [dataSource]="
+                                commercialEvaluation_Score_DataSource
+                                "></app-item-tables>
+                            </div>
+                        </div>
+                        <div class="w-3/4 chart-block">
+                            <app-charts [supplierCharts]="supplier_CBEchartdata" [horizontal]="false"
+                                [y_axis]="'Total Score'"></app-charts>
+                        </div>
+                    </div>
+
+                    <div class="font-medium base text-base mb-2 mt-8">
+                        Header Level Breakdown
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [dataSource]="Evaluation_Attribute_Data"
+                            [columnNames]="columnNames_Evaluation_Attribute_Data" [title]="'Attributes'">
+                        </app-evaluation-tables>
+
+
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [dataSource]="Evaluation_CostFactors_Data"
+                            [columnNames]="columnNames_Evaluation_CostFactors_Data" [title]="'Cost Factors'">
+                        </app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [columnNames]="
+                            columnNames_Evaluation_PaymentSchedule_Data
+                        " [dataSource]="Evaluation_PaymentSchedule_Data" [title]="'Payment Schedules'">
+                        </app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown"
+                            [columnNames]="columnNames_Evaluation_Attachments_Data"
+                            [dataSource]="Evaluation_Attachments_Data" [title]="'Attachments'"></app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [columnNames]="columnNames_Evaluation_Document_Data"
+                            [dataSource]="Evaluation_Document_Data" [title]="'Document Text'"></app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown" [columnNames]="columnNames_Evaluation_Notes_Dataa"
+                            [dataSource]="Evaluation_Notes_Data" [title]="'Notes'"></app-evaluation-tables>
+                    </div>
+                    <div class="pt-4">
+                        <app-evaluation-tables class="table_brown"
+                            [columnNames]="columnNames_Evaluation_Deliverables_Data"
+                            [dataSource]="Evaluation_Deliverables_Data" [title]="'Deliverables'">
+                        </app-evaluation-tables>
+                    </div>
+
+                    <div class="font-medium base text-base mb-2 mt-8">
+                        Line item Level Breakdown
+                    </div>
+
+                    <div class="pt-4">
+                        <div *ngFor="let line of evaluationLines" class="font-bold base text-base mb-2 mt-6 block"
+                            style="text-align: center">
+                            {{line.lineNo}} - {{line.lineDesc}}
+
+                            <div *ngFor="let a of line.c_attributeEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.Attributes"
+                                    [columnNames]="line.columnNames_Evaluation_LineAttribute_Data"
+                                    [title]="'Attributes'">
+                                </app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.c_cfEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.CFs"
+                                    [columnNames]="columnNames_Evaluation_CostFactors_Data" [title]="'Cost Factors'">
+                                </app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.c_psEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.PSs"
+                                    [columnNames]="columnNames_Evaluation_PaymentSchedule_Data"
+                                    [title]="'Payment Schedules'"></app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.c_attachmentsEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.Attachments"
+                                    [columnNames]="columnNames_Evaluation_Attachments_Data" [title]="'Attachments'">
+                                </app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.c_dtsEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.DTs"
+                                    [columnNames]="columnNames_Evaluation_Document_Data" [title]="'Document Text'">
+                                </app-evaluation-tables>
+
+                            </div>
+                            <div *ngFor="let a of line.c_notesEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.Notes"
+                                    [columnNames]="columnNames_Evaluation_Notes_Dataa" [title]="'Notes'">
+                                </app-evaluation-tables>
+
+                            </div>
+
+                            <div *ngFor="let a of line.c_delsEvaluators" class="flex flex-col">
+
+                                <div class="font-medium base text-base mb-2 mt-4">{{a.evaluatorName}}</div>
+
+                                <app-evaluation-tables class="table_brown" [dataSource]="a.Deliverables"
+                                    [columnNames]="columnNames_Evaluation_Deliverables_Data" [title]="'Deliverables'">
+                                </app-evaluation-tables>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+                <mat-divider class="pt-5"></mat-divider>
+                <div #CBA id="Comparative_BID_Analysis" class="mainBlock">
+                    <div class="flex justify-end ml-auto">
+                        <button mat-raised-button *ngIf="proceedDownload"
+                            (click)="downloadPdf('Comparative_BID_Analysis')" color="primary">
+                            Download Comparative BID Analysis
+                        </button>
+                    </div>
+                    <div class="font-bold base text-base mb-2 mt-8">
+                        Comparative BID Analysis
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    RFX No:
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].rfqNo}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    RFX Currency:
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2"></div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Rev No :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].revNo}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Project Name :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Tech Evaluation No :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].tEvaluationNumber}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Commercial Evaluation No :
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].cEvaluationNumber}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col w-1/2 mr-2 pt-4">
+                            <div class="flex" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Project ID:
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].projectID}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Tech Evcaluator Name:
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].tEvaluationName}}
+                                </div>
+                            </div>
+                            <div class="flex pt-4" style="justify-content: center">
+                                <div class="font-medium base text-base mb-2">
+                                    Commercial Evaluator Name:
+                                </div>
+                                <div class="font-base text-base pl-2 mb-2">
+                                    {{rfqEvaluationModel.table16[0].cEvaluationName}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row mt-8">
+                        <div class="w-1/4">
+                            <div class="font-medium base text-base mb-2" style="text-align: center">
+                                Total Bid Details
+                            </div>
+                            <div class="pt-2">
+                                <app-item-tables class="table_blue" [columns]="columns_bidDetails"
+                                    [displayedColumns]="displayedColumns_bidDetails"
+                                    [dataSource]="bidDetails_DataSource"></app-item-tables>
+                            </div>
+                        </div>
+                        <div class="w-3/4 ">
+                            <app-charts [supplierCharts]="supplier_cost_chartdata" [horizontal]="false"
+                                [y_axis]="'Total Cost'"></app-charts>
+                        </div>
+                    </div>
+                    <mat-divider class="pt-5"></mat-divider>
+
+                    <div class="flex flex-col">
+                        <div class="font-bold base text-base mb-2">
+                            Line Item Breakdown
+                        </div>
+                        <div>
+                        
+                            <div>
+                                <div class="line-items-breakdown-grid z-12 sticky top-0 grid gap pt-4 pb-2 text-secondary">
+                                    <div>
+                                        Line Number
+                                    </div>
+                                    <div>
+                                        PartID
+                                    </div>
+                                    <div>
+                                        Description
+                                    </div>
+                                    <div>
+                                        Qty
+                                    </div>
+                                    <div>
+                                        UOM
+                                    </div>
+                                    <div>
+                                        Date
+                                    </div>
+                                    <div>
+                                        Target Price
+                                    </div>
+                                </div>
+                                <div *ngFor="let line of partLines">
+                                    <div class="line-items-breakdown-grid z-12 items-center top-0 grid gap pt-4 pb-2 text-secondary">
+                                        <div>
+                                            {{line.no}}
+                                        </div>
+                                        <div>
+                                            {{line.partId}}
+                                        </div>
+                                        <div>
+                                            {{line.description}}
+                                        </div>
+                                        <div>
+                                            {{line.qty}}
+                                        </div>
+                                        <div>
+                                            {{line.uom}}
+                                        </div>
+                                        <div>
+                                            {{line.date}}
+                                        </div>
+                                        <div>
+                                            {{line.target}}
+                                        </div>
+                                        <!-- <div class="ml-auto">
+                                            <button class="px-2 leading-6" mat-icon-button (click)="line.expand = !line.expand">
+                                                <mat-icon color="primary" class="icon-size-6" [svgIcon]="line.expand? 'heroicons_outline:arrow-circle-up':'heroicons_outline:arrow-circle-down' "></mat-icon>
+                                            </button>
+                                        </div> -->
+                                    </div>
+                                  
+                                
+                                    <!-- <div *ngIf="line.expand" class="white-bg"> -->
+                                        <div *ngIf="true" class="white-bg">
+                                        <div>
+                                            <table mat-table [dataSource]="supplierResponseDetails"
+                                                class="w-full mt-8 mat-elevation-z8 table_blue">
+                                                <ng-container *ngFor="let columnName of columnNames" [matColumnDef]="columnName">
+                                                    <th mat-header-cell *matHeaderCellDef>
+                                                        {{ capitalize(columnName) }}
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let row">
+                                                        {{ row[columnName] }}
+                                                    </td>
+                                                </ng-container>
+                                                <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: columnNames">
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="chart-block">
+                                            <div class="w-full">
+                                                <app-charts [supplierCharts]="line.supplier_Price_chartdata" [horizontal]="false" [y_axis]="'Rank'">
+                                                </app-charts>
+                                            </div>
+                                            <div class="w-full">
+                                                <app-charts [supplierCharts]="line.supplier_TBE_chartdata" [horizontal]="false" [y_axis]="'TBE Score'">
+                                                </app-charts>
+                                            </div>
+                                            <div class="w-full">
+                                                <app-charts [supplierCharts]="line.supplier_CBE_chartdata" [horizontal]="false" [y_axis]="'CBE Rank'">
+                                                </app-charts>
+                                            </div>
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                        
+                            </div>                    
+                        
+                        
+                        </div>
+
+
+                    </div> 
+                </div>
+                <mat-divider class="pt-5"></mat-divider>
+                <div #ROA id="Award_Summary" class="mainBlock">
+                    <div class="pb-4 px-4 srm-bg rounded-lg" *ngIf="dynamicdataROA">
+                        <div class="pt-5 pb-2">
+                            <div class="flex" *ngIf="dynamicdataROA.headerRow">
+                                <mat-form-field class="w-1/4 pr-2">
+                                    <mat-label>RFQ No</mat-label>
+                                    <input matInput disabled [(ngModel)]="dynamicdataROA.headerRow[0].rfqNo">
+                                </mat-form-field>
+                                <mat-form-field class="w-1/4 px-2">
+                                    <mat-label>REV No</mat-label>
+                                    <input matInput disabled [(ngModel)]="dynamicdataROA.headerRow[0].revNo">
+                                </mat-form-field>
+                                <mat-form-field class="w-1/4 px-2">
+                                    <mat-label>Project ID</mat-label>
+                                    <input matInput disabled [(ngModel)]="dynamicdataROA.headerRow[0].name">
+                                </mat-form-field>
+                                <mat-form-field class="w-1/4 pl-2">
+                                    <mat-label>Project Name</mat-label>
+                                    <input matInput disabled [(ngModel)]="dynamicdataROA.headerRow[0].name">
+                                </mat-form-field>
+                            </div>
+                            <div class="flex">
+                                <mat-form-field class="w-1/4 pr-2" *ngIf="dynamicdataROA.headerRow">
+                                    <mat-label>Technical Evaluation Number</mat-label>
+                                    <input matInput disabled [(ngModel)]="dynamicdataROA.headerRow[0].tEvaluationNumber">
+                                </mat-form-field>
+                                <mat-form-field class="w-1/4 px-2">
+                                    <mat-label>Evaluator’s Name (Technical)</mat-label>
+                                    <input matInput disabled [(ngModel)]="dynamicdataROA.headerRow[0].tEvaluatorName">
+                                </mat-form-field>
+                                <mat-form-field class="w-1/4 px-2">
+                                    <mat-label>Commercial Evaluation Number</mat-label>
+                                    <input matInput disabled [(ngModel)]="dynamicdataROA.headerRow[0].cEvaluationNumber">
+                                </mat-form-field>
+                                <mat-form-field class="w-1/4 pl-2">
+                                    <mat-label>Evaluator’s Name (Commercial)</mat-label>
+                                    <input matInput disabled [(ngModel)]="dynamicdataROA.headerRow[0].cEvaluatorName">
+                                </mat-form-field>
+                            </div>
+                
+                        </div>
+                    </div>
+                    <div class="mt-4 px-2">
+                        <div class="mt-4">
+                            <p class="font-medium text-lg mb-2">
+                                Line Type - Parts / Rental / No Parts
+                            </p>
+                            <div class="item-block basic-info mb-4 srm-bg rounded-lg px-4 py-2">
+                                <div class="relative">
+                                    <!-- Products list -->
+                                    <div class="flex flex-col flex-auto w-full">
+                                        <ng-container>
+                                            <ng-container>
+                                                <div class="grid line-items-parent2 overflow-x-auto w-full">
+                                                    <!-- Header -->
+                                                    <div class="noneditable-line-items-parent-grid2 z-10 sticky top-0 grid gap-20 pt-4 pb-2 px-2 text-secondary"
+                                                        matSort matSortDisableClear>
+                                                        <div [mat-sort-header]="'lineno'">Line #</div>
+                                                        <div [mat-sort-header]="'partid'">Part ID</div>
+                                                        <div [mat-sort-header]="'partdescription'">Part Description</div>
+                                                        <div [mat-sort-header]="'quantity'">Quantity</div>
+                                                        <div [mat-sort-header]="'uom'">UOM</div>
+                                                        <div [mat-sort-header]="'needbydate'">Need by Date</div>
+                                                        <div [mat-sort-header]="'targetprice'">Target Price</div>
+                                                        <div [mat-sort-header]="'totalprice'">Total Price</div>
+                                                        <div></div>
+                                                    </div>
+                                                    <!-- Rows -->
+                                                    <ng-container>
+                                                        <ng-container *ngFor="let item of partlines">
+                                                            <div
+                                                                class="noneditable-line-items-parent-grid2 grid items-center gap-20 py-px px-2 custom-tbl-row">
+                                                                <div class="truncate">{{item.lineNumber}}</div>
+                                                                <div>{{item.pcName}}</div>
+                                                                <div>{{item.partDescirption}}</div>
+                                                                <div>{{item.purchaseQty}}</div>
+                                                                <div>{{item.baseUnit}}</div>
+                                                                <div>{{item.wantedDate}}</div>
+                                                                <div>{{item.targetPrice}}</div>
+                                                                <div>{{item.totalPrice}}</div>
+                                                                <!-- <div class="ml-auto">
+                                                                    <button class="px-2 leading-6" mat-icon-button
+                                                                        (click)="item.expand = !item.expand">
+                                                                        <mat-icon color="primary" class="icon-size-6"
+                                                                            [svgIcon]="item.expand? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                                        </mat-icon>
+                                                                    </button>
+                                                                </div> -->
+                                                            </div>
+                                                            <div class="overflow-auto">
+                                                                <!-- <ng-container *ngIf="item.expand"> -->
+                                                                    <ng-container *ngIf="true">
+                                                                    <div class="overflow-hidden">
+                                                                        <div class="flex w-full">
+                                                                            <!-- Selected product details panel -->
+                                                                            <div class="w-full mt-4 py-2 srm-bg rounded-lg">
+                                                                                <p class="font-medium text-lg mb-2">
+                                                                                    Supplier Response
+                                                                                </p>
+                
+                                                                                <div
+                                                                                    class="grid awardline-grid-parent overflow-x-auto w-full">
+                                                                                    <!-- Header -->
+                                                                                    <div class="awardline-grid z-10 sticky top-0 grid gap-4 pt-4 pb-2 px-2 text-secondary"
+                                                                                        matSort matSortDisableClear>
+                                                                                        <div [mat-sort-header]="'unitprice'">Unit Price
+                                                                                        </div>
+                                                                                        <div [mat-sort-header]="'discount'">Discount
+                                                                                        </div>
+                                                                                        <div [mat-sort-header]="'finalunitprice'">Final
+                                                                                            Unit
+                                                                                            Price</div>
+                                                                                        <div [mat-sort-header]="'totprice'">Total Price
+                                                                                        </div>
+                                                                                        <div [mat-sort-header]="'savingtarget'">Savings
+                                                                                            from
+                                                                                            Target</div>
+                                                                                        <div [mat-sort-header]="'supname'">Supplier Name
+                                                                                        </div>
+                                                                                        <div></div>
+                                                                                    </div>
+                                                                                    <!-- Rows -->
+                                                                                    <ng-container>
+                                                                                        <ng-container>
+                                                                                            <div *ngFor="let itemSR of item.supplierResponses"
+                                                                                                class="awardline-grid grid items-center gap-4 py-px pt-2 px-2 custom-tbl-row">
+                                                                                                <div class="truncate">
+                                                                                                    {{itemSR.unitPrice}}
+                                                                                                </div>
+                                                                                                <div>{{itemSR.discount}}</div>
+                                                                                                <div>{{itemSR.finalUnitPrice}}</div>
+                                                                                                <div>{{itemSR.totalPrice}}</div>
+                                                                                                <div>{{itemSR.savingsFromTarget}}</div>
+                                                                                                <div>{{itemSR.supplierName}}</div>
+                                                                                            
+                                                                                                <div class="ml-auto"
+                                                                                                    *ngIf="itemSR.isLineAwarded">
+                                                                                                    Selected for Award
+                                                                                                </div>
+                                                                                            </div>
+                
+                                                                                        </ng-container>
+                                                                                    </ng-container>
+                                                                                </div>
+                
+                                                                            </div>
+                
+                                                                        </div>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </div>
+                
+                                            </ng-container>
+                                        </ng-container>
+                
+                                        <ng-template #rowDetailsTemplate2>
+                
+                                        </ng-template>
+                
+                                        <ng-template #noProducts>
+                                            <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no
+                                                products!</div>
+                                        </ng-template>
+                
+                                    </div>
+                
+                                </div>
+                            </div>
+                        
+                        </div>
+                       
+                        <div class="chart-block">
+                            <div class="w-full">
+                                <apx-chart [series]="chartOptionsScores.series" [chart]="chartOptionsScores.chart"
+                                    [dataLabels]="chartOptionsScores.dataLabels" [plotOptions]="chartOptionsScores.plotOptions"
+                                    [yaxis]="chartOptionsScores.yaxis" [legend]="chartOptionsScores.legend" [fill]="chartOptionsScores.fill"
+                                    [stroke]="chartOptionsScores.stroke" [tooltip]="chartOptionsScores.tooltip"
+                                    [xaxis]="chartOptionsScores.xaxis" [grid]="chartOptionsScores.grid"
+                                    [states]="chartOptionsScores.states"></apx-chart>
+                            </div>
+                            <div class="w-full">
+                                <apx-chart [series]="chartOptionsTBERanks.series" [chart]="chartOptionsTBERanks.chart"
+                                    [dataLabels]="chartOptionsTBERanks.dataLabels" [plotOptions]="chartOptionsTBERanks.plotOptions"
+                                    [yaxis]="chartOptionsTBERanks.yaxis" [legend]="chartOptionsTBERanks.legend"
+                                    [fill]="chartOptionsTBERanks.fill" [stroke]="chartOptionsTBERanks.stroke"
+                                    [tooltip]="chartOptionsTBERanks.tooltip" [xaxis]="chartOptionsTBERanks.xaxis"
+                                    [grid]="chartOptionsTBERanks.grid" [states]="chartOptionsTBERanks.states"></apx-chart>
+                            </div>
+                            <div class="w-full"> 
+                                <apx-chart [series]="chartOptionsCBERanks.series" [chart]="chartOptionsCBERanks.chart"
+                                    [dataLabels]="chartOptionsCBERanks.dataLabels" [plotOptions]="chartOptionsCBERanks.plotOptions"
+                                    [yaxis]="chartOptionsCBERanks.yaxis" [legend]="chartOptionsCBERanks.legend"
+                                    [fill]="chartOptionsCBERanks.fill" [stroke]="chartOptionsCBERanks.stroke"
+                                    [tooltip]="chartOptionsCBERanks.tooltip" [xaxis]="chartOptionsCBERanks.xaxis"
+                                    [grid]="chartOptionsCBERanks.grid" [states]="chartOptionsCBERanks.states"></apx-chart>
+                            </div>
+                        
+                        </div>
+                        </div>
+                
+                        <div class="item-block basic-info mb-4 srm-bg rounded-lg px-4 py-2">
+                            <div class="flex divide-solid divide-x divide-gray-300 flex-row">
+                                <div class="w-full relative">
+                                    <p class="font-medium text-lg mb-2">
+                                        Best Overall Supplier (Recommendation)
+                                    </p>
+                                    <div class="item-block basic-info mb-4 srm-bg rounded-lg px-4 py-2">
+                                        <!-- Products list -->
+                                        <div class="flex flex-col flex-auto w-full" *ngIf="dynamicdataROA">
+                                            <ng-container>
+                                                <ng-container>
+                                                    <div class="grid overall-supplier-grid-parent overflow-x-auto w-full">
+                                                        <!-- Header -->
+                                                        <div class="overall-supplier-grid z-10 sticky top-0 grid gap-4 pt-4 pb-2 px-2 text-secondary"
+                                                            matSort matSortDisableClear>
+                                                            <div [mat-sort-header]="'supp'">Supplier </div>
+                                                            <div [mat-sort-header]="'totprice'">Total Price</div>
+                                                            <div [mat-sort-header]="'savingstarget'">Savings from Target</div>
+                                                            <div [mat-sort-header]="'rank'">Rank</div>
+                                                            <div [mat-sort-header]="'tbe'">TBE</div>
+                                                            <div [mat-sort-header]="'cbe'">CBE</div>
+                
+                                                        </div>
+                                                        <!-- Rows -->
+                                                        <ng-container>
+                                                            <ng-container>
+                                                                <div *ngFor="let item of  dynamicdataROA.overallRecommendation"
+                                                                    class="overall-supplier-grid grid items-center gap-4 py-px pt-2 pb-2 px-2 white-bg custom-tbl-row">
+                                                                    <div>{{item.supplierName}}</div>
+                                                                    <div>{{item.totalPrice}}</div>
+                                                                    <div>{{item.savingsFromTargetPrice}}</div>
+                                                                    <div>{{item.supplierRank}}</div>
+                                                                    <div>{{item.tbe}}</div>
+                                                                    <div>{{item.cbe}}</div>
+                
+                                                                </div>
+                
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-container>
+                
+                                            <ng-template #noProducts>
+                                                <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no
+                                                    Suppliers!</div>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-1/3 flex flex-col items-center justify-center"
+                                    *ngIf="!isSupplierSame && scoreRecommendation && rankRecommendation">
+                                    <p class="font-medium text-lg mb-2">
+                                        Price based Recommendation
+                                    </p>
+                                    <div class="bg-white py-2 px-4 text-lg font-bold text-primary shadow-md rounded-md">
+                                        {{scoreRecommendation.supplierName}}
+                                    </div>
+                                    <p class="font-medium text-lg mb-2">
+                                        Rank based Recommendation
+                                    </p>
+                                    <div class="bg-white py-2 px-4 text-lg font-bold text-primary shadow-md rounded-md">
+                                        {{rankRecommendation.supplierName}}
+                                    </div>
+                                </div>
+                                <div class="w-1/3 flex flex-col items-center justify-center"
+                                    *ngIf="isSupplierSame && scoreRecommendation && rankRecommendation">
+                                    <p class="font-medium text-lg mb-2">
+                                        Recommendation
+                                    </p>
+                                    <div class="bg-white py-2 px-4 text-lg font-bold text-primary shadow-md rounded-md">
+                                        {{scoreRecommendation.supplierName}}
+                                    </div>
+                
+                                </div>
+                            </div>
+                        </div>
+            
+             
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

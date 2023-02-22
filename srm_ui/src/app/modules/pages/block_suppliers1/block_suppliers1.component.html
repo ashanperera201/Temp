@@ -1,0 +1,104 @@
+<div class="block_suppliers1-page flex flex-col flex-auto min-w-0 sm:p-6 md:p-8">
+    <div class="text-supplier-block text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+        Supplier Block
+    </div>
+    <div class="text-supplier-action text-2xl font-cairo font-bold tracking-tight leading-8 mb-10">
+        Action - Block Suppliers
+    </div>
+
+    <div class="relative">
+        <div class="srm-bg rounded-lg rounded-t-none">
+            <div class="flex flex-col flex-wrap pt-4 sm:flex-row items-center max-w-xs sm:max-w-none">
+
+                <!-- Search options -->
+                <div class="mr-4">
+                    <mat-form-field
+                        class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-100 mt-4 sm:mt-0 mr-1 mb-3">
+                        <div class="text-secondary px-4" matPrefix>Supplier Number</div>
+                        <mat-select (selectionChange)="filterData('SupplierNo', $event.value)">
+                            <mat-option [value]="sup1.value" *ngFor="let sup1 of suppliers1">{{sup1.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field
+                        class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-100 mt-4 sm:mt-0 mr-1 mb-3">
+                        <div class="text-secondary px-4" matPrefix>Supplier Name</div>
+                        <mat-select (selectionChange)="filterData('SupplierName', $event.value)">
+                            <mat-option value="xyz Corporation">ZXY Corporation</mat-option>
+                            <mat-option value="abc Corporation">ABC Corporation</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+
+
+
+                    <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'" (click)="resetFilter()">
+                        <span class="mx-8">Reset filters</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- table -->
+            <div class="overflow-auto pt-8 bg-gray-50 rounded-lg">
+                <table mat-table [dataSource]="dataSource" multiTemplateDataRows
+                    class="expanded-rows-table font-helvetica text-gray-500" style="width: calc(100% - 2px);">
+                    <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+                        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                        <td mat-cell *matCellDef="let element; let i = dataIndex"> {{element[column]}} </td>
+                    </ng-container>
+
+                    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="columnsToDisplay.length">
+                            <div class="example-element-detail"
+                                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                            </div>
+                            <div class="example-element-description">
+                                <form class="example-form">
+                                    <mat-form-field class="example-full-width" appearance="fill">
+                                        <input matInput #message maxlength="256" (blur)="updateRow(element, message.value, i)"
+                                            placeholder="Enter the Reason for Supplier Block">
+                                    </mat-form-field>
+                                </form>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                        <tr>
+                            <th mat-header-cell *matHeaderCellDef></th>
+                        </tr>
+                        <td mat-cell *matCellDef="let row" style="width:30%">
+                            <button mat-icon-button color="bg-gray-50">
+                                <mat-icon>mode_comment</mat-icon>
+                            </button>
+                            <button mat-icon-button color="bg-gray-50">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+                        [class.example-expanded-row]="expandedElement === element"
+                        (click)="expandedElement = expandedElement === element ? null : element">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                </table>
+
+            </div>
+
+        </div>
+
+        <!--button-->
+        <div class="flex justify-end ml-auto p-6">
+            <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
+                <span class="mx-8">Back</span>
+            </button>
+            <button class="sm:inline-flex mr-4" mat-raised-button [color]="'primary'" (click)="saveTable()">
+                <span class="mx-8">Proceed</span>
+            </button>
+        </div>

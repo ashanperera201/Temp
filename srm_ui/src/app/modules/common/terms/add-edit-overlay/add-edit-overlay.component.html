@@ -1,0 +1,181 @@
+<div class="min-w-full p-2 w-80vw">
+    <form class="flex flex-col w-full" [formGroup]="termsConditionList"
+        (ngSubmit)="onFormSubmit(termsConditionList.value)">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                {{title}} Terms & Conditions
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+            <div class="flex">
+                <div class="w-full">
+                    <div class="flex w-full">
+                        <div class="w-full">
+                            <!-- added new -->
+                            <div>
+                                <!-- added new -->
+                                <div class="flex flex-col">
+                                    <!-- added new -->
+                                    <div class="flex w-full">
+                                        <div class="flex flex-col w-1/2 pr-2">
+                                            <mat-form-field class="w-full">
+                                                <mat-label>Name</mat-label>
+                                                <input matInput formControlName="termsConditions"
+                                                    (change)="onNameChange($event.target.value)"
+                                                    (input)="onNameInput($event.target.value)" />
+                                                <mat-error
+                                                    *ngIf="!termsConditionList.get('termsConditions').valid && termsConditionList.get('termsConditions').touched">
+                                                    <span
+                                                        *ngIf="termsConditionList.controls['termsConditions'].hasError('required')">
+                                                        You must provide a <strong>name</strong>
+                                                    </span>
+                                                    <span
+                                                        *ngIf="termsConditionList.get('termsConditions').hasError('duplicate')">
+                                                        Name already exists
+                                                    </span>
+                                                </mat-error>
+                                            </mat-form-field>
+                                            <div *ngIf="false" class="w-full">
+                                                <p class="my-2 font-medium mt-2 text-default">
+                                                    Editable
+                                                </p>
+                                                <mat-radio-group class="flex" [color]="'primary'"
+                                                    formControlName="isEditable">
+                                                    <mat-radio-button class="mb-2 mr-4" [value]="true">
+                                                        Yes
+                                                    </mat-radio-button>
+                                                    <mat-radio-button class="mb-2 mr-4" [value]="false">
+                                                        No
+                                                    </mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                            <div *ngIf="!this.rfqId" class="w-full">
+                                                <p class="mb-2 font-medium mt-4 text-default">
+                                                    Set as Default
+                                                </p>
+                                                <div class="flex flex-wrap">
+                                                    <mat-checkbox class="flex items-end mb-4 mr-4" [color]="'primary'"
+                                                        formControlName="isRFQ">
+                                                        RFQ
+                                                    </mat-checkbox>
+                                                    <mat-checkbox class="flex items-end mb-4 mx-4" [color]="'primary'"
+                                                        formControlName="isRFAQ">
+                                                        RFAQ
+                                                    </mat-checkbox>
+                                                    <mat-checkbox class="flex items-end mb-4 mx-4" [color]="'primary'"
+                                                        formControlName="isRFI">
+                                                        RFI
+                                                    </mat-checkbox>
+                                                    <mat-checkbox class="flex items-end mb-4 mx-4" [color]="'primary'"
+                                                        formControlName="isPO">
+                                                        PO
+                                                    </mat-checkbox>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="flex flex-col w-1/2 pl-4">
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium text-default">
+                                                    Before Quote
+                                                </p>
+                                                <mat-radio-group class="flex flex-wrap" [color]="'primary'"
+                                                    formControlName="beforeQuoteId"
+                                                    (change)="OnBeforeQuoteChange($event)">
+                                                    <mat-radio-button class="mb-2 mr-4"
+                                                        *ngFor="let terms of termsConditionTypes" [value]="terms.id">
+                                                        {{terms.text}}
+                                                    </mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium mt-5 text-default">
+                                                    End of Quote
+                                                </p>
+                                                <mat-radio-group class="flex flex-wrap" [color]="'primary'"
+                                                    formControlName="submitQuoteId"
+                                                    (change)="OnSubmitQuoteChange($event)">
+                                                    <mat-radio-button class="mb-2 mr-4"
+                                                        *ngFor="let terms of termsConditionTypes" [value]="terms.id">
+                                                        {{terms.text}}
+                                                    </mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="w-full my-4">
+                                        <p class="my-2 font-medium mt-2 text-default">
+                                            Input Type
+                                        </p>
+                                        <mat-radio-group class="flex" [color]="'primary'" formControlName="inputType"
+                                            (change)="OnInputTypeChange($event)">
+                                            <mat-radio-button class="mb-2 mr-4" [value]="'Word'">
+                                                Word
+                                            </mat-radio-button>
+                                            <mat-radio-button class="mb-2 mr-4" [value]="'Attachment'">
+                                                Attachment
+                                            </mat-radio-button>
+                                            <mat-radio-button class="mb-2 mr-4" [value]="null">
+                                                None
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                        <!-- replace below as per logics -->
+                                        <div class="flex align-center w-1/2" *ngIf="EInputType=='Attachment'">
+                                            <mat-form-field class="w-full">
+                                                <input type="hidden" formControlName="etMediaId">
+                                                <input type="file" #file placeholder="Choose file"
+                                                    (change)="uploadFile(file.files)" readonly hidden>
+                                                <input matInput readonly name="filename" formControlName="fileName">
+                                                <button matSuffix mat-icon-button color="warn" type="button"
+                                                    *ngIf="isDeleteandDownloadEnabledVisible" (click)="DeleteFile()">
+                                                    <mat-icon class="icon-size-5 text-warn"
+                                                        [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                                </button>
+                                                <mat-icon matSuffix class="icon-size-5 text-secondary"
+                                                    [disabled]="disabled" (click)="DownloadMedia()"
+                                                    [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                            </mat-form-field>
+                                            <div class="pl-2">
+                                                <button class="sm:inline-flex" type="button" (click)="file.click()"
+                                                    mat-stroked-button [color]="'primary'">
+                                                    <mat-icon class="icon-size-5 mx-2" [svgIcon]="'mat_outline:upload'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <quill-editor class="w-full mt-2" *ngIf="EInputType=='Word'"
+                                            formControlName="wordData" [modules]="quillModules"></quill-editor>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col justify-start mt-5">
+                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                    <span>{{'Successfully saved'}}</span>
+                </div>
+                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                    <span>{{'Something went wrong'}}</span>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" [disabled]="!termsConditionList.valid || isSaved" mat-raised-button
+                [color]="'primary'" type="submit">
+                <span class="mx-4">{{submitButtonText}}</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

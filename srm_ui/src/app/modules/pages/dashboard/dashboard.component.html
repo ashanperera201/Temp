@@ -1,0 +1,487 @@
+
+<div class="card-div"  *ngIf="!show" >    
+    <mat-card class="example-card">
+        <mat-card-header>
+            <mat-card-title> Not authorized to view this content.</mat-card-title>
+            <mat-card-subtitle> 
+                Please contact Admin.  
+            </mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+</div>
+<div *ngIf="show" class="dashboard-page flex flex-col flex-auto min-w-0 sm:p-6 md:p-8">
+    <div class="flex justify-between">
+        <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">Dashboard</div>
+        <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" (click)="openDialog()">
+            <span class="mx-8">Add Elements</span>
+        </button>
+    </div>
+    
+    <mat-accordion multi>
+        <mat-expansion-panel class="dashboard-page-item mb-10" [(expanded)]="pendingxpandStatus"
+            (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle="true">
+            <mat-expansion-panel-header class="h-full" (click)="getPendingData(searchTerm)">
+                <div class="flex flex-col w-full">
+                    <mat-panel-title class="text-xl mb-3 blue flex justify-between">
+                        <div class="flex items-center font-cairo font-bold">
+                            <div *ngIf="panelOpenState" class="color-circle mr-2"></div>
+                            Pending Tasks
+                        </div>
+                        <div class="flex items-center">
+                            <mat-icon color="primary" (click)="getPendingData('All')" *ngIf="!panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                            <mat-icon color="primary" *ngIf="panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                        </div>
+
+                    </mat-panel-title>
+                    <mat-panel-description *ngIf="!panelOpenState" class="flex flex-col">
+                        <div class="hero-items flex items-start divide-x-2">
+
+                            <div class="hero-item flex flex-col pr-15" (click)="getPendingData('All')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{pendingVal}}</div>
+                                </div>
+                                <!-- <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">
+                                    Pending count</div> -->
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" (click)="getPendingData('All')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{pendingPerc}}%</div>
+                                </div>
+                                <!-- <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">
+                                    Pending percentage</div> -->
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" (click)="getPendingData('Normal')">
+                                <div class="flex items-center">
+                                    <div class="rounded-item-criticality normal"></div>
+                                    <div class="text-4xl text-gray-600">&nbsp;{{NonCriticalVal}}</div>
+                                </div>
+                                <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500 pt-2">
+                                    Non-Critical</div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" (click)="getPendingData('Critical')">
+                                <div class="flex items-center">
+                                    <div class="rounded-item-criticality critical"></div>
+                                    <div class="text-4xl text-gray-600">&nbsp;{{CriticalVal}}</div>
+                                </div>
+                                <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500 pt-2">
+                                    Critical</div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" (click)="getPendingData('High Critical')">
+                                <div class="flex items-center">
+                                    <div class="rounded-item-criticality highcritical"></div>
+                                    <div class="text-4xl text-gray-600">&nbsp;{{HighCriticalVal}}</div>
+                                </div>
+                                <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500 pt-2">
+                                    High-Critical</div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-HSEQ'">
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">&nbsp;</div>
+                                <div>
+                                    <mat-label class="text-3xl font-bold" style="color: rgb(36, 146, 209);">Status Wise
+                                        Counter</mat-label>
+                                </div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15 "
+                                (click)="getPendingData('Awaiting for HSEQ Desktop Audit')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600 pb-2">{{status2}}</div>
+                                </div>
+                                <div class="text-1xl text-gray-600">Awaiting for HSEQ Desktop Audit</div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15"
+                                (click)="getPendingData('Awaiting for Audit dates')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600 pb-2">{{status1}}</div>
+                                </div>
+                                <div class="text-1xl text-gray-600">Awaiting for Audit dates</div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15"
+                                (click)="getPendingData('HSEQ to Perform the Audit')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600 pb-2">{{status13}}</div>
+                                </div>
+                                <div class="text-1xl text-gray-600">HSEQ to Perform the Audit</div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15"
+                                (click)="getPendingData('Awaiting Supplier for Audit Dates')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600 pb-2">{{status4}}</div>
+                                </div>
+                                <div class="text-1xl text-gray-600">Awaiting Supplier for Audit Dates</div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15"
+                                (click)="getPendingData('Awaiting Supplier response on NCR')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600 pb-2">{{status12}}</div>
+                                </div>
+                                <div class="text-1xl text-gray-600">Awaiting Supplier response on NCR</div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15"
+                                (click)="getPendingData('Awaiting for HSEQ Recommendation')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600 pb-2">{{status3}}</div>
+                                </div>
+                                <div class="text-1xl text-gray-600">Awaiting for HSEQ Recommendation</div>
+                            </div>
+                        </div>
+
+                        <div class="hero-items flex items-start divide-x-2" style="justify-content: flex-start" *ngIf="userrole == 'IMI-SRM Analyst'">
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">&nbsp;</div>
+                                <div>
+                                    <mat-label class="text-3xl font-bold" style="color: rgb(36, 146, 209);">Status Wise
+                                        Counter</mat-label>
+                                </div>
+                            </div>
+
+                            <!-- <div class="hero-item flex flex-col pr-15 pl-15" (click)="getPendingData('New - Pending Criticality Matrix')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{status6}}</div>
+                                </div>
+                                <div class="text-2xl text-gray-600">New - Pending Criticality Matrix</div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" (click)="getPendingData('Pending Criticality Matrix')">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{status7}}</div>
+                                </div>
+                                <div class="text-2xl text-gray-600">Pending Criticality Matrix</div>
+                            </div> -->
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" style="margin-bottom: 10px;"
+                                (click)="getPendingData('Awaiting for SRM Recommendation')">
+                                <div class="flex items-center pb-2">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{status5}}</div>
+                                </div>
+                                <div class="text-2xl text-gray-600">Awaiting for SRM Recommendation</div>
+                            </div>
+                        </div>
+
+                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-GM'">
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">&nbsp;</div>
+                                <div>
+                                    <mat-label class="text-3xl font-bold" style="color: rgb(36, 146, 209);">Status Wise
+                                        Counter</mat-label>
+                                </div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" style="margin-bottom: 10px;"
+                                (click)="getPendingData('Awaiting for GM approval')">
+                                <div class="flex items-center pb-2">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{status8}}</div>
+                                </div>
+                                <div class="text-2xl text-gray-600">Awaiting for GM Approval</div>
+                            </div>
+                        </div>
+
+                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-VP'">
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">&nbsp;</div>
+                                <div>
+                                    <mat-label class="text-3xl font-bold" style="color: rgb(36, 146, 209);">Status Wise
+                                        Counter</mat-label>
+                                </div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" style="margin-bottom: 10px;"
+                                (click)="getPendingData('Awaiting for VP approval')">
+                                <div class="flex items-center pb-2">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{status9}}</div>
+                                </div>
+                                <div class="text-2xl text-gray-600">Awaiting for VP Approval</div>
+                            </div>
+                        </div>
+
+                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-Treasury Bank Reviewer'">
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">&nbsp;</div>
+                                <div>
+                                    <mat-label class="text-3xl font-bold" style="color: rgb(36, 146, 209);">Status Wise
+                                        Counter</mat-label>
+                                </div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" style="margin-bottom: 10px;"
+                                (click)="getPendingData('Awaiting Bank Details Review')">
+                                <div class="flex items-center pb-2">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{status10}}</div>
+                                </div>
+                                <div class="text-2xl text-gray-600">Awaiting Bank Details Review</div>
+                            </div>
+                        </div>
+
+                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-Treasury Bank Approver'">
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">&nbsp;</div>
+                                <div>
+                                    <mat-label class="text-3xl font-bold" style="color: rgb(36, 146, 209);">Status Wise
+                                        Counter</mat-label>
+                                </div>
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15" style="margin-bottom: 10px;"
+                                (click)="getPendingData('Awaiting Bank Details Approval')">
+                                <div class="flex items-center pb-2">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{status11}}</div>
+                                </div>
+                                <div class="text-2xl text-gray-600">Awaiting Bank Details Approval</div>
+                            </div>
+                        </div>
+                    </mat-panel-description>
+                </div>
+            </mat-expansion-panel-header>
+            <app-normal-datatable></app-normal-datatable>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="dashboard-page-item mb-10" [(expanded)]="registeredxpandStatus"
+            (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle="true">
+            <mat-expansion-panel-header class="h-full" (click)="getPendingAllData()">
+                <div class="flex flex-col w-full">
+                    <mat-panel-title class="text-xl pending-task-title mb-3 dark-green flex justify-between">
+                        <div class="flex items-center font-cairo font-bold">
+                            <div *ngIf="panelOpenState" class="color-circle pink mr-2"></div>
+                            PASS Supplier Registration
+                        </div>
+                        <div class="flex items-center">
+                            <mat-icon color="primary" (click)="getPendingAllData()" *ngIf="!panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                            <mat-icon color="primary" *ngIf="panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                        </div>
+                    </mat-panel-title>
+                    <mat-panel-description *ngIf="!panelOpenState" class="flex flex-col">
+                        <div class="hero-items flex items-start divide-x-2">
+
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">
+                                    <div class="color-circle pink mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{supplierVal}}</div>
+                                </div>
+                                <!-- <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">
+                                    All Pending tasks</div> -->
+                            </div>
+
+                            <!-- <div class="hero-item flex flex-col pr-15 pl-15">
+                                <div class="flex items-center">
+                                    <div class="color-circle pink mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{supplierPerc}}%</div>
+                                </div>
+                                <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">
+                                    All Pending percentage</div>
+                            </div> -->
+
+                        </div>
+
+
+                    </mat-panel-description>
+                </div>
+            </mat-expansion-panel-header>
+            <app-normal-reg-list></app-normal-reg-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="dashboard-page-item mb-10" [(expanded)]="emergencyxpandStatus"
+            (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle="true"
+            *ngIf="isemergencyVisible">
+            <mat-expansion-panel-header class="h-full" (click)="getPendingEmergData()">
+                <div class="flex flex-col w-full">
+                    <mat-panel-title class="text-xl pending-task-title mb-3 light-green flex justify-between">
+                        <div class="flex items-center font-cairo font-bold">
+                            <div *ngIf="panelOpenState" class="color-circle aqua mr-2"></div>
+                            Emergency Suppliers
+                        </div>
+                        <div class="flex items-center">
+                            <mat-icon color="primary" (click)="getPendingEmergData()" *ngIf="!panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                            <mat-icon color="primary" *ngIf="panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                        </div>
+                    </mat-panel-title>
+                    <mat-panel-description *ngIf="!panelOpenState" class="flex flex-col">
+                        <div class="hero-items flex items-start divide-x-2">
+
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">
+                                    <div class="color-circle aqua mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{EmergVal}}</div>
+                                </div>
+                                <!-- <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">
+                                    Pending count</div> -->
+                            </div>
+
+                            <div class="hero-item flex flex-col pr-15 pl-15">
+                                <div class="flex items-center">
+                                    <div class="color-circle aqua mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{EmergPerc}}%</div>
+                                </div>
+                                <!-- <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">
+                                    Pending percentage</div> -->
+                            </div>
+
+                            <!-- <div class="hero-item flex flex-col pr-15 pl-15">
+                                <div class="flex items-center">
+                                    <div class="color-circle aqua mr-2"></div>
+                                    <div class="text-4xl text-gray-600">53%</div>
+                                </div>
+                                <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">Pending tasks</div>
+                            </div> -->
+
+                        </div>
+                    </mat-panel-description>
+                </div>
+            </mat-expansion-panel-header>
+            <app-emerg-pending-list></app-emerg-pending-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="dashboard-page-item mb-10" [(expanded)]="invitexpandStatus"
+            (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle="true"
+            *ngIf="isinviteVisible">
+            <mat-expansion-panel-header class="h-full" (click)="getInviteData()">
+                <div class="flex flex-col w-full">
+                    <mat-panel-title class="text-xl pending-task-title mb-3 lighter-green flex justify-between">
+                        <div class="flex items-center font-cairo font-bold">
+                            <div *ngIf="panelOpenState" class="color-circle green mr-2"></div>
+                            Invite Suppliers
+                        </div>
+                        <div class="flex items-center">
+                            <mat-icon color="primary" (click)="getInviteData()" *ngIf="!panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                            <mat-icon color="primary" *ngIf="panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                        </div>
+                    </mat-panel-title>
+                    <mat-panel-description *ngIf="!panelOpenState" class="flex flex-col">
+                        <div class="hero-items flex items-start divide-x-2">
+
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">
+                                    <div class="color-circle green mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{InviteVal}}</div>
+                                </div>
+                                <!-- <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">
+                                    invite count</div> -->
+                            </div>
+
+                            <!-- <div class="hero-item flex flex-col pr-15 pl-15">
+                                <div class="flex items-center">
+                                    <div class="color-circle green mr-2"></div>
+                                    <div class="text-4xl text-gray-600">29%</div>
+                                </div>
+                                <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">Pending tasks</div>
+                            </div> -->
+
+                        </div>
+                    </mat-panel-description>
+                </div>
+            </mat-expansion-panel-header>
+            <app-invite-supplier-list></app-invite-supplier-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="dashboard-page-item mb-10" [(expanded)]="supplierPerformanceExpandStatus"
+            (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle="true"
+            *ngIf="isSupplierPerformanceVisible">
+            <mat-expansion-panel-header class="h-full" (click)="getSupplierPerformanceData()">
+                <div class="flex flex-col w-full">
+                    <mat-panel-title class="text-xl pending-task-title mb-3 light-green flex justify-between">
+                        <div class="flex items-center font-cairo font-bold">
+                            <div *ngIf="panelOpenState" class="color-circle aqua mr-2"></div>
+                            Supplier Performance
+                        </div>
+                        <div class="flex items-center">
+                            <mat-icon color="primary" (click)="getSupplierPerformanceData()" *ngIf="!panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                            <mat-icon color="primary" *ngIf="panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                        </div>
+                    </mat-panel-title>
+                </div>
+            </mat-expansion-panel-header>
+            <app-review-to-do-list></app-review-to-do-list>
+        </mat-expansion-panel>
+
+    </mat-accordion>
+
+    <mat-accordion multi>
+        <mat-expansion-panel class="dashboard-page-item mb-10" *ngFor="let item of userTemplateStat; let i = index;"
+            (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle="true">
+            <mat-expansion-panel-header class="h-full">
+                <div class="flex flex-col w-full">
+                    <mat-panel-title class="text-xl mb-3 blue flex justify-between">
+                        <div class="flex items-center font-cairo font-bold">
+                            <div *ngIf="panelOpenState" class="color-circle mr-2"></div>
+                            {{item.templateName}}
+                            <div *ngIf="panelOpenState" (click)="$event.stopPropagation();">
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+                                    <mat-icon color="primary" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <div>
+                                        <button mat-menu-item>
+                                            <button class="flex items-center"
+                                                (click)="deleteUserTemplate(item.templateId)">
+                                                <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                                <span>Delete Template</span>
+                                            </button>
+                                        </button>
+                                    </div>
+                                </mat-menu>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <mat-icon color="primary" *ngIf="!panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                            <mat-icon color="primary" *ngIf="panelOpenState"
+                                svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                        </div>
+
+                    </mat-panel-title>
+                    <mat-panel-description *ngIf="!panelOpenState" class="flex flex-col">
+                        <div class="hero-items flex items-start divide-x-2">
+
+                            <div class="hero-item flex flex-col pr-15">
+                                <div class="flex items-center">
+                                    <div class="color-circle mr-2"></div>
+                                    <div class="text-4xl text-gray-600">{{item.totcount}}</div>
+                                </div>
+                                <!-- <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500">
+                                    Total count</div> -->
+                            </div>
+                        </div>
+                    </mat-panel-description>
+                </div>
+            </mat-expansion-panel-header>
+            <dash-item-tag-datatable [itemNo]="item.templateId"></dash-item-tag-datatable>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

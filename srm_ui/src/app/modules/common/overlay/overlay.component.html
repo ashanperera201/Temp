@@ -1,0 +1,405 @@
+<div class="min-w-full p-4">
+    <mat-dialog-content class="min-w-full" style="max-height: 79vh !important; height: 613px !important;">
+        <div class="pb-4">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Criticality Matrix
+            </div>
+
+            <!-- <div class="text-3xl font-cairo font-bold mb-6">
+                <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:close'" style="float: right;
+                margin-right: 8px;
+                margin-top: -60px;
+                z-index: 999;cursor: pointer;" (click)="doAction()">x</mat-icon> 
+            </div>-->
+            <div class="loader-inline" *ngIf="isloading">
+                <img src="assets/images/xitricon-loader.gif" alt="loading">
+            </div>
+            <div class="overflow-auto srm-bg rounded-lg">
+                <form class="flex flex-col w-full" [formGroup]="criticalitysummary">
+                    <div class="flex flex-col sm:flex-row p-6">
+                        <div class="flex flex-auto flex-wrap">
+                            <div class="flex flex-col w-full" >
+
+                                <div class="flex">
+                                    <mat-form-field class="w-1/2 pr-2">
+                                        <mat-label>Supplier Code </mat-label>
+                                        <input matInput value="{{allData.supplierCode}}" readonly>
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/2 pl-2">
+                                        <mat-label>Name (in English) </mat-label>
+                                        <input matInput value="{{allData.supplierName}}" readonly>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="flex">
+                                    <mat-form-field class="w-1/2 pr-2">
+                                        <mat-label>Supplier Status</mat-label>
+                                        <input matInput value="{{allData.supplierStatus}}" readonly>
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/4 pl-2 relative">
+                                        <mat-label>Criticality Score</mat-label>
+                                        <input matInput value="{{selectedItemsList.length}}" readonly>
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/4 pl-2 relative" *ngIf="selectedItemsList.length > 0">
+                                        <mat-label>Criticality Matrix 
+                                        </mat-label>
+                                        <input matInput *ngIf="selectedItemsList.length > 7 || selectedItemsList.length === 7" value="{{'High Critical'}}" readonly>
+                                        <input matInput *ngIf="selectedItemsList.length === 5 || selectedItemsList.length === 6" value="{{'Critical'}}" readonly>
+                                        <input matInput *ngIf="selectedItemsList.length < 5" value="{{'Non Critical'}}" readonly>
+                                        <input matInput *ngIf="selectedItemsList.length == 0 || selectedItemsList.length == null" value="{{'Not Performed Yet'}}" readonly>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="w-1/2 pr-2">
+                                        <mat-label>Supplier Type</mat-label>
+                                        <input matInput value="{{allData.supplierType}}" readonly>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="py-4">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Category List
+            </div>
+            <div class="overflow-auto srm-bg rounded-lg">
+                <!-- <datatable></datatable> -->
+            </div>
+        </div>
+        
+        <div fxLayout="row" fxLayoutAlign="start center" id="categorytable" #categorytable>
+            <div fxFlex="100" class="pr-4">
+                <table style="border: 1px solid #ababab; width: 90%;" mat-table [dataSource]="dataSourceAll" #mytable
+                    class="my-table mat-elevation-z8">
+                    
+                    <ng-container matColumnDef="id">
+                        <th style=" background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900;
+    color: black;" mat-header-cell *matHeaderCellDef> S. No </th>
+                        <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let element; let i = index">
+                            {{i + 1}}
+                        </td>
+                    </ng-container>
+    
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="generalCategory">
+                        <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900;
+      color: black;" mat-header-cell *matHeaderCellDef> General Category </th>
+                        <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let element">
+                            {{element.generalCategory}}
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="subCategory">
+                        <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900;
+      color: black;" mat-header-cell *matHeaderCellDef> Sub Category </th>
+                        <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let element"> {{element.subCategory}}
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="detailCategory">
+                        <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900;
+      color: black;" mat-header-cell *matHeaderCellDef> Detail Category </th>
+                        <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let element">
+                            {{element.detailCategory}}
+                        </td>
+                    </ng-container>
+    
+                    <!-- <ng-container matColumnDef="isChecked">
+                      <th style=" display: none;     background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900;
+      color: black;" mat-header-cell *matHeaderCellDef> Is Checked </th>
+                      <td style=" display: none; border: 1px solid #ababab;" mat-cell *matCellDef="let element">
+                          {{element.isChecked}}
+                      </td>
+                  </ng-container> -->
+    
+    
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                        <th style="    background-color: #f1f1f1;text-align: center;   border: 1px solid #ababab; font-weight: 900;
+      color: black;" mat-header-cell *matHeaderCellDef> Action </th>
+                        <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let element" class="action-link">
+                            <!-- <a (click)="openDialog('Update',element)">Edit</a> |  -->
+                            <label class="switch">
+                                <input type="checkbox" name="" id="" [(ngModel)]="element.isSRMChecked"
+                                    [disabled]="waitingmoerinfo || workflowcreated || !IsperformCriticality || hseq_visible">
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="switch" hidden>
+                                {{element.isSRMChecked ? 'Yes' : 'No'}}
+                            </label>
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="hseqaction">
+                        <th style="background-color: #f1f1f1;text-align: center; border: 1px solid #ababab; font-weight: 900; color: black;"
+                            mat-header-cell *matHeaderCellDef> HSEQ Action </th>
+                        <td style="border: 1px solid #ababab;" mat-cell *matCellDef="let element" class="action-link">
+                            <!-- <a (click)="openDialog('Update',element)">Edit</a> |  -->
+                            <label class="switch">
+                                <input type="checkbox" name="" id="" [(ngModel)]="element.isHSEQChecked" [disabled]="!hseq_visible">
+                                    <!-- (click)="hseqCategoryUpdate(element.position)" -->
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="switch" hidden>
+                                {{element.isHSEQChecked ? 'Yes' : 'No'}}
+                            </label>
+                            <!-- <mat-slide-toggle [(ngModel)]="element.isHSEQChecked">
+                                <label *ngIf="element.isHSEQChecked == true" >Approved</label>
+                                <label *ngIf="element.isHSEQChecked != true" >Rejected</label>
+                            </mat-slide-toggle> -->
+                        </td>
+                    </ng-container>
+    
+    
+                    <tr style="text-align: center;" mat-header-row *matHeaderRowDef="displayedCategoriesColumns"></tr>
+                    <tr style="text-align: center;" mat-row *matRowDef="let row; columns: displayedCategoriesColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    
+        <br />
+        
+        <div class="py-4">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Scope of Supply
+            </div>
+            <div class="overflow-auto srm-bg rounded-lg">
+                <!-- <datatable></datatable> -->
+            </div>
+        </div>
+
+<div fxLayout="row" fxLayoutAlign="start center" id="htmlData" #htmlData>
+        <div fxFlex="100" class="pr-4">
+            <table style="border-collapse: collapse; width: 100%;background-color: white;zoom: 0.8 !Important;"
+                mat-table  [dataSource]="checkboxesDataList" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef style="border: none solid #dddddd; background-color: white;
+        text-align: left;
+        padding: 24px;    display: none;color:black;"> </th>
+                    <td mat-cell *matCellDef="let element" style="border: 1px solid #dddddd;
+        text-align: left;
+        padding: 24px;color:black;">
+                        {{element.position}}
+
+
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="scope">
+                    <th mat-header-cell *matHeaderCellDef style="border: none solid #dddddd; background-color: white;
+        text-align: left;
+        padding: 24px;    display: none;color:black;"> </th>
+                    <td mat-cell *matCellDef="let element" style="border: 1px solid #dddddd;
+        text-align: left;
+        padding: 24px;color:black;"> {{element.scope}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="check">
+                    <th mat-header-cell *matHeaderCellDef style="border: none solid #dddddd; background-color: white;
+        text-align: left;
+        padding: 24px;    display: none;color:black;"> </th>
+                    <td mat-cell *matCellDef="let element" style="border: 1px solid #dddddd;
+        text-align: left;
+        padding: 24px;color:black;">
+                        <!-- {{element.check}} -->
+                        <label class="switch">
+                            <input type="checkbox" name="" id="" [(ngModel)]="element.check"
+                                [disabled]="waitingmoerinfo || workflowcreated || !IsperformCriticality"
+                                (change)="changeSelection()">
+                            <span class="slider round"></span>
+                        </label>
+                        <label class="switch" hidden>
+                            {{element.check ? 'Yes' : 'No'}}
+                        </label>
+                    </td>
+                </ng-container>
+
+                <tr mat-row *matRowDef="let row; columns: displayedCategoriesColumnsNew;">
+                </tr>
+
+                <tr mat-header-row style="display: none;" *matHeaderRowDef="displayedCategoriesColumnsNew"></tr>
+
+
+
+
+
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="performcriticalityvalue && issrm" fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex="100" class="pr-4">
+            <table style="border-collapse: collapse; width: 100%;">
+                <tr style="background-color: white;">
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 25px 5px;"> </td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Total Number of "Yes" Scored
+                    </td>
+                    <td
+                        style="border: 1px solid #dddddd; text-align: left; padding: 8px; color:red; text-align:center;width: 188px;font-weight: 900;">
+                        {{selectedItemsList.length}}
+
+                        <div style=" color: black;   " *ngIf="selectedItemsList.length > 0">
+
+                            <div id="matrix" style=" color: red; "
+                                *ngIf="selectedItemsList.length > 7 || selectedItemsList.length === 7">
+                                Highly Critical
+                            </div>
+
+                            <div id="matrix" style=" color: Orange;   "
+                                *ngIf="selectedItemsList.length === 5 || selectedItemsList.length === 6">
+                                Critical
+                            </div>
+
+                            <div id="matrix" style=" color: rgb(0, 204, 255);   " *ngIf="selectedItemsList.length < 5">
+                                Non Critical
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+
+                <tr style="background-color: white;">
+                    <td style="border: 1px solid #dddddd;
+        text-align: left;
+        
+        padding: 25px 5px;"> </td>
+                    <td style="border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;">*Rating >= 7 Yes will be considered as "Highly Critical" and require site audit.</td>
+                    <td style="border: 1px solid #dddddd;
+        text-align: left;
+        padding: 24px;
+        text-align:center;width: 188px;">
+                        Highly Critical
+
+                    </td>
+                </tr>
+
+                <tr style="background-color: white;">
+                    <td style="border: 1px solid #dddddd;
+        text-align: left;
+        
+        padding: 25px 5px;"> </td>
+                    <td style="border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;">*Rating 5 Yes to 6 Yes will be considered as "Critical" and requires a desk review all
+                        required document.</td>
+                    <td style="border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        text-align:center;width: 188px;">
+                        Critical
+
+
+                    </td>
+                </tr>
+
+                <tr style="background-color: white;">
+                    <td style="border: 1px solid #dddddd;
+        text-align: left;
+        
+        padding: 25px 5px;"> </td>
+                    <td style="border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;">*Rating less than 5 Yes will be considered as "Non Critical".</td>
+                    <td style="border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        text-align:center;width: 188px;">
+                        Non Critical
+
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    
+<!-- </div> -->
+        <!-- <div class="flex flex-col text-base w-2/3">
+            <div class="flex justify-between my-2">
+                <p class="font-normal mt-2 w-4/5 text-default">
+                    Total number of “Yes” Scored.
+                </p>
+                <p class="font-bold mt-2 w-1/5 text-warn text-right">
+                    05 Critical
+                </p>
+            </div>
+            <div class="flex justify-between my-2">
+                <p class="font-normal mt-2 w-4/5 text-default">
+                    *Rating>=7 “Yes” will be considered as “High Critical” and require site audit.
+                </p>
+                <p class="font-bold mt-2 w-1/5 text-default text-right">
+                    High Critical
+                </p>
+            </div>
+            <div class="flex justify-between my-2">
+                <p class="font-normal mt-2 w-4/5 text-default">
+                    *Rating 5 “Yes”  to 6 “Yes”  will be considered as “Critical” and require a desk review all required documents.
+                </p>
+                <p class="font-bold mt-2 w-1/5 text-default text-right">
+                    Critical
+                </p>
+            </div>
+            <div class="flex justify-between my-2">
+                <p class="font-normal mt-2 w-4/5 text-default">
+                    *Rating 5 “Yes”  to 6 “Yes”  will be considered as “Critical” and require a desk review all required documents.
+                </p>
+                <p class="font-bold mt-2 w-1/5 text-green text-right">
+                    Non Critical
+                </p>
+            </div>
+        </div>
+    </mat-dialog-content> -->
+    <div class="flex justify-start mt-5 flex-col">
+        <div class="flex align-center text-warn font-medium mb-2"  *ngIf="iserrorHSEQ">
+            <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+            <span>{{errormessageHSEQ}}</span>
+        </div>
+        <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccessHSEQ">
+            <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+            <span>{{successmessageHSEQ}}</span>
+        </div>
+    </div>   
+    
+    <div class="flex justify-start mt-5 flex-col">
+        <div class="flex align-center text-warn font-medium mb-2"  *ngIf="iserrorSaved">
+            <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+            <span>{{errormessageSaved}}</span>
+        </div>
+        <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccessSaved">
+            <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+            <span>{{successmessageSaved}}</span>
+        </div>
+    </div>   
+    
+    <mat-dialog-actions class="flex justify-end">
+        <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()">Close</button>
+        <button mat-button  class="sm:inline-flex ml-2" mat-stroked-button [color]="'primary'" (click)="openPDF()" style="width: 125px;">
+           <span class="mx-8">Download PDF</span>              
+       </button>
+        <span *ngIf="performcriticalityvalue && issrm">
+            <button  style="width: 125px;" *ngIf="!onlysaveandsubmit" class="sm:inline-flex ml-4" mat-stroked-button [color]="'primary'" mat-button (click)="closeDialog()"
+            [disabled]="waitingmoerinfo || workflowcreated || !IsperformCriticality" >
+                <span class="mx-8">Save</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" (click)="closeDialogAfterSubmit()"
+            [disabled]="waitingmoerinfo || workflowcreated || !IsperformCriticality" >
+                <span class="mx-8">Save & Submit</span>
+            </button>
+        </span>
+        <div *ngIf="hseq_visible">
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" (click)="hseqAction()">Save HSEQ Action</button>
+        </div>
+    </mat-dialog-actions>
+    
+    
+
+<!-- </div> -->

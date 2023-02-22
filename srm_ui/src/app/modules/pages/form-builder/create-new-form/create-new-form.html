@@ -1,0 +1,212 @@
+<div style="margin-top:10px;" class="dashboard-page flex flex-col flex-auto min-w-0">
+  <div class="flex">
+    <div class="flex flex-col w-1/2 mr-2">
+      <div>
+        <mat-form-field class="w-1/2 pr-2" appearance="fill">
+          <mat-label class="required-field">Form Name</mat-label>
+          <input type="text" matInput [formControl]="nameFormControl" [(ngModel)]="formName" [readonly]="disableForm">
+          <mat-error *ngIf="nameFormControl.hasError('required')">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="w-1/2 pr-2" appearance="fill">
+          <mat-label class="required-field">Title</mat-label>
+          <input type="text" matInput [formControl]="titleFormControl" [(ngModel)]="formData.formTitle"
+            [readonly]="disableForm">
+          <mat-error *ngIf="titleFormControl.hasError('required')">
+            Title is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="flex align-baseline">
+        <mat-form-field class="w-1/2 pr-2" appearance="fill">
+          <mat-label>Subtitle</mat-label>
+          <input type="text" matInput [formControl]="subTitleFormControl" [(ngModel)]="formData.formSubTitle"
+            [readonly]="disableForm">
+        </mat-form-field>
+      </div>
+      <div class="pb-8">
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="formType"
+          [formControl]="formTypeFormControl" [disabled]="disableForm">
+          <mat-radio-button class="example-radio-button" *ngFor="let service of services" [value]="service"
+            color="primary">
+            {{service}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+          <mat-icon [svgIcon]="'heroicons_outline:information-circle'" class="mr-2 pt-2 text-warn"></mat-icon>
+          <span>{{errormessage}}</span>
+        </div>
+      </div>
+      <mat-label style="font-weight: 420">Logo</mat-label>
+      <div class="flex">
+        <mat-form-field class="flex flex-col align-center mr-1 w-1/2 pr-2">
+          <input matInput readonly hidden>
+          <input matInput value="{{ logoFileName }}" readonly style="width: 800px">
+          <input matInput readonly>
+          <mat-icon style="cursor: pointer;" matSuffix class="icon-size-5 text-secondary"
+            [svgIcon]="'heroicons_outline:paper-clip'" (click)="downloadAttachment('logo', logoFileInput); "></mat-icon>
+          <button *ngIf="logoFileUploader.queue[0]" mat-icon-button class="flex mt-1"
+            (click)="logoFileUploader.queue[0].remove();removeFile('logo')" [disabled]="disableForm">
+            <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+          </button>
+        </mat-form-field>
+
+        <button type="button" mat-stroked-button [color]="'primary'" (click)="logoFileInput.click()"
+          [disabled]="disableForm">
+          <mat-icon class="icon-size-5 mx-2" [svgIcon]="'mat_outline:upload'"></mat-icon>
+        </button>
+
+        <span hidden>
+          <input type="file" name="logo" #logoFileInput ng2FileSelect [uploader]="logoFileUploader"
+            (click)="onFileClick($event)" (change)="onAttachment($event, 'logo')" [formControl]="requiredBasicData"
+            accept=".jpg, .jpeg" />
+        </span>
+      </div>
+      <div class="flex justify-start mt-5 flex-col">
+        <div class="flex align-center text-warn font-medium mb-2" *ngIf="emptyFileLogo">
+          <mat-icon [svgIcon]="'warning_amber'" class="mr-2 text-warn"></mat-icon>
+          <span>Empty files are not allowed to be uploaded</span>
+        </div>
+        <div class="flex align-center text-warn font-medium mb-2" *ngIf="UnSupportFormatLogo">
+          <mat-icon [svgIcon]="'warning_amber'" class="mr-2 text-warn"></mat-icon>
+          <span>Not allowed to upload file with unsupported format</span>
+        </div>
+      </div>
+      <mat-label style="font-weight: 420">Banner</mat-label>
+      <div class="flex">
+        <mat-form-field class="flex flex-col align-center mr-1 w-1/2 pr-2">
+          <input matInput readonly hidden>
+          <input matInput value="{{ bannerFileName }}" readonly style="width: 800px">
+          <input matInput readonly>
+          <mat-icon style="cursor: pointer;" matSuffix class="icon-size-5 text-secondary"
+            [svgIcon]="'heroicons_outline:paper-clip'" (click)="downloadAttachment('banner', bannerFileInput); ">
+          </mat-icon>
+          <button *ngIf="bannerFileUploader.queue[0]" mat-icon-button class="flex mt-1"
+            (click)="bannerFileUploader.queue[0].remove(); removeFile('banner')" [disabled]="disableForm">
+            <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+          </button>
+        </mat-form-field>
+
+        <button type="button" mat-stroked-button [color]="'primary'" (click)="bannerFileInput.click()"
+          [disabled]="disableForm">
+          <mat-icon class="icon-size-5 mx-2" [svgIcon]="'mat_outline:upload'"></mat-icon>
+        </button>
+
+        <span hidden>
+          <input type="file" name="banner" #bannerFileInput ng2FileSelect [uploader]="bannerFileUploader"
+            (click)="onFileClick($event)" (change)="onAttachment($event, 'banner')" [formControl]="requiredBasicData"
+            accept=".jpg, .jpeg" />
+        </span>
+      </div>
+      <div class="flex justify-start mt-5 flex-col">
+        <div class="flex align-center text-warn font-medium mb-2" *ngIf="emptyFileBanner">
+          <mat-icon [svgIcon]="'warning_amber'" class="mr-2 text-warn"></mat-icon>
+          <span>Empty files are not allowed to be uploaded</span>
+        </div>
+        <div class="flex align-center text-warn font-medium mb-2" *ngIf="UnSupportFormatBanner">
+          <mat-icon [svgIcon]="'warning_amber'" class="mr-2 text-warn"></mat-icon>
+          <span>Not allowed to upload file with unsupported format</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="flex flex-col w-1/2 mr-2" *ngIf="formId">
+      <div>
+        <mat-form-field class="w-1/2 pr-2" appearance="fill">
+          <mat-label>Status</mat-label>
+          <input type="text" matInput [formControl]="statusFormControl" [(ngModel)]="status" readonly="readonly">
+
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-1/2 pr-2" appearance="fill">
+          <mat-label>Role</mat-label>
+          <input type="text" matInput [formControl]="roleFormControl" [(ngModel)]="role" readonly="readonly">
+
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-1/2 pr-2" appearance="fill">
+          <mat-label>Created By</mat-label>
+          <input type="text" matInput [formControl]="createdByFormControl" [(ngModel)]="createdBy" readonly="readonly">
+
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-1/2 pr-2" appearance="fill">
+          <mat-label>Submitted Date</mat-label>
+          <input type="text" matInput [formControl]="submittedDateFormControl" [(ngModel)]="submittedDate"
+            readonly="readonly">
+        </mat-form-field>
+      </div>
+
+
+    </div>
+
+  </div>
+  <div style="margin-top:10px;" class=" flex min-w-0 w-full">
+    <mat-tab-group mat-align-tabs="start" color="primary" class="w-full" [selectedIndex]="selectedIndex"
+      (selectedTabChange)="onTabChanged($event)">
+      <mat-tab label="Builder" #tab>
+        <ngx-survey-form-builder [form]="form" (changes)="onChange($event)" [view]="viewCreate" class="w-full" [enableEditFieldValues]="!disableForm">
+        </ngx-survey-form-builder>
+      </mat-tab>
+      <mat-tab label="Preview">
+        <div id="dashboard" class="px-2">
+          <ngx-survey #survey [form]="form" [isPreview]="true" [headerData]="formData" [(value)]="model" [view]="view"
+            class="w-full" [editable]="!disableForm">
+          </ngx-survey>
+          <div class="flex flex-row justify-between w-full">
+            <span>5 : Outstanding</span>
+            <span>4 : Above average</span>
+            <span>3 : Average</span>
+            <span>2 : Below average</span>
+            <span>1 : Unsatisfactory</span>
+        </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div style="margin-top:10px;" class=" flex flex-auto min-w-0 justify-end">
+    <button mat-raised-button (click)="goBack();" [disabled]="this.form.length === 0" class="mr-4">
+      Back
+    </button>
+    <button mat-raised-button color="primary" (click)="toPdf()" *ngIf='!tab.isActive' class="mr-4">
+      Download PDF
+    </button>
+    <button mat-raised-button color="primary" (click)="showPreview()" *ngIf='tab.isActive' class="mr-4">
+      Preview
+    </button>
+    <button mat-raised-button color="primary" (click)="saveForm('Published');" class="mr-4"
+      *ngIf="serviceResult?.status === 'Save'" [disabled]="this.form.length === 0 || !formName || !formData.formTitle || !this.form[0].items || !this.form[0].items[0] || 
+  serviceResult?.status === 'Published' ||status === 'Approved'||disabledSave">
+      Publish
+    </button>
+    <!-- <button mat-raised-button color="primary" (click)="sendApprovel('Approved')" class="mr-4"
+      *ngIf="serviceResult?.status === 'Save'" [disabled]="this.form.length === 0 || !formName || !formData.formTitle">
+      Send for approvals
+    </button> -->
+    <button mat-raised-button color="primary" (click)="saveForm('Save');" class="mr-4"
+      [disabled]="this.form.length === 0 || !formName || !formData.formTitle || !this.form[0].items||(this.form[0].title==='') 
+  || serviceResult?.status === 'Save' || serviceResult?.status === 'Published' || serviceResult?.status === 'Approved'|| disabledSave">
+      Save
+    </button>
+    <button mat-raised-button color="primary" (click)="saveForm('Created');" class="mr-4" [disabled]="this.form.length === 0 || !formName || !formData.formTitle 
+  || serviceResult?.status === 'Published' || serviceResult?.status === 'Approved'|| serviceResult?.status === 'Save'||disabledSave ">
+      Save Form As Draft
+    </button>
+  </div>
+</div>
+<style>
+  .mat-tab-label-active {
+    background-color: var(--fuse-primary) !important;
+    color: var(--fuse-bg-app-bar) !important;
+  }
+</style>

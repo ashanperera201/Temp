@@ -1,0 +1,20 @@
+<mat-label class="label" style="font-weight: 600;color: black;">{{item.label}} <span *ngIf="item.required">*</span>
+</mat-label>
+<mat-form-field class="example-full-width mat-custom-bg pt-2" [ngClass]="{'gray':view === false}">
+    <div class="form-group">
+        <mat-button-toggle-group aria-label="type of credits"
+            [ngClass]="{'has-error':item.errors && item.errors.length}" value="{{item.value}}">
+            <mat-button-toggle *ngFor="let segment of item.segments" [disabled]="!editable"
+                (click)="editable ? onSelectionChange(segment.optionValue) : false" [value]="segment.value"
+                [checked]="segment.optionValue===item.value"
+                style="background-color: mat-color(primary); color: mat-color(primary, default-contrast);">
+                {{segment.label}}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+        <mat-error *ngIf="item.errors && item.errors.length && view">
+            <div *ngFor="let error of item.errors">{{error.message}}</div>
+        </mat-error>
+    </div>
+    <mat-hint align="start" *ngIf="!(item.errors && item.errors.length)">{{item.hint}}</mat-hint>
+    <input matInput hidden="true">
+</mat-form-field>

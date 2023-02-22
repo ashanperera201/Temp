@@ -1,0 +1,161 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full" [formGroup]="frmLinePaymentSchedule"
+        (ngSubmit)="onFormSubmit(frmLinePaymentSchedule.value)">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                {{type}} Payment Schedule
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+
+            <div class="w-full">
+                <div class="flex flex-col">
+                    <!-- added new -->
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Payment Schedule No</mat-label>
+                            <input matInput formControlName="payScheduleNo" (keyup)="onPayScheduleNoChange()" />
+                            <mat-error>
+                                <span
+                                    *ngIf="frmLinePaymentSchedule.get('payScheduleNo').hasError('duplicateScheduleNo')">Please
+                                    enter unique Payment Schedule No</span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Description</mat-label>
+                            <input matInput formControlName="description" />
+                            <!-- <span
+                                *ngIf="!teamList.get('teamDescription').valid && teamList.get('teamDescription').touched">Please
+                                enter Team Desc</span> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="flex w-full">
+                        <!-- <mat-form-field class="w-1/2 pr-2"> -->
+                        <!-- <mat-label>Type</mat-label>
+                            <mat-select formControlName="attributeCategoryId">
+                                <mat-option *ngFor="let attributecat of attributeCategorys" [value]="attributecat.id"> {{attributecat.text}}</mat-option>
+                            </mat-select> -->
+                        <!-- <mat-error>
+                                <span *ngIf="!teamList.get('teamName').valid && teamList.get('teamName').touched">Please enter Team Name</span>
+                            </mat-error> -->
+                        <!-- </mat-form-field> -->
+                        <div class="w-1/2 pl-2 mt-8">
+                            <mat-checkbox formControlName="valueVisibilityToSuppliers" [color]="'primary'">Visibility To
+                                Suppliers</mat-checkbox>
+                        </div>
+
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Schedule Line Type</mat-label>
+                            <mat-select formControlName="scheduleLineType">
+                                <ng-container>
+                                    <mat-option value="Down Payment">Down Payment</mat-option>
+                                    <mat-option value="Retention">Retention</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Down Payment Type</mat-label>
+                            <mat-select formControlName="downPaymentType">
+                                <ng-container>
+                                    <mat-option value="Advance">Advance</mat-option>
+                                    <mat-option value="Milestone">Milestone</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Milestone #</mat-label>
+                            <input matInput type="number" min="0" onkeydown="return event.keyCode !== 69"
+                                formControlName="milestone" />
+                            <mat-error>
+                                <span
+                                    *ngIf="frmLinePaymentSchedule.get('milestone').hasError('pattern') && frmLinePaymentSchedule.get('milestone').touched">lease
+                                    enter a number or decimal</span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Work %</mat-label>
+                            <input matInput type="number" min="0" max="100" onkeydown="return event.keyCode !== 69"
+                                formControlName="work" />
+                            <mat-error>
+                                <span
+                                    *ngIf="frmLinePaymentSchedule.get('work').hasError('pattern') && frmLinePaymentSchedule.get('work').touched">Please
+                                    enter a number or decimal</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Payment %</mat-label>
+                            <input matInput type="number" min="0" max="100" onkeydown="return event.keyCode !== 69"
+                                formControlName="payment" />
+                            <mat-error>
+                                <span
+                                    *ngIf="frmLinePaymentSchedule.get('payment').hasError('pattern') && frmLinePaymentSchedule.get('payment').touched">lease
+                                    enter a number or decimal</span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Retention %</mat-label>
+                            <input matInput type="number" min="0" max="100" onkeydown="return event.keyCode !== 69"
+                                formControlName="retention" />
+                            <mat-error>
+                                <span
+                                    *ngIf="frmLinePaymentSchedule.get('retention').hasError('pattern') && frmLinePaymentSchedule.get('retention').touched">lease
+                                    enter a number or decimal</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Release %</mat-label>
+                            <input matInput type="number" min="0" max="100" onkeydown="return event.keyCode !== 69"
+                                formControlName="release" />
+                            <mat-error>
+                                <span
+                                    *ngIf="frmLinePaymentSchedule.get('release').hasError('pattern') && frmLinePaymentSchedule.get('release').touched">lease
+                                    enter a number or decimal</span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Release Value</mat-label>
+                            <input matInput type="number" min="0" onkeydown="return event.keyCode !== 69"
+                                formControlName="releaseValue" />
+                            <mat-error>
+                                <span
+                                    *ngIf="frmLinePaymentSchedule.get('releaseValue').hasError('pattern') && frmLinePaymentSchedule.get('releaseValue').touched">lease
+                                    enter a number or decimal</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="flex flex-col justify-start mt-5">
+                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                    <span>{{'Successfully saved'}}</span>
+                </div>
+                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                    <span>{{'Something went wrong'}}</span>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="submit"
+                [disabled]="isSaved">
+                <span class="mx-4">{{buttontext}}</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

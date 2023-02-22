@@ -1,0 +1,53 @@
+<div class="w-full mr-4 flex flex-col justify-between block">
+    <div style="width:100%" class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Approval History</div>
+    <div>
+        <table style="width:100%" mat-table [dataSource]="approvers" class="mat-elevation-z8" matSort>
+            <ng-container matColumnDef="approverId">
+                <th mat-header-cell *matHeaderCellDef>
+                    Approver Id
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.approverId}} </td>
+            </ng-container>
+            <ng-container matColumnDef="approverName">
+                <th mat-header-cell *matHeaderCellDef>
+                    Approver Name
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.approverName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>
+                    Email
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>
+                    Status
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+            </ng-container>
+            <ng-container matColumnDef="approvedDate">
+                <th mat-header-cell *matHeaderCellDef>
+                    Date
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.modifiedDate.slice(0,10)}} </td>
+            </ng-container>
+            <ng-container matColumnDef="comments">
+                <th mat-header-cell *matHeaderCellDef>
+                    Comments
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.comments}} </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedApproverColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedApproverColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+    </div>
+    <button (click)="goBack()" class="sm:inline-flex ml-4"
+            mat-button [color]="'primary'" type="submit">
+    <span class="mx-4">Close</span>
+</button>
+</div>

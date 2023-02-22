@@ -1,0 +1,198 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Add Supplier
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+
+            <!--table component-->
+            <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+                <div class="p-4">
+                    <div class="flex flex-wrap w-full justify-between items-center">
+                        <div class="flex-col flex text-left header mr-4">
+                            <span> Supplier Id</span>
+                            <mat-form-field style="margin-top: 10px;">
+                                <input matInput class="form-field" #input
+                                    [(ngModel)]="supplierSearchModel.ifsSupplierId" name="ifsSupplierId">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex-col flex text-left header mr-4">
+                            <span> Name</span>
+                            <mat-form-field style="margin-top: 10px;">
+                                <input matInput class="form-field" #input [(ngModel)]="supplierSearchModel.supplierName"
+                                    name="supplierName">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex-col flex text-left header mr-4">
+                            <span> Status</span>
+                            <mat-form-field style="margin-top: 10px;">
+                                <input matInput class="form-field" #input
+                                    [(ngModel)]="supplierSearchModel.supplierStatus" name="supplierStatus">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex-col flex text-left header mr-4">
+                            <span> Email</span>
+                            <mat-form-field style="margin-top: 10px;">
+                                <input matInput class="form-field" #input [(ngModel)]="supplierSearchModel.contactEmail"
+                                    name="contactEmail">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex-col flex text-left header mr-4">
+                            <span> Category</span>
+                            <mat-form-field style="margin-top: 10px;">
+                                <input matInput class="form-field" #input [(ngModel)]="supplierSearchModel.category"
+                                    name="catagory">
+                            </mat-form-field>
+                        </div>
+
+                        <button (click)="searchData()" class="mt-2" mat-stroked-button
+                            [color]="'primary'">
+                            <mat-icon matPrefix class="icon-size-5 ml-8" [svgIcon]="'heroicons_solid:search'">
+                            </mat-icon>
+                            <span class="mr-8 ml-4">Search</span>
+                        </button>
+                    </div>
+
+
+                </div>
+                <div class=" mx-4">
+                    <mat-form-field class="w-full" appearance="fill">
+                        <mat-label>Selected supplier(s)</mat-label>
+                        <mat-chip-list #chipList aria-label="selection">
+                            <mat-chip *ngFor="let x of rfqSupplierList"
+                                [removable]="true"
+                                (removed)="remove(x)">
+                                {{x.supplierName}}
+                                <mat-icon matChipRemove *ngIf="!isAvailable(x.supplierID)" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!--base table component-->
+            <div class="overflow-auto bg-gray-60 rounded-lg p-4">
+                <table mat-table [dataSource]="supplierModel" matSort (matSortChange)="sortData($event)"
+                    class="expanded-rows-table font-helvetica text-gray-500">
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 60px; min-width: 50px; width :50px">
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox [color]="'primary'" [disabled]="isAvailable(row.id)" [checked]="row.isChecked"
+                                [(ngModel)]="row.isChecked" name="{{row.id}}-isChecked"
+                                (change)="onChange($event, row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!--  Supplier ID Column -->
+                    <ng-container matColumnDef="supplierId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 120px; min-width: 100px">
+                            Supplier ID
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{row.ifsSupplierId}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="supplierName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 150px; min-width: 140px">
+                            Supplier Name
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.supplierName}} </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="supplierStatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 180px; min-width: 150px">
+                            Status
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.supplierStatus}} </td>
+                    </ng-container>
+
+                    <!-- EmailID Column -->
+                    <ng-container matColumnDef="supplierEmail">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 170px; min-width: 160px">
+                            Email Address
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.contactEmail}} </td>
+                    </ng-container>
+
+                    <!-- Category Column -->
+                    <ng-container matColumnDef="category">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 140px; min-width: 130px">
+                            Category
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{displayCategories(row.supplierCategories)}} </td>
+                    </ng-container>
+
+                    <!-- Sourcing Invited Column -->
+                    <ng-container matColumnDef="invited">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 180px; min-width: 170px">
+                            Sourcing Events Invited
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.invitedCount}} </td>
+                    </ng-container>
+
+                    <!-- Sourcing Awarded Column -->
+                    <ng-container matColumnDef="awarded">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 190px; min-width: 180px">
+                            Sourcing Events Awarded
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.sourcingEventsAwarded}} </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumn;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="flex justify-end">
+                <mat-paginator [length]="supplierSearchModel.totalItems" [pageSize]="supplierSearchModel.pageSize"
+                    [pageSizeOptions]="[10, 25, 100]" (page)="pageEvent=$event;onPaginateChange($event)"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+            <!--table component end-->
+
+
+            <div class="flex flex-col justify-start mt-5">
+                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                    <span>{{'Successfully saved'}}</span>
+                </div>
+                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                    <span>{{'Something went wrong'}}</span>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="button"
+                [disabled]="checkedCount===0" (click)="saveTemplate()">
+                <span class="mx-4">Add to current list</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

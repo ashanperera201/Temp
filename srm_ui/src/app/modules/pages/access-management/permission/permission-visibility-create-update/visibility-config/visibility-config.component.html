@@ -1,0 +1,32 @@
+<div class="btn-actions">
+    <button type="button" mat-raised-button color="primary" (click)="savePermissionConfig()">Save Visibility
+        Configs</button>
+</div>
+
+<mat-accordion multi>
+    <div *ngFor="let innerConfig of subCategory?.visibilityConfig" [expanded]="true" class="visibility-expansion">
+        <mat-expansion-panel *ngIf="innerConfig?.show" [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{innerConfig?.levelLable}}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="body-container">
+                <div class="body-container--permissions-container" *ngFor="let subItem of innerConfig?.subItems">
+                    <div *ngIf="subItem?.showSubItem">
+                        <div class="body-container--permissions-container__header" *ngIf="subItem?.subItemMainHeader">
+                            {{subItem?.subItemMainHeader}}
+                        </div>
+                        <div class="body-container--permissions-container__body" *ngIf="subItem?.permissions">
+                            <mat-checkbox *ngFor="let permission of subItem?.permissions" color="primary"
+                                [checked]="permission.active"
+                                (change)="permissionChange(permission, subCategory?.categoryCode)">
+                                {{permission?.permissionName}}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </div>
+</mat-accordion>

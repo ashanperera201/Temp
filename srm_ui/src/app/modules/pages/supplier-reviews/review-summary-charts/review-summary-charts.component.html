@@ -1,0 +1,42 @@
+
+<div class="relative px-4">
+<button (click)="exportToPDF()" class="sm:inline-flex ml-4 mt-4"
+mat-raised-button [color]="'primary'" type="submit">
+<span class="mx-4">Export to PDF</span>
+</button>
+<div id="charts">
+<div class="w-full flex mt-8 flex-wrap">
+    <div class="flex justify-center w-1/2 mt-4">
+        <div class="font-medium base text-base mb-2 mt-4">
+            Score Breakdown
+        </div> 
+    <div class='content' id="chart1">
+    </div></div>
+    <div class="flex flex-col w-1/2 mt-4" style="align-items: center;">
+        <div class="font-medium base text-base mb-2 mt-4">
+            Evaluation Type Variation
+        </div> 
+    <div class='content' id="chart2">
+    </div></div>
+    <div class="flex justify-center w-1/2 mt-8">
+        <div class="font-medium base text-base mb-2 mt-4">
+            Above/ Below Threshold
+        </div> 
+    <div class='content' id="chart3">
+    </div></div>
+    <div class="flex flex-col w-1/2 mt-8" style="align-items: center;">
+        <div class="font-medium base text-base mb-2 mt-4">
+            Review Year Distribution
+        </div> 
+    <div class='content' id="chart4">
+    </div></div> 
+</div>
+<mat-divider class="mt-15"></mat-divider>
+</div>
+<div class="flex justify-end ml-auto">
+    <button class="sm:inline-flex mr-6 mt-4" mat-raised-button [color]="'primary'"  (click)="goBack()">
+        Back
+    </button>
+</div>
+
+</div>

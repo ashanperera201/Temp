@@ -1,0 +1,1269 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0">
+
+    <div class="flex justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">{{lblRFXHeader}}</div>
+    </div>
+    <div class="flex justify-between -mt-4 mb-1 sticky top-0 z-30 bg-white">
+        <div class="color-legends">
+            <div class="color-legend">
+                <div class="status inprogress"></div>
+                <div class="legend-label">Status : {{rfqModel.statusName}}</div>
+            </div>
+        </div>
+        <div class="flex items-center pl-1">
+            <div *ngIf="showTimer" class="countdown-timer flex items-center pl-1">
+                <div class="countdown-timer-items">
+                    <div class="countdown-item-days">Days <span [innerText]="days" id="days"></span></div>
+
+                    <div class="countdown-item hours">Hrs <span [innerText]="hours" id="hours"></span></div>
+
+                    <div class="countdown-item minutes">Mins <span [innerText]="minutes" id="mins"></span></div>
+
+                    <div class="countdown-item seconds">Sec <span [innerText]="seconds" id="seconds"></span></div>
+                </div>
+            </div>
+
+            <div class="flex items-center pl-1">
+                <span>More</span>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+                    <mat-icon color="primary" class="icon-size-6" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <div class="flex flex-col">
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="copyRFQ()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:document-duplicate'"></mat-icon>
+                            <span class="mr-4 ml-1">Copy</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="openDialog()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'mat_outline:drive_file_move_rtl'"></mat-icon>
+                            <span class="mr-4 ml-1">Import</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item>
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:document-search'"></mat-icon>
+                            <span class="mr-4 ml-1">Review</span>
+                        </button>
+                        <button (click)="openExportReport()" class="sm:inline-flex p-0" mat-menu-item>
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:printer'"></mat-icon>
+                            <span class="mr-4 ml-1">Print Summary</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item type="button" (click)="createFollowOnEvent()"
+                        *ngIf="isBidClosed()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Create a Follow-on Event</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item type="button" (click)="pauseRFX()"
+                            *ngIf="rfqModel.isPauseRFX">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Pause RFX</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item type="button" (click)="reviseRFX()"
+                            *ngIf="rfqModel.isReviseRFX">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Revise RFX</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item type="button" (click)="cancelledRFX()"
+                            *ngIf="rfqModel.isCancelled">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Cancel RFX</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="exportToExcel()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Download Template</span>
+                        </button>
+                        <button (click)="openChat()" class="sm:inline-flex p-0" mat-menu-item>
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Open Chat</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="evaluationInitiationRFX()"
+                            *ngIf="rfqModel.isevaluationInitiationRFX">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Evaluation Initiation</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="SetIsTemplate()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Set as Template</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" (click)="poCreation()" mat-menu-item>
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">PO Creation</span>
+                        </button>
+                         <button class="sm:inline-flex p-0" (click)="Changebidclosetime()" mat-menu-item *ngIf="isBidOpened()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Amend Bid Closing Time</span>
+                        </button>
+                    </div>
+                </mat-menu>
+            </div>
+            <chats [RFQID]="rfqId" [UnreadCount]="unreadCount" [IsSupplier]="false"></chats>
+        </div>
+    </div>
+    <div class="relative">
+        <!-- <fuse-alert [appearance]="'fill'" *ngFor="let mes of successMessage" [dismissible]="true" [dismissed]="false"
+            [type]="'success'">
+            <span>{{mes.description}}</span>
+        </fuse-alert>
+        <fuse-alert [appearance]="'fill'" *ngFor="let mes of errorMessage" [dismissible]="true" [dismissed]="false"
+            [type]="'error'">
+            <span>{{mes.description}}</span>
+        </fuse-alert> -->
+        <mat-tab-group (selectedTabChange)="changeTab($event)" [selectedIndex]="selectedTabIndex"
+            class="tab-type-one is-parent-tab with-immediate-sticky-child" [animationDuration]="'0'">
+            <mat-tab label="RFQ Information" class="direct-child-of-parent">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <div class="mt-4">
+                        <form class="flex flex-col w-full" [formGroup]="frmRFQInformationForm">
+
+                            <div class="item-block basic-info mb-2 srm-bg rounded-lg px-4 py-2">
+                                <div class="flex flex-col">
+                                    <div class="flex w-full divide-solid divide-x divide-gray-300">
+                                        <div class="flex w-4/6 flex-col">
+                                            <p class="font-medium text-lg mb-2">
+                                                Basic Information
+                                            </p>
+                                            <div class="divide-solid divide-y divide-gray-300">
+                                                <div class="pt-5 pb-2">
+                                                    <div class="flex">
+                                                        <mat-form-field class="w-1/3 pr-2">
+                                                            <mat-label>{{lblRFXNo != '' ? lblRFXNo:'RFX No'}}</mat-label>
+                                                            <input type="hidden" formControlName="documentClass">
+                                                            <input matInput readonly formControlName="rfqNo">
+                                                        </mat-form-field>
+                                                        <mat-form-field class="w-1/3 px-2">
+                                                            <mat-label>REV No</mat-label>
+                                                            <input matInput formControlName="revNo" [readonly]="rfqModel.rfqParentId!=null">
+                                                        </mat-form-field>
+                                                        <mat-form-field class="w-1/3 pl-2">
+                                                            <mat-label>Buyer Name</mat-label>
+                                                            <input matInput readonly formControlName="buyerName">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="flex">
+                                                        <mat-form-field class="w-1/3 pr-2">
+                                                            <mat-label>Name</mat-label>
+                                                            <input matInput formControlName="rfqName">
+                                                        </mat-form-field>
+                                                        <mat-form-field class="w-2/3 pl-2 relative">
+                                                            <mat-label>Description</mat-label>
+                                                            <input matInput formControlName="rfqDescription">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="pt-5 pb-2">
+                                                    <div class="flex">
+
+                                                        <mat-form-field class="w-1/3 pr-2">
+                                                            <mat-label>Default Currency</mat-label>
+                                                            <mat-select formControlName="currencyID"
+                                                                [disabled]="this.frmRFQInformationForm.get('currencyID').value">
+                                                                <mat-option *ngFor="let cur of rfqModel.currencyList"
+                                                                    [value]="cur.currencyId">{{cur.currencyCode}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field class="w-1/3 px-2">
+                                                            <mat-label>Payment Terms</mat-label>
+                                                            <mat-select formControlName="paymentTermID">
+                                                                <mat-option
+                                                                    *ngFor="let cur of rfqModel.paymentTermsList"
+                                                                    [value]="cur.id">{{cur.text}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field class="w-1/3 pl-2">
+                                                            <mat-label>Estimated Amount</mat-label>
+                                                            <input matInput readonly formControlName="estimatedAmount">
+                                                        </mat-form-field>
+
+                                                    </div>
+
+                                                    <div class="flex">
+                                                        <mat-checkbox class="flex pt-3"
+                                                            (change)="SetAlternateCurrencyFlag()" [color]="'primary'"
+                                                            formControlName="isAlternateCurrencyApplicable">
+                                                            Allow bids to be submitted in alternate currency
+                                                        </mat-checkbox>
+                                                        <button
+                                                            [disabled]="!isSaveAsDraft || !isAlternateCurrencyApplicable"
+                                                            class="sm:inline-flex pl-4 ml-2" mat-button
+                                                            [color]="'primary'" (click)="openAddCurrency()">
+                                                            <mat-icon matPrefix class="icon-size-5 ml-4"
+                                                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                                                            <span class="mr-4 ml-1">Alternate currency</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="flex">
+                                                        <mat-chip-list class="flex">
+                                                            <mat-basic-chip *ngFor="let currency of  rfqCurrencies"
+                                                                [removable]="true"
+                                                                (removed)="DeleteRFQCurrencys(currency)"
+                                                                [selectable]="false" disableRipple
+                                                                [disabled]="!isSaveAsDraft">
+                                                                {{currency.currencyName}}
+                                                                <mat-icon class="icon-size-5" matChipRemove
+                                                                    [svgIcon]="'heroicons_solid:minus-circle'">
+                                                                </mat-icon>
+                                                            </mat-basic-chip>
+                                                        </mat-chip-list>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="flex w-2/6 pl-4 pt-8 ml-4 mt-4 flex-col">
+
+                                            <mat-form-field class="w-full">
+                                                <mat-label>Negotiation Style</mat-label>
+                                                <mat-select (selectionChange)="showBiddingStyle($event)"
+                                                    formControlName="negitiationStyleID">
+                                                    <mat-option *ngFor="let negitiationStyling of negotiationStyleLists"
+                                                        [value]="negitiationStyling.id">{{negitiationStyling.text}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="w-full">
+                                                <mat-label>Bidding Style</mat-label>
+                                                <mat-select formControlName="biddingStyleID">
+                                                    <mat-option *ngFor="let biddingStyling of biddingStyleLists"
+                                                        [value]="biddingStyling.id">{{biddingStyling.text}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="w-full">
+                                                <mat-label>Outcome</mat-label>
+                                                <mat-select (selectionChange)="showRFI($event)"
+                                                    formControlName="outcomeID">
+                                                    <mat-option *ngFor="let outcome of outcomeLists"
+                                                        [value]="outcome.id">{{outcome.lookUpName}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <mat-checkbox class="flex" [color]="'primary'" name="isTwoStageRFx"
+                                                formControlName="isTwoStageRFx" style=" margin: 0 12px;">
+                                                Two Stage
+                                            </mat-checkbox>
+                                            <mat-checkbox class="flex" [color]="'primary'" name="isDisplayRank"
+                                                formControlName="isDisplayRank" style=" margin: 0 12px;">
+                                                Show Rank during Bidding
+                                            </mat-checkbox>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item-block project-info mb-2 srm-bg rounded-lg px-4 py-2">
+                                <div class="flex flex-col">
+                                    <div class="flex w-full divide-solid divide-x divide-gray-300">
+                                        <div class="flex w-full flex-col">
+                                            <p class="font-medium text-lg mb-2">
+
+                                            </p>
+                                            <div class="divide-solid divide-y divide-gray-300">
+                                                <div class="pt-5 pb-2">
+                                                    <div class="flex">
+
+                                                        <mat-form-field class="w-1/5 pr-2">
+                                                            <mat-label>Project Code</mat-label>
+                                                            <mat-select formControlName="ifsProjectID"
+                                                                [disabled]="this.frmRFQInformationForm.get('ifsProjectID').value">
+                                                                <mat-option *ngFor="let cur of rfqModel.projectCodeList"
+                                                                    [value]="cur.id">{{cur.name}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field class="w-1/5 px-2">
+                                                            <mat-label>Program ID</mat-label>
+                                                            <mat-select formControlName="ifsProgramId"
+                                                                [disabled]="this.frmRFQInformationForm.get('ifsProgramId').value">
+                                                                <mat-option *ngFor="let cur of rfqModel.programList"
+                                                                    [value]="cur.id">{{cur.name}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field class="w-1/5 px-2">
+                                                            <mat-label>Project Type</mat-label>
+                                                            <mat-select formControlName="projectType">
+                                                                <mat-option value="Construction">
+                                                                    Construction
+                                                                </mat-option>
+                                                                <mat-option value="Non Construction">
+                                                                    Non Construction
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item-block time-line mb-2 srm-bg rounded-lg px-4 py-2">
+                                <div class="flex flex-col">
+                                    <p class="font-medium text-lg mb-3">
+                                        Time Line
+                                    </p>
+                                    <div class="flex pt-5">
+                                        <mat-form-field class="w-1/5 px-2">
+                                            <mat-label>Time Zone</mat-label>
+                                            <mat-select formControlName="timeZoneId">
+                                                <mat-option *ngFor="let cur of rfqModel.timeZoneList" [value]="cur.id">
+                                                    {{cur.description}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/5 px-2">
+                                            <mat-label>Publish Date & Time</mat-label>
+                                            <input (change)="handleDateChange(1)" matInput type="datetime-local"
+                                                placeholder="start date" formControlName="publishDate">
+                                            <mat-error>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('publishDate').hasError('invalidDate2')">
+                                                    <strong>Publish Date & Time</strong> should be before
+                                                    <strong>Preview Date</strong>
+                                                </span>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('publishDate').hasError('invalidDate4')">
+                                                    <strong>Publish Date & Time</strong> should be before
+                                                    <strong>Bid Opening Date & Time</strong>
+                                                </span>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('publishDate').hasError('pastDate')">
+                                                    <strong>Past date cannot be entered</strong>
+                                                </span>
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/5 pr-2">
+                                            <mat-label>Bid Opening Date & Time</mat-label>
+                                            <input matInput type="datetime-local" (change)="handleDateChange(2)"
+                                                formControlName="bidOpeningDate" placeholder="start date">
+                                            <mat-error>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('bidOpeningDate').hasError('invalidDate1')">
+                                                    <strong>Bid Opening Date & Time</strong> should be after
+                                                    <strong>Preview Date</strong>
+                                                </span>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('bidOpeningDate').hasError('invalidDate2')">
+                                                    <strong>Bid Opening Date & Time</strong> should be before
+                                                    <strong>Bid Closing Date & Time</strong>
+                                                </span>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('bidOpeningDate').hasError('invalidDate3')">
+                                                    <strong>Bid Opening Date & Time</strong> should be after
+                                                    <strong>Publish Date & Time</strong>
+                                                </span>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('bidOpeningDate').hasError('pastDate')">
+                                                    <strong>Past date cannot be entered</strong>
+                                                </span>
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                        <mat-form-field class="w-1/5 px-2">
+                                            <mat-label>Bid Closing Date & Time</mat-label>
+                                            <input (change)="handleDateChange(3)" matInput type="datetime-local"
+                                                placeholder="start date" formControlName="bidClosingDate">
+                                            <mat-error>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('bidClosingDate').hasError('invalidDate1')">
+                                                    <strong>Bid Closing Date & Time</strong> should be after <strong>Bid
+                                                        Opening Date & Time</strong>
+                                                </span>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('bidClosingDate').hasError('invalidDate2')">
+                                                    <strong>Bid Closing Date & Time</strong> should be before
+                                                    <strong>Award Date & Time</strong>
+                                                </span>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('bidClosingDate').hasError('pastDate')">
+                                                    <strong>Past date cannot be entered</strong>
+                                                </span>
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                        <mat-form-field *ngIf="false" class="w-1/5 pl-2">
+                                            <mat-label>Award Date & Time</mat-label>
+                                            <input (change)="handleDateChange(4)" matInput type="datetime-local"
+                                                placeholder="start date" formControlName="awardDate">
+                                            <mat-error>
+                                                <span
+                                                    *ngIf="frmRFQInformationForm.get('awardDate').hasError('invalidDate1')">
+                                                    <strong>Award Date & Time</strong> should be after <strong>Bid
+                                                        Closing Date & Time</strong>
+                                                </span>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-block time-line mb-2 srm-bg rounded-lg px-4 py-2">
+                                <div class="flex flex-col">
+                                    <p class="font-medium text-lg mb-3">
+                                        Date Options
+                                    </p>
+                                    <div class="flex flex-row pt-5">
+                                        <div class="flex flex-col w-1/2">
+                                            <p class="font-medium mb-1 text-left">
+                                                Preview Date
+                                            </p>
+                                            <mat-radio-group class="flex selectable-form-elements"
+                                                style="flex-wrap: wrap"
+                                                (change)="showHidePreviewDateOption($event.value)" [color]="'primary'"
+                                                [disabled]="!isSaveAsDraft">
+                                                <div>
+                                                    <mat-radio-button [checked]="rdbpreviewDate=='one'"
+                                                        class="w-1/2 mb-2 mr-4 flex align-center" [value]="'one'">
+                                                        <mat-form-field class="pt-2 pr-2" style="width:100%;">
+                                                            <input matInput type="datetime-local"
+                                                                formControlName="previewDate">
+                                                            <mat-error>
+                                                                <span
+                                                                    *ngIf="frmRFQInformationForm.get('previewDate').hasError('invalidDate1')">
+                                                                    <strong>Preview Date</strong> should be after
+                                                                    <strong>Publish Date & Time</strong>
+                                                                </span>
+                                                                <span
+                                                                    *ngIf="frmRFQInformationForm.get('previewDate').hasError('invalidDate2')">
+                                                                    <strong>Preview Date</strong> should be
+                                                                    before <strong>Bid Opening Date & Time</strong>
+                                                                </span>
+                                                                <span
+                                                                    *ngIf="frmRFQInformationForm.get('previewDate').hasError('pastDate')">
+                                                                    <strong>Past date cannot be entered</strong>
+                                                                </span>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div>
+                                                    <mat-radio-button [checked]="rdbpreviewDate=='two'" class="mb-2"
+                                                        [value]="'two'">
+                                                        <mat-form-field class="w-30 pl-2 standalone-input">
+                                                            <mat-select [disabled]="!isSaveAsDraft || !isPreviewDate"
+                                                                matsuffix formControlName="previewCount">
+                                                                <mat-option [value]="1">1</mat-option>
+                                                                <mat-option [value]="2">2</mat-option>
+                                                                <mat-option [value]="3">3</mat-option>
+                                                                <mat-option [value]="4">4</mat-option>
+                                                                <mat-option [value]="5">5</mat-option>
+                                                                <mat-option [value]="6">6</mat-option>
+                                                                <mat-option [value]="7">7</mat-option>
+                                                                <mat-option [value]="8">8</mat-option>
+                                                                <mat-option [value]="9">9</mat-option>
+                                                                <mat-option [value]="10">10</mat-option>
+                                                                <mat-option [value]="11">11</mat-option>
+                                                                <mat-option [value]="12">12</mat-option>
+                                                                <mat-option [value]="13">13</mat-option>
+                                                                <mat-option [value]="14">14</mat-option>
+                                                                <mat-option [value]="15">15</mat-option>
+                                                                <mat-option [value]="16">16</mat-option>
+                                                                <mat-option [value]="17">17</mat-option>
+                                                                <mat-option [value]="18">18</mat-option>
+                                                                <mat-option [value]="19">19</mat-option>
+                                                                <mat-option [value]="20">20</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field class="w-100 pl-1 pt-2">
+                                                            <mat-select [disabled]="!isSaveAsDraft || !isPreviewDate"
+                                                                formControlName="previewId">
+                                                                <mat-option *ngFor="let cur of rfqModel.publishDateList"
+                                                                    [value]="cur.id">{{cur.lookUpName}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </mat-radio-button>
+                                                </div>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div class="flex flex-col w-1/2" style="flex-wrap: wrap">
+                                            <p class="font-medium mb-1 text-left">
+                                                Award Date
+                                            </p>
+                                            <mat-radio-group class="flex selectable-form-elements"
+                                                style="flex-wrap: wrap" (change)="showHideAwardDateOption($event.value)"
+                                                [color]="'primary'" [disabled]="!isSaveAsDraft">
+                                                <div>
+                                                    <mat-radio-button [checked]="rdbawardDate=='one'"
+                                                        class="w-1/4 mb-2 mr-4 flex align-center" [value]="'one'">
+                                                        <mat-form-field class="pt-2 pr-2" style="width:100%;">
+                                                            <input matInput type="datetime-local"
+                                                                formControlName="eventOnAwardDate">
+                                                            <mat-error>
+                                                                <span
+                                                                    *ngIf="frmRFQInformationForm.get('eventOnAwardDate').hasError('invalidDate1')">
+                                                                    <strong>Award Date & Time</strong> should be after
+                                                                    <strong>Bid
+                                                                        Closing Date & Time</strong>
+                                                                </span>
+                                                                <span
+                                                                    *ngIf="frmRFQInformationForm.get('eventOnAwardDate').hasError('pastDate')">
+                                                                    <strong>Past date cannot be entered</strong>
+                                                                </span>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div>
+                                                    <mat-radio-button [checked]="rdbawardDate=='two'" class="mb-2"
+                                                        [value]="'two'">
+                                                        <mat-form-field class="w-30 pl-2 standalone-input">
+                                                            <mat-select [disabled]="!isSaveAsDraft || !isAwardDate"
+                                                                matsuffix formControlName="roaCount">
+                                                                <mat-option [value]="1">1</mat-option>
+                                                                <mat-option [value]="2">2</mat-option>
+                                                                <mat-option [value]="3">3</mat-option>
+                                                                <mat-option [value]="4">4</mat-option>
+                                                                <mat-option [value]="5">5</mat-option>
+                                                                <mat-option [value]="6">6</mat-option>
+                                                                <mat-option [value]="7">7</mat-option>
+                                                                <mat-option [value]="8">8</mat-option>
+                                                                <mat-option [value]="9">9</mat-option>
+                                                                <mat-option [value]="10">10</mat-option>
+                                                                <mat-option [value]="11">11</mat-option>
+                                                                <mat-option [value]="12">12</mat-option>
+                                                                <mat-option [value]="13">13</mat-option>
+                                                                <mat-option [value]="14">14</mat-option>
+                                                                <mat-option [value]="15">15</mat-option>
+                                                                <mat-option [value]="16">16</mat-option>
+                                                                <mat-option [value]="17">17</mat-option>
+                                                                <mat-option [value]="18">18</mat-option>
+                                                                <mat-option [value]="19">19</mat-option>
+                                                                <mat-option [value]="20">20</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field class="w-100 pl-2 pt-2">
+                                                            <mat-select [disabled]="!isSaveAsDraft || !isAwardDate"
+                                                                formControlName="afterROACompletedId">
+                                                                <mat-option
+                                                                    *ngFor="let cur of rfqModel.awardDateAfterList"
+                                                                    [value]="cur.id">{{cur.lookUpName}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </mat-radio-button>
+                                                </div>
+                                            </mat-radio-group>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item-block delivery-info mb-2 srm-bg rounded-lg px-4 py-2">
+                                <div class="flex flex-col">
+                                    <div class="flex w-full divide-solid divide-x divide-gray-300">
+                                        <div class="flex w-full flex-col">
+                                            <p class="font-medium text-lg mb-3">
+                                                Delivery Information
+                                            </p>
+                                            <div class="divide-solid divide-y divide-gray-300">
+                                                <div class="pt-5 pb-2">
+                                                    <div class="flex">
+                                                        <mat-form-field class="w-full">
+                                                            <mat-label>Delivery Address</mat-label>
+                                                            <input matInput formControlName="deliveryAddressID">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="flex">
+                                                        <mat-form-field class="w-1/4 pr-2">
+                                                            <mat-label>Ship Via Code</mat-label>
+                                                            <mat-select formControlName="shipViaCodeID">
+                                                                <mat-option *ngFor="let cur of rfqModel.shipViaCodeList"
+                                                                    [value]="cur.id">{{cur.text}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                        <mat-form-field class="w-1/4 px-2">
+                                                            <mat-label>Country</mat-label>
+                                                            <mat-select (selectionChange)="getCities($event.value)"
+                                                                formControlName="countryID">
+                                                                <mat-option *ngFor="let cur of rfqModel.countryList"
+                                                                    [value]="cur.id">{{cur.text}}</mat-option>
+                                                            </mat-select>
+                                                            <img *ngIf="countryFlag" matPrefix class="rounded-image"
+                                                                [src]='"assets/images/flags/"+countryFlag+".svg"'
+                                                                alt="country" />
+                                                        </mat-form-field>
+
+                                                        <mat-form-field class="w-1/4 px-2">
+                                                            <mat-label>City</mat-label>
+                                                            <mat-select formControlName="cityID">
+                                                                <mat-option *ngFor="let cur of rfqModel.cityList"
+                                                                    [value]="cur.id">{{cur.text}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field class="w-1/4 pl-2">
+                                                            <mat-label>Site</mat-label>
+                                                            <mat-select formControlName="ifsSiteId">
+                                                                <mat-option *ngFor="let cur of rfqModel.siteList"
+                                                                    [value]="cur.id">{{cur.description}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                    </div>
+                                                    <div class="flex">
+                                                        <mat-form-field class="w-1/2 pr-2">
+                                                            <mat-label>Delivery Terms</mat-label>
+                                                            <mat-select formControlName="deliveryTermsID"
+                                                                [disabled]="this.frmRFQInformationForm.get('deliveryTermsID').value">
+                                                                <mat-option
+                                                                    *ngFor="let cur of rfqModel.deliveryTermsList"
+                                                                    [value]="cur.id">{{cur.text}}
+                                                                </mat-option>
+
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'">
+                <ng-template mat-tab-label>
+                    Header
+                    <mat-icon svgIcon="mat_outline:keyboard_arrow_down" class="text-white"></mat-icon>
+                </ng-template>
+                <ng-template matTabContent>
+                    <div class="mt-4">
+                        <div class="item-block basic-info mb-4 srm-bg rounded-lg pt-1">
+                            <mat-tab-group class="tab-type-two" [animationDuration]="'0'" *ngIf="rfqModel && rfqModel.rfxRules"
+                                (selectedTabChange)="tabClick($event,'Header')" [selectedIndex]="selectedTabIndexHeader">
+                                <mat-tab label="Attribute Items"
+                                    *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderAttributeItems">
+                                    <ng-template matTabContent>
+                                        <app-attribute-item [RFQID]="rfqId" [RFQModel]="rfqModel"></app-attribute-item>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Cost Factors" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderCostFactors">
+                                    <ng-template matTabContent>
+                                        <app-cost-factors [RFQID]="rfqId" [RFQModel]="rfqModel"></app-cost-factors>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Payment Schedules" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderPS">
+                                    <ng-template matTabContent>
+                                        <app-payment-schedules [RFQID]="rfqId" [RFQModel]="rfqModel"
+                                            [dataSource4]="dataSource4" [displayedColumn4]="displayedColumn4">
+                                        </app-payment-schedules>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Terms & Conditions"
+                                    *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderTermsCondition">
+                                    <!-- *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderTermsCondition"> -->
+                                    <ng-template matTabContent>
+                                        <app-term-condition [RFQID]="rfqId" [rfqModel]="rfqModel"
+                                            [dataSource5]="dataSource5" [displayedColumn5]="displayedColumn5">
+                                        </app-term-condition>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Attachments" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderAttachments">
+                                    <ng-template matTabContent>
+                                        <app-attachments [RFQModel]="rfqModel" [RFQID]="rfqId"
+                                            [dataSource6]="dataSource6" [displayedColumn6]="displayedColumn6">
+                                        </app-attachments>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Document Text"
+                                    *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderDocumentTexts">
+                                    <ng-template matTabContent>
+                                        <app-document-text [RFQID]="rfqId" [rfqModel]="rfqModel"
+                                            [dataSource7]="dataSource7" [displayedColumn7]="displayedColumn7">
+                                        </app-document-text>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Notes" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderNotes">
+                                    <ng-template matTabContent>
+                                        <app-notes [RFQID]="rfqId" [rfqModel]="rfqModel" [dataSource8]="dataSource8"
+                                            [displayedColumn8]="displayedColumn8"></app-notes>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Deliverables" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderDeliverables">
+                                    <ng-template matTabContent>
+                                        <app-deliverables [RFQID]="rfqId" [rfqModel]="rfqModel"
+                                            [dataSource9]="dataSource9" [displayedColumn9]="displayedColumn9">
+                                        </app-deliverables>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Survey Forms" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderSurveyForms">
+                                    <ng-template matTabContent>
+                                        <app-survey-forms [RFQID]="rfqId" [rfqModel]="rfqModel"></app-survey-forms>
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab class="direct-child-of-parent" [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'">
+                <ng-template mat-tab-label>
+                    Lines
+                    <mat-icon svgIcon="mat_outline:keyboard_arrow_down" class="text-white"></mat-icon>
+                </ng-template>
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <app-rfq-part-line [RFQID]="rfqId" [RFQModel]="rfqModel"></app-rfq-part-line>
+
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Suppliers" class="direct-child-of-parent"
+                [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <app-suppliers-view [RFQID]="rfqId" [rfqModel]="rfqModel" [dataSource12]="dataSource12"
+                        [displayedColumn12]="displayedColumn12"></app-suppliers-view>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Collaboration Team" class="direct-child-of-parent"
+                [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <app-collaboration-team-view [RFQID]="rfqId" [rfqModel]="rfqModel" [dataSource13]="dataSource13"
+                        [displayedColumn13]="displayedColumn13"></app-collaboration-team-view>
+                </ng-template>
+            </mat-tab>
+            <mat-tab [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'" label="Rules"
+                class="direct-child-of-parent">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <app-rules-view (newRulesItemEvent)="addRulesItem($event)" [RFQID]="rfqId" [RFQModel]="rfqModel"
+                        [dataSource14]="dataSource14" [displayedColumn14]="displayedColumn14"
+                        [dataSource15]="dataSource15" [displayedColumn15]="displayedColumn15"
+                        [dataSource16]="dataSource16" [displayedColumn16]="displayedColumn16"
+                        (newItemEvent)="addItem($event)"></app-rules-view>
+                </ng-template>
+            </mat-tab>
+            <mat-tab [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'" label="Scoring"
+                class="direct-child-of-parent">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <app-rfq-scoring (newItemEvent)="addItem($event)" *ngIf="tabIndex === 6" [RFQID]="rfqId"
+                        [RFQModel]="rfqModel">
+                    </app-rfq-scoring>
+                </ng-template>
+            </mat-tab>
+            <mat-tab [disabled]="rfqModel.statusName=='Quote Submitted'" class="direct-child-of-parent">
+                <ng-template mat-tab-label>
+                    Responses
+                    <mat-icon svgIcon="mat_outline:keyboard_arrow_down" class="text-white"></mat-icon>
+                </ng-template>
+                <ng-template matTabContent>
+                    <mat-tab-group class="tab-type-two is-parent-tab" (selectedTabChange)="changeTabResponse($event)"
+                        [animationDuration]="'0'">
+                        <mat-tab label="Supplier Responses">
+                            <ng-template matTabContent>
+
+                                <app-supplier-response-view [rfqId]="rfqId" [rfqModel]="rfqModel"
+                                    (supplierIsChanged)="supplierIsChanged($event)"></app-supplier-response-view>
+                                <mat-tab-group *ngIf="supplierIsChangedInResponses"
+                                    class="tab-type-one-secondary inner is-parent-tab" [animationDuration]="'0'">
+                                    <mat-tab label="Header">
+                                        <ng-template matTabContent>
+                                            <app-supplier-response-header-view [rfqId]="rfqId" [rfqModel]="rfqModel"
+                                                [supplierId]="supplierIdInResponses" [dataSource19]="dataSource19"
+                                                [dataSource17]="dataSource17" [dataSource4]="dataSource4"
+                                                [dataSource6]="dataSource6" [dataSource7]="dataSource7"
+                                                [dataSource8]="dataSource8" [dataSource9]="dataSource9"
+                                                [displayedColumn19]="displayedColumn19"
+                                                [displayedColumn17]="displayedColumn17"
+                                                [displayedColumn18]="displayedColumn18"
+                                                [displayedColumn42]="displayedColumn42"
+                                                [displayedColumn43]="displayedColumn43"
+                                                [displayedColumn62]="displayedColumn62"
+                                                [displayedColumn72]="displayedColumn72"
+                                                [displayedColumn82]="displayedColumn82"
+                                                [displayedColumn92]="displayedColumn92"
+                                                [displayedColumn93]="displayedColumn93"
+                                                [displayedColumn55]="displayedColumn55">
+                                            </app-supplier-response-header-view>
+                                        </ng-template>
+
+                                    </mat-tab>
+                                    <mat-tab label="Lines" class="direct-child-of-parent">
+                                        <ng-template matTabContent class="direct-child-of-parent">
+                                            <app-supplier-response-line-view [rfqId]="rfqId" [rfqModel]="rfqModel"
+                                                [supplierId]="supplierIdInResponses" [dataSource19]="dataSource19"
+                                                [dataSource17]="dataSource17" [dataSource4]="dataSource4"
+                                                [dataSource6]="dataSource6" [dataSource7]="dataSource7"
+                                                [dataSource8]="dataSource8" [dataSource9]="dataSource9"
+                                                [displayedColumn19]="displayedColumn19"
+                                                [displayedColumn17]="displayedColumn17"
+                                                [displayedColumn18]="displayedColumn18"
+                                                [displayedColumn42]="displayedColumn42"
+                                                [displayedColumn43]="displayedColumn43"
+                                                [displayedColumn62]="displayedColumn62"
+                                                [displayedColumn72]="displayedColumn72"
+                                                [displayedColumn82]="displayedColumn82"
+                                                [displayedColumn92]="displayedColumn92"
+                                                [displayedColumn93]="displayedColumn93">
+                                            </app-supplier-response-line-view>
+
+                                        </ng-template>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab label="Surrogate Response">
+                            <ng-template matTabContent>
+                                <app-surrogate-response-view *ngIf="tabIndexResponse === 1" [rfqModel]="rfqModel"
+                                    [RFQID]="rfqId">
+                                </app-surrogate-response-view>
+
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </ng-template>
+            </mat-tab>
+            <mat-tab class="direct-child-of-parent">
+                <ng-template mat-tab-label>
+                    Evaluations
+                    <mat-icon svgIcon="mat_outline:keyboard_arrow_down" class="text-white"></mat-icon>
+                </ng-template>
+                <ng-template matTabContent>
+                    <mat-tab-group (selectedTabChange)="changeEvaluationTab($event)" [selectedIndex]="selectedEvaluationIndex" class="tab-type-two is-parent-tab"
+                        [animationDuration]="'0'">
+                        <!--second batch of tabs-->
+                        <mat-tab label="Technical Bid Evaluation">
+                            <!-- *ngIf="rfqModel.statusName=='Evaluation Initiated'"  -->
+                            <ng-template matTabContent>
+                                <app-technical-bid-evaluation-view (rfqUpdated)="UpdateRFQModel($event)" (approvalHistoryView)="UpdateAprovalHistory('TBE')" [RFQID]="rfqId"
+                                    [RFQModel]="rfqModel">
+                                </app-technical-bid-evaluation-view>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab label="Commercial Bid Evaluation">
+                            <!-- rfqModel.statusName=='Evaluation Initiated' &&  -->
+                            <ng-template matTabContent>
+                                <app-commercial-bid-evaluation-view (rfqUpdated)="UpdateRFQModel($event)" (approvalHistoryView)="UpdateAprovalHistory('CBE')" [RFQID]="rfqId" [RFQModel]="rfqModel">
+                                </app-commercial-bid-evaluation-view>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab label="Comparative Bid Analysis">
+                            <ng-template matTabContent>
+                                <app-comperative-bid-analysis (indexUpdated)="UpdateRFQIndex($event)" [RFQID]="rfqId"></app-comperative-bid-analysis>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab label="RFX Summary">
+                            <ng-template matTabContent>
+                                <app-rfx-summary (indexUpdated)="UpdateRFQIndex($event)" [RFQID]="rfqId"
+                                    [dataSource22]="dataSource22" [displayedColumn22]="displayedColumn22">
+                                </app-rfx-summary>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab label="Recommendation of Award">
+                            <ng-template matTabContent>
+                                <app-recommendation-award (approvalHistoryView)="UpdateAprovalHistory('ROA')" (rfqUpdated)="UpdateRFQModel($event)" [RFQModel]="rfqModel" [RFQID]="rfqId">
+                                </app-recommendation-award>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+
+        <mat-divider class="my-6 border-gray-300"></mat-divider>
+
+        <div class="approvals flex flex-col" *ngIf="(!(evaluationTabIndex==2 || evaluationTabIndex==3))">
+            <mat-accordion multi class="custom-accordian">
+                <mat-expansion-panel class="card-style mb-6 p-0" (opened)="panelOpenState = true"
+                    (closed)="panelOpenState = false" hideToggle="true">
+                    <mat-expansion-panel-header class="h-full pt-4 pb-2">
+                        <div class="flex flex-col w-full">
+                            <mat-panel-title class="text-xl mb-3 flex justify-between">
+                                <div class="flex items-center">
+                                    Approvals
+                                </div>
+                                <div class="flex items-center">
+                                    <mat-icon color="primary" *ngIf="!panelOpenState"
+                                        svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                                    <mat-icon color="primary" *ngIf="panelOpenState"
+                                        svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                                </div>
+
+                            </mat-panel-title>
+                            <div class="relative flex justify-between py-7">
+                                <!-- Line -->
+                                <ng-container>
+                                    <div class="absolute top-12 left-5 w-full h-2.5 -ml-px -mr-px bg-blue-100">
+                                    </div>
+                                </ng-container>
+
+                                <!--First item-->
+                                <div class="relative flex" *ngFor="let row of approveRejectWidgetData">
+                                    <div class="flex flex-col items-start" *ngIf="row.level=='First'">
+                                        <!-- Icon -->
+                                        <ng-container>
+                                            <div
+                                                class="flex flex-shrink-0 items-center justify-center w-12 h-12 rounded-full bg-primary">
+                                                <mat-icon class="icon-size-7 text-white"
+                                                    svgIcon="mat_solid:account_circle"></mat-icon>
+                                            </div>
+                                        </ng-container>
+                                        <div class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-2 text-green"
+                                                svgIcon="mat_solid:check_circle"></mat-icon>{{row.employeeName}}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center"
+                                        *ngIf="row.level=='Center' && row.status==approvedstring">
+                                        <!-- Icon -->
+                                        <ng-container>
+                                            <div
+                                                class="flex flex-shrink-0 items-center justify-center w-12 h-12 rounded-full bg-primary">
+                                                <mat-icon class="icon-size-7 text-white" svgIcon="mat_solid:fact_check">
+                                                </mat-icon>
+                                            </div>
+                                        </ng-container>
+                                        <div class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-2 text-green"
+                                                svgIcon="mat_solid:check_circle"></mat-icon>{{row.employeeName}}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center"
+                                        *ngIf="row.level=='Center' && row.status==approvalPendingstring">
+                                        <!-- Icon -->
+                                        <ng-container>
+                                            <div
+                                                class="flex flex-shrink-0 items-center justify-center w-12 h-12 rounded-full bg-gray-100 border-primary border-2">
+                                                <mat-icon class="icon-size-7 text-primary"
+                                                    svgIcon="mat_solid:fact_check"></mat-icon>
+                                            </div>
+                                        </ng-container>
+                                        <div class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-2 text-yellow-500"
+                                                svgIcon="mat_solid:timelapse"></mat-icon>{{row.employeeName}}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-end" *ngIf="row.level=='Last'">
+                                        <!-- Icontext-white -->
+                                        <ng-container>
+                                            <div [ngClass]="completedDivCss">
+                                                <!-- bg-primary -->
+                                                <mat-icon [ngClass]="completedIconCss" svgIcon="mat_solid:thumb_up">
+                                                </mat-icon><!-- text-white -->
+                                            </div>
+                                        </ng-container>
+                                        <div class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-2 text-gray-400"
+                                                svgIcon="mat_solid:hourglass_top"></mat-icon>Completed
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </mat-expansion-panel-header>
+                    <div class="flex justify-end mr-6">
+                        <button (click)="exportApprovalToExcel()" mat-icon-button aria-label="Download Excel file">
+                            <img src="assets/icons/excel.svg" alt="download excel file1">
+                        </button>
+                    </div>
+
+                    <div class="overflow-auto srm-bg rounded-lg mt-4 px-2">
+                        <!--table component-->
+                        <table mat-table [dataSource]="approveRejectTableData" matSort
+                            class="expanded-rows-table font-helvetica text-gray-500" style="width: calc(100% - 2px);">
+
+                            <!-- number Column -->
+                            <ng-container matColumnDef="stepNumber">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 70px; min-width: 50px">
+                                    Step No
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.stepNo}}
+                                </td>
+                            </ng-container>
+
+                            <!-- id Item -->
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 120px; min-width: 90px">
+                                    Autharizer ID
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.autharizerID}}
+                                </td>
+                            </ng-container>
+
+                            <!-- name Column -->
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                                    Autharizer Name
+                                </th>
+                                <td mat-cell *matCellDef="let row"> {{row.autharizerName}} </td>
+                            </ng-container>
+
+                            <!-- address Column -->
+                            <ng-container matColumnDef="address">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 160px; min-width: 150px">
+                                    Email Address
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.employeeEmail}}
+                                </td>
+                            </ng-container>
+
+                            <!-- status Column -->
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 160px; min-width: 150px">
+                                    Approval Status
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.approvalStatus}}
+                                </td>
+                            </ng-container>
+
+                            <!-- Authorization Routing Template Column -->
+                            <ng-container matColumnDef="template">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 120px; min-width: 80px">
+                                    Authorization Routing Template
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.authorizationRoutingTemplate}}
+                                </td>
+                            </ng-container>
+
+                            <!-- Justification column -->
+                            <!-- The comment from the approver should be displayed here  -->
+                            <ng-container matColumnDef="justification">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 90px; min-width: 80px">
+                                    Justification
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.reason}}
+                                </td>
+                            </ng-container>
+
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumn;"></tr>
+
+
+                        </table>
+
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg">
+
+                        </div>
+                        <!--table component end-->
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+
+        <div class="history flex flex-col">
+            <mat-accordion multi class="custom-accordian">
+                <mat-expansion-panel class="card-style mb-6 p-0" (opened)="panelOpenState = true"
+                    (closed)="panelOpenState = false" hideToggle="true">
+                    <mat-expansion-panel-header class="h-full pt-4 pb-2">
+                        <div class="flex flex-col w-full">
+                            <mat-panel-title class="text-xl mb-3 flex justify-between">
+                                <div class="flex items-center">
+                                    History
+                                </div>
+                                <div class="flex items-center">
+                                    <mat-icon color="primary" *ngIf="!panelOpenState"
+                                        svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                                    <mat-icon color="primary" *ngIf="panelOpenState"
+                                        svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                                </div>
+
+                            </mat-panel-title>
+                        </div>
+                    </mat-expansion-panel-header>
+                    <div class="flex justify-end mr-6">
+                        <button mat-icon-button (click)="exportHistoryToExcel()" aria-label="Download Excel file">
+                            <img src="assets/icons/excel.svg" alt="download excel file">
+                        </button>
+                    </div>
+
+                    <div class="overflow-auto srm-bg rounded-lg mt-4 px-2" *ngIf="rfxHistoryViewModel">
+                        <!--table component-->
+
+                        <table mat-table [dataSource]="rfxHistoryViewModel" matSort
+                            class="expanded-rows-table font-helvetica text-gray-500" style="width: calc(100% - 2px);">
+
+                            <!-- Pef No Column -->
+                            <ng-container matColumnDef="pefno">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 70px; min-width: 50px">
+                                    SR No
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.srNo}}
+                                </td>
+                            </ng-container>
+
+                            <!-- Rev No -->
+                            <ng-container matColumnDef="revno">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 70px; min-width: 50px">
+                                    Rev No
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.revNo}}
+                                </td>
+                            </ng-container>
+
+
+
+                            <!-- status Column -->
+                            <ng-container matColumnDef="by">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 150px; min-width: 120px">
+                                    Action By
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.employeeName}}
+                                </td>
+                            </ng-container>
+
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 120px; min-width: 80px">
+                                    Action
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.actionName}}
+                                </td>
+                            </ng-container>
+
+                            <!-- status Column -->
+                            <ng-container matColumnDef="status2">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 100px; min-width: 80px">
+                                    Status
+                                </th>
+                                <td mat-cell *matCellDef="let row" (click)="OpenURL('/rfq',row)">
+                                    {{row.status}}
+                                </td>
+                            </ng-container>
+
+                            <!-- Date-Timestamp Column -->
+                            <ng-container matColumnDef="timestamp">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 120px; min-width: 80px">
+                                    Date-Timestamp
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.creationDate}}
+                                </td>
+                            </ng-container>
+
+                            <!-- justification Column -->
+                            <ng-container matColumnDef="justification">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="max-width: 90px; min-width: 80px">
+                                    Justification
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.justification}}
+                                </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumn2"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumn2;"></tr>
+
+                            <!-- Row shown when there is no matching data. -->
+                            <!-- <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                            </tr> -->
+                        </table>
+
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg">
+
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+
+    </div>
+
+    <div class="flex justify-end ml-auto p-6">
+        <button class="w-20 mr-4" mat-button [color]="'primary'" (click)="goBack();">
+            <span class="mx-8">Cancel</span>
+        </button>
+        <button *ngIf="isSaveAsDraft" type="button" (click)="SaveAsDraft()" class="sm:inline-flex mr-4"
+            mat-stroked-button [color]="'primary'">
+            <span class="mx-8">Save as Draft</span>
+        </button>
+        <button (click)="Review()" [disabled]="processOnReview" *ngIf="isSaveAsDraft" class="sm:inline-flex mr-4" mat-raised-button
+            [color]="'primary'">
+            <span class="mx-8">Review</span>
+        </button>
+        <!-- <button [disabled]="isreviseDisable" *ngIf="rfqModel.isAmend" (click)="pauseRFX()" class="sm:inline-flex mr-4"
+            mat-raised-button [color]="'primary'">
+            <span class="mx-8">Amend</span>
+        </button> -->
+        <button *ngIf="rfqModel.isSendForApproval" class="sm:inline-flex mr-4" mat-raised-button [color]="'primary'"
+            (click)="RFQSendForApproval()" [disabled]="processOnApprovel">
+            <span class="mx-8">Send For Approval</span>
+        </button>
+        <button *ngIf="rfqModel.isPublish" class="sm:inline-flex e-bgcolor-green text-white" mat-raised-button
+            (click)="PublishRFX()" [disabled]="isClickedPublished">
+            <span class="mx-8">Publish</span>
+        </button>
+        <button *ngIf="rfqModel.isevaluationInitiationRFX" class="sm:inline-flex e-bgcolor-green text-white"
+            mat-raised-button (click)="evaluationInitiationRFX()">
+            <span class="mx-8">Evaluation Initiation</span>
+        </button>
+    </div>
+
+    <div class="flex justify-end ml-auto p-6">
+        <button *ngIf="rfqModel.isApproveReject" class="w-20 mr-4" mat-raised-button color="warn"
+            (click)="rejectionConfirm()">
+            <span class="mx-8">Reject</span>
+        </button>
+
+        <button *ngIf="rfqModel.isApproveReject" class="w-20 e-bgcolor-green text-white" mat-raised-button
+            (click)="approvalConfirm()">
+            <span class="mx-8">Approve</span>
+        </button>
+
+    </div>
+    <div *ngIf="rfqModel.statusName=='Awarded'" class="flex justify-end ml-auto p-6">
+        
+
+        <button class="w-20 e-bgcolor-green text-white" mat-raised-button
+            (click)="OpenPOTransfer()">
+            <span class="mx-8">PO Transfer</span>
+        </button>
+
+    </div>
+
+</div>

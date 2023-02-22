@@ -1,0 +1,120 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full" (ngSubmit)="saveReview()">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                {{dialogTitle}}
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+            <div class="grid grid-cols-3 gap-x-4 gap-y-6 ml-auto srm-bg rounded-lg p-4">
+                <div class="font-medium text-base">Evaluation Name</div>
+                <div class="font-base text-base col-span-2">{{reviewInitiationForm.evaluationName}}</div>
+                <div class="font-medium text-base">Form Selection</div>
+                <div class="font-base text-base col-span-2">{{reviewInitiationForm.formName}}</div>
+                <div class="font-medium text-base">User/ User Group Selection</div>
+                <div *ngIf="reviewInitiationForm.assignType==usersAssignMethod" class="font-base text-base col-span-2">
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                        <div class="font-base text-base mb-2">
+                            <ul id="thumbnailsList">
+                                <li *ngFor=" let user of reviewInitiationForm.assignedUsersList">
+                                    {{user}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="reviewInitiationForm.assignType==userRolesAssignMethod"
+                    class="font-base text-base col-span-2">
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                        <div class="font-base text-base mb-2">
+                            <ul id="thumbnailsList">
+                                <li *ngFor=" let userRole of reviewInitiationForm.assignedUserRolesList">
+                                    {{userRole}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="font-medium text-base">Supplier Selection</div>
+                <div class="font-base text-base col-span-2">
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+
+                        <div class="font-base text-base mb-2">
+                            <ul id="thumbnailsList">
+                                <li *ngFor=" let supplier of supplierNameList">
+                                    {{supplier.supplierName}}
+                                </li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                    <div *ngIf="reviewInitiationForm.supplierBlocker==1">
+                        (Block suppliers if not recommended)
+                    </div>
+                </div>
+               
+                <div class="font-medium text-base">Time Period</div>
+                <div class="font-base text-base col-span-2">
+                    <div class="font-base text-base mb-2">{{reviewInitiationForm.frequency}}</div>
+                    <div class="font-base text-base mb-2">{{reviewInitiationForm.startDate}} -
+                        {{reviewInitiationForm.endDate}}</div>
+                </div>
+                <div class="font-medium text-base">Grading Method</div>
+                <div class="font-base text-base col-span-2">
+                    <div class="font-base text-base mb-2">{{reviewInitiationForm.gradingMethod}}</div>
+                    <div *ngIf="reviewInitiationForm.gradingMethod==gradingMethodB" class="font-base text-base mb-2">
+                        <div class="font-medium text-base">Reviewer Weights</div>
+                        <div class="font-base text-base col-span-2">
+                            <ul id="thumbnailsList">
+                                <li *ngFor=" let reviewerWeight of reviewInitiationForm.reviewerWeightsArray">
+                                    {{reviewerWeight.reviewer}} - {{reviewerWeight.weight}}%
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div *ngIf="reviewInitiationForm.gradingMethod==gradingMethodC" class="font-base text-base mb-2">
+                        <div>Min grade threshold - {{reviewInitiationForm.minGradeThreshold}}</div>
+                    </div>
+
+                </div>
+
+
+                <div class="font-medium text-base">Grade Categories</div>
+                <div class="font-base text-base col-span-2">
+                    <ul id="thumbnailsList">
+                        <li *ngFor=" let gradeCategory of reviewInitiationForm.gradeCategoriesArray">
+                            {{gradeCategory.category}} ({{gradeCategory.lowerBound}} to {{gradeCategory.upperBound}})
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+
+            <div class="flex flex-col justify-start mt-5">
+                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                    <span>{{'Successfully saved'}}</span>
+                </div>
+                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                    <span>{{'Something went wrong'}}</span>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Back</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="submit">
+                <span class="mx-4">{{submitButtonText}}</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

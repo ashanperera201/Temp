@@ -1,0 +1,36 @@
+<div class="header-container">
+    <div class="header-container__title">
+        Role Configuration
+    </div>
+    <div class="header-container__close-btn">
+        <button mat-icon-button color="primary" (click)="closeModal()">
+            <mat-icon class="cus-icon">close</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div class="permission-content">
+    <mat-tab-group mat-align-tabs="start">
+        <mat-tab *ngFor="let permissionConfig of userPermissionConfigurations" [label]="permissionConfig?.moduleName">
+            <mat-tab-group>
+                <mat-tab class="permission-content" *ngFor="let subCategory of permissionConfig?.subCategories"
+                    [label]="subCategory?.categoryTitle">
+
+                    <div [ngSwitch]="subCategory?.categoryCode">
+                        <div *ngSwitchCase="'VISIBILITY'">
+                            <visibility-config [subCategory]="subCategory" [moduleCode]="permissionConfig?.moduleCode"
+                                (onPermissionChange)="onPermissionChange($event)" (onSave)="saveConfig($event)">
+                            </visibility-config>
+                        </div>
+                        <div *ngSwitchCase="'PERMISSIONS'">
+                            <permissions-config [subCategory]="subCategory" [moduleCode]="permissionConfig?.moduleCode"
+                                (onSave)="saveConfig($event)" (onEditChange)="onEditChange($event)"
+                                (onViewChange)="onViewChange($event)">
+                            </permissions-config>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-tab>
+    </mat-tab-group>
+</div>

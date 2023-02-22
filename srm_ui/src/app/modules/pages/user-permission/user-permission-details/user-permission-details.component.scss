@@ -1,0 +1,50 @@
+.user-permission-details {
+    flex-direction: column;
+
+    form {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: baseline;
+        flex-wrap: wrap;
+
+        .mat-form-field {
+            padding: 1rem;
+        }
+
+        .mat-slide-toggle {
+            padding: 1rem;
+        }
+
+        button {
+            padding: 1rem;
+        }
+    }
+
+    section.example-section {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: space-between;
+        align-items: center;
+
+        div {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: center;
+            justify-content: space-between;
+            align-items: baseline;
+
+            span {
+                width: 100%;
+                text-align: left;
+            }
+        }
+
+        mat-accordion{
+            width: 100%;
+        }
+    }
+}

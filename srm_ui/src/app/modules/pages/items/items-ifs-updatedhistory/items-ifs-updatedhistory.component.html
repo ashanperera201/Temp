@@ -1,0 +1,85 @@
+<div class="items-page flex flex-auto min-w-0">
+    <drawer-mini class="drawer-mini"></drawer-mini>
+
+    <div class="flex flex-col overflow-hidden flex-auto sm:p-6 md:p-8">
+        <div class="flex justify-between items-start">
+            <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+                Updated History
+                <!-- Breadcrumbs -->
+                <div class="flex flex-wrap items-center font-medium text-xl ml-px mt-2">
+                    <div>
+                        <a routerLink="/items/ifs"
+                            class="whitespace-nowrap text-primary-500 font-semibold ml-px">IFS Integration Failed</a>
+                    </div>
+                    <div class="flex items-center ml-2 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a class="ml-1">Supplier {{supplier_code}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="overflow-auto bg-gray-50 rounded-lg">
+            <div class="test p-6">
+                <form class="flex flex-col w-full">
+                    <p class="mb-6 font-medium w-3/5 text-xl">
+                        Interfaced History
+                    </p>
+
+                    <div class="overflow-auto bg-gray-50 rounded-lg flex">
+                        <table mat-table [dataSource]="dataSourceNew" matSort class="expanded-rows-table font-helvetica text-gray-500">
+                            <ng-container matColumnDef="position">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 200px"> Seq No. </th>
+                                <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="interfaceddate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px"> Updated Date </th>
+                                <td mat-cell *matCellDef="let element"> {{element.interfaceddate}}</td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="useremail">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px"> Changer Email </th>
+                                <td mat-cell *matCellDef="let element"> {{element.useremail}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="username">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px"> Changer Name </th>
+                                <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="fieldname">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px"> Field Name </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fieldname}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="changedfrom">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px"> Changed Value(From) </th>
+                                <td mat-cell *matCellDef="let element"> {{element.changedfrom}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="changedto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px"> Changed Value(To) </th>
+                                <td mat-cell *matCellDef="let element"> {{element.changedto}} </td>
+                            </ng-container>
+                    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            
+                            <!-- Row shown when there is no matching data. -->
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="flex justify-end">
+                        <mat-paginator #tableOnePaginator class="flex text-lg" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true"></mat-paginator>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

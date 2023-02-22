@@ -1,0 +1,373 @@
+<div style="margin-top:10px;padding: 5px 31px;" class="dashboard-page flex flex-col flex-auto min-w-0">
+
+    <mat-tab-group class="tab-type-one is-parent-tab with-immediate-sticky-child" [(selectedIndex)]="tabIndex"
+        [animationDuration]="'0'">
+        <mat-tab label="Sessions" class="direct-child-of-parent">
+
+            <div class="loader-inline" *ngIf='loading'>
+                <img src="assets/images/xitricon-loader.gif" alt="loading">
+            </div>
+            <div  *ngIf="show" class="px-4 py-2 srm-bg rounded-lg">
+                <div class="pb-4">
+                    <div class="relative">
+                        <!--table component-->
+                        <div class="flex justify-end ml-auto">
+                            <button class="sm:inline-flex mr-2" mat-raised-button (click)="initiateReview();">
+                                <mat-icon class="icon-size-5 ml-2 mr-2" [svgIcon]="'mat_outline:manage_search'">
+                                </mat-icon>
+                                <span class="mr-2">Initiate Review Session</span>
+                            </button>
+                            <button class="sm:inline-flex" mat-raised-button (click)="scheduleReview();">
+                                <mat-icon class="icon-size-5 ml-2 mr-2" [svgIcon]="'mat_outline:manage_search'">
+                                </mat-icon>
+                                <span class="mr-2">Schedule Review Session</span>
+                            </button>
+                        </div>
+                        <div class="flex justify-end mt-4 mb-4">
+                            <div class="flex" style="justify-content: center">
+                                <mat-icon style="color:green">brightness_1</mat-icon>
+                                <mat-label class="pl-2 pt-1">All reviews done</mat-label>
+                            </div>
+                            <div class="flex pl-3" style="justify-content: center">
+                                <mat-icon style="color:yellow">brightness_1</mat-icon>
+                                <mat-label class="pl-2 pt-1">Some reviews need to be done</mat-label>
+                            </div>
+                            <div class="flex pl-3" style="justify-content: center">
+                                <mat-icon style="color:#D84315">brightness_1</mat-icon>
+                                <mat-label class="pl-2 pt-1">All reviews need to be done</mat-label>
+                            </div>
+                        </div>
+
+                        <!-- <div class="flex justify-end mb-4">
+                            <button type="button" class="inline-flex" mat-stroked-button [color]="'primary'"
+                                (click)="initiateReview();">
+                                <mat-icon class="icon-size-5 ml-2 mr-2" [svgIcon]="'mat_outline:manage_search'">
+                                </mat-icon>
+                                <span class="mr-2">Initiate Review Session</span>
+                            </button>
+                            <button type="button" class="inline-flex" mat-stroked-button [color]="'primary'"
+                                (click)="scheduleReview();">
+                                <mat-icon class="icon-size-5 ml-2 mr-2" [svgIcon]="'mat_outline:manage_search'">
+                                </mat-icon>
+                                <span class="mr-2">Schedule Review Session</span>
+                            </button>
+                        </div> -->
+
+                        <!-- <div class="flex justify-end mb-4">
+                            <mat-label style="padding-bottom: 30px"><mat-icon style="color:green">
+                                brightness_1
+                            </mat-icon>All reviews done</mat-label>
+                            <mat-label style="padding-bottom: 30px"><mat-icon style="color:yellow">
+                                brightness_1
+                            </mat-icon>Some reviews need to be done</mat-label>
+                            <mat-label style="padding-bottom: 30px"><mat-icon style="color:#D84315">
+                                brightness_1
+                            </mat-icon>All reviews need to be done</mat-label>
+                        </div> -->
+
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg">
+                            <table mat-table [dataSource]="reviews" matSort
+                                class="expanded-rows-table font-helvetica text-gray-500"
+                                style="width: calc(100% - 2px); background: #fafafa !important; padding: 0 2px;">
+                                <!-- <table mat-table [dataSource]="reviews" matSort class="expanded-rows-table font-helvetica text-gray-500" style="width: calc(100% - 2px); background: #fafafa !important; padding: 0 2px;"> -->
+
+                                <!-- ID Column -->
+                                <!-- <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef style="max-width: 50px; width: 50px" ></th>
+                                    <td mat-cell *matCellDef="let row">
+                                    </td>
+                                </ng-container> -->
+
+                                <!--  Evaluation Name Column -->
+                                <ng-container matColumnDef="evalName">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <div class="flex-col flex text-left header">
+                                            <span mat-sort-header> Evaluation Name</span>
+                                            <mat-form-field style="margin-top: 10px;">
+                                                <input matInput class="form-field"
+                                                    (keyup)="filterChange('evalName',$event)">
+                                                <mat-icon matSuffix>search</mat-icon>
+                                            </mat-form-field>
+                                        </div>
+                                    </th>
+                                    <td (click)="goToReviewResponse(row)" mat-cell *matCellDef="let row"><a
+                                            style="cursor: pointer;" class="schedulerIcon">
+                                            {{row.evaluationName}}
+                                            <mat-icon *ngIf="row.scheduled===1" color="primary">
+                                                schedule
+                                            </mat-icon>
+                                            <mat-icon *ngIf="sessionReviewerColours[row.evaluationName]=='green'" style="color:green">
+                                                brightness_1
+                                            </mat-icon>
+                                            <mat-icon *ngIf="sessionReviewerColours[row.evaluationName]=='yellow'" style="color:yellow">
+                                                brightness_1
+                                            </mat-icon>
+                                            <mat-icon *ngIf="sessionReviewerColours[row.evaluationName]=='red'" style="color:#D84315">
+                                                brightness_1
+                                            </mat-icon>
+                                            <mat-icon *ngIf="row.status==reviewPublishedState && sessionReviewerColours[row.evaluationName]=='white'"  color="primary">
+                                                cloud_done
+                                            </mat-icon>
+                                        </a> </td>
+
+                                </ng-container>
+                                <ng-container matColumnDef="formType">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <div class="flex-col flex text-left header">
+                                            <span mat-sort-header> Form Type</span>
+                                            <mat-form-field style="margin-top: 10px;">
+                                                <input matInput class="form-field"
+                                                    (keyup)="filterChange('formType',$event)">
+                                                <mat-icon matSuffix>search</mat-icon>
+                                            </mat-form-field>
+                                        </div>
+                                    </th>
+                                    <td (click)="goToReviewResponse(row)" mat-cell *matCellDef="let row"><a
+                                            style="cursor: pointer;" class="schedulerIcon">
+                                            {{row.services}}
+                                        </a> </td>
+
+                                </ng-container>
+
+                                <!-- Review TimeLine Column -->
+                                <ng-container matColumnDef="reviewTime">
+                                    <th mat-header-cell *matHeaderCellDef>
+
+                                        <div class="flex-col flex text-left header">
+                                            <span mat-sort-header> Review TimeLine</span>
+                                            <mat-form-field style="margin-top: 10px;">
+                                                <input matInput class="form-field"
+                                                    (keyup)="filterChange('reviewTime',$event)">
+                                                <mat-icon matSuffix>search</mat-icon>
+                                            </mat-form-field>
+                                        </div>
+                                    </th>
+                                    <td (click)="goToReviewResponse(row)" mat-cell *matCellDef="let row">
+                                        <div *ngIf="row.scheduled===1;then schedule_frequency else one_time"></div>
+                                        <ng-template #schedule_frequency><a
+                                                style="cursor: pointer;">{{row.frequency}}</a></ng-template>
+                                        <ng-template #one_time> <a *ngIf="row.periodType===presetTypePeriod"
+                                                style="cursor: pointer;">{{row.presetPeriod}}</a>
+                                            <a *ngIf="row.periodType===customTypePeriod" style="cursor: pointer;">
+                                                {{('0' + (row.startDate.getDate())).slice(-2)}}/{{('0' +
+                                                (row.startDate.getMonth()+1)).slice(-2)}}/{{row.startDate.getFullYear()}}
+                                                -
+                                                {{('0' + (row.endDate.getDate())).slice(-2)}}/{{('0' +
+                                                (row.endDate.getMonth()+1)).slice(-2)}}/{{row.endDate.getFullYear()}}
+                                            </a>
+                                        </ng-template>
+
+                                    </td>
+                                </ng-container>
+
+                                <!--  Requested By Column -->
+                                <ng-container matColumnDef="reqBy">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <div class="flex-col flex text-left header">
+                                            <span mat-sort-header> Created By</span>
+                                            <mat-form-field style="margin-top: 10px;">
+                                                <input matInput class="form-field"
+                                                    (keyup)="filterChange('reqBy',$event)">
+                                                <mat-icon matSuffix>search</mat-icon>
+                                            </mat-form-field>
+                                        </div>
+                                    </th>
+                                    <td (click)="goToReviewResponse(row)" mat-cell *matCellDef="let row"><a
+                                            style="cursor: pointer;">{{row.createdUser}}</a> </td>
+                                </ng-container>
+
+                                <!-- Initiated Date Column -->
+                                <ng-container matColumnDef="initDate">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <div class="flex-col flex text-left header">
+                                            <span mat-sort-header> Initiated Date</span>
+                                            <mat-form-field appearance="fill" style="margin-top: 10px;">
+                                                <input matInput [matDatepicker]="picker" [(ngModel)]="value" disabled
+                                                    (dateInput)="filterChange('initDate',$event)">
+                                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                                    <mat-icon matDatepickerToggleIcon>search</mat-icon>
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                                <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear"
+                                                    (click)="value=''; resetFilters()">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                            </mat-form-field>
+                                        </div>
+                                    </th>
+                                    <td (click)="goToReviewResponse(row)" mat-cell *matCellDef="let row"><a
+                                            style="cursor: pointer;">{{row.createdDate}}</a> </td>
+                                </ng-container>
+
+                                <!-- Published Date Column -->
+                                <ng-container matColumnDef="pubDate">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <div class="flex-col flex text-left header">
+                                            <span mat-sort-header> Modified Date</span>
+                                            <mat-form-field appearance="fill" style="margin-top: 10px;">
+                                                <input matInput [matDatepicker]="picker" [(ngModel)]="value2" disabled
+                                                    (dateInput)="filterChange('pubDate',$event)">
+                                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                                    <mat-icon matDatepickerToggleIcon>search</mat-icon>
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                                <button *ngIf="value2" matSuffix mat-icon-button aria-label="Clear"
+                                                    (click)="value2=''; resetFilters()">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                            </mat-form-field>
+                                        </div>
+                                    </th>
+                                    <td (click)="goToReviewResponse(row)" mat-cell *matCellDef="let row"><a
+                                            style="cursor: pointer;">{{row.modifiedDate}}</a> </td>
+                                </ng-container>
+
+                                <!-- Review Year Column -->
+                                <ng-container matColumnDef="revYear">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <div class="flex-col flex text-left header">
+                                            <span mat-sort-header> Review Year</span>
+                                            <mat-form-field style="margin-top: 10px;">
+                                                <input matInput class="form-field"
+                                                    (keyup)="filterChange('revYear',$event)">
+                                                <mat-icon matSuffix>search</mat-icon>
+                                            </mat-form-field>
+                                        </div>
+                                    </th>
+                                    <td (click)="goToReviewResponse(row)" mat-cell *matCellDef="let row"><a
+                                            style="cursor: pointer;">{{row.reviewYear}}</a> </td>
+                                </ng-container>
+
+                                <!-- Status Column -->
+                                <ng-container matColumnDef="status">
+
+                                    <th mat-header-cell *matHeaderCellDef>
+
+                                        <div class="flex-col flex text-left header">
+                                            <span mat-sort-header> Status</span>
+                                            <mat-form-field style="margin-top: 10px;">
+                                                <input matInput class="form-field"
+                                                    (keyup)="filterChange('status',$event)">
+                                                <mat-icon matSuffix>search</mat-icon>
+                                            </mat-form-field>
+                                        </div>
+                                    </th>
+
+                                <td (click)="goToReviewResponse(row)" mat-cell *matCellDef="let row"><a
+                                        style="cursor: pointer;">{{row.status}}
+                                    </a> </td>
+                            </ng-container>
+                                <ng-container matColumnDef="editButton">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Display/Edit
+                                    </th>
+                                    <td mat-cell *matCellDef="let row"><button  *ngIf=canDisplaySession(row)||!canEditSession(row) [disabled]=!canDisplaySession(row)
+                                            (click)="editReviewSession(row)" mat-stroked-button color="primary">
+                                            Display</button>
+
+                                        <button *ngIf=canEditSession(row) (click)="editReviewSession(row)"
+                                            mat-stroked-button color="primary">
+                                            Edit</button>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="publishButton">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Publish
+                                    </th>
+                                    <td mat-cell *matCellDef="let row"><button [disabled]=!canPublishSession(row)
+                                            (click)="publishReviewSession(row)" mat-stroked-button
+                                            color="primary">Publish</button></td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="reviewColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: reviewColumns;"
+                                    [ngStyle]="{'background':row.scheduled===1?'#f0e8de':''}"></tr>
+
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="9" style="text-align: center;"><span> No data</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="flex justify-end">
+                            <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                        </div>
+                        <!--table component end-->
+                    </div>
+                </div>
+            </div>
+            <div class="card-div"  *ngIf="!show" >    
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <mat-card-title> Not authorized to view this content.</mat-card-title>
+                        <mat-card-subtitle> 
+                            Please contact Admin.  
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Todos">
+            <app-review-todos> </app-review-todos>
+        </mat-tab>
+        <mat-tab label="Responses">
+            <app-review-responses></app-review-responses>
+        </mat-tab>
+        <mat-tab label="Outcomes">
+            <app-review-outcomes> </app-review-outcomes>
+        </mat-tab>
+
+    </mat-tab-group>
+
+</div>
+
+<ng-template #errorDialog>
+    <!-- <h2 matDialogTitle>Hello, world!</h2> -->
+    <p matDialogContent><em>The review session must be published in order to add a review</em></p>
+    <mat-dialog-actions>
+        <button mat-button matDialogClose>Dismiss</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<ng-template #errorDialog2>
+    <!-- <h2 matDialogTitle>Hello, world!</h2> -->
+    <p matDialogContent><em>You're not an assigned reviewer for this session</em></p>
+    <mat-dialog-actions>
+        <button mat-button matDialogClose>Dismiss</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<ng-template #errorDialog3>
+    <!-- <h2 matDialogTitle>Hello, world!</h2> -->
+    <p matDialogContent><em>{{error3Message}}</em></p>
+    <mat-dialog-actions>
+        <button mat-button matDialogClose>Dismiss</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<style>
+    .schedulerIcon {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .schedulerIcon>.mat-icon {
+        padding-left: 10px;
+    }
+
+    .mat-stroked-button {
+        min-height: unset !important;
+    }
+
+
+    th.mat-header-cell,
+    td.mat-cell,
+    td.mat-footer-cell {
+        padding: 0 10px !important;
+    }
+</style>

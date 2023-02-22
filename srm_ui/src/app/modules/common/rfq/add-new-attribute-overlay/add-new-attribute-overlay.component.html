@@ -1,0 +1,83 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full" [formGroup]="frmAttribute" (ngSubmit)="onFormSubmit(frmAttribute.value)">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                New Attribute Item
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+
+            <div class="w-full">
+                <div class="flex flex-col">
+                    <!-- added new -->
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Attribute Item Name</mat-label>
+                            <input matInput formControlName="attributeName" (input)="onNameInput($event.target.value)"  />
+                            <mat-error>
+                                <span
+                                        *ngIf="frmAttribute.get('attributeName').hasError('duplicate')">
+                                        Name already exists
+                                    </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Category</mat-label>
+                            <mat-select formControlName="categoryId">
+                                <mat-option *ngFor="let category of attributeCategoryList" [value]="category.id">
+                                    {{category.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Description</mat-label>
+                            <input matInput formControlName="description" />
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Data Type</mat-label>
+                            <mat-select formControlName="dataTypeId">
+                                <mat-option *ngFor="let dataType of attributeDataTypeList" [value]="dataType.id">
+                                    {{dataType.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Add Attribute List</mat-label>
+                            
+                            <input matInput formControlName="newattributelist" [readonly]="this.NewListId"/>
+                            <mat-icon matSuffix (click)="addList()">search</mat-icon>
+                           
+                            
+                        </mat-form-field>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col justify-start mt-5">
+                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                    <span>{{'Successfully saved'}}</span>
+                </div>
+                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                    <span>{{'Something went wrong'}}</span>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="submit">
+                <span class="mx-4">Next</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

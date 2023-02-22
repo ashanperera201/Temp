@@ -1,0 +1,99 @@
+//table component
+table.expanded-rows-table {
+	width: calc(100% - 2px);
+	background: #fafafa !important;
+	padding: 0 2px;
+   
+
+	td {
+		padding: 4px 8px !important;
+		background: white;
+		color: #464A53 !important;
+        border: 3px;
+        border-radius: 3px;
+		&.mat-cell{
+           
+            font-size: 13px;
+            .mat-icon-button{
+                min-height: 36px !important;
+                height: 36px !important;
+                width: 36px !important;
+            }
+		}
+        &.mat-footer-cell{
+            background: #576E82;
+            color: #fff !important;
+            border: 3px solid #576E82;
+            box-shadow: 0 0 2px #576e82;
+            font-weight: bold;
+        }
+	}
+	th{
+        font-size: 13px !important;
+        padding: 8px !important;
+        border-bottom-width: 0 !important;
+        font-weight: 500;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+	}
+	tr.mat-header-row{
+		height: 32px !important;
+	}
+    tr.mat-row{
+        height: 42px !important;
+        border: 1px solid #e3e3e3;
+    }
+	tr:hover {
+		cursor: pointer;
+	}
+	.mat-form-field-wrapper{
+		margin-bottom: 0 !important;
+	}
+	.mat-sort-header-content{
+		text-align: left;
+	}
+	&.with-search{
+		.mat-sort-header-content, .mat-form-field{
+			width: 100%;
+			min-width: 100%;
+			max-width: 100%;
+		}
+		.th-with-search{
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			text-align: left;
+			width: 100%;
+			span{
+				margin-right: 20px;
+			}
+		}
+		tr.mat-header-row .mat-header-cell{
+			vertical-align: bottom !important;
+		}
+		.mat-sort-header-container{
+			align-items: flex-start;
+			.mat-sort-header-arrow{
+				margin-top: 4px !important;
+				margin-right: 10px;
+				position: relative;
+				right: 20px;
+			}
+		}
+	}
+}
+
+.cdk-column-points {
+	background-color: #A1BDCC;
+	text-align: center;
+}
+
+.cdk-column-weight {
+	background-color: #A8D3C1;
+	text-align: center;
+}
+
+.cdk-column-score {
+	background-color: #D3A8A8;
+	text-align: center;
+}
+

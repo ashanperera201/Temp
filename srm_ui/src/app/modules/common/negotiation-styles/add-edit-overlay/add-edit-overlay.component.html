@@ -1,0 +1,226 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full" *ngIf="negotiationList" [formGroup]="negotiationList"
+        (ngSubmit)="onFormSubmit(negotiationList.value)">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                {{newEditText}} Negotiation Style
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+
+            <div *ngIf="negotiationStyleModels" class="w-full" formArrayName="negotiationStyleModels">
+                <!-- added new -->
+                <div *ngFor="let item of negotiationStyleModels.controls; let i=index">
+                    <div class="flex flex-col" [formGroupName]="i">
+                        <!-- added new -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-1/6 pr-2">
+                                <mat-label>Name</mat-label>
+                                <input matInput formControlName="nsName"
+                                    (input)="onNameInput($event.target.value, item)" />
+                                <mat-error>
+                                    <span *ngIf="item.get('nsName').hasError('duplicate')">
+                                        Name already exists
+                                    </span>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-3/6 pr-2">
+                                <mat-label>Description</mat-label>
+                                <input matInput formControlName="title" />
+                            </mat-form-field>
+                            <mat-form-field class="w-1/6 px-2">
+                                <mat-label>Bidding Style</mat-label>
+                                <mat-select formControlName="bidingStyleID">
+                                    <mat-option *ngFor="let bidingStyle of bidingStyles" [value]="bidingStyle.id">
+                                        {{bidingStyle.text}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-checkbox formControlName="isTwoStageRFx" class="flex items-end mb-4 mx-4"
+                                [color]="'primary'">
+                                Two Stage RFx
+                            </mat-checkbox>
+                        </div>
+                        <div class="flex w-full">
+                            <div class="flex w-full flex-col mr-2">
+                                <p class="mt-6 mb-2 font-medium text-l text-secondary">
+                                    RFx Header
+                                </p>
+                                <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+                                    <div class="p-2">
+                                        <div *ngIf="headerDataSource" class="overflow-auto bg-gray-50 rounded-lg">
+                                            <table mat-table [dataSource]="headerDataSource"
+                                                class="expanded-rows-table font-helvetica text-gray-500">
+
+                                                <ng-container matColumnDef="id">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        style="max-width: 60px; min-width: 50px"></th>
+                                                    <td mat-cell *matCellDef="let row">
+                                                        <mat-checkbox [checked]="row.isChecked"
+                                                            (change)="SetIsChecked(row,$event)" [color]="'primary'">
+                                                        </mat-checkbox>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="group">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        style="max-width: 120px; min-width: 110px">
+                                                        Group
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let row"> {{row.text}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="visibility">
+                                                    <th mat-header-cell *matHeaderCellDef style="min-width: 60px">
+                                                        Visibility
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let row"> {{row.visibility}} </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                                <tr class="mat-row" *matNoDataRow>
+                                                    <td class="mat-cell" colspan="4">No data matching the filter
+                                                        "{{input.value}}"</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex w-full flex-col mr-2">
+                                <p class="mt-6 mb-2 font-medium text-l text-secondary">
+                                    RFx Line
+                                </p>
+                                <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+                                    <div class="p-2">
+                                        <div *ngIf="lineDataSource" class="overflow-auto bg-gray-50 rounded-lg">
+                                            <table mat-table [dataSource]="lineDataSource"
+                                                class="expanded-rows-table font-helvetica text-gray-500">
+
+                                                <ng-container matColumnDef="id">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        style="max-width: 60px; min-width: 50px"></th>
+                                                    <td mat-cell *matCellDef="let row">
+                                                        <mat-checkbox [checked]="row.isChecked"
+                                                            (change)="SetIsChecked(row,$event)" [color]="'primary'">
+                                                        </mat-checkbox>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="group">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        style="max-width: 120px; min-width: 110px">
+                                                        Group
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let row"> {{row.text}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="visibility">
+                                                    <th mat-header-cell *matHeaderCellDef style="min-width: 60px">
+                                                        Visibility
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let row"> {{row.visibility}} </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                                <tr class="mat-row" *matNoDataRow>
+                                                    <td class="mat-cell" colspan="4">No data matching the filter
+                                                        "{{input.value}}"</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex w-full flex-col mr-2">
+                                <div class="flex w-full flex-col">
+                                    <p class="mt-6 mb-2 font-medium text-l text-secondary">
+                                        Default Setting
+                                    </p>
+                                    <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+                                        <div class="p-4">
+                                            <div class="flex">
+                                                <mat-checkbox
+                                                    [disabled]="negotiationStyleDefault.isRFQSelected && !isOverrideDefault"
+                                                    formControlName="isRFQ" class="mb-4 mr-5" [color]="'primary'">
+                                                    RFQ
+                                                </mat-checkbox>
+                                                <mat-checkbox
+                                                    [disabled]="negotiationStyleDefault.isRFISelected && !isOverrideDefault"
+                                                    formControlName="isRFI" class="mb-4 mr-5" [color]="'primary'">
+                                                    RFI
+                                                </mat-checkbox>
+                                                <mat-checkbox
+                                                    [disabled]="negotiationStyleDefault.isRFAQSelected && !isOverrideDefault"
+                                                    formControlName="isRFAQ" class="mb-4" [color]="'primary'">
+                                                    RFQA
+                                                </mat-checkbox>
+                                            </div>
+                                            <div>
+                                                <mat-checkbox (change)="getOverrideDefault($event)"
+                                                    formControlName="isAllowOverride" class="my-4" [color]="'primary'">
+                                                    Allow Override Default Setting
+                                                </mat-checkbox>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="flex w-full flex-col">
+                                    <p class="mt-6 mb-2 font-medium text-l text-secondary">
+                                        Negotiation Style Type
+                                    </p>
+                                    <p class="mb-2 font-regular italic text-sm text-secondary">
+                                        This helps in visibility of your list. Private lists are visible only to the
+                                        creator
+                                    </p>
+                                    <div class="mb-4 rounded-lg rounded-t-none"
+                                        *ngIf="(negotiationStyle && negotiationStyle[0])">
+                                        <mat-form-field class="fuse-mat-no-subscript sm:w-64 mt-4 sm:mt-0 mb-3">
+                                            <mat-select formControlName="isPrivate"
+                                                [value]="negotiationStyle[0].isPrivate">
+                                                <mat-option [value]="true">Private</mat-option>
+                                                <mat-option [value]="false">Public</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div *ngIf="isButtonDisabled" class="text-center">
+                                        <mat-error>Please at least select one option from RFx Header or RFx Lines
+                                        </mat-error>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-start mt-5">
+                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                    <span>{{'Successfully saved'}}</span>
+                </div>
+                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                    <span>{{'Something went wrong'}}</span>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="cancel()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="submit"
+                [disabled]="isButtonDisabled || isDuplicate || isSaved">
+                <span class="mx-4">{{newEditbuttonText}}</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

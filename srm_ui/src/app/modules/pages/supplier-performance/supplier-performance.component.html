@@ -1,0 +1,269 @@
+<form class="flex flex-col w-full">
+    <div class="relative">
+
+        <!-- <ng-template > -->
+        <div class="px-4 py-2">
+
+            <div>
+                <div
+                    class="flex justify-between border rounded bg-white mt-4 mb-2 p-4 divide-solid divide-x divide-gray-300">
+                    <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                        <h3 class="text-base font-medium leading-none text-secondary">Supplier ID</h3>
+                        <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{supplierId}}</p>
+                    </div>
+                    <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                        <h3 class="text-base font-medium leading-none text-secondary">Supplier Name</h3>
+                        <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{supplierName}}</p>
+                    </div>
+                    <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                        <h3 class="text-base font-medium leading-none text-secondary">Status</h3>
+                        <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{supplierStatus}}
+                        </p>
+                    </div>
+                </div>
+                <div class="flex justify-between srm-bg">
+                    <div class="flex rounded-lg shadow bg-card relative m-4">
+                        <div class="flex flex-col items-center max-w-50 p-4">
+                            <img src="assets/images/logo-sup.png" class="w-full" />
+                            <div class="font-base text-base mb-2">ABC Group</div>
+                            <div class="font-base text-base mb-2">Telco Industry</div>
+                            <div class="font-medium text-base mb-2">Kingdom of Saudi Arabia</div>
+                        </div>
+                        <div class="srm-bg rounded-lg p-4 m-4">
+                            <div class="font-medium text-base mb-2 uppercase">Key Measures</div>
+
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                <div class="font-base text-base mb-2">Total PO Value :</div>
+                                <div class="font-medium base text-base mb-2">$300k</div>
+
+                                <div class="font-base text-base mb-2">Total Receipts Value :</div>
+                                <div class="font-medium base text-base mb-2">$185k</div>
+
+                                <div class="font-base text-base mb-2">Total Invoice Value :</div>
+                                <div class="font-medium base text-base mb-2">$255k</div>
+
+                                <div class="font-base text-base mb-2">Total Spend Rank :</div>
+                                <div class="font-medium base text-base mb-2">10</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-lg flex items-center shadow bg-card relative m-4">
+                        <div>
+                            <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
+                                [plotOptions]="chartOptions2.plotOptions" [labels]="chartOptions2.labels"
+                                [fill]="chartOptions2.fill" [dataLabels]="chartOptions2.dataLabels"
+                                [stroke]="chartOptions2.stroke" [states]="chartOptions2.states"></apx-chart>
+                        </div>
+                    </div>
+                    <div class="rounded-lg flex items-center shadow bg-card relative m-4">
+                        <div>
+                            <apx-chart [series]="chartOptions22.series" [chart]="chartOptions22.chart"
+                                [plotOptions]="chartOptions22.plotOptions" [labels]="chartOptions22.labels"
+                                [fill]="chartOptions22.fill" [dataLabels]="chartOptions22.dataLabels"
+                                [stroke]="chartOptions22.stroke" [states]="chartOptions22.states"></apx-chart>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="flex flex-col w-1/2 mr-2">
+                        <div>
+                            <div class="font-semibold text-lg mb-1 mt-4">PO Delivery Tracker</div>
+                            <div class="flex items-center rounded-lg shadow srm-bg mb-2">
+                                <div class="relative m-4 items-center flex">
+                                    <div class="flex flex-col">
+                                        <p class="font-semibold text-base mb-1 mt-2 text-center">
+                                            Total Deliveries - 900
+                                        </p>
+                                        <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart"
+                                            [labels]="chartOptions3.labels" [responsive]="chartOptions3.responsive"
+                                            [fill]="chartOptions3.fill" [plotOptions]="chartOptions3.plotOptions"
+                                            [legend]="chartOptions3.legend" [tooltip]="chartOptions3.tooltip"
+                                            [states]="chartOptions3.states" [title]="chartOptions3.title"></apx-chart>
+                                    </div>
+                                </div>
+                                <div class="flex rounded-lg bg-white relative m-4">
+                                    <div class="relative m-4">
+                                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                                            [dataLabels]="chartOptions.dataLabels"
+                                            [plotOptions]="chartOptions.plotOptions" [yaxis]="chartOptions.yaxis"
+                                            [legend]="chartOptions.legend" [fill]="chartOptions.fill"
+                                            [stroke]="chartOptions.stroke" [tooltip]="chartOptions.tooltip"
+                                            [xaxis]="chartOptions.xaxis" [grid]="chartOptions.grid"
+                                            [states]="chartOptions.states"></apx-chart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1 mt-4">Quality Concerns</div>
+                            <div class="flex items-center rounded-lg shadow srm-bg mb-2">
+                                <div class="relative m-4 items-center flex w-2/5">
+                                    <div class="flex flex-col">
+                                        <p class="font-semibold text-base mb-1 mt-2 text-center">
+                                            Operation Complaint & Return Reasons
+                                        </p>
+                                        <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart"
+                                            [labels]="chartOptions4.labels" [responsive]="chartOptions4.responsive"
+                                            [fill]="chartOptions4.fill" [plotOptions]="chartOptions4.plotOptions"
+                                            [legend]="chartOptions4.legend" [tooltip]="chartOptions4.tooltip"
+                                            [states]="chartOptions4.states" [title]="chartOptions4.title"></apx-chart>
+                                    </div>
+                                </div>
+                                <div class="flex rounded-lg bg-white relative m-4 w-3/5">
+                                    <div class="relative m-4">
+                                        <div class="bg-white rounded-lg p-2">
+                                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                                <div class="font-base text-base mb-2">QMS Implemented :</div>
+                                                <div class="font-medium base text-base mb-2">Yes</div>
+
+                                                <div class="font-base text-base mb-2">ISO 14001 Implemented :</div>
+                                                <div class="font-medium base text-base mb-2">Yes</div>
+
+                                                <div class="font-base text-base mb-2">ISO 30401 Implemented :</div>
+                                                <div class="font-medium base text-base mb-2">No</div>
+
+                                                <div class="font-base text-base mb-2">Complied to SCOC :</div>
+                                                <div class="font-medium base text-base mb-2">Yes</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1 mt-4">Invoice Acceptance & Credit Notes</div>
+                            <div class="flex items-center rounded-lg shadow srm-bg mb-2">
+                                <div class="relative m-4 items-center flex w-1/2">
+                                    <div class="flex flex-col">
+                                        <p class="font-semibold text-base mb-1 mt-2 text-center">
+                                            Invoice Acceptance
+                                        </p>
+                                        <apx-chart [series]="chartOptions5.series" [chart]="chartOptions5.chart"
+                                            [labels]="chartOptions5.labels" [responsive]="chartOptions5.responsive"
+                                            [fill]="chartOptions5.fill" [plotOptions]="chartOptions5.plotOptions"
+                                            [legend]="chartOptions5.legend" [tooltip]="chartOptions5.tooltip"
+                                            [states]="chartOptions5.states" [title]="chartOptions5.title"></apx-chart>
+                                    </div>
+                                </div>
+                                <div class="relative m-4 items-center flex w-1/2">
+                                    <div class="flex flex-col">
+                                        <p class="font-semibold text-base mb-1 mt-2 text-center">
+                                            Issuance of Credit Notes
+                                        </p>
+                                        <apx-chart [series]="chartOptions6.series" [chart]="chartOptions6.chart"
+                                            [labels]="chartOptions6.labels" [responsive]="chartOptions6.responsive"
+                                            [fill]="chartOptions6.fill" [plotOptions]="chartOptions6.plotOptions"
+                                            [legend]="chartOptions6.legend" [tooltip]="chartOptions6.tooltip"
+                                            [states]="chartOptions6.states" [title]="chartOptions6.title"></apx-chart>
+                                        <p class="font-semibold text-base mb-1 mt-2 text-center">
+                                            Utilisation 50% USD 150k
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-1/2 ml-2">
+                        <div>
+                            <div class="font-semibold text-lg mb-1 mt-4">Goods Returns</div>
+                            <div class="flex items-center rounded-lg shadow srm-bg mb-2">
+                                <div class="relative m-4 items-center flex">
+                                    <div class="flex flex-col">
+                                        <p class="font-semibold text-base mb-1 mt-2 text-center">
+                                            Value of Goods Returned - USD 300 K
+                                        </p>
+                                        <apx-chart [series]="chartOptions7.series" [chart]="chartOptions7.chart"
+                                            [labels]="chartOptions7.labels" [responsive]="chartOptions7.responsive"
+                                            [fill]="chartOptions7.fill" [plotOptions]="chartOptions7.plotOptions"
+                                            [legend]="chartOptions7.legend" [tooltip]="chartOptions7.tooltip"
+                                            [states]="chartOptions7.states" [title]="chartOptions7.title"></apx-chart>
+                                    </div>
+                                </div>
+                                <div class="flex rounded-lg bg-white relative m-4">
+                                    <div class="relative m-4">
+                                        <apx-chart [series]="chartOptions8.series" [chart]="chartOptions8.chart"
+                                            [dataLabels]="chartOptions8.dataLabels"
+                                            [plotOptions]="chartOptions8.plotOptions" [yaxis]="chartOptions8.yaxis"
+                                            [legend]="chartOptions8.legend" [fill]="chartOptions8.fill"
+                                            [stroke]="chartOptions8.stroke" [tooltip]="chartOptions8.tooltip"
+                                            [xaxis]="chartOptions8.xaxis" [grid]="chartOptions8.grid"
+                                            [states]="chartOptions8.states"></apx-chart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1 mt-4">Supplier Evaluation Results</div>
+                            <div class="flex items-center rounded-lg shadow srm-bg mb-2">
+                                <div class="overflow-auto">
+                                    <table mat-table [dataSource]="outcomes" matSort
+                                        class="expanded-rows-table font-helvetica text-gray-500"
+                                        style="width: calc(100% - 2px); background: #fafafa !important; padding: 0 2px;">
+                                        <!--  Evaluation Name Column -->
+                                        <ng-container matColumnDef="evalName">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                style="max-width: 120px; min-width: 100px">
+                                                Evaluation Name
+                                            </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.evaluationName}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="timePeriod">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                style="max-width: 120px; min-width: 100px">
+                                                Time Period
+                                            </th>
+                                            <td mat-cell *matCellDef="let row">
+                                                <div *ngIf="row.periodType==presetTypePeriod">
+                                                    {{row.presetPeriod}}
+                                                </div>
+                                                <div *ngIf="row.periodType==customTypePeriod">
+                                                    {{row.startDate.slice(0,10)}} -
+                                                    {{row.endDate.slice(0,10)}}</div>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="outcome">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                style="max-width: 120px; min-width: 100px">
+                                                Outcome
+                                            </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.outcome}} </td>
+                                        </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns13"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns13;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-lg mb-1 mt-4">Other</div>
+                            <div class="flex items-center rounded-lg shadow srm-bg mb-2">
+                                <div class="relative m-4 items-center flex w-full">
+                                    <div class="bg-white rounded-lg p-4 w-full">
+                                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 ml-auto">
+                                            <div class="font-base text-base mb-2">Health & Safety Critical Concerns
+                                                Reported :</div>
+                                            <div class="font-medium base text-base mb-2">02</div>
+
+                                            <div class="font-base text-base mb-2">Health & Safety Minor Concerns
+                                                Reported :</div>
+                                            <div class="font-medium base text-base mb-2">10</div>
+
+                                            <div class="font-base text-base mb-2">Regulatory Compliance Issues Logged
+                                                01/01/21 -31/12/21 :</div>
+                                            <div class="font-medium base text-base mb-2">01</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </ng-template> -->
+
+    </div>
+
+
+</form>

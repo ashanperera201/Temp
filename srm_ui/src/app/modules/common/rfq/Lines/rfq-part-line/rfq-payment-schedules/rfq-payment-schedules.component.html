@@ -1,0 +1,244 @@
+<div class="relative">
+<!--     <fuse-alert *ngIf="Message" [appearance]="'fill'" [dismissible]="true" [dismissed]="true" [name]="'successerror'"
+        [type]="'success'">
+        {{Message}} Successfully
+    </fuse-alert> -->
+    <div class="flex justify-end">
+        <button type="button" class="inline-flex" mat-stroked-button [color]="'primary'" (click)="addPaymentSchedule()"
+            [disabled]="!RFQModel.isSaveAsDraft">
+            <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'">
+            </mat-icon>
+            <span class="mr-8">Add Payment Schedule</span>
+        </button>
+    </div>
+    <!--base table component-->
+    <div class="overflow-auto bg-gray-50 rounded-lg pt-4">
+        <div class="flex flex-row justify-center">
+            <mat-label class="pt-2">Total Value</mat-label>
+            <mat-form-field class="pl-4 ">
+                <input matInput [(ngModel)]="total" type="number" class="example-right-align" placeholder="0"
+                    disabled />
+                <span matSuffix>{{RFQModel.currencyText}}</span>
+            </mat-form-field>
+        </div>
+        <table mat-table [dataSource]="rfqLinePaymentScheduleModel" matSort
+            class="expanded-rows-table font-helvetica text-gray-500">
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef style="max-width: 50px; width: 50px"></th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns"
+                        [disabled]="!RFQModel.isSaveAsDraft">
+                        <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical">
+                        </mat-icon>
+                    </button>
+                    <mat-menu #options="matMenu" class="min-width-235 z-1">
+                        <button mat-menu-item (click)="EditAttachment(row)">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil">
+                            </mat-icon>
+                            Edit
+                        </button>
+                        <button mat-menu-item (click)="deleteRFQLinePaymentSchedule(row)">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash">
+                            </mat-icon>
+                            Delete
+                        </button>
+                    </mat-menu>
+                </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container>
+
+            <!-- payno Column -->
+            <ng-container matColumnDef="payno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 130px; min-width: 120px">
+                    Pay Sched No
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.payScheduleNo}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container>
+
+            <!--description Column -->
+            <ng-container matColumnDef="description2">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 170px">
+                    Schedule Line Description
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.description}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container>
+
+            <!--type Column -->
+            <!-- <ng-container matColumnDef="type2">
+                <th mat-header-cell *matHeaderCellDef
+                    mat-sort-header
+                    style="max-width: 170px; min-width: 160px">
+                    Type
+                </th>
+                <td mat-cell *matCellDef="let row">
+                   
+                    <mat-form-field class="standalone-input">
+                        <mat-select [(ngModel)]="row.attributeCategoryId" (selectionChange)="UpdateRFQPartPaymentSchedule(row,'Cat')">
+                            <mat-option *ngFor="let attributecat of attributecategorys" [value]="attributecat.id">{{attributecat.text}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container> -->
+
+            <!--Schedule Line Type Column -->
+            <ng-container matColumnDef="sheduleType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 170px; min-width: 160px">
+                    Schedule Line Type
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-form-field appearance="fill">
+                        <mat-select [value]="row.scheduleLineType" [(ngModel)]="row.scheduleLineType"
+                            (selectionChange)="UpdateRFQPartPaymentSchedule(row,'LineType')"
+                            [disabled]="!RFQModel.isSaveAsDraft">
+                            <ng-container>
+                                <mat-option value="Down Payment">Down Payment</mat-option>
+                                <mat-option value="Retention">Retention</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <!--Down Payment Type Column -->
+            <ng-container matColumnDef="downPaymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 170px; min-width: 160px">
+                    Down Payment Type
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-form-field appearance="fill">
+                        <mat-select [value]="row.downPaymentType" [(ngModel)]="row.downPaymentType"
+                            (selectionChange)="UpdateRFQPartPaymentSchedule(row,'PaymentType')"
+                            [disabled]="!RFQModel.isSaveAsDraft">
+                            <ng-container>
+                                <mat-option value="Advance">Advance</mat-option>
+                                <mat-option value="Milestone">Milestone</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <!-- Milestone Item -->
+            <ng-container matColumnDef="milestone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                    Milestone #
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.milestone}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container>
+
+            <!-- Work% Column -->
+            <ng-container matColumnDef="work">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 100px; min-width: 80px">
+                    Work%
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.work}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef> {{workTotal.toFixed(2)}} % </td>
+            </ng-container>
+
+            <!-- payment Column -->
+            <ng-container matColumnDef="payment">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 120px">
+                    Payment %
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.payment}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef> {{paymentTotal.toFixed(2)}} % </td>
+            </ng-container>
+
+            <!--Retention Column -->
+            <ng-container matColumnDef="retention">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 130px; min-width: 120px">
+                    Retention %
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.retention}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef> {{retentionTotal.toFixed(2)}}% </td>
+            </ng-container>
+
+            <!--release Column -->
+            <ng-container matColumnDef="release">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 100px">
+                    Release %
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.release}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef> {{releaseTotal.toFixed(2)}}% </td>
+            </ng-container>
+
+            <!--release value Column -->
+            <ng-container matColumnDef="releasevalue">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 180px; min-width: 160px">
+                    Release Value
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.releaseValue}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef> {{total}} {{RFQModel.currencyText}}
+                </td>
+            </ng-container>
+
+            <!--Due Date Column -->
+            <ng-container matColumnDef="dueDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 170px; min-width: 160px">
+                    Due Date
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-form-field appearance="fill" (click)="picker.open()">
+                        <input matInput [(ngModel)]="row.dueDateD" [matDatepicker]="picker"
+                            (dateChange)="UpdateRFQPartPaymentSchedule(row,'DueDate')"
+                            [disabled]="!RFQModel.isSaveAsDraft" />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <!--Visibility to Suppliers Column -->
+            <ng-container matColumnDef="visibility">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 180px; min-width: 170px">
+                    Visibility to Suppliers
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox [disabled]="!RFQModel.isSaveAsDraft" [color]="'primary'"
+                        [checked]="row.valueVisibilityToSuppliers" (change)="UpdateRFQPartPaymentSchedule(row,'Sup')"
+                        [(ngModel)]="row.valueVisibilityToSuppliers" name="valueVisibilityToSuppliers">
+                    </mat-checkbox>
+                </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="PaymentColumn">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: PaymentColumn;">
+            </tr>
+            <tr mat-footer-row *matFooterRowDef="PaymentColumn; sticky: true">
+            </tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching
+                    the filter "{{input.value}}"</td>
+            </tr>
+        </table>
+    </div>
+    <!--table component end-->
+
+</div>

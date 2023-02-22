@@ -1,0 +1,40 @@
+<div class="page-bg">
+    <div class="srm-sign-in-page">
+        <div class="sign-in-content">
+            <!-- Logo -->
+            <div class="logo">
+                <img class="logo-img" style="width:500px" src="assets/images/logo/srm-logo.svg">
+            </div>
+
+            <div class="header">
+                <!-- <div class="title">PASS (Participate Supplier Structure)</div> -->
+                <div class="title">PASS (<span style="color:#06038D">Pa</span>rticipate <span style="color:#06038D">S</span>upplier <span style="color:#06038D">S</span>tructure)</div>
+            </div>
+          
+            <!-- Sign in form -->
+            <form class="sign-in-form">
+            
+                <!-- Submit button -->
+                <button *ngIf="isReady" class="sign-in-button width-full" (click)="loginWithRedirect()">
+                    <span>Login</span>
+                </button>
+
+                <div class="flex mt-5" style="margin-top: 195px !Important; background-color: #ffffff; color: #080808; z-index: 9999; position: absolute; margin-left: -550px ; padding: 5px 204px ;">
+                    <p style="font-weight: 500; font-size: 12px;">Supported Browsers: <span style="width: 16px ; height: 16px ; display: inline-block; background-image: url(https://www.w3schools.com/images/compatible_chrome.gif); margin-right: 0.5rem ; background-size: contain; background-repeat: no-repeat;margin-bottom: -4px;"></span>Chrome Version 94.0.4606.71 onwards |
+                        <span style="width: 16px ; height: 16px ; display: inline-block; background-image: url(https://www.w3schools.com/images/compatible_edge.png); margin-right: 0.5rem ; background-size: contain; background-repeat: no-repeat;margin-bottom: -4px;"></span>Microsoft Edge Version 94.0.992.38 onwards |
+                            <span style="width: 16px ; height: 16px ; display: inline-block; background-image: url(https://www.w3schools.com/images/compatible_opera.gif); margin-right: 0.5rem ; background-size: contain; background-repeat: no-repeat;margin-bottom: -4px;"></span>Opera Version: 80.0.4170.16 onwards |
+                                <span style="width: 16px ; height: 16px ; display: inline-block; background-image: url(https://www.w3schools.com/images/compatible_firefox.gif); margin-right: 0.5rem ; background-size: contain; background-repeat: no-repeat;margin-bottom: -4px;"></span>Firefox Version 91.0.2 onwards </p>
+                </div>
+                 <!-- <button style="width: 219px; margin-top: 195px; background-color: #91b6f3; color: white; font-size: 17px !important; z-index: 9999; position: absolute; margin-left: 181px;"  mat-raised-button [color]="'primary'" matTooltip="Chrome Version 94 ↑ |
+    Microsoft Edge Version 94 ↑ |
+    Opera Version: 80 ↑  |
+    Firefox Version 91 ↑ ">Supported Browsers	
+                            <mat-icon style="color: white;" >info</mat-icon>	
+                        </button> -->
+            </form>
+
+            
+        </div>
+    </div>
+</div>
+

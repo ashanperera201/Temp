@@ -1,0 +1,323 @@
+<div class="flex flex-col py-6" *ngIf="displaytemplatecreate">
+    <div class="pb-4 relative">
+        <mat-form-field class="w-1/3 pr-2">
+            <mat-label>Template Name</mat-label>
+            <textarea matInput [(ngModel)]="filtertext" matTextareaAutosize></textarea>
+        </mat-form-field>
+    </div>
+    <button (click)="onTemplateSave()" [disabled]="templateclicked" class="sm:inline-flex mr-auto" mat-raised-button [color]="'primary'">
+        <span class="mx-8">Save Template</span>
+    </button>
+    <div class="flex justify-between">
+        <div class="flex items-center pr-1">
+            <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserrortemplate">
+                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                <span>{{errormessagetemplate}}</span>
+            </div>
+            <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccesstemplate">
+                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                <span>{{successmessagetemplate}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="flex justify-end mb-5">
+    <div class="flex justify-between" *ngIf="iserror">
+        <div class="flex items-center pr-1">
+            <div class="flex align-center text-warn font-medium mb-2">
+                <mat-icon [svgIcon]="'warning_amber'" class="mr-2 text-warn"></mat-icon>
+                <span>{{errormessage}} &nbsp;</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-between">
+        <div class="flex items-center pr-1">
+            <button mat-icon-button aria-label="Reset">
+                <mat-icon color="primary" svgIcon="mat_outline:restore" (click)="resetFilters()"></mat-icon>
+            </button>
+        </div>
+        <div class="flex items-center pl-1">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+                <mat-icon color="primary" svgIcon="heroicons_outline:view-boards"></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="min-width-235 z-1">
+                <div class="flex flex-col max-h-80" (click)="$event.stopPropagation();">
+                    <div class="flex flex-col overflow-auto">
+                        <mat-checkbox class="select-all" [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                            (change)="toggleAllSelection()"><strong>Select/ Unselect All</strong></mat-checkbox>
+                        <section *ngFor="let selectedColumn of ColumnList">
+                            <mat-checkbox class="px-6 py-3" [(ngModel)]="selectedColumn.isSelected"
+                                [value]="selectedColumn" (change)="isAllSelected()">{{selectedColumn.name}}
+                            </mat-checkbox>
+                        </section>
+                    </div>
+                </div>
+            </mat-menu>
+            <button mat-icon-button aria-label="Download Excel file" (click)="ExportToExcel()">
+                <img src="assets/icons/excel.svg" alt="download excel file">
+            </button>
+        </div>
+    </div>
+</div>
+<div class="overflow-auto bg-gray-50 rounded-lg">
+    <div class="loader-inline" *ngIf="isloadeddata">
+        <img src="assets/images/xitricon-loader.gif" alt="loading">
+    </div>
+
+
+    <table mat-table [dataSource]="dataSourceDashboard" class="expanded-rows-table font-helvetica text-gray-500">
+
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 150px"> Supplier Code
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="position" (keyup)="filterChange('position',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="supplierName">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Supplier
+                Name
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="supplierName"
+                            (keyup)="filterChange('supplierName',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.supplierName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="criticality">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 150px">
+                Criticality
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="criticality"
+                            (keyup)="filterChange('criticality',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.criticality}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Status
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="status" (keyup)="filterChange('status',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="currentPosition">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Current
+                Position
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="currentPosition"
+                            (keyup)="filterChange('currentPosition',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.currentPosition}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="country">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Country
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="country" (keyup)="filterChange('country',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.country}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createddate">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px">
+                Created Date
+                <div class="flex">
+                    <mat-form-field class="form-field pr-2" floatLabel="never">
+                        <input matInput [(ngModel)]="createddatefrom" [matDatepicker]="pickerfrom" [max]="maxDate"
+                            placeholder="YYYY-MM-DD" id="pickerfrom" name="pickerfrom"
+                            (ngModelChange)="filterChange('createddatefrom',$event)"
+                            (dateChange)="selectedDate('createddatefrom',$event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerfrom"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerfrom></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field class="form-field" floatLabel="never">
+                        <input matInput [(ngModel)]="createddateto" [matDatepicker]="pickerto" placeholder="YYYY-MM-DD" [min]="minDate"
+                            id="pickerto" name="pickerto" (ngModelChange)="filterChange('createddateto',$event)"
+                            (dateChange)="selectedDate('createddateto',$event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerto"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerto></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.createddate| date: 'dd-MMM-yyyy, HH:mm'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="establishmentyear">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px">
+                Establishment year
+                <div class="flex">
+                    <mat-form-field class="form-field pr-2">
+                        <input matInput class="form-field" type="number" [(ngModel)]="establishmentyearfrom"
+                            (keyup)="filterChange('establishmentyearfrom',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput class="form-field" type="number" [(ngModel)]="establishmentyearto"
+                            (keyup)="filterChange('establishmentyearto',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.establishmentyear}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="issuedby">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Issued By
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="issuedby" (keyup)="filterChange('issuedby',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.issuedby}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> City
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="city" (keyup)="filterChange('city',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="postalcode">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Postal
+                Code
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="postalcode"
+                            (keyup)="filterChange('postalcode',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.postalcode}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="adressline1">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Address 1
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="adressline1"
+                            (keyup)="filterChange('adressline1',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.adressline1}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="firstname">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> First Name
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="firstname"
+                            (keyup)="filterChange('firstname',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Email 
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="email" (keyup)="filterChange('email',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="crno">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> CR No
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="crno" (keyup)="filterChange('crno',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.crno}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="typeoforg">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Type of
+                Org.
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="typeoforg"
+                            (keyup)="filterChange('typeoforg',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.typeoforg}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="vatno">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Vat No.
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="vatno" (keyup)="filterChange('vatno',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.vatno}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedDashboardColumns"></tr>
+        <tr mat-row (click)="openRowInfo(row.position)" *matRowDef="let row; columns: displayedDashboardColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow [hidden]="isloadeddata">
+            <td class="mat-cell" colspan="4">No data matching the filter</td>
+        </tr>
+    </table>
+
+</div>
+<div class="flex justify-end">
+    <mat-paginator #tableOnePaginator class="flex text-lg" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true">
+    </mat-paginator>
+</div>

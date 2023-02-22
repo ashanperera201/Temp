@@ -1,0 +1,35 @@
+.grading-catogory-grid {
+    grid-template-columns: 300px 15% 15% 50px;
+}
+
+.grading-method-grid {
+    grid-template-columns: 300px 15% 15%;
+}
+
+.mat-radio-button {
+    padding-right: 1rem;
+}
+
+:host ::ng-deep {
+    .mat-tab-body {
+        overflow: hidden !important;
+        max-height: 50vh !important;
+    }
+
+    .mat-tab-body-content {
+        height: 100%;
+        overflow: auto;
+        
+    min-height: 20vh;
+    }
+
+    .mat-dialog-actions {
+        background-color: #fff;
+    }
+
+    .mat-tab-header {
+        background-color: #fff;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+}

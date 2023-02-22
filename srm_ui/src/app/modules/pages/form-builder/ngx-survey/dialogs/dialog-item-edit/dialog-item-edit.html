@@ -1,0 +1,16 @@
+<style>
+  .mat-checkbox-background,
+  .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+  .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+    background-color: #3f51b5 !important;
+  }
+</style>
+<h1 mat-dialog-title>Add/Edit Question</h1>
+<div mat-dialog-content>
+  <ngx-survey #survey [form]="itemEditForm" [value]="item" (valueChange)="onFormChange($event)"
+    (submit)="onFormSubmit($event)" [editable]="!readOnly" color="primary" [view]="view"></ngx-survey>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button (click)="onOkClick()" [disabled]="readOnly" cdkFocusInitial color="primary">Ok</button>
+</div>

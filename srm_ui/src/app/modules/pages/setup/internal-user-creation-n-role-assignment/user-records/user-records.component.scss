@@ -1,0 +1,88 @@
+.internal-user-record-page {
+    padding-top: 2rem;
+
+    h3 {
+        font-weight: 500;
+    }
+
+    .mat-tab-group {
+        width: 100%;
+    }
+
+    .my-drop-zone {
+        height: 200px;
+        border: solid 1px;
+    }
+
+    .content-row {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 1rem;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-items: stretch;
+
+        >div {
+            margin: 1rem;
+            width: 30%;
+        }
+
+        div {
+            margin-bottom: 1rem;
+            width: 100%;
+
+            label {
+                font-weight: 500;
+                display: flex;
+            }
+        }
+
+        .mat-form-field.mat-form-field-appearance-fill {
+            width: 100%;
+        }
+
+        .mat-radio-button {
+            padding-right: 1rem;
+        }
+
+        .area {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #f7f7f7;
+
+            div {
+                width: calc(100% - 2rem);
+                margin: 1rem;
+            }
+
+            h4 {
+                padding: 1rem 1rem 0;
+            }
+        }
+    }
+
+    ::ng-deep {
+        .mat-list-item-content-reverse {
+            justify-content: space-between;
+            flex-wrap: wrap;
+            flex-direction: row !important;
+        }
+
+        .mat-list-text {
+            display: flex;
+            flex-direction: row !important;
+            flex: inherit !important;
+            box-sizing: border-box;
+            overflow: hidden;
+            padding: 0;
+            width: 95%;
+            justify-content: space-between;
+        }
+
+        .mat-list-option.mat-2-line {
+            height: 33px;
+        }
+    }
+
+}

@@ -1,0 +1,152 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0">
+    <div class="flex justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Supplier Invitation List</div>
+        <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" (click)="openDialog()">
+            <span class="mx-8">Create Supplier Invitation List</span>
+        </button>
+    </div>
+    <div class="relative">
+        <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+            <div class="p-6">
+
+                <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+                    <div class="mr-4">
+                        <mat-form-field
+                            class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3"
+                            [floatLabel]="'always'">
+                            <div class="text-secondary px-4" matPrefix>Title</div>
+                            <input matInput placeholder="Search by Title" #input name="SupplierTitle"
+                                [(ngModel)]="supplierGroups.supplierGroupTitle">
+                        </mat-form-field>
+                        <mat-form-field
+                            class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3"
+                            [floatLabel]="'always'">
+                            <div class="text-secondary px-4" matPrefix>Name</div>
+                            <input matInput placeholder="Search by Name" #input name="SupplierName"
+                                [(ngModel)]="supplierGroups.supplierGroupName">
+                        </mat-form-field>
+                        <mat-form-field class="fuse-mat-no-subscript sm:w-32 mt-4 sm:mt-0 mb-3" [floatLabel]="'always'">
+                            <mat-select name="type" [(ngModel)]="supplierGroups.type">
+                                <ng-container>
+                                    <mat-option value="">Select Type</mat-option>
+                                    <mat-option value="private">Private</mat-option>
+                                    <mat-option value="public">Public</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="fuse-mat-no-subscript sm:w-32 mt-4 sm:mt-0 mb-3" [floatLabel]="'always'">
+                            <mat-select name="status" [(ngModel)]="supplierGroups.status">
+                                <ng-container>
+                                    <mat-option value="">Select Status</mat-option>
+                                    <mat-option value="active">Active</mat-option>
+                                    <mat-option value="incactive">Inactive</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <button class="sm:inline-flex mb-3" mat-stroked-button [color]="'primary'" type="button"
+                        (click)="FetchBasicData()">
+                        <mat-icon matPrefix class="icon-size-5 ml-8" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                        <span class="mr-8 ml-4">Search</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--table component-->
+        <!--base table component-->
+        <div class="overflow-auto bg-gray-50 rounded-lg">
+
+
+            <table mat-table [dataSource]="supplierGroups.supplierGroupModels" matSort (matSortChange)="sortData($event)"
+                class="expanded-rows-table font-helvetica text-gray-500">
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef style="width: 50px; max-width: 60px; min-width: 50px"></th>
+                    <td mat-cell *matCellDef="let row">
+                        <button *ngIf="row.sub == userProfile.sub" mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical">
+                            </mat-icon>
+                        </button>
+                        <mat-menu #options="matMenu" class="min-width-235 z-1">
+                            <button mat-menu-item (click)="editList(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil">
+                                </mat-icon>
+                                Edit
+                            </button>
+                            <button mat-menu-item (click)="DeleteCFLGrp(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash">
+                                </mat-icon>
+                                Delete
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <!-- Invitation List Title -->
+                <ng-container matColumnDef="suplisttitle">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 190px; min-width: 170px">
+                        Invitation List Title
+                    </th>
+                    <td mat-cell *matCellDef="let row" (click)="OpenURL('/supplier-invitation-list-detail',row)">
+                        {{row.title}}
+                    </td>
+                </ng-container>
+
+                <!-- Invitation List Name -->
+                <ng-container matColumnDef="suplistname">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 110px">
+                        Invitation List Name
+                    </th>
+                    <td mat-cell *matCellDef="let row" (click)="OpenURL('/supplier-invitation-list-detail',row)">
+                        {{row.name}} </td>
+                </ng-container>
+
+                <!-- Invitation List Name -->
+                <ng-container matColumnDef="suplistname">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 110px">
+                        Invitation List Name
+                    </th>
+                    <td mat-cell *matCellDef="let row" (click)="OpenURL('/supplier-invitation-list-detail',row)">
+                        {{row.name}} </td>
+                </ng-container>
+
+                <!-- Type -->
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 110px">
+                        Public/Private
+                    </th>
+                    <td mat-cell *matCellDef="let row" (click)="OpenURL('/supplier-invitation-list-detail',row)">
+                        {{row.isPrivate ? "Private" : "Public"}} </td>
+                </ng-container>
+
+                <!-- Active/Inactive -->
+                <ng-container matColumnDef="isActive">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 110px">
+                        Active/Inactive
+                    </th>
+                    <td mat-cell *matCellDef="let row" (click)="OpenURL('/supplier-invitation-list-detail',row)">
+                        {{row.isActive ? "Active" : "Inactive"}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                </tr>
+            </table>
+        </div>
+        <div class="flex justify-end">
+            <mat-paginator [length]="supplierGroups.totalItems" [pageSize]="supplierGroups.pageSize"
+                [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)"
+                showFirstLastButtons></mat-paginator>
+        </div>
+        <!--table component end-->
+    </div>
+</div>

@@ -1,0 +1,20 @@
+.defaults-page {
+    form {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: baseline;
+    }
+
+    .mat-form-field {
+        margin-right: 1rem;
+        max-width: 300px;
+        min-width: 250px;
+        height: 48px;
+        padding: 4px 0;
+    }
+
+    .material-icons-form {
+        margin-right: 1rem;
+    }
+}

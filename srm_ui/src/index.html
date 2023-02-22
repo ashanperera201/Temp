@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Etendering </title>
+        <meta charset="utf-8">
+        <meta
+            name="description"
+            content="Etendering">
+        <meta
+            name="keywords"
+            content="Etendering">
+
+        <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+
+        <base href="/">
+
+        <!-- Favicon -->
+        <link
+            rel="icon"
+            type="image/png"
+            href="favicon-16x16.png">
+        <link
+            rel="icon"
+            type="image/png"
+            href="favicon-32x32.png">
+
+        <!-- Fonts -->
+        <link
+            href="assets/fonts/Cairo/cairo.css"
+            rel="stylesheet">
+        <link
+            href="assets/fonts/Helvatica/helvetica.css"
+            rel="stylesheet">
+
+        <link
+            href="https://fonts.gstatic.com"
+            rel="preconnect">
+        <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+            rel="stylesheet">
+
+        <!-- Icon fonts -->
+        <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet">
+
+        <!-- Splash screen styles -->
+        <link
+            href="assets/styles/splash-screen.css"
+            rel="stylesheet">
+<style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  content: "No"
+
+}
+
+input:checked + .slider {
+  background-color: #43bb6b;
+  content: "Yes";
+  font-size: 13px;
+    text-align: right;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #43bb6b;
+  content: "Yes"
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+  content: "Yes"
+
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+    <!-- Apply the rounded design throughout the Angular Material library -->
+    <body class="srm-application mat-typography">
+
+        <!-- Splash screen -->
+        <fuse-splash-screen>
+            <!-- <img src="assets/images/logo/srm-logo.svg" alt="SRM Logo">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div> -->
+                <div class="loader-inline">
+                  <img src="assets/images/xitricon-loader.gif" alt="loading">
+  
+            </div>
+        </fuse-splash-screen>
+
+        <!-- App root -->
+        <app-root></app-root>
+
+    </body>
+
+</html>

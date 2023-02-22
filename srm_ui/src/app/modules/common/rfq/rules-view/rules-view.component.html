@@ -1,0 +1,229 @@
+<div class="mt-4">
+    <div class="item-block mb-4 srm-bg rounded-lg p-6">
+        <div class="flex justify-end">
+            <button *ngIf="RFQModel.isSaveAsDraft && isChanged" type="button" (click)="SaveRules()" class="sm:inline-flex mr-4"
+            mat-raised-button [color]="'primary'">
+                <span class="mx-8">Save Changes</span>
+            </button>
+        </div>
+        <p class="font-medium text-lg mb-3">
+            Scoring Criteria
+        </p>
+        <div class="flex divide-solid divide-x divide-gray-300" *ngIf="rfxRulesViewModel">
+            <div class="flex w-1/2 pr-8">
+                <div class="flex flex-col mr-4">
+                    <mat-checkbox [color]="'primary'" [checked]="rfxRulesViewModel.headerScoring"
+                        [(ngModel)]="rfxRulesViewModel.headerScoring" class="mb-4" (change)="EnableScoringHeader()"
+                        [disabled]="!RFQModel.isSaveAsDraft">Enable Header Scoring</mat-checkbox>
+
+                    <mat-checkbox [color]="'primary'" [checked]="rfxRulesViewModel.isTechnicalScoring"
+                        [(ngModel)]="rfxRulesViewModel.isTechnicalScoring" class="mb-4" (change)="HeaderTechnical()"
+                        [disabled]="!RFQModel.isSaveAsDraft || isTechnicalScoring">Enable Technical Scoring</mat-checkbox>
+                </div>
+                <div class="flex flex-col ml-4">
+                    <mat-checkbox [color]="'primary'" [checked]="rfxRulesViewModel.linesScoring"
+                        [(ngModel)]="rfxRulesViewModel.linesScoring" class="mb-4" (change)="EnableScoringLines()"
+                        [disabled]="!RFQModel.isSaveAsDraft">Enable Lines Scoring</mat-checkbox>
+
+                    <mat-checkbox [color]="'primary'" [checked]="rfxRulesViewModel.isCommercialScoring"
+                        [(ngModel)]="rfxRulesViewModel.isCommercialScoring" class="mb-4" (change)="HeaderCommercial()"
+                        [disabled]="!RFQModel.isSaveAsDraft || isCommercialScoring">Enable Commercial Scoring</mat-checkbox>
+                </div>
+            </div>
+            <div class="flex w-1/2 pl-8">
+                <div class="flex flex-col mr-4">
+                    <mat-checkbox [color]="'primary'" [checked]="rfxRulesViewModel.scoringTabToSuppliers"
+                        [(ngModel)]="rfxRulesViewModel.scoringTabToSuppliers" class="mb-4" (change)="EnableScoringTab()"
+                        [disabled]="!RFQModel.isSaveAsDraft">Show Scoring Tab to Suppliers</mat-checkbox>
+
+                    <mat-checkbox [color]="'primary'" [checked]="rfxRulesViewModel.showScoringWeightToSuppliers"
+                        [(ngModel)]="rfxRulesViewModel.showScoringWeightToSuppliers" class="mb-4" (change)="onChange()"
+                        [disabled]="!RFQModel.isSaveAsDraft || showScoringWeightToSuppliers">Show Scoring weightages to Suppliers</mat-checkbox>
+                </div>
+                <div class="flex flex-col ml-4">
+                    <mat-checkbox [color]="'primary'" [checked]="rfxRulesViewModel.showScoringCriteriaToSuppliers"
+                        [(ngModel)]="rfxRulesViewModel.showScoringCriteriaToSuppliers" class="mb-4" (change)="onChange()"
+                        [disabled]="!RFQModel.isSaveAsDraft || showScoringCriteriaToSuppliers">Show knock Out Score to Suppliers</mat-checkbox>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <p class="mb-4 mt-6">
+        Select the sections that you would like to allow for supplier response scoring
+    </p>
+    <div class="flex">
+        <div class="item-block mb-4 srm-bg rounded-lg p-6 w-1/2 mr-4">
+            <p class="font-medium text-lg mb-3">
+                RFx Header
+            </p>
+            <div class="overflow-auto bg-gray-50 rounded-lg" *ngIf="rfxRulesViewModel">
+                <table mat-table [dataSource]="rfxRulesViewModel.rfxHeaders" matSort
+                    class="expanded-rows-table font-helvetica text-gray-500">
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 60px; min-width: 50px; width :50px">
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox [color]="'primary'" name="{{row.id}}" [checked]="row.isSelected"
+                                [(ngModel)]="row.isSelected" (change)="onChange()" [disabled]="!RFQModel.isSaveAsDraft || headerScoringlist">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!--  Response Rules Column -->
+                    <ng-container matColumnDef="headerRules">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 160px">
+                            Response Rules
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{row.criteriaName}}
+                        </td>
+                    </ng-container>
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="headerTechnical">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 100px; min-width: 100px; width :100px">
+                            Technical</th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox [color]="'primary'" name="{{row.id}}" [checked]="row.isTechnical"
+                                [(ngModel)]="row.isTechnical" (change)="onChange()"
+                                [disabled]="!RFQModel.isSaveAsDraft || !row.isSelected || headerTechnicalScoringlist"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="headerCommercial">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 100px; min-width: 100px; width :100px">
+                            Commercial</th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox [color]="'primary'" name="{{row.id}}" [checked]="row.isCommercial"
+                                [(ngModel)]="row.isCommercial" (change)="onChange()"
+                                [disabled]="!RFQModel.isSaveAsDraft || !row.isSelected || headerCommercialScoringlist"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumn14"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumn14;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="item-block mb-4 srm-bg rounded-lg p-6 w-1/2 ml-4">
+            <p class="font-medium text-lg mb-3">
+                RFx Line
+            </p>
+            <div class="overflow-auto bg-gray-50 rounded-lg" *ngIf="rfxRulesViewModel">
+                <table mat-table [dataSource]="rfxRulesViewModel.rfxLines" matSort
+                    class="expanded-rows-table font-helvetica text-gray-500">
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 60px; min-width: 50px; width :50px">
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox [color]="'primary'" name="{{row.id}}" [checked]="row.isSelected"
+                                [(ngModel)]="row.isSelected" (change)="onChange()" [disabled]="!RFQModel.isSaveAsDraft || lineScoringlist">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!--  group Column -->
+                    <ng-container matColumnDef="group">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 160px">
+                            Group
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{row.criteriaName}}
+                        </td>
+                    </ng-container>
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="headerTechnical2">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 100px; min-width: 100px; width :100px">
+                            Technical</th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox [color]="'primary'" name="{{row.id}}" [checked]="row.isTechnical"
+                                [(ngModel)]="row.isTechnical" (change)="onChange()"
+                                [disabled]="!RFQModel.isSaveAsDraft || !row.isSelected || linesTechnicalScoringlist"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="headerCommercial2">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 100px; min-width: 100px; width :100px">
+                            Commercial</th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox [color]="'primary'" name="{{row.id}}" [checked]="row.isCommercial"
+                                [(ngModel)]="row.isCommercial" (change)="onChange()"
+                                [disabled]="!RFQModel.isSaveAsDraft || !row.isSelected || linesCommercialScoringlist"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumn15"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumn15;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <mat-divider class="my-2"></mat-divider>
+    <!-- <div class="item-block my-8 srm-bg rounded-lg p-6"> -->
+    <!-- <p class="font-medium text-lg mb-3">
+            Response Rules
+        </p> -->
+    <!-- <div class="overflow-auto bg-gray-50 rounded-lg" *ngIf="rfxRulesViewModel">
+            <table mat-table [dataSource]="rfxRulesViewModel.rfqRules" matSort class="expanded-rows-table font-helvetica text-gray-500"> -->
+
+    <!-- ID Column -->
+    <!-- <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef style="max-width: 60px; min-width: 50px; width :50px"></th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox [color]="'primary'" name="{{row.id}}" 
+                        [checked]="row.isSelected" [(ngModel)]="row.isSelected" (change)="fireEvent()"></mat-checkbox>
+                    </td>
+                </ng-container> -->
+
+    <!--  Response Rules Column -->
+    <!-- <ng-container matColumnDef="resRules">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 160px">
+                        Response Rules
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.lookUpValue}}
+                    </td>
+                </ng-container> -->
+
+    <!-- Selection Column -->
+    <!-- <ng-container matColumnDef="selection">
+                    <th mat-header-cell *matHeaderCellDef style="max-width: 100px; min-width: 100px; width :100px"></th>
+                    <td mat-cell *matCellDef="let row">
+                         <mat-checkbox [color]="'primary'"></mat-checkbox> -->
+    <!-- </td>
+                </ng-container> -->
+
+
+    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumn16"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumn16;"></tr> -->
+
+    <!-- Row shown when there is no matching data. -->
+    <!-- <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                </tr> -->
+    <!-- </table>
+        </div> -->
+
+    <!-- </div> -->
+
+</div>

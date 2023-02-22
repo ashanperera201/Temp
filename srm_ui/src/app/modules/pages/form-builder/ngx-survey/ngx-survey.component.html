@@ -1,0 +1,153 @@
+<div *ngIf="form.length > 0 && headerData">
+    <div class="overflow-hidden srm-bg mt-4 pl-4 rounded-lg">
+        <div class="pt-4" style="display: flex; flex-direction: row">
+            <ng-container *ngIf="logoImg; else logoRef">
+                <img class="imagelogo bg-white" src="{{logoImg}}" alt="SRM Logo">
+            </ng-container>
+            <ng-template #logoRef>
+                <img class="imagelogo bg-white" src="{{headerData.logoUrl}}" alt="SRM Logo">
+            </ng-template>
+
+            <div class="pl-5 flex-auto">
+                <div class="font-medium base text-base mb-2 text-2xl"><strong>{{headerData.formTitle}}</strong></div>
+                <div class="font-medium text-2xl text-base mb-2">{{headerData.formSubTitle}}</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="overflow-hidden srm-bg mt-2 pl-4">
+        <ng-container *ngIf="(logoBannerRef); else bannerRef">
+            <img class="imagebanner srm-bg" [src]="logoBannerRef" alt="banner">
+        </ng-container>
+        <ng-template #bannerRef>
+            <img class="imagebanner srm-bg" [src]="headerData?.bannerUrl" alt="banner">
+        </ng-template>
+    </div>
+    <div class="header-block border rounded bg-white mt-1 mb-2 p-4 divide-solid divide-gray-300"
+        *ngIf="headerData.ReviewerDetails[0].value!=='------'">
+        <div class="block flex flex-col px-6 my-3 items-center justify-center text-center"
+            *ngFor="let x of headerData.ReviewerDetails">
+            <h3 class="text-base font-medium leading-none text-secondary">
+                {{ x.title }}
+            </h3>
+            <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">
+                {{ x.value }}
+            </p>
+        </div>
+    </div>
+</div>
+<div (resized)="onResized($event)">
+    <form name="surveyForm" *ngIf="!splitBySteps">
+        <fieldset class="form-fieldset" *ngFor="let section of form; let s = index">
+            <ng-container *ngIf="service.isSectionVisible(form, section)">
+                <div class="text-2xl font-bold mt-2" *ngIf="view"> Section {{s+1}}</div>
+                <div class="form-legend mt-4" *ngIf="section.title || section.subtitle || section.Weightage">
+                    <span class="text-2xl font-bold mb-2 pl-5 pt-4" [ngClass]="'section-style-'+section.sectionStyle"
+                        style="word-break: break-word;">{{section.title}}</span>
+                    <span *ngIf="section.subtitle" class="pt-2"><br /><span style="word-break: break-word;"
+                            class="text-2xl font-semibold leading-none font-roboto font-medium pl-5"
+                            [innerHtml]="section.subtitle"></span></span>
+                </div>
+
+
+                <div class="form-fieldset-content">
+                    <div *ngFor="let item of section.items" [attr.id]="'form_item_'+item.name"
+                        [hidden]="!service.isItemVisible(form, section, item, isPreview)">
+
+                        <div *ngIf="service.isItemVisible(form, section, item, isPreview)">
+                            <div class="flex">
+                                <div class="flex flex-col w-full mr-2">
+                                    <!-- <mat-label style="font-weight: 600;color: black;">&nbsp;</mat-label> -->
+                                    <ngx-survey-form-item *ngIf="service.isItemVisible(form, section, item, isPreview)"
+                                        [type]="item.type" [item]="item" [editable]="editable" class="w-full"
+                                        style="font-size: 16px;" [enableFileUpload]="enableFileUpload"
+                                        [isMobile]="isMobile" (changes)="onItemChanges($event)" [view]="view">
+                                    </ngx-survey-form-item>
+                                </div>
+                                <div class="flex flex-col w-20 mr-2" *ngIf="section.enableScore && item.type!=='label'">
+                                    <mat-label style="font-weight: 600;color: black; font-size: 16px;">Score</mat-label>
+                                    <mat-form-field class="example-full-width pt-2" appearance="fill">
+                                        <mat-select [disabled]="!editable" name={{item.name}} [(ngModel)]="item.score"
+                                            [required]="section.enableScore && view === true"
+                                            (selectionChange)="OnSelectionChange($event, section, item)">
+                                            <mat-option value="1">1</mat-option>
+                                            <mat-option value="2">2</mat-option>
+                                            <mat-option value="3">3</mat-option>
+                                            <mat-option value="4">4</mat-option>
+                                            <mat-option value="5">5</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex flex-col mr-2 w-full"
+                                    *ngIf="section.enableComment && item.type!=='label'">
+                                    <mat-label style="font-weight: 600;color: black;font-size: 16px;">Leave a comment
+                                    </mat-label>
+                                    <mat-form-field class="w-full pt-2">
+                                        <textarea [disabled]="!editable" matInput [(ngModel)]="item.comment"
+                                            placeholder="Leave a comment"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+                                <span *ngIf="item.Weightage" class="flex justify-end"
+                                    style="color: #438AFE; white-space: nowrap;"><span class="font-base text-base pr-6">
+                                        Item
+                                        Weightage - {{item.Weightage}}
+                                    </span></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </fieldset>
+    </form>
+    <div *ngIf="splitBySteps">
+        <mat-horizontal-stepper #stepper *ngIf="!isMobile" (selectionChange)="onStepChange($event)">
+            <mat-step *ngFor="let section of form; index as i;" [editable]="isStepEnabled(section)"
+                [completed]="section.submited" [hasError]="section.hasError" [errorMessage]="section.firstErrorText">
+
+                <div *ngIf="i<form.length-1">
+                    <button mat-button type="button" class="btn btn-primary btn-block"
+                        (click)="submitStep(section, true)">Continue</button>
+                </div>
+                <div *ngIf="i>=form.length-1">
+                    <div class="text-center text-danger global-error" *ngIf="submitErrorText">{{submitErrorText}}<br />
+                    </div>
+                    <button mat-button type="button" class="btn btn-success btn-block" (click)="submitForm()"
+                        [disabled]="submitInProgress"><i class="fa fa-spinner fa-spin" *ngIf="submitInProgress"></i>
+                        Submit</button>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+
+        <mat-vertical-stepper #stepper *ngIf="isMobile" (selectionChange)="onStepChange($event)">
+            <mat-step *ngFor="let section of form; index as i;" [editable]="isStepEnabled(section)"
+                [completed]="section.submited" [hasError]="section.hasError" [errorMessage]="section.firstErrorText">
+
+                <form>
+                    <ng-template matStepLabel>{{section.title}}</ng-template>
+                    <h3 *ngIf="section.subtitle">{{section.subtitle}}</h3>
+                    <div *ngFor="let item of section.items" [attr.id]="'form_item_'+item.name">
+                        <ngx-survey-form-item *ngIf="service.isItemVisible(form, section, item)" [type]="item.type"
+                            [item]="item" [editable]="editable" (changes)="onItemChanges($event)" [isMobile]="isMobile"
+                            [view]="view">
+                        </ngx-survey-form-item>
+                    </div>
+                </form>
+                <div *ngIf="i<form.length-1">
+                    <button mat-button type="button" class="btn btn-primary btn-block"
+                        (click)="submitStep(section, true)">Continue</button>
+                </div>
+                <div *ngIf="i>=form.length-1">
+                    <div class="text-center text-danger global-error" *ngIf="submitErrorText">{{submitErrorText}}<br />
+                    </div>
+                    <button mat-button type="button" class="btn btn-success btn-block" (click)="submitForm()"
+                        [disabled]="submitInProgress"><i class="fa fa-spinner fa-spin" *ngIf="submitInProgress"></i>
+                        Submit</button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </div>
+</div>

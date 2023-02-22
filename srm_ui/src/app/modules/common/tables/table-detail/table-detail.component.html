@@ -1,0 +1,245 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0">
+    <div class="flex justify-between">
+        <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium text-lg ml-px mt-1">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500 font-semibold ml-px">Setup</a>
+                </div>
+                <div class="flex items-center ml-2 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a (click)="goBack();" class="whitespace-nowrap text-primary-500 font-semibold ml-px">Tables</a>
+                </div>
+                <div class="flex items-center ml-2 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="whitespace-nowrap text-primary-500 font-semibold ml-px">{{source.tableName}}</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="flex flex-wrap items-center font-medium text-lg ml-px mt-1">
+            <button class="sm:inline-flex ml-auto" *ngIf="source.source!=='IFS'" (click)="createValue()" mat-stroked-button [color]="'primary'"
+                type="button">
+                <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                <span class="mx-8">Create New value</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="relative">
+        <div class="srm-bg rounded-lg rounded-t-none">
+
+            <div
+                class="flex justify-between border rounded bg-white pt-4 mb-2 p-4 divide-solid divide-x divide-gray-300">
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Table Name</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{source?.tableName}}</p>
+                </div>
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Description</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{source?.tableDescription}}</p>
+                </div>
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Source</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{source?.sourceDB}}</p>
+                </div>
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Status</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">Active
+                        <button mat-icon-button aria-label="Download Excel file" (click)="exportToExcel()">
+                            <img src="assets/icons/excel.svg" alt="download excel file">
+                        </button>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col flex-wrap pt-4 sm:flex-row items-center max-w-xs sm:max-w-none">
+
+                <!-- Search options -->
+                <div class="mr-4">
+                    <mat-form-field
+                        class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3">
+                        <div class="text-secondary px-4" matPrefix>UI Code</div>
+                        <input matInput placeholder="Search by UI code"  [(ngModel)]="uicodeSearch">
+                    </mat-form-field>
+                    <mat-form-field
+                        class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3">
+                        <div class="text-secondary px-4" matPrefix>Description</div>
+                        <input matInput placeholder="Search by Description"  [(ngModel)]="uidescSearch">
+                    </mat-form-field>
+                   <!--  <mat-form-field
+                        class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3">
+                        <div class="text-secondary px-4" matPrefix>Database Unique ID</div>
+                        <input matInput placeholder="Search by Database Unique ID">
+                    </mat-form-field> -->
+                </div>
+
+                <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" type="button"
+                (click)="applyFilter()">
+                    <mat-icon matPrefix class="icon-size-5 ml-8" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                    <span class="mr-8 ml-4">Search</span>
+                </button> 
+            </div>
+
+            <!-- table -->
+            <div class="overflow-auto pt-8 bg-gray-50 rounded-lg">
+               
+                <table mat-table [dataSource]="dataSource" matSort
+                    class="expanded-rows-table font-helvetica text-gray-500">
+
+                    <!-- Template Name Column -->
+                    <ng-container matColumnDef="colName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 250px;"> UI code </th>
+                        <td mat-cell *matCellDef="let row" (click)="OpenURL('/tables-table-detail',row)">{{row.colName}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Description Column -->
+                    <ng-container matColumnDef="colDesc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 250px;"> Description
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.colDesc}}</td>
+                    </ng-container>
+
+                    <!-- source Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px;"> Database Unique ID </th>
+                        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+                    </ng-container>
+
+                    <!-- edit Column -->
+                    <ng-container matColumnDef="edit">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 50px;"></th>
+                        <td mat-cell *matCellDef="let row; let i = index">
+                            <button mat-button [disabled]="source.source==='IFS'" (click)="editValue(row,i)">
+                                <mat-icon>create</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <!-- copy Column -->
+                  <!--   <ng-container matColumnDef="copy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 50px;"></th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-button [disabled]="source.source==='IFS'">
+                                <mat-icon>file_copy</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container> -->
+
+                    <!-- active Column -->
+                    <ng-container matColumnDef="active">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 50px;"></th>
+                        <td mat-cell *matCellDef="let row;">{{(row.isDelete?'Disabled':'Enabled')}}
+                            <mat-slide-toggle color="primary" [checked]="!row.isDelete" (change)="activeRow($event, row)"></mat-slide-toggle>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr  mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+                <div class="flex justify-end">
+                    <mat-paginator class="flex text-base" #paginator [length]="tableValue.length" [pageSizeOptions]="[5, 25, 100]"
+                     showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+
+   <!--  <div class="history flex flex-col">
+        <mat-accordion multi class="custom-accordian">
+            <mat-expansion-panel class="card-style mb-6 p-0" (opened)="panelOpenState = true"
+                (closed)="panelOpenState = false" hideToggle="true">
+                <mat-expansion-panel-header class="h-full pt-4 pb-2">
+                    <div class="flex flex-col w-full">
+                        <mat-panel-title class="text-xl mb-3 flex justify-between">
+                            <div class="flex items-center">
+                                History
+                            </div>
+                            <div class="flex items-center">
+                                <mat-icon color="primary" *ngIf="!panelOpenState"
+                                    svgIcon="heroicons_outline:arrow-circle-down"></mat-icon>
+                                <mat-icon color="primary" *ngIf="panelOpenState"
+                                    svgIcon="heroicons_outline:arrow-circle-up"></mat-icon>
+                            </div>
+
+                        </mat-panel-title>
+                    </div>
+                </mat-expansion-panel-header>
+
+                <div class="overflow-auto srm-bg rounded-lg mt-4 px-2">
+
+                    <table mat-table [dataSource]="dataSource" matSort
+                    class="expanded-rows-table font-helvetica text-gray-500">
+        
+                  
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px;"> UI code </th>
+                        <td mat-cell *matCellDef="let row" (click)="OpenURL('/tables-table-detail',row)">{{row.name}}
+                        </td>
+                    </ng-container>
+        
+                   
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 250px;"> Description
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.description}}</td>
+                    </ng-container>
+        
+                   
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px;"> Database Unique ID </th>
+                        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+                    </ng-container>
+        
+                    
+                    <ng-container matColumnDef="updateby">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 150px;">Updated By</th>
+                        <td mat-cell *matCellDef="let row">
+                        </td>
+                    </ng-container>
+        
+                   
+                    <ng-container matColumnDef="ovalue">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 150px;">Old Value</th>
+                        <td mat-cell *matCellDef="let row">
+                        </td>
+                    </ng-container>
+        
+                    
+                    <ng-container matColumnDef="nvalue">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 150px;">New Value</th>
+                        <td mat-cell *matCellDef="let row;">
+                        </td>
+                    </ng-container>
+        
+                   
+                     <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 150px;">Date</th>
+                        <td mat-cell *matCellDef="let row;">
+                        </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                    <tr  mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+        
+                 
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table> 
+                 
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div> -->
+
+        </div>
+    </div>
+</div>

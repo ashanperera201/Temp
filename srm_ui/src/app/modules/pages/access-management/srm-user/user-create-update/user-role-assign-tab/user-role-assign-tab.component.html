@@ -1,0 +1,82 @@
+<div class="internal-user-role-assign-page">
+<div class="flex" style="background-color: #fbfbfb;">
+    <div class="flex flex-col w-1/2 mr-2 bg-white rounded-lg p-4 m-4">
+        <mat-selection-list [(ngModel)]="pickedRoles">
+            <mat-list-option *ngFor="let x of userRoles" color="primary" [value]="x">
+                <span mat-line>{{x.roleName}}</span>
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+    <div class=" flex flex-col w-1/2 mr-2 bg-white rounded-lg p-4 m-4">
+        <h4>Assigned Roles</h4>
+        <mat-selection-list [(ngModel)]="pickedRoles">
+            <mat-list-option *ngFor="let x of pickedRoles; let i = index" color="primary" [value]="x">
+                <span mat-line>{{x.roleName}}</span>
+                <mat-icon matSuffix (click)="delete(i)">
+                    delete </mat-icon>
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+</div>
+
+<div class="w-full flex flex-row justify-end mt-4">
+    <button class="sm:inline-flex mr-4" mat-raised-button type="button">
+        <span class="mx-8">Back</span>
+    </button>
+    <button
+        class="sm:inline-flex mr-4"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        (click)="assignRole()"
+    >
+        <span class="mx-8">User Create</span>
+    </button>
+</div>
+
+
+<!-- history table -->
+<div class="flex  w-full flex-col">
+
+    <h4>History</h4>
+    <!-- data table -->
+    <table mat-table [dataSource]="toDoOverviewDataSource" matSort
+        class="expanded-rows-table font-helvetica text-gray-500 w-full mat-elevation-z8">
+
+        <!-- created column -->
+        <ng-container matColumnDef="createdOn">
+            <th mat-header-cell *matHeaderCellDef> <span mat-sort-header>Created / Updated Date and time</span>
+            </th>
+            <td mat-cell *matCellDef="let element"><a (click)="viewNotification(element)">{{element.createdOn}}</a>
+            </td>
+        </ng-container>
+
+        <!-- userName column -->
+        <ng-container matColumnDef="createdBy">
+            <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Created By</span>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element?.nickname}} </td>
+        </ng-container>
+
+        <!-- description column -->
+        <ng-container matColumnDef="comment">
+            <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Description</span>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element?.comment}}
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedDashboardColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedDashboardColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow [hidden]="isLoading">
+            <td class="mat-cell" colspan="4">No data matching the filter</td>
+        </tr>
+    </table>
+    <div class="flex justify-end">
+        <mat-paginator class="flex text-lg" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true">
+        </mat-paginator>
+    </div>
+</div>
+</div>

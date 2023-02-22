@@ -1,0 +1,35 @@
+<div class="flex flex-col flex-auto min-w-0 sm:p-6 md:p-8">
+    <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+        Supplier Registration Form
+    </div>
+
+    <div class="sub-header">
+        <div class="font-medium">
+            Note: Fields marked as * are mandatory
+        </div>
+        <div class="font-medium">
+            I/We hereby submit the below details of our organization to be considered as an approved supplier for
+            IMI.
+        </div>
+    </div>
+
+    <br>
+    <div class="overflow-auto srm-bg rounded-lg rounded-t-none">
+        <mat-tab-group class="tab-type-one is-parent-tab">
+            <mat-tab *ngFor="let tab of tabConfiguration; let i = index" [tabindex]="i" [label]="tab?.tabTitle"
+                class="direct-child-of-parent">
+                <ngx-survey #survey [isPreview]="true" [form]="tab?.selectedReviewForm?.form"
+                    (formSubmit)="submitForm($event,tab?.selectedReviewForm?.id)"
+                    [headerData]="tab?.selectedReviewForm?.headerData" [enableFileUpload]="true" [editable]="true"
+                    [view]="true">
+                </ngx-survey>
+
+                <div class="p-4 btn-action">
+                    <button mat-raised-button color="primary" (click)="survey.submitForm()">
+                        {{'Publish ' + tab?.tabTitle}}
+                    </button>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

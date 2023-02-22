@@ -1,0 +1,97 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full" [formGroup]="frmShipping" (ngSubmit)="onFormSubmit(frmShipping.value)">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Add Shipping Details
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+
+            <div class="w-full">
+                <div class="w-full">
+                    <div class="block">
+                        <mat-form-field class="sm:w-full md:pr-2 sm:pr-0">
+                            <mat-label>Country</mat-label>
+                            <mat-select (selectionChange)="getCities($event.value, null)" formControlName="countryId">
+                                <mat-option *ngFor="let country of countryList" [value]="country.id">
+                                    {{country.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="sm:w-full md:pr-2 sm:pr-0">
+                            <mat-label>City</mat-label>
+                            <mat-select (selectionChange)="getPorts($event.value, null)" formControlName="cityId">
+                                <mat-option *ngFor="let city of cityList" [value]="city.id">{{city.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="sm:w-full md:pr-2 sm:pr-0">
+                            <mat-label>Port</mat-label>
+                            <mat-select (selectionChange)="setPortFlag($event.value)" formControlName="portId">
+                                <mat-option *ngFor="let port of portList" [value]="port.id">{{port.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <p class="font-medium text-lg mb-2 pt-4">
+                        Inco Terms
+                    </p>
+                    <div class="block">
+                        <mat-form-field class="sm:w-full md:pr-2 sm:pr-0">
+                            <mat-label>Inco Terms</mat-label>
+                            <mat-select (selectionChange)="setIncoTermFlag($event.value)" formControlName="ifsIncoTermId">
+                                <mat-option *ngFor="let incoTerm of incoTermList" [value]="incoTerm.id">
+                                    {{incoTerm.description}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="block">
+                        <mat-form-field *ngIf="false" class="sm:w-full md:pr-2 sm:pr-0">
+                            <mat-label>Inco Terms Country</mat-label>
+                            <mat-select (selectionChange)="getIncoTermCities($event.value, null)"
+                                formControlName="incoTermCountryId">
+                                <mat-option *ngFor="let country of incoTermCountryList" [value]="country.id">
+                                    {{country.description}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="false" class="sm:w-full md:pr-2 sm:pr-0">
+                            <mat-label>Inco Terms City</mat-label>
+                            <mat-select (selectionChange)="getIncoTermPorts($event.value, null)"
+                                formControlName="incoTermCityId">
+                                <mat-option *ngFor="let city of incoTermCityList" [value]="city.id">{{city.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="false" class="sm:w-full md:pr-2 sm:pr-0">
+                            <mat-label>Inco Terms Port</mat-label>
+                            <mat-select formControlName="incoTermPortId">
+                                <mat-option *ngFor="let port of incoTermPortList" [value]="port.id">{{port.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-start mt-5">
+                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                    <span>{{'Successfully saved'}}</span>
+                </div>
+                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                    <span>{{'Something went wrong'}}</span>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" [disabled]="!frmShipping.valid || isSaving" mat-raised-button [color]="'primary'" type="submit">
+                <span class="mx-4">Save</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

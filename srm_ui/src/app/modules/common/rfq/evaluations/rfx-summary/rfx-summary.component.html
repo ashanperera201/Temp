@@ -1,0 +1,196 @@
+<div class="pb-4 px-4 srm-bg rounded-lg">
+    <div class="pt-5 pb-2">
+        <div class="flex">
+            <mat-form-field class="w-1/4 pr-2">
+                <mat-label>RFQ No</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerData[0].rfqNo">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>REV No</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerData[0].revNo">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Program ID</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerData[0].projectID">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pl-2">
+                <mat-label>Project Code</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerData[0].projectID">
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field class="w-1/4 pr-2">
+                <mat-label>Technical Evaluation Number</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerData[0].tEvaluationNumber">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Commercial Evaluation Number</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerData[0].cEvaluationNumber">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Buyer’s Name</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerData[0].buyerName">
+            </mat-form-field>
+            <div class="w-1/4 pl-2">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="mt-4 px-2">
+    <!--table component-->
+
+    <!--base table component-->
+    <div class="overflow-auto srm-bg rounded-lg">
+        <table mat-table [dataSource]="dynamicdata.supplierData" matSort class="expanded-rows-table font-helvetica text-gray-500">
+
+            <!-- supId Column -->
+            <ng-container matColumnDef="supId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 70px; min-width: 50px">
+                    Supplier ID
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.ifsSupplierId}}
+                </td>
+            </ng-container>
+
+            <!-- supName -->
+            <ng-container matColumnDef="supName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 70px; min-width: 50px">
+                    Name
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.supplierName}}
+                </td>
+            </ng-container>
+
+            <!-- supContact Column -->
+            <ng-container matColumnDef="supContact">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 90px; min-width: 80px">
+                    Supplier Contact
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.contactFirstName}}
+                </td>
+            </ng-container>
+
+            <!-- supEmail Column -->
+            <ng-container matColumnDef="supEmail">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 100px">
+                    Email ID
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.contactEmail}} </td>
+            </ng-container>
+
+            <!-- Person Name Column -->
+            <ng-container matColumnDef="supResponse">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 150px">
+                    Responses
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.responseCount}}
+                </td>
+            </ng-container>
+
+            <!-- supTechEval Column -->
+            <ng-container matColumnDef="supTechEval">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 120px">
+                    Technical Evaluation
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.tbe}}
+                </td>
+            </ng-container>
+
+            <!-- supComEval Column -->
+            <ng-container matColumnDef="supComEval">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 80px">
+                    Commercial Evaluation
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.cbe}}
+                </td>
+            </ng-container>
+
+            <!-- status Column -->
+            <ng-container matColumnDef="supRank">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 100px; min-width: 80px">
+                    Rank
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.supplierRank}}
+                </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumn22"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumn22;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell text-center" colspan="8">No matching data</td>
+            </tr>
+        </table>
+    </div>
+    <!--table component end-->
+
+    <div class="flex justify-between">
+        <div class="w-1/4">
+            <apx-chart
+                [series]="chartOptionsScores.series"
+                [chart]="chartOptionsScores.chart"
+                [dataLabels]="chartOptionsScores.dataLabels"
+                [plotOptions]="chartOptionsScores.plotOptions"
+                [yaxis]="chartOptionsScores.yaxis"
+                [legend]="chartOptionsScores.legend"
+                [fill]="chartOptionsScores.fill"
+                [stroke]="chartOptionsScores.stroke"
+                [tooltip]="chartOptionsScores.tooltip"
+                [xaxis]="chartOptionsScores.xaxis"
+                [grid]="chartOptionsScores.grid"
+                [states]="chartOptionsScores.states"
+            ></apx-chart>
+        </div>
+        <div class="w-1/4">
+            <apx-chart
+                [series]="chartOptionsTBERanks.series"
+                [chart]="chartOptionsTBERanks.chart"
+                [dataLabels]="chartOptionsTBERanks.dataLabels"
+                [plotOptions]="chartOptionsTBERanks.plotOptions"
+                [yaxis]="chartOptionsTBERanks.yaxis"
+                [legend]="chartOptionsTBERanks.legend"
+                [fill]="chartOptionsTBERanks.fill"
+                [stroke]="chartOptionsTBERanks.stroke"
+                [tooltip]="chartOptionsTBERanks.tooltip"
+                [xaxis]="chartOptionsTBERanks.xaxis"
+                [grid]="chartOptionsTBERanks.grid"
+                [states]="chartOptionsTBERanks.states"
+            ></apx-chart>
+        </div>
+        <div class="w-1/4">
+            <apx-chart
+                [series]="chartOptionsCBERanks.series"
+                [chart]="chartOptionsCBERanks.chart"
+                [dataLabels]="chartOptionsCBERanks.dataLabels"
+                [plotOptions]="chartOptionsCBERanks.plotOptions"
+                [yaxis]="chartOptionsCBERanks.yaxis"
+                [legend]="chartOptionsCBERanks.legend"
+                [fill]="chartOptionsCBERanks.fill"
+                [stroke]="chartOptionsCBERanks.stroke"
+                [tooltip]="chartOptionsCBERanks.tooltip"
+                [xaxis]="chartOptionsCBERanks.xaxis"
+                [grid]="chartOptionsCBERanks.grid"
+                [states]="chartOptionsCBERanks.states"
+            ></apx-chart>
+        </div>
+    </div>
+
+    <div class="flex justify-end ml-auto p-6 mt-4">
+        <button class="sm:inline-flex" mat-raised-button (click)="gotoROA()" [color]="'primary'">
+            <span class="mx-8">Generate ROA</span>
+        </button>
+    </div>
+
+
+</div>

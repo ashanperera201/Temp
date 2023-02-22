@@ -1,0 +1,21 @@
+<!-- Wrapper -->
+<div class="flex flex-col flex-auto w-full">
+
+        <div class="sticky top-0 shadow-md bg-white z-49">
+            <div class="flex justify-between max-w-screen-xl w-full items-center h-20 m-0 px-6 m-auto overflow-hidden p-0">
+                <a href="http://localhost:4200/supplier-registration-form">
+                    <img class="w-50" src="assets/images/logo/srm-logo.svg" alt="SRM Logo">
+                </a>
+<!--                <img class="w-full" src="assets/images/bg/supplier-reg-image.svg" alt="SRM Image">-->
+                <div class="supplier-reg-image"></div>
+            </div>
+        </div>
+
+    <!-- Content -->
+    <div class="flex flex-col items-center max-w-screen-xl w-full flex-auto px-6 min-w-0 m-auto">
+        <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
+             Otherwise, layout changes won't be registered and the view won't be updated! -->
+        <router-outlet *ngIf="true"></router-outlet>
+    </div>
+
+</div>

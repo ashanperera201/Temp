@@ -1,0 +1,19 @@
+<div class="pt-2">
+    <pdf-viewer [src]="linkSource" [render-text]="true" [original-size]="false" style="width: auto; height: 500px">
+    </pdf-viewer>
+</div>
+
+<div class="flex pt-5 justify-between">
+    <mat-checkbox [(ngModel)]="termsAndConditionAccepctance" (change)="onChange($event)" [disabled]="!editable"
+        color="primary"><span class="label" style="font-weight: 600;color: black;">
+            I Accept the Terms and Condition
+            <span *ngIf="item.required">
+                *
+            </span>
+        </span>
+    </mat-checkbox>
+
+    <button mat-icon-button (click)="onDownload()">
+        <mat-icon>cloud_download</mat-icon>
+    </button>
+</div>

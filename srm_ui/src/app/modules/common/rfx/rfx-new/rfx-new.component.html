@@ -1,0 +1,119 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0">
+
+    <div class="flex justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">
+            Create a RFx
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium text-lg ml-px mt-1">
+                <div>
+                    <a href="/dashboard" class="whitespace-nowrap text-primary-500 font-semibold ml-px">All RFx List</a>
+                </div>
+                <div class="flex items-center ml-2 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1">Create RFx</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="relative">
+        <!--table component-->
+
+        <!--base table component-->
+        <div class="overflow-auto rounded-lg">
+            <div class="py-2">
+                <mat-radio-group class="flex" [color]="'primary'">
+                    <mat-radio-button class="mb-2 mr-4" [value]="'New'" [checked]="true" (click)="OpenURL('rfx-new')">
+                        Create New RFX
+                    </mat-radio-button>
+                    <mat-radio-button class="mb-2 mr-4" [value]="'Template'" [checked]="false"
+                        (click)="OpenURL('rfx-new-from-template')">
+                        Create From Template
+                    </mat-radio-button>
+                    <mat-radio-button class="mb-2" [value]="'Existing'" [checked]="false"
+                        (click)="OpenURL('rfx-new-from-existing')">
+                        Create From Existing
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="overflow-auto srm-bg rounded-lg rounded-t-none">
+                <div class="p-6">
+                    <!-- <form class="flex flex-col w-full"> -->
+                        <div class="flex">
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Name</mat-label>
+                                <input matInput [(ngModel)] = "selectedName">
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12 px-2">
+                                <mat-label>Description</mat-label>
+                                <input matInput [(ngModel)] = "selectedDescription">
+                            </mat-form-field>
+                            <mat-form-field class="w-3/12 pl-2">
+                                <mat-label>Type</mat-label>
+                                <mat-select (selectionChange)="fetchCurrencyData()" [(value)]="selectedType">
+                                    <mat-option value="RFQ">RFQ</mat-option>
+                                    <mat-option value="RFAQ">RFAQ</mat-option>
+                                    <mat-option value="RFI">RFI</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex">
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Negotiation Style</mat-label>
+                                <mat-select [(value)]="selectedNegotiation">
+                                    <mat-option *ngFor="let nego of negotiationStyleSearchModel.negotiationStyleModels"
+                                        [value]="nego.id">{{nego.nsName}}</mat-option>
+                                    <!-- <mat-option [value]="2">Sample Negotiation Style</mat-option>
+                                    <mat-option [value]="3">Sample Negotiation Style</mat-option> -->
+                                </mat-select>
+                            </mat-form-field>
+                            <div class="w-6/12 px-2">
+                                <mat-form-field class="w-1/2 pr-2">
+                                    <mat-label>Bidding Style</mat-label>
+                                    <mat-select [(value)]="selectedBidding">
+                                        <mat-option
+                                            *ngFor="let biding of negotiationStyleSearchModel.negotiationStyleModels"
+                                            [value]="biding.bidingStyleID">{{biding.bidingStyleName}}</mat-option>
+                                        <!-- <mat-option [value]="2">Sample Bidding Style</mat-option>
+                                        <mat-option [value]="3">Sample Bidding Style</mat-option> -->
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/2 pl-2">
+                                    <mat-label>Currency</mat-label>
+                                    <mat-select [(value)]="selectedCurrency">
+                                        <mat-option *ngFor="let cur of currencies"
+                                            [value]="cur.currencyId">{{cur.currencyName}}</mat-option>
+                                        <!-- <mat-option [value]="2">Sample Currency</mat-option>
+                                        <mat-option [value]="3">Sample Currency</mat-option> -->
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="w-3/12 pl-2"></div>
+
+                        </div>
+
+                    <!-- </form> -->
+                </div>
+
+            </div>
+            <div class="flex justify-end ml-auto p-6">
+                <button class="sm:inline-flex mr-4" mat-button [color]="'primary'">
+                    <span class="mx-8">Cancel</span>
+                </button>
+                <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
+                    <span class="mx-8">Previous Step</span>
+                </button>
+                <button class="sm:inline-flex" mat-raised-button [color]="'primary'" (click)="OpenNextStepURL('rfq')">
+                    <span class="mx-8">Next Step</span>
+                </button>
+            </div>
+
+
+
+        </div>
+
+        <!--table component end-->
+    </div>
+
+</div>

@@ -1,0 +1,220 @@
+<div class="internal-user-record-page">
+
+    <div class="content-row" style="background-color: #fbfbfb;" [formGroup]="userForm">
+        <div>
+            <div class="flex justify-center pt-5">
+                <img class="rounded-image mat-elevation-z8" [src]="imageUrl" />
+            </div>
+
+            <div>
+                <div class="profile-upload flex justify-center mt-6 mb-2 font-medium text-l" type="button"
+                    (click)="profileUplaod.click()">
+                    Upload Image
+                    <input hidden type="file" name="profilePic" #profileUplaod uploader="profilePicUploader"
+                        accept=".jpg, .jpeg, .png" (change)="uploadFileHandler($event)" />
+                    <mat-icon class="icon-size-5 mx-2" [svgIcon]="'mat_outline:upload'"></mat-icon>
+                </div>
+            </div>
+
+        </div>
+        <div class="bg-white rounded-lg p-4 m-4">
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>User Name</mat-label>
+                    <input matInput placeholder="User Name" name="userName" formControlName="userName">
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Full Name</mat-label>
+                    <input matInput placeholder="Full Name" name="fullName" formControlName="fullName">
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Email Address</mat-label>
+                    <input matInput placeholder="Email Address" name="email" formControlName="email">
+                </mat-form-field>
+            </div>
+
+            <!-- <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>IFS Database ID</mat-label>
+                    <input matInput placeholder="IFS Database ID" name="password"
+                        formControlName="password">
+                </mat-form-field>
+            </div> -->
+
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Default Lang</mat-label>
+                    <mat-select name="defaultLang" formControlName="defaultLang">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let language of languages" [value]="language.value">
+                            {{language.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Default Currency</mat-label>
+                    <mat-select name="defaultCurrency" formControlName="defaultCurrency">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let currency of currencies" [value]="currency?.value">
+                            {{currency?.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg p-4 m-4">
+            <div>
+                <label>Source</label>
+                <mat-radio-group aria-label="Select an option" name="source" formControlName="source">
+                    <mat-radio-button value="1" color="primary">IFS</mat-radio-button>
+                    <mat-radio-button value="2" color="primary">B2B</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div>
+                <label>Status</label>
+                <mat-radio-group aria-label="Select an option" formControlName="isActive">
+                    <mat-radio-button value="1" color="primary">Active</mat-radio-button>
+                    <mat-radio-button value="2" color="primary">Inactive</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Login Method</mat-label>
+                    <mat-select name="loginMethod" formControlName="loginMethod">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let loginMethod of loginMethods" [value]="loginMethod.value">
+                            {{loginMethod.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Valid From</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="validFrom">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Valid To</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="validTo">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div *ngIf="userForm.get('loginMethod')?.value === 'IL'">
+                <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput placeholder="Password " [type]="inputType" formControlName="password">
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="showPw()">
+                        <mat-icon>{{inputType==='password'?'visibility':'visibility_off'}}
+                        </mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="font-medium base text-base mb-2">Basic Information</div>
+        <div class="content-row" style="background-color: #fbfbfb;">
+            <div class="bg-white rounded-lg p-4 m-4">
+                <div>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Group Name list</mat-label>
+                        <input type="text" placeholder="Group Name" aria-label="Number" matInput
+                            [matAutocomplete]="auto" formControlName="groupNameSearch">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <mat-selection-list [(ngModel)]="selectedUserGroups" color="primary">
+                    <mat-list-option checkboxPosition="before" [value]="groupName"
+                        *ngFor="let groupName of userGroupNames">
+                        {{ groupName }}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+            <div class="bg-white rounded-lg p-4 m-4">
+                <h4>Selected Group Name</h4>
+                <mat-selection-list [(ngModel)]="selectedUserGroups" color="primary" class="pt-18">
+                    <mat-list-option *ngFor="let selectedGroup of selectedUserGroups; let i = index"
+                        [value]="selectedGroup">
+                        {{selectedGroup}}
+                        <mat-icon matSuffix (click)="delete(i)">
+                            delete
+                        </mat-icon>
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full flex flex-row justify-end mt-4 p-3">
+        <button class="sm:inline-flex mr-4" mat-raised-button type="button" (click)="onBackClick()">
+            <span class="mx-8">Back</span>
+        </button>
+        <button class="sm:inline-flex mr-4" mat-raised-button color="primary" type="submit"
+            (click)="userCreateaUpdate()">
+            <span class="mx-8">{{userId ? 'User Update' : 'User Create'}}</span>
+        </button>
+    </div>
+
+    <div class="pt-5" *ngIf="userRef && userLogRef?.length > 0">
+
+        <div class="font-medium base text-base mb-2">History</div>
+
+        <div style="background-color: #fbfbfb;">
+            <table mat-table [dataSource]="userLogs" matSort
+                class="expanded-rows-table font-helvetica text-gray-500 w-full mat-elevation-z8">
+                <ng-container matColumnDef="createdOn">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span mat-sort-header>Created / Updated Date and
+                            time</span>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.createdOn}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="comment">
+                    <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Description</span>
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element?.comment}} </td>
+                </ng-container>
+                <ng-container matColumnDef="createdBy">
+                    <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Created By</span>
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element?.nickname}}
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedDashboardColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedDashboardColumns;"></tr>
+
+                <tr class="mat-row" *matNoDataRow [hidden]="isLoading">
+                    <td class="mat-cell" colspan="4">No data matching the filter</td>
+                </tr>
+            </table>
+            <div class="flex justify-end">
+                <mat-paginator class="flex text-lg" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+
+</div>

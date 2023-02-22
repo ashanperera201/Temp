@@ -1,0 +1,199 @@
+<!--first screen-->
+<div class="min-w-full p-2" *ngIf="firstScreen">
+    <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+
+        <!--headers-->
+        <div class="text-3xl font-cairo font-bold mb-5 pl-1 pt-1">
+            <p *ngIf="data.parent ==='temp' && data.action ==='create'">Create Template</p>
+            <p *ngIf="data.parent ==='temp' && data.action ==='edit'">Edit Template</p>
+            <p *ngIf="data.parent ==='ques' && data.action !=='edit'">Create Question</p>
+            <p *ngIf="data.parent ==='ques' && data.action ==='edit'">Edit Question</p>
+        </div>
+        <div>
+
+            <!--input fields-->
+            <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+                <div class="mr-4">
+                    <mat-form-field
+                        class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                        <mat-label *ngIf="data.parent ==='temp'">Template Name</mat-label>
+                        <mat-label *ngIf="data.parent ==='ques'">Question Name</mat-label>
+                        <input matInput [(ngModel)]="questionTemplateModel.name" required
+                            (input)="onNameInput($event.target.value)">
+                        <mat-error *ngIf="isDuplicate">Name already exists
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field
+                        class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-30 mt-4 sm:mt-0 mr-1 mb-3">
+                        <mat-label>Template Type</mat-label>
+                        <mat-select [(ngModel)]="questionTemplateModel.isPrivate" required>
+                            <ng-container>
+                                <mat-option [value]="false">Public</mat-option>
+                                <mat-option [value]="true">Private</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="ml-2" *ngIf="isDuplicate">
+                <mat-error>Name already exists
+                </mat-error>
+            </div>
+            <mat-form-field class="w-full px-2">
+                <mat-label *ngIf="data.parent === 'temp'">Template Description</mat-label>
+                <mat-label *ngIf="data.parent === 'ques'">Question Description</mat-label>
+                <input matInput [(ngModel)]="questionTemplateModel.description" required>
+            </mat-form-field>
+
+        </div>
+    </div>
+
+    <!--buttons-->
+    <div class="flex justify-end ml-auto p-6">
+        <button class="sm:inline-flex mr-4" mat-button [color]="'primary'" (click)="cancel()">
+            <span class="mx-8">Cancel</span>
+        </button>
+        <button *ngIf="data.parent ==='temp'" class="sm:inline-flex" mat-raised-button [color]="'primary'" type="button"
+            (click)="AddSurveyTemplate()" [disabled]="isDuplicate || isSaved">
+            <span class="mx-8">{{newEditbuttonText}}</span>
+        </button>
+        <button *ngIf="data.parent ==='ques' && data.action !=='addassociate'" class="sm:inline-flex" mat-raised-button
+            [color]="'primary'" (click)="SaveOnUpdate()">
+            <span class="mx-8">Save</span>
+        </button>
+        <button *ngIf="data.action ==='addassociate'" class="sm:inline-flex" mat-raised-button [color]="'primary'"
+            (click)="next()" [disabled]="isDuplicate || isSaved">
+            <span class="mx-8">Next</span>
+        </button>
+    </div>
+</div>
+
+<!--second screen-->
+<div class="min-w-full p-2" *ngIf="secondScreen">
+
+    <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+        <!--search options-->
+        <div class="mr-4">
+            <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+                <mat-form-field
+                    class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-100 mt-4 sm:mt-0 mr-1 mb-3 pl-2 pt-2">
+                    <div class="text-secondary px-4" matPrefix>
+                        <span *ngIf="data.table ==='temp'"> Question Name </span>
+                        <span *ngIf="data.table ==='ques'"> Template Name </span>
+                    </div>
+                    <input matInput *ngIf="data.table ==='temp'" placeholder="Search by Question Name" #input
+                        [(ngModel)]="name">
+                    <input matInput *ngIf="data.table ==='ques'" placeholder="Search by Template Name" #input
+                        [(ngModel)]="name">
+                </mat-form-field>
+                <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" type="button"
+                    (click)="searchData()">
+                    <mat-icon matPrefix class="icon-size-5 ml-8" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                    <span class="mr-8 ml-4">Search</span>
+                </button>
+            </div>
+
+            <p class="mt-6 mb-2 font-medium w-3/5 text-l text-secondary">
+                Search Results
+            </p>
+
+            <!--template selections-->
+            <div class="overflow-auto">
+                <table mat-table *ngIf="data.parent ==='temp'"
+                    [dataSource]="surveyQuestionSearchModel.surveyQuestionModels" matSort
+                    class="expanded-rows-table font-helvetica text-gray-500">
+                    <!-- ID Column -->
+                    <ng-container hidden matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 60px"> </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (change)="SetIsChecked(row,$event)" name="{{row.id}}"
+                                [checked]="row.isChecked" [(ngModel)]="row.isChecked" [disabled]="row.isDisabled"
+                                (change)="UpdatesurveyTemplateModels(row,$event)" class="example-margin"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!-- question Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px;">
+                            <span *ngIf="data.table ==='temp'"> Question Name </span>
+                            <span *ngIf="data.table ==='ques'"> Template Name </span>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                    </ng-container>
+
+                    <!--Question Description Column -->
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 250px;">
+                            <span *ngIf="data.table ==='temp'"> Question Description </span>
+                            <span *ngIf="data.table ==='ques'"> Template Description </span>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.description}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+
+                <table mat-table *ngIf="data.parent ==='ques'"
+                    [dataSource]="surveyTemplateSearchModel.surveyTemplateModels" matSort
+                    class="expanded-rows-table font-helvetica text-gray-500">
+                    <!-- ID Column -->
+                    <ng-container hidden matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 60px"> </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (change)="SetIsChecked(row,$event)" name="{{row.id}}"
+                                [checked]="row.isChecked" [(ngModel)]="row.isChecked"
+                                (change)="UpdatesurveyTemplateModels(row,$event)" class="example-margin"></mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!-- question Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px;">
+                            <span *ngIf="data.table ==='temp'"> Question Name </span>
+                            <span *ngIf="data.table ==='ques'"> Template Name </span>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                    </ng-container>
+
+                    <!--Question Description Column -->
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 250px;">
+                            <span *ngIf="data.table ==='temp'"> Question Description </span>
+                            <span *ngIf="data.table ==='ques'"> Template Description </span>
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.description}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!--buttons-->
+            <div class="flex justify-end ml-auto p-6">
+                <button mat-button mat-dialog-close [color]="'primary'" (click)="cancel()" type="button">
+                    <span class="mx-4">Cancel</span>
+                </button>
+                <button *ngIf="data.parent ==='ques'" class="sm:inline-flex ml-4" mat-stroked-button [color]="'primary'"
+                    type="button" (click)="gotoPreviousOverlay()">
+                    <span class="mx-4">Previous</span>
+                </button>
+                <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" (click)="SaveQuestion(false)">
+                    <span class="mx-8">Add to Selected List</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

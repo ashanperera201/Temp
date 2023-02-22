@@ -1,0 +1,12 @@
+
+<div class="flex flex-row">
+    <div class="charts" *ngFor="let chart of supplierCharts; let i = index">
+        <apx-chart [series]="allCharts[i].series" [chart]="allCharts[i].chart"
+            [dataLabels]="allCharts[i].dataLabels" [plotOptions]="allCharts[i].plotOptions"
+            [yaxis]="allCharts[i].yaxis" [legend]="allCharts[i].legend" [fill]="allCharts[i].fill"
+            [stroke]="allCharts[i].stroke" [tooltip]="allCharts[i].tooltip" [xaxis]="allCharts[i].xaxis"
+            [grid]="allCharts[i].grid" [states]="allCharts[i].states">
+        </apx-chart>
+    </div>
+</div>
+   

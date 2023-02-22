@@ -1,0 +1,17 @@
+<div class="items-page flex flex-auto min-w-0">
+    <drawer-mini class="drawer-mini"></drawer-mini>
+
+    <div class="flex-auto overflow-hidden sm:p-6 md:p-8">
+        <div class="flex justify-between" *ngIf="addnewenable">
+            <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">Emergency Suppliers</div>
+            <button class="sm:inline-flex ml-auto" mat-raised-button [color]="'primary'" (click)="openNewEmergencySupplierForm()">
+                <span class="mx-8">Add New Emergency Supplier</span>
+            </button>
+        </div>
+        
+        <div class="relative">
+            <app-items-emergency-supplier-list></app-items-emergency-supplier-list>
+        </div>
+    </div>
+
+</div>

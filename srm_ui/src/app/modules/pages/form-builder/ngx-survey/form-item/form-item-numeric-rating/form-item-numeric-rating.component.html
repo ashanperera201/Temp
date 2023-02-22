@@ -1,0 +1,19 @@
+<mat-label class="label" style="font-weight: 600;color: black;">{{item.label}} <span *ngIf="item.required">*</span>
+</mat-label>
+<mat-form-field class="example-full-width mat-custom-bg pt-2" [ngClass]="{'gray':view === false}">
+    <div class="form-group">
+        <div class="col-xs-12 rating-set">
+            <div class="rating-set-buttons">
+                <button mat-button class="btn btn-sm" type="button" (click)="editable ? onSelectionChange(i) : false"
+                    color="accent" backgroundColor="primary"
+                    [ngClass]="item.value === i ? 'mat-raised-button' : 'btn-outline-primary'"
+                    *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10]">{{i}}</button>
+            </div>
+            <mat-error *ngIf="item.errors && item.errors.length && view">
+                <div *ngFor="let error of item.errors">{{error.message}}</div>
+            </mat-error>
+        </div>
+    </div>
+    <mat-hint align="start" *ngIf="!(item.errors && item.errors.length)">{{item.hint}}</mat-hint>
+    <input matInput hidden="true">
+</mat-form-field>

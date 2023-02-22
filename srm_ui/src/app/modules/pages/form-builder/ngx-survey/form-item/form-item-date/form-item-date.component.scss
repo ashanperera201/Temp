@@ -1,0 +1,30 @@
+.example-full-width {
+    width: 100%;
+}
+
+.label span ::after {
+    vertical-align: sub;
+}
+
+:host ::ng-deep {
+
+    .mat-input-element::placeholder {
+        color: #1e293b !important;
+    }
+
+    .gray.mat-form-field-invalid {
+        color: #1e293b !important;
+        caret-color: #1e293b !important;
+
+        .mat-form-field-wrapper {
+            .mat-form-field-flex {
+                border-color: #ccd5e0 !important;
+                caret-color: #ccd5e0 !important;
+            }
+        }
+
+
+    }
+
+
+}

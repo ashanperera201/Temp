@@ -1,0 +1,582 @@
+<div class="items-page flex flex-auto min-w-0">
+    <drawer-mini class="drawer-mini"></drawer-mini>
+
+    <div class="flex flex-col overflow-hidden flex-auto sm:p-6 md:p-8">
+        <div class="flex justify-between items-start">
+            <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+                Add New Emergency Supplier
+                <!-- Breadcrumbs -->
+                <div class="flex flex-wrap items-center font-medium text-xl ml-px mt-2">
+                    <div>
+                        <a href="http://localhost:4200/items/emergency-supplier" class="whitespace-nowrap text-primary-500 font-semibold ml-px">All
+                            Emergency Suppliers</a>
+                    </div>
+                    <div class="flex items-center ml-2 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a class="ml-1">Add New</a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="flex items-center pl-1">
+                Options
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+                    <mat-icon color="primary" class="icon-size-6" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <div class="flex flex-col max-h-60">
+                        <button mat-menu-item>
+                            <span class="flex items-center">
+                                <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                <span>Discard Supplier</span>
+                            </span>
+                        </button>
+                    </div>
+                </mat-menu>
+            </div> -->
+        </div>
+
+        <div class="loader-inline" *ngIf="isloading">
+            <img src="assets/images/xitricon-loader.gif" alt="loading">
+        </div>
+        <div class="relative overflow-hidden min-h-80 w-full">
+
+            <div class="overflow-auto srm-bg rounded-lg">
+                <form class="flex flex-col w-full" [formGroup]="registerForm">
+                    <div class="flex flex-col p-6">
+                        <div class="w-full divide-solid divide-y-2 divide-gray-200">
+                            <div>
+                                <p class="mb-6 font-medium w-3/5 text-xl">
+                                    Information for Supplier
+                                </p>
+                                <form class="flex flex-col w-full divide-solid divide-y-2 divide-gray-200">
+                                    <div class="flex flex-col pb-6">
+                                        <div class="flex">
+                                            <mat-form-field class="w-1/3 pr-2">
+                                                <mat-label>Supplier Name *</mat-label>
+                                                <input type="text" #emergencySupplierName matInput
+                                                    [formControl]="registerForm.controls.supplierNameFormControl"
+                                                    (focusout)="onKeySearch($event,'N')">
+                                                <mat-error
+                                                    *ngIf="registerForm.get('supplierNameFormControl').hasError('required')">
+                                                    This field is required
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="registerForm.get('supplierNameFormControl').hasError('invalid')">
+                                                    Supplier name already exists
+                                                </mat-error>
+                                            </mat-form-field>
+                                            <mat-form-field class="w-1/2 px-2">
+                                                <mat-label>Supplier Type *</mat-label>
+                                                <mat-select
+                                                    [formControl]="registerForm.controls.supplierTypeFormControl"
+                                                    multiple>
+                                                    <mat-option *ngFor="let supplierType of supplierTypeList"
+                                                        [value]="supplierType">{{supplierType}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error
+                                                    *ngIf="registerForm.controls.supplierTypeFormControl.errors?.required">
+                                                    This field
+                                                    is required
+                                                </mat-error>
+                                            </mat-form-field>
+                                            <mat-form-field class="w-1/3 pl-2">
+                                                <mat-label>Year of Establishment</mat-label>
+                                                <input min="0" type="number" matInput
+                                                    [formControl]="registerForm.controls.establishmentYearFormControl"
+                                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                <mat-error
+                                                    *ngIf="registerForm.get('establishmentYearFormControl').hasError('futureyear')">
+                                                    Future year is not allowed..
+                                                    "{{registerForm.get('establishmentYearFormControl').value}}"
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="registerForm.get('establishmentYearFormControl').hasError('pastyear')">
+                                                    "{{registerForm.get('establishmentYearFormControl').value}}" is
+                                                    invalid format. Correct
+                                                    format is YYYY!!
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="registerForm.get('establishmentYearFormControl').hasError('invalidyear')">
+                                                    "{{registerForm.get('establishmentYearFormControl').value}}" is
+                                                    invalid format. Correct
+                                                    format is YYYY!!
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <p class="my-6 font-medium w-3/5 text-xl">
+                                    Address
+                                </p>
+                                <form class="flex flex-col w-full">
+                                    <div class="flex">
+                                        <mat-form-field class="w-1/3 pr-2">
+                                            <mat-label>Country *</mat-label>
+                                            <mat-select [formControl]="registerForm.controls.countryFormControl"
+                                                (selectionChange)="OnCountrySelect($event.value)">
+                                                <mat-option *ngFor="let country of countryList" [value]="country">
+                                                    {{country}}</mat-option>
+                                            </mat-select>
+                                            <mat-error
+                                                *ngIf="registerForm.controls.countryFormControl.errors?.required">
+                                                This field is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 px-2">
+                                            <mat-label>City *</mat-label>
+                                            <mat-select [formControl]="registerForm.controls.cityFormControl"
+                                                [disabled]="iscitydisable"
+                                                (selectionChange)="OnCitySelect($event.value)">
+                                                <mat-option *ngFor="let city of cityList" [value]="city.cityName">
+                                                    {{city.cityName}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="registerForm.controls.cityFormControl.errors?.required">
+                                                This field
+                                                is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 pl-2">
+                                            <mat-label>Other City</mat-label>
+                                            <input matInput placeholder="Other city "
+                                                (focusout)="onOtherCityEnter($event)" [attr.disabled]="true"
+                                                [formControl]="registerForm.controls.otherCityFormControl">
+                                            <mat-error
+                                                *ngIf="registerForm.get('otherCityFormControl').hasError('invalid')">
+                                                Other city is required
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="registerForm.get('otherCityFormControl').hasError('isexists')">
+                                                City is already exists
+                                                in the city list
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="flex">
+                                        <mat-form-field class="w-2/3 pr-2">
+                                            <mat-label>Address Line 1 </mat-label>
+                                            <input type="text" matInput
+                                                [formControl]="registerForm.controls.address1FormControl">
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 pl-2">
+                                            <mat-label>PO Box</mat-label>
+                                            <input type="text" matInput
+                                                [formControl]="registerForm.controls.poBoxFormControl">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="flex pb-6">
+                                        <mat-form-field class="w-2/3 pr-2">
+                                            <mat-label>Address Line 2</mat-label>
+                                            <input type="text" matInput
+                                                [formControl]="registerForm.controls.address2FormControl">
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 pl-2">
+                                            <mat-label>Postal Code</mat-label>
+                                            <input type="text" matInput
+                                                [formControl]="registerForm.controls.postalCodeFormControl">
+                                        </mat-form-field>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <p class="my-6 font-medium w-3/5 text-xl">
+                                    Contact of Supplier
+                                </p>
+                                <form class="flex flex-col w-full" [formGroup]="registerForm">
+                                    <div class="flex">
+                                        <mat-form-field class="w-1/3 pr-2">
+                                            <mat-label>First Name *</mat-label>
+                                            <input type="text" matInput
+                                                [formControl]="registerForm.controls.firstNameFormControl">
+                                            <mat-error
+                                                *ngIf="registerForm.controls.firstNameFormControl.errors?.required">This
+                                                field is
+                                                required
+                                            </mat-error>
+
+                                            <mat-select matPrefix [(ngModel)]="title_"
+                                                [formControl]="registerForm.controls.titleFormControl">
+                                                <mat-option *ngFor="let title of titleList" [value]="title">{{title}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="registerForm.controls.titleFormControl.errors?.required">
+                                                This field is
+                                                required
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 px-2">
+                                            <mat-label>Last Name *</mat-label>
+                                            <input type="text" matInput
+                                                [formControl]="registerForm.controls.lastNameFormControl">
+                                            <mat-error
+                                                *ngIf="registerForm.controls.lastNameFormControl.errors?.required">This
+                                                field is
+                                                required
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 pl-2">
+                                            <mat-label>Position *</mat-label>
+                                            <input type="text" matInput
+                                                [formControl]="registerForm.controls.positionFormControl">
+                                            <mat-error
+                                                *ngIf="registerForm.controls.positionFormControl.errors?.required">This
+                                                field is
+                                                required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="flex">
+                                        <mat-form-field class="w-1/3 pr-2">
+                                            <mat-label>Telephone No. [With Country Code] </mat-label>
+                                            <mat-select [formControl]="registerForm.controls.telephoneCodeFormControl"
+                                                [(ngModel)]="selectedCountry">
+                                                <mat-option *ngFor="let telephoneCode of telephoneCodeList"
+                                                    [value]="telephoneCode">
+                                                    {{telephoneCode}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-icon matSuffix class="icon-size-5 text-primary"
+                                                [svgIcon]="'heroicons_outline:information-circle'"
+                                                [matTooltip]="'Telephone No. [With Country Code]'"></mat-icon>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 px-2">
+                                            <mat-label>Telephone No. 'Without country code and 0 e.g.[65xxx]' 
+                                            </mat-label>
+                                            <input type="tel" matInput
+                                                [formControl]="registerForm.controls.telephoneNumberFormControl" #input
+                                                maxlength="15"
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                placeholder="Telephone No. Without country code and 0 e.g. [65xxxxx]">
+                                            <mat-icon matSuffix class="icon-size-5 text-primary"
+                                                [svgIcon]="'heroicons_outline:information-circle'"
+                                                [matTooltip]="'Telephone No. [Without Country Code]'"></mat-icon>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 pl-2">
+                                            <mat-label>Ext</mat-label>
+                                            <input type="tel" matInput placeholder="Ext." [formControl]="registerForm.controls.extFormControl" #input maxlength="15"
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                            <!-- <mat-hint align="end">{{input.value?.length || 0}}/15</mat-hint> -->
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="flex">
+                                        <mat-form-field class="w-1/3 pr-2">
+                                            <mat-label>Mobile No. [Country Code] *</mat-label>
+                                            <mat-select [formControl]="registerForm.controls.mobileCodeFormControl"
+                                                [(ngModel)]="selectedCountry">
+                                                <mat-option *ngFor="let mobileCode of telephoneCodeList"
+                                                    [value]="mobileCode">{{mobileCode}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error
+                                                *ngIf="registerForm.controls.mobileCodeFormControl.errors?.required">
+                                                This field is required
+                                            </mat-error>
+                                            <mat-icon matSuffix class="icon-size-5 text-primary"
+                                                [svgIcon]="'heroicons_outline:information-circle'"
+                                                [matTooltip]="'Mobile No. [With Country Code]'"></mat-icon>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 px-2">
+                                            <mat-label>Mobile No. 'Without country code and 0 e.g.[65xxxx]' *
+                                            </mat-label>
+                                            <input type="tel" matInput
+                                                [formControl]="registerForm.controls.mobileNumberFormControl" #input
+                                                maxlength="15"
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                placeholder="Mobile No. Without country code and 0 e.g. [65xxxxx]">
+                                            <!-- <mat-hint align="end">{{input.value?.length || 0}}/15</mat-hint> -->
+                                            <mat-error
+                                                *ngIf="registerForm.controls.mobileNumberFormControl.errors?.required">
+                                                This field is required
+                                            </mat-error>
+                                            <mat-icon matSuffix class="icon-size-5 text-primary"
+                                                [svgIcon]="'heroicons_outline:information-circle'"
+                                                [matTooltip]="'Mobile No. [Without Country Code]'"></mat-icon>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 pl-2">
+                                            <mat-label>Email *</mat-label>
+                                            <input matInput #emergencySupplierEmail
+                                                [formControl]="registerForm.controls.emailFormControl"
+                                                (focusout)="onKeySearch($event,'E')"
+                                                placeholder=" E-mail eg : example@exp.com">
+                                            <mat-error
+                                                *ngIf="registerForm.get('emailFormControl').hasError('invalidpattern')">
+                                                Please enter a valid E-mail Address eg : example@exp.com
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="registerForm.controls.emailFormControl.errors?.required || registerForm.get('emailFormControl').hasError('required')">
+                                                This field
+                                                is required
+                                            </mat-error>
+                                            <mat-error *ngIf="registerForm.get('emailFormControl').hasError('invalid')">
+                                                Email already
+                                                exists
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="flex pb-6">
+                                        <mat-form-field class="w-1/3 pr-2">
+                                            <mat-label>Fax No. [Country Code]</mat-label>
+                                            <mat-select [formControl]="registerForm.controls.faxCodeFormControl"
+                                                [(ngModel)]="selectedCountry">
+                                                <mat-option *ngFor="let faxCode of telephoneCodeList" [value]="faxCode">
+                                                    {{faxCode}}</mat-option>
+                                            </mat-select>
+                                            <mat-error
+                                                *ngIf="registerForm.controls.faxCodeFormControl.errors?.required">This
+                                                field is required
+                                            </mat-error>
+                                            <mat-icon matSuffix class="icon-size-5 text-primary"
+                                                [svgIcon]="'heroicons_outline:information-circle'"
+                                                [matTooltip]="'Fax No. [With Country Code]'"></mat-icon>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-1/3 px-2">
+                                            <mat-label>Fax No. 'Without country code and 0 e.g. [65xxxx]'</mat-label>
+                                            <input type="tel" matInput
+                                                [formControl]="registerForm.controls.faxNumberFormControl" #input
+                                                maxlength="15"
+                                                placeholder="Fax No. Without country code and 0 e.g. [65xxxxx]"
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                            <!-- <mat-hint align="end">{{input.value?.length || 0}}/15</mat-hint> -->
+                                            <mat-icon matSuffix class="icon-size-5 text-primary"
+                                                [svgIcon]="'heroicons_outline:information-circle'"
+                                                [matTooltip]="'Fax No. [Without Country Code]'"></mat-icon>
+                                        </mat-form-field>
+                                        <div class="w-1/3 pl-2">
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <p class="my-6 font-medium w-3/5 text-xl">
+                                    Registration Details
+                                </p>
+                                <form class="flex flex-col w-full" [formGroup]="registerForm">
+                                    <div class="flex">
+                                        <mat-form-field class="w-2/6 pr-2">
+                                            <mat-label>Registration/License/CR# *</mat-label>
+                                            <input type="text" #emergencySupplierCrNo matInput
+                                                [formControl]="registerForm.controls.registrationNumberFormControl"
+                                                (focusout)="onKeySearch($event,'R')">
+                                            <mat-error
+                                                *ngIf="registerForm.get('registrationNumberFormControl').hasError('required')">
+                                                This field
+                                                is required
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="registerForm.get('registrationNumberFormControl').hasError('invalid')">
+                                                Registration no
+                                                already exists
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                        <mat-form-field class="w-2/6 px-2">
+                                            <mat-label>Registration/License/CR# File *</mat-label>
+                                            <input matInput readonly hidden>
+                                            <!-- <input matInput *ngFor="let item of uploader.queue" value="{{ fileName_Reg }}" readonly> -->
+                                            <input matInput value="{{ fileName_Reg }}" style="position: absolute;" readonly>
+                                            <input matInput readonly>
+                                            <mat-icon style="cursor: pointer !important;" matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'" (click)="downloadAttachment('Reg',fileFinalInput0)"></mat-icon>
+                                            <button *ngFor="let item of uploader.queue" mat-icon-button aria-label="Delete Registration File" class="flex mt-1" (click)="removeAttachment('Reg');"> <!-- (click)="removeAttachment('Reg'); item.remove();" -->
+                                                <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                            </button>
+                                        </mat-form-field>
+                                        <div class="px-2">
+                                            <button type="button" class="sm:inline-flex mt-6" mat-stroked-button [color]="'primary'" (click)="fileFinalInput0.click()">
+                                                <mat-icon class="icon-size-5 mx-2" [svgIcon]="'mat_outline:upload'"></mat-icon>
+                                            </button>
+                                            <span hidden>
+                                                <input type="file" #fileFinalInput0 class="form-control"
+                                                    name="single" ng2FileSelect [uploader]="uploader" required
+                                                    (change)="onAttachment2(fileFinalInput0.files, 'Reg')"
+                                                    formControlName="requiredfileRegistration"
+                                                    accept=".jpg, .jpeg, .png, .pdf, .txt, .tex, .text, .doc, .xpd, .docx, .rtf, .csv, .ods, .odt, .xlsx, .xlsm, .xls, .xml, .svg, .tif, .tiff, .gif, .bmp, .xhtml, .html, .key, .odp, .pptx, .pps, .ppt" />
+                                            </span>
+                                        </div>
+
+                                        <mat-form-field class="w-1/6 pl-2">
+                                            <mat-label>Registration Expiry Date *</mat-label>
+                                            <input matInput [matDatepicker]="picker2" [min]="minDate"
+                                                [formControl]="registerForm.controls.registrationDateFormControl"
+                                                placeholder="Choose a Registration/License/CR# Expiry Date"
+                                                (dateChange)="changeDate()" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker2>
+                                            </mat-datepicker>
+                                            <mat-error
+                                                *ngIf="registerForm.get('registrationDateFormControl').hasError('required')">
+                                                This field
+                                                is required
+                                            </mat-error>
+                                            <mat-error *ngIf="passedDate">Past date is not allowed..</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div *ngIf="showChecked" class="flex">
+                                        <mat-form-field class="w-2/6 pr-2">
+                                            <mat-label>VAT Number*</mat-label>
+                                            <input matInput type="tel" placeholder="VAT Number"
+                                                [formControl]="registerForm.controls.vatFormControl" maxlength="15"
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                <mat-error
+                                                *ngIf="registerForm.get('vatFormControl').hasError('required')">
+                                                This field
+                                                is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-2/6 px-2">
+                                            <mat-label>Vat Certificate File *</mat-label>
+                                            <input matInput readonly hidden>
+                                            <!-- <input matInput *ngFor="let item of uploaderVat.queue" value="{{ fileName_Vat }}" readonly> -->
+                                            <input matInput value="{{ fileName_Vat }}" style="position: absolute;" readonly>
+                                            <input matInput readonly>
+                                            <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'" (click)="downloadAttachment('Vat',fileFinalInput1)" style="cursor: pointer;"></mat-icon>
+                                            <button *ngFor="let item of uploaderVat.queue" mat-icon-button aria-label="Delete Vat File" class="flex mt-1" (click)="removeAttachment('Vat');"> <!-- (click)="removeAttachment('Vat'); item.remove();" -->
+                                                <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                            </button>
+                                        </mat-form-field>
+                                        <div class="px-2">  
+                                            <button type="button" class="sm:inline-flex mt-6" mat-stroked-button [color]="'primary'" (click)="fileFinalInput1.click()">
+                                                <mat-icon class="icon-size-5 mx-2" [svgIcon]="'mat_outline:upload'"></mat-icon>
+                                            </button>
+                                            <span hidden>
+                                                <input type="file" #fileFinalInput1 class="form-control"
+                                                    name="single" ng2FileSelect [uploader]="uploaderVat"
+                                                    (change)="onAttachment2(fileFinalInput1.files, 'Vat')"
+                                                    formControlName="requiredfileVat"
+                                                    accept=".jpg, .jpeg, .png, .pdf, .txt, .tex, .text, .doc, .xpd, .docx, .rtf, .csv, .ods, .odt, .xlsx, .xlsm, .xls, .xml, .svg, .tif, .tiff, .gif, .bmp, .xhtml, .html, .key, .odp, .pptx, .pps, .ppt" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="flex">
+                                        <mat-form-field class="w-2/6 pr-2">
+                                            <mat-label>Justification *</mat-label>
+                                            <input type="text" matInput
+                                                [formControl]="registerForm.controls.justificationFormControl">
+                                            <mat-error
+                                                *ngIf="registerForm.get('justificationFormControl').hasError('required')">
+                                                This field
+                                                is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-2/6 px-2">
+                                            <mat-label>Evidence Document *</mat-label>
+                                            <input matInput readonly hidden>
+                                            <!-- <input matInput *ngFor="let item of uploaderEvi.queue" value="{{ fileName_Evi }}" readonly> -->
+                                            <input matInput value="{{ fileName_Evi }}" style="position: absolute;" readonly>
+                                            <input matInput readonly>
+                                            <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'" (click)="downloadAttachment('Evi',fileFinalInput2)" style="cursor: pointer;"></mat-icon>
+                                            <button *ngFor="let item of uploaderEvi.queue" mat-icon-button aria-label="Delete Evidence Document" class="flex mt-1" (click)="removeAttachment('Evi');"> <!-- (click)="removeAttachment('Evi'); item.remove();" -->
+                                                <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                            </button>
+                                        </mat-form-field>
+                                        <div class="px-2">  
+                                            <button type="button" class="sm:inline-flex mt-6" mat-stroked-button [color]="'primary'" (click)="fileFinalInput2.click()">
+                                                <mat-icon class="icon-size-5 mx-2" [svgIcon]="'mat_outline:upload'"></mat-icon>
+                                            </button>
+                                            <span hidden>
+                                                <input type="file" #fileFinalInput2 class="form-control"
+                                                    name="single" ng2FileSelect [uploader]="uploaderEvi"
+                                                    (change)="onAttachment2(fileFinalInput2.files, 'Evi')"
+                                                    formControlName="requiredfileEvidence"
+                                                    accept=".jpg, .jpeg, .png, .pdf, .txt, .tex, .text, .doc, .xpd, .docx, .rtf, .csv, .ods, .odt, .xlsx, .xlsm, .xls, .xml, .svg, .tif, .tiff, .gif, .bmp, .xhtml, .html, .key, .odp, .pptx, .pps, .ppt" />
+                                            </span>
+                                        </div>
+                                    </div><div class="flex">
+                                        <mat-form-field class="w-2/6 pr-2">
+                                            <mat-label>Remark/Requested Department *</mat-label>
+                                            <input type="text" matInput
+                                                [formControl]="registerForm.controls.srmRemarkFormControl">
+                                            <mat-error
+                                                *ngIf="registerForm.get('srmRemarkFormControl').hasError('required')">
+                                                This field
+                                                is required
+                                            </mat-error>
+                                        </mat-form-field>                                        
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-start mt-5 flex-col">
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="registrationFile_error_check">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Registration File is required</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="emptyFileEvidence">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Empty Evidence files are not allowed to be uploaded</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="UnSupportFormatEvi">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Not allowed to upload file with unsupported format</span>
+                            </div>
+
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="vatfile_error_check">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Vat File is required</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="emptyFileVat">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Empty Vat files are not allowed to be uploaded</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="UnSupportFormatVat">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Not allowed to upload file with unsupported format</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="evidance_error_check">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Evidence File is required</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="emptyFileRegistration">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Empty Registration files are not allowed to be uploaded</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="UnSupportFormatReg">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Not allowed to upload file with unsupported format</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="registration_file_size">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Registration/License/CR# File size can't be greater than 5MB</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="evidance_file_size">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Evidence File size can't be greater than 5MB</span>
+                            </div>
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="vat_file_size">
+                                <mat-icon [svgIcon]="'heroicons_outline:exclamation'" class="mr-2 text-warn"></mat-icon>
+                                <span>Vat File size can't be greater than 5MB</span>
+                            </div>
+
+                            <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green">
+                                </mat-icon>
+                                <span>Successfully Emergency Supplier Created.!</span>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end ml-auto mt-8">
+                            <button type="button" class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'" (click)="route()">
+                                <span class="mx-8">Cancel</span>
+                            </button>
+                            <button class="sm:inline-flex" mat-raised-button [color]="'primary'"
+                                (click)="createEmergencySupplier()"
+                                [disabled]="UnSupportFormatEvi || emptyFileEvidence || UnSupportFormatVat || emptyFileVat || UnSupportFormatReg || emptyFileRegistration || issuccess">
+                                <span class="mx-8">Save & Submit</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

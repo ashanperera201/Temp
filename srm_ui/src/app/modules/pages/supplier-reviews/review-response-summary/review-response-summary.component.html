@@ -1,0 +1,149 @@
+<div style="margin-top:10px;padding: 5px 31px;" class="review-response-summary flex flex-col flex-auto min-w-0">
+    <div class="flex justify-end ml-auto p-6">
+        <button (click)="goBack()" class="sm:inline-flex ml-4" mat-button [color]="'primary'"
+            type="submit">
+            <span class="mx-4">Back</span>
+        </button>
+        <button (click)="saveAsPDF()" class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+        type="submit">
+            <span class="mx-4">Save as PDF</span>
+        </button>
+    </div>
+    <div id="printSection" class="px-4">
+    <div class="flex flex-col justify-between mt-4">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Summary of Evaluation</div>
+        <div class="font-cairo font-bold tracking-tight leading-8 mb-8">Evaluation Information</div>
+
+    </div>
+    <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+        <form>
+            <div class="mr-4 flex flex-row justify-between mb-8 block">
+                <mat-form-field appearance="fill" class="w-full mx-4">
+                    <mat-label>Evaluation Name</mat-label>
+                    <input matInput [value]="outcome.evaluationName" disabled>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-full mx-4">
+                    <mat-label>Time Period1</mat-label>
+                    <input matInput [value]="outcome.presetPeriod" disabled>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-full mx-4">
+                    <mat-label>Review Year</mat-label>
+                    <input matInput [value]="outcome.reviewYear" disabled>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-full mx-4">
+                    <mat-label>Supplier</mat-label>
+                    <input matInput [value]="outcome.supplierName" disabled>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-full mx-4">
+                    <mat-label>Requested By</mat-label>
+                    <input matInput [value]="outcome.createdUser" disabled>
+                </mat-form-field>
+            </div>
+            <div class="mr-4 flex flex-row justify-between block">
+                <div class="w-1/2">
+
+                    <table mat-table [dataSource]="reviewResponses" class="mat-elevation-z8 demo-table">
+
+                        <!--  Requested By Column -->
+                        <ng-container matColumnDef="reviewerName">
+                            <th mat-header-cell *matHeaderCellDef style="background-color: #41BEDE; color:#fff">
+                                Reviewer
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.conductedUser}}
+                            </td>
+                        </ng-container>
+                        <!-- Published Date Column -->
+                        <ng-container matColumnDef="conductedDate">
+
+                            <th mat-header-cell *matHeaderCellDef style="background-color: #41BEDE; color:#fff">
+                                Published Date
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.createdDate}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="score">
+                            <th mat-header-cell *matHeaderCellDef style="background-color: #41BEDE; color:#fff">
+                                Score
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.score}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="review">
+                            <th mat-header-cell *matHeaderCellDef style="background-color: #41BEDE; color:#fff">
+
+                            </th>
+
+                            <td mat-cell *matCellDef="let row" ><button *ngIf="!proceedDownload" (click)="goToReviewResponse(row.id)" mat-stroked-button color="primary">
+                                See review</button></td>
+
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns13"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns13;"></tr>
+                    </table>
+                    <table mat-table [dataSource]="outcomeResult" class="mat-elevation-z8 demo-table">
+                        <ng-container matColumnDef="score">
+                            <th mat-header-cell *matHeaderCellDef style="background-color: #41BEDE; color:#fff">
+                                Final Score
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row[0]}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="recommendation">
+
+                            <th mat-header-cell *matHeaderCellDef style="background-color: #41BEDE; color:#fff">
+                                Final Outcome
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row[1]}}
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns12"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns12;"></tr>
+                    </table>
+                </div>
+                <div *ngIf="scoredSession" class="w-1/2 charts">
+                    <apx-chart [series]="chartOptionsRanks.series" [chart]="chartOptionsRanks.chart"
+                        [dataLabels]="chartOptionsRanks.dataLabels" [plotOptions]="chartOptionsRanks.plotOptions"
+                        [yaxis]="chartOptionsRanks.yaxis" [legend]="chartOptionsRanks.legend"
+                        [fill]="chartOptionsRanks.fill" [stroke]="chartOptionsRanks.stroke"
+                        [tooltip]="chartOptionsRanks.tooltip" [xaxis]="chartOptionsRanks.xaxis"
+                        [grid]="chartOptionsRanks.grid" [states]="chartOptionsRanks.states"></apx-chart>
+                </div>
+            </div>
+            <div *ngIf="scoredSession" class="mr-4 flex flex-col justify-between block">
+                <div class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Section Level Summary</div>
+                <div>
+                    <table mat-table [dataSource]="questions" class="mat-elevation-z8 demo-table">
+                        <ng-container *ngFor="let column of displayedQuestionColumns; let colIndex = index"
+                            [matColumnDef]="column">
+                            <th mat-header-cell *matHeaderCellDef>
+                                {{column}}
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row[colIndex]}}
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedQuestionColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedQuestionColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            <div *ngIf="scoredSession" class="mr-4 flex flex-row justify-between mb-2 mt-8 overflow-auto block">
+                <div class="charts" *ngFor="let chart of questionCharts; let i = index">
+                    <apx-chart [series]="allCharts[i].series" [chart]="allCharts[i].chart"
+                        [dataLabels]="allCharts[i].dataLabels" [plotOptions]="allCharts[i].plotOptions"
+                        [yaxis]="allCharts[i].yaxis" [legend]="allCharts[i].legend" [fill]="allCharts[i].fill"
+                        [stroke]="allCharts[i].stroke" [tooltip]="allCharts[i].tooltip" [xaxis]="allCharts[i].xaxis"
+                        [grid]="allCharts[i].grid" [states]="allCharts[i].states">
+                    </apx-chart>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>

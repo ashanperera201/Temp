@@ -1,0 +1,18 @@
+.e-bgcolor-green{
+	background: #069F03 !important;
+}
+
+.dot {
+    height: 20px;
+    width: 20px;
+    background-color: #FF9900;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+.vertical-line{
+    width: 1px; 
+    height: 100%;
+    float: left; 
+    border: 1px inset; 
+  }

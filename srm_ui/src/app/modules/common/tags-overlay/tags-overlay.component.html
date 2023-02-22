@@ -1,0 +1,62 @@
+<!-- <div class="min-w-full p-4">
+    <mat-dialog-content class="min-w-full">
+        <div class="pb-4">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Items To Add
+            </div>
+        </div>
+            
+        <div class="flex flex-col max-h-60">
+            <mat-checkbox class="px-6 py-3" #c [color]="'primary'"  (click)="addTemplate(item,c)"  *ngFor="let item of templateData"> {{item.templateName}}</mat-checkbox>
+        </div>
+    
+        <div class="flex justify-start mt-5 flex-col">
+            <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                <span>{{errormessage}}</span>
+            </div>
+            <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                <span>{{successmessage}}</span>
+            </div>
+        </div>
+
+    <mat-dialog-actions class="flex justify-end">
+        <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()">Cancel</button>
+        <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" (click)="saveTemplate()">Add</button>
+    </mat-dialog-actions>
+    
+</mat-dialog-content>
+</div> -->
+
+<div class="min-w-full p-2">
+    <div class="pb-1">
+        <div class="text-3xl font-cairo font-bold mb-6">
+            Items To Add
+        </div>
+    </div>
+    <mat-dialog-content class="px-1 min-w-full relative">
+
+        <div class="flex flex-col max-h-60">
+            <mat-checkbox class="px-6 py-3" #c [color]="'primary'"  (click)="addTemplate(item,c)"  *ngFor="let item of templateData"> {{item.templateName}}</mat-checkbox>
+        </div>
+
+
+
+</mat-dialog-content>
+<div class="flex justify-start sticky bottom-0">
+    <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+        <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+        <span>{{errormessage}}</span>
+    </div>
+    <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+        <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+        <span>{{successmessage}}</span>
+    </div>
+</div>
+
+    <mat-dialog-actions class="flex justify-end sticky bottom-0">
+        <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" (click)="doAction()">Cancel</button>
+        <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" (click)="saveTemplate()">Save items</button>
+    </mat-dialog-actions>
+</div>

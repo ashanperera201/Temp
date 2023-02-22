@@ -1,0 +1,101 @@
+<div class="reinitiation-page flex flex-col flex-auto min-w-0">
+    <!-- Breadcrumbs -->
+    <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+        <div class="flex flex-wrap items-center font-medium text-lg ml-px mt-1">
+            <div>
+                <a class="whitespace-nowrap text-primary-500 font-semibold ml-px">Reinitiation</a>
+            </div>
+        </div>
+    </div>
+
+    <form [formGroup]="reinitiationForm" (ngSubmit)="submitForm()">
+        <div class="srm-bg rounded-lg rounded-t-none">
+            <!-- Configuration field -->
+            <div class="text-2xl pl-2 pt-2 font-cairo font-bold tracking-tight leading-8 mb-8">
+                Reinitiate Note
+            </div>
+            <div class="pl-2 pt-2 font-cairo font-bold tracking-tight leading-8 mb-8">
+                Reinitiate the evaluation results as the input from Approver B doesn’t look like an objective feedback
+                and parameters considered for the evaluation are incorrect
+            </div>
+
+            <div class="mr-4 pl-2 mb-4">
+                <div class="fuse-mat-no-subscript fuse-mat-emphasized-affix">
+                    <div class="flex ml-auto">
+                        <div class="sm:inline-flex mr-4" style="display: flex; flex-direction: column">
+                            <div class="font-medium base text-base pt-4">
+                                Action - Review Reinitiation
+                            </div>
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                                FormControlName="reviewReinitiation">
+                                <mat-radio-button class="example-radio-button mr-4" *ngFor="let review of reviews"
+                                    color="primary" [value]="review">
+                                    {{review}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? masterToggle() : null" color="primary"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [aria-label]="checkboxLabel()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()" color="primary"
+                                (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                                [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!-- Reviewer ID Column -->
+                    <ng-container matColumnDef="reviewerId">
+                        <th mat-header-cell *matHeaderCellDef> <span mat-sort-header>Reviewer ID</span>
+                            <mat-form-field>
+                                <input matInput class="form-field" [(ngModel)]="reviewId"
+                                    (keyup)="filterChange('reviewerId',$event)">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.reviewerId}} </td>
+                    </ng-container>
+
+                    <!-- Reviewer Name Column -->
+                    <ng-container matColumnDef="reviewerName">
+                        <th mat-header-cell *matHeaderCellDef> <span mat-sort-header>Reviewer Name</span>
+                            <mat-form-field>
+                                <input matInput class="form-field" [(ngModel)]="reviewName"
+                                    (keyup)="filterChange('reviewerName',$event)">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.reviewerName}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+        <div class="w-full flex flex-row justify-end mt-4">
+            <button class="sm:inline-flex mr-4" mat-raised-button type="button">
+                <span class="mx-8">Back</span>
+            </button>
+            <button class="sm:inline-flex mr-4" mat-raised-button [color]="'primary'" type="submit">
+                <span class="mx-8">Reinitiate</span>
+            </button>
+        </div>
+    </form>
+</div>

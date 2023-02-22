@@ -1,0 +1,23 @@
+.action-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
+    height: 48px;
+
+    mat-icon {
+        cursor: pointer;
+    }
+}
+
+.content-data {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+a {
+    color: var(--fuse-primary);
+    cursor: pointer;
+}

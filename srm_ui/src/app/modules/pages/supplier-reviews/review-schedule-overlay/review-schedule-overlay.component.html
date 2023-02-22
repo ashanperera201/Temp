@@ -1,0 +1,453 @@
+<div class="min-w-full p-2">
+    <div class="loader-inline" *ngIf="isLoading">
+        <img src="assets/images/xitricon-loader.gif" alt="loading">
+    </div>
+    <form class="flex flex-col w-full" [formGroup]="reviewInitiationForm"  *ngIf="!isLoading">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                <div> {{dialogTitle}}</div>
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+            <mat-tab-group (selectedTabChange)="getReviewerWeights(selectedIndex); changeTab(selectedIndex, 'tab')" class="tab-type-two is-parent-tab"
+                [animationDuration]="'0'" dynamicHeight [(selectedIndex)]="selectedIndex">
+                <mat-tab label="{{evaluationNameTab}}">
+                    <ng-template matTabContent>
+                        <div class="flex mt-6">
+                            <mat-form-field class="w-1/3 px-2">
+                                <mat-label id="evaluationName">Evaluation Name</mat-label>
+                                <input [readonly]="!createdStatus" formControlName="evaluationName" matInput required />
+                            </mat-form-field>
+                            <section class="example-section">
+                                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                                    formControlName="services" [disabled]="!createdStatus" id="services"
+                                    (change)="filterFormsByType(reviewInitiationForm.value['services'])">
+                                    <mat-radio-button class="example-radio-button" *ngFor="let x of allServices"
+                                        [value]="x" color="primary">
+                                        {{x}}
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </section>
+                        </div>
+                        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+                            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                                <span class="mx-4">Cancel</span>
+                            </button>
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                (click)="changeTab(selectedIndex, 'next')" type="submit">
+                                <span class="mx-4">Next</span>
+                            </button>
+                            <button *ngIf="createdStatus && editSession" class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                            (click)="viewSummary()" type="submit">
+                            <span class="mx-4">Save Edit</span>
+                        </button>
+                        </mat-dialog-actions>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="{{formTab}}" [disabled]="formTabDisabled">
+                    <ng-template matTabContent>
+                        <div class="flex mt-6">
+                            <mat-form-field class="w-full pr-2">
+                                <mat-label id="formName">Select the Required Form</mat-label>
+                                <input [disabled]="!createdStatus" type="text" placeholder="Pick one"
+                                    aria-label="Review Form" matInput formControlName="formName"
+                                    [matAutocomplete]="auto">
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                    <mat-option *ngFor="let reviewForm of filteredReviewForms | async"
+                                        [value]="reviewForm.name">
+                                        {{ reviewForm.name }}</mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                        </div>
+
+                        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+                            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                                <span class="mx-4">Cancel</span>
+                            </button>
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                (click)="changeTabBack(selectedIndex)" type="button">
+                                <span class="mx-4">Back</span>
+                            </button>
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                (click)="changeTab(selectedIndex, 'next')" type="submit">
+                                <span class="mx-4">Next</span>
+                            </button>
+                            <button *ngIf="createdStatus && editSession" class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                            (click)="viewSummary()" type="submit">
+                            <span class="mx-4">Save Edit</span>
+                        </button>
+                        </mat-dialog-actions>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="{{timeTab}}" [disabled]="timeTabDisabled">
+                    <ng-template matTabContent>
+                        <div class="mt-6">
+                            <div>
+                                <mat-form-field class="w-1/4 pr-2">
+                                    <mat-label>Frequency</mat-label>
+                                    <mat-select [disabled]="!createdStatus" formControlName="frequency"
+                                        [value]="monthlyScheduleFrequency">
+                                        <mat-option [value]="monthlyScheduleFrequency">
+                                            {{monthlyScheduleFrequency}}
+                                        </mat-option>
+                                        <!-- <mat-option [value]="quarterlyScheduleFrequency">
+                                            {{quarterlyScheduleFrequency}}
+                                        </mat-option> -->
+                                        <mat-option [value]="semiAnnualScheduleFrequency">
+                                            {{semiAnnualScheduleFrequency}}
+                                        </mat-option>
+                                        <mat-option [value]="annualScheduleFrequency">
+                                            {{annualScheduleFrequency}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/3 pr-2">
+                                    <mat-label id="dateRange">Date Range</mat-label>
+                                    <mat-date-range-input [min]="today" [disabled]="!createdStatus"
+                                        [rangePicker]="picker">
+                                        <input [min]="today" matStartDate formControlName="startDate"
+                                            placeholder="Start date">
+                                        <input matEndDate formControlName="endDate" placeholder="End date">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+                            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                                <span class="mx-4">Cancel</span>
+                            </button>
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                (click)="changeTabBack(selectedIndex)" type="button">
+                                <span class="mx-4">Back</span>
+                            </button>
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                (click)="changeTab(selectedIndex, 'next')" type="submit">
+                                <span class="mx-4">Next</span>
+                            </button>
+                            <button *ngIf="createdStatus && editSession" class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                            (click)="viewSummary()" type="submit">
+                            <span class="mx-4">Save Edit</span>
+                        </button>
+                        </mat-dialog-actions>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="{{userTab}}" [disabled]="userTabDisabled">
+                    <ng-template matTabContent>
+
+                        <p class="font-medium text-base mb-2">
+                            Assign from users / user groups
+                        </p>
+                        <mat-radio-group formControlName="assignType" class="flex mb-4" [color]="'primary'" id="reviewer"
+                            [(ngModel)]="assignMethodSelection" (change)="switchRadio(assignMethodSelection)" [disabled]="!createdStatus">
+                            <mat-radio-button class="mb-2 mr-4" [value]="usersAssignMethod">
+                                Users
+                            </mat-radio-button>
+                            <mat-radio-button class="mb-2 mr-4" [value]="userRolesAssignMethod">
+                                User groups
+                            </mat-radio-button>
+
+                        </mat-radio-group>
+
+                        <div *ngIf="assignMethodSelection===usersAssignMethod">
+
+                            <!--base table component-->
+                            <div class="overflow-auto bg-gray-50 rounded-lg">
+                                <app-table [columns]="columns" [displayedColumns]="displayedColumns" [disabled]="!createdStatus"
+                                    [dataSource]="allUsers" (selectedRow)="selectedRow($event)" (unselectedRow)="unselectedRow($event)" [names]="allUser"
+                                    [selectedTable]="selectedTableUser">
+                                </app-table>
+                            </div>
+                        </div>
+                        <div *ngIf="assignMethodSelection===userRolesAssignMethod">
+
+                            <!--base table component-->
+                            <div class="overflow-auto bg-gray-50 rounded-lg">
+                                <app-table [columns]="columns1" [displayedColumns]="displayedColumns1" [disabled]="!createdStatus"
+                                    [dataSource]="allUserRoles" (selectedRow)="selectedRow($event)" (unselectedRow)="unselectedRow($event)" [names]="allRoles"
+                                    [selectedTable]="selectedTableRoles">
+                                </app-table>
+                            </div>
+                        </div>                        
+                        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+                            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                                <span class="mx-4">Cancel</span>
+                            </button>
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                (click)="changeTabBack(selectedIndex)" type="button">
+                                <span class="mx-4">Back</span>
+                            </button>
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                (click)="changeTab(selectedIndex, 'next')" type="submit">
+                                <span class="mx-4">Next</span>
+                            </button>
+                            <button *ngIf="createdStatus && editSession" class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                            (click)="viewSummary()" type="submit">
+                            <span class="mx-4">Save Edit</span>
+                        </button>
+                        </mat-dialog-actions>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="{{ supplierTab }}" [disabled]="supplierTabDisabled">
+                    <ng-template matTabContent>
+                        <div class="mt-6">
+
+                            <!--base table component-->
+                            <div class="overflow-auto bg-gray-50 rounded-lg">
+                                <app-table [columns]="columns2" [displayedColumns]="displayedColumns2" [disabled]="!createdStatus"
+                                    [dataSource]="allSuppliers" (selectedRow)="selectedRow($event)" (unselectedRow)="unselectedRow($event)"
+                                    [names]="allSupplier" [selectedTable]="selectedTableSupplier"></app-table>
+                            </div>
+                            <!--table component end-->
+                        </div>                        
+                        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+                            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                                <span class="mx-4">Cancel</span>
+                            </button>
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                (click)="changeTabBack(selectedIndex)" type="button">
+                                <span class="mx-4">Back</span>
+                            </button>
+                            <button *ngIf="scoredReview" class="sm:inline-flex ml-4" mat-raised-button
+                                [color]="'primary'" (click)="changeTab(selectedIndex, 'next')" type="submit">
+                                <span class="mx-4">Next</span>
+                            </button>
+                            <button *ngIf="createdStatus && editSession" class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                (click)="viewSummary()" type="submit">
+                                <span class="mx-4">Save Edit</span>
+                            </button>
+                            <button *ngIf="!scoredReview && !editSession" class="sm:inline-flex ml-4" mat-raised-button
+                                [color]="'primary'" (click)="viewSummary()" type="submit">
+                                <span class="mx-4">Submit</span>
+                            </button>
+                        </mat-dialog-actions>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab *ngIf="scoredReview" label="{{gradingMethodTab}}" [disabled]="gradingTabDisabled">
+                    <ng-template matTabContent>
+
+
+                        <div class="flex flex-col mt-6">
+                            <mat-radio-group [disabled]="!createdStatus" formControlName="gradingMethod"
+                                aria-labelledby="example-radio-group-label" class="radio-group"
+                                [(ngModel)]="gradingMethodSelection">
+                                <div class="grading-catogory-grid  top-0 grid pt-4 pb-2 font-medium base text-base"
+                                    matSort matSortDisableClear>
+                                    <div>Grading Method</div>
+
+
+                                </div>
+                                <div class="method-item">
+                                    <div>
+                                        <mat-radio-button color="primary" class="mb-2 mr-4 ml-2" name="method"
+                                            [value]="gradingMethodA">
+                                            {{gradingMethodA}}
+                                            <p class="text-secondary text-sm whitespace-pre-line">{{descriptionMethodA}}
+                                            </p>
+                                        </mat-radio-button>
+                                    </div>
+                                </div>
+                                <div *ngIf="assignMethodSelection===usersAssignMethod" class="method-item">
+                                    <div>
+                                        <mat-radio-button (change)="enableReviewerWeights()" color="primary"
+                                            class="mb-2 mr-4 ml-2" name="method" [value]="gradingMethodB">
+                                            {{gradingMethodB}}
+                                            <p class="text-secondary text-sm whitespace-pre-line">{{descriptionMethodB}}
+                                            </p>
+                                        </mat-radio-button>
+                                    </div>
+                                    <div class="srm-bg rounded-lg m-6 mt-2 p-4">
+                                        <div class="overflow-auto">
+                                            <!-- <table
+                                                class="custom-table-component expanded-rows-table font-helvetica text-gray-500">
+                                                <ng-container formArrayName="reviewerWeights">
+                                                    <tr id="reviewers">
+                                                        <th style="width: 120px;">Reviewer</th>
+                                                        <th style="width: 120px;">Contribution %</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <ng-container
+                                                                *ngFor="let reviewerForm of reviewerWeights.controls">
+                                                                <div [formGroup]="reviewerForm" style="display: flex;">
+
+                                                                    <mat-form-field appearance="fill">
+                                                                        <input readonly matInput
+                                                                            formControlName="reviewer">
+                                                                    </mat-form-field>
+
+
+                                                        <th style="width: 100px;">
+                                                            <mat-form-field appearance="fill">
+                                                                <input matInput formControlName="weight" type="number">
+                                                            </mat-form-field>
+                                                        </th>
+                                        </div>
+                                        </ng-container>
+                                        </td>
+
+                                        </tr>
+
+                                        </ng-container>
+                                        </table> -->
+                                        <ng-container formArrayName="reviewerWeights">
+                                            <div class="grading-method-grid z-10 sticky top-0 font-medium base text-base" matSort matSortDisableClear>
+                                                 <div class="pl-2">Reviewer</div>
+                                                 <div class="pl-2">Contribution %</div>
+                                            </div>
+                                            <ng-container *ngFor="let reviewerForm of reviewerWeights.controls">
+                                                <div [formGroup]="reviewerForm"  class="grading-method-grid z-10 sticky top-0 grid">
+                                                    <div style="display: flex;">
+                                                        <mat-form-field appearance="fill">
+                                                            <input readonly matInput
+                                                                formControlName="reviewer" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div [formGroup]="reviewerForm" style="display: flex;">
+                                                        <mat-form-field appearance="fill">
+                                                            <input matInput formControlName="weight"
+                                                                type="number" />
+                                                        </mat-form-field>
+                                                    </div>
+                                            </div>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="method-item">
+                            <div>
+                                <mat-radio-button color="primary" class="mb-2 mr-4 ml-2" name="method"
+                                    [value]="gradingMethodC">
+                                    {{gradingMethodC}}
+                                    <p class="text-secondary text-sm whitespace-pre-line">{{descriptionMethodC}}
+                                    </p>
+                                </mat-radio-button>
+                            </div>
+                            <div class="srm-bg rounded-lg m-6 mt-2 p-4">
+                                <mat-form-field class="w-1/3 px-2">
+                                    <mat-label id="minThreshold">Minimum Threshold</mat-label>
+                                    <input [readonly]="gradingMethodSelection!==gradingMethodC"
+                                        formControlName="minGradeThreshold" type="number" matInput />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="method-item">
+                            <div>
+                                <mat-radio-button color="primary" class="mb-2 mr-4 ml-2" name="method"
+                                    [value]="gradingMethodD">
+                                    {{gradingMethodD}}
+                                    <p class="text-secondary text-sm whitespace-pre-line">{{descriptionMethodD}}
+                                    </p>
+                                </mat-radio-button>
+                            </div>
+
+                        </div>
+                        </mat-radio-group>
+</div>
+<mat-dialog-actions class="flex justify-end sticky bottom-0">
+    <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+        <span class="mx-4">Cancel</span>
+    </button>
+    <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" (click)="changeTabBack(selectedIndex)"
+        type="button">
+        <span class="mx-4">Back</span>
+    </button>
+    <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" (click)="changeTab(selectedIndex, 'next')"
+        type="submit">
+        <span class="mx-4">Next</span>
+    </button>
+    <button *ngIf="createdStatus && editSession" class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+    (click)="viewSummary()" type="submit">
+    <span class="mx-4">Save Edit</span>
+</button>
+</mat-dialog-actions>
+</ng-template>
+</mat-tab>
+<mat-tab *ngIf="scoredReview" label="{{gradeCategoriesTab}}" [disabled]="gradeTabDisabled">
+    <ng-template matTabContent>
+        <div class="srm-bg rounded-lg m-6 mt-2 p-4">
+            <div class="overflow-auto">
+                <!-- <section class="example-section">
+                    <mat-checkbox class="example-margin" formControlName="supplierBlocker">Block
+                        Suppliers that are not recommended</mat-checkbox>
+                </section> -->
+
+                <div class="grid with-custom-headers grading-catogory srm-bg rounded-lg overflow-x-auto w-full">
+
+                    <div class="grading-catogory-grid z-10 sticky top-0 grid pt-4 pb-2 font-medium base text-base"
+                        matSort matSortDisableClear>
+                        <div>Category</div>
+                        <div>Min value</div>
+                        <div>Max value</div>
+                        <div></div>
+                    </div>
+
+
+                    <ng-container formArrayName="gradeCategories">
+                        <ng-container *ngFor="let categoryForm of gradeCategories.controls; let i = index">
+                            <div [formGroup]="categoryForm" class="grading-catogory-grid grid custom-tbl-row">
+                                <mat-form-field appearance="fill" class="mat-form-field-grade w-60">
+                                    <input [readonly]="true" matInput formControlName="category">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="mat-form-field-grade w-30" [ngStyle]="{'color':showBoundError[i]?'red':showLowerBoundError?'red':''}">
+                                    <input [readonly]="!createdStatus" matInput formControlName="lowerBound" type="number">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="mat-form-field-grade w-30" [ngStyle]="{'color':showUpperBoundError?'red':''}">
+                                    <input [readonly]="!createdStatus" matInput formControlName="upperBound" type="number">
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+                </div>
+                <label>*Grading lower bound must start with 1</label>
+                <br />
+
+            </div>
+            <mat-dialog-actions class="flex justify-end sticky bottom-0">
+                <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                    <span class="mx-4">Cancel</span>
+                </button>
+                <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                    (click)="changeTabBack(selectedIndex)" type="button">
+                    <span class="mx-4">Back</span>
+                </button>
+                <button *ngIf="createdStatus && editSession" class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                    (click)="viewSummary()" type="submit">
+                    <span class="mx-4">Save Edit</span>
+                </button>
+                <button *ngIf="!editSession" class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                    (click)="viewSummary()" type="submit">
+                    <span class="mx-4">Submit</span>
+                </button>
+            </mat-dialog-actions>
+        </div>
+    </ng-template>
+</mat-tab>
+</mat-tab-group>
+<div class="flex flex-col justify-start mt-5">
+    <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+        <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+        <span>{{'Successfully saved'}}</span>
+    </div>
+    <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+        <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+        <span>{{'Something went wrong'}}</span>
+    </div>
+</div>
+</mat-dialog-content>
+
+</form>
+
+</div>
+
+<ng-template #errorDialog>
+    <!-- <h2 matDialogTitle>Hello, world!</h2> -->
+    <p matDialogContent><em>{{errorText}}</em></p>
+    <mat-dialog-actions>
+        <button (click)="closeError()" mat-button>Dismiss</button>
+    </mat-dialog-actions>
+</ng-template>

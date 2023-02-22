@@ -1,0 +1,204 @@
+<div class="min-w-full p-2">
+    <fuse-alert *ngIf="message" [appearance]="'fill'" [dismissible]="true" [dismissed]="false" [name]="'successerror'"
+        [type]="'success'" class="pb-2"> {{message}} Successfully
+    </fuse-alert>
+    <form class="flex flex-col w-full">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Copy To Lines
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+
+            <div class="w-full">
+                <div class="w-full">
+                    <div class="flex pb-6">
+                        <mat-radio-group class="flex items-center" [color]="'primary'" [(ngModel)]='isLineChecked'
+                            name="isLineChecked" (change)="onLineChange($event)">
+                            <mat-radio-button class="mr-6" [value]="'one'">
+                                All Lines
+                            </mat-radio-button>
+                            <mat-radio-button [value]="'two'">
+                                Specific Lines
+                            </mat-radio-button>
+                        </mat-radio-group>
+                        <mat-form-field class="w-1/2 pl-6 standalone-input">
+                            <input matInput [disabled]="specificLineNoTextBoxDisabled" [(ngModel)]='specificLineNo'
+                                name="specificLineNo">
+                            <mat-hint *ngIf="isNotValid">Invalid Input{{errorPromptSpecificLines}}</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <div class="flex mb-2">
+                            <div class="flex items-center w-1/3">
+                                <mat-checkbox [color]="'primary'" [(ngModel)]='isHeaderInfoChecked'
+                                    name="isHeaderInfoChecked" (change)="isAllHeaderInfoCheckBoxChecked()">
+                                </mat-checkbox>
+                                <p class="font-medium text-lg">
+                                    Header Info
+                                </p>
+                            </div>
+                            <div class="w-1/3 relative"></div>
+                            <div class="flex items-center w-1/3">
+                                <p class="font-medium text-lg mb-2">
+                                    Lines
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex mb-2">
+                            <div class="flex items-center w-1/3">
+                                <mat-checkbox [color]="'primary'" [(ngModel)]='isAttachmentChecked'
+                                    name="isAttachmentChecked" (change)="onCheckChange()">
+                                </mat-checkbox>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Attachment</mat-label>
+                                    <input matInput disabled [(ngModel)]='selectedAttachment' name="attachment">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="w-1/3 relative">
+                                <div class="arrow-component">
+                                    <span class="arrow left"></span>
+                                    <span class="line"></span>
+                                    <span class="arrow right"></span>
+                                </div>
+
+                            </div>
+                            <div class="flex items-center w-1/3">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Attachment</mat-label>
+                                    <input matInput disabled [(ngModel)]='attachment' name="attachmentLine">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="flex mb-2">
+                            <div class="flex items-center w-1/3">
+                                <mat-checkbox [color]="'primary'" [(ngModel)]='isCurrencyChecked'
+                                    name="isCurrencyChecked" (change)="onCheckChange()">
+                                </mat-checkbox>
+                                <mat-form-field class="w-full">
+                                    <mat-label>RFQ Currency</mat-label>
+                                    <input matInput disabled [(ngModel)]='selectedCurrency' name="currency">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="w-1/3 relative">
+                                <div class="arrow-component">
+                                    <span class="arrow left"></span>
+                                    <span class="line"></span>
+                                    <span class="arrow right"></span>
+                                </div>
+
+                            </div>
+                            <div class="flex items-center w-1/3">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Currency</mat-label>
+                                    <input matInput disabled [(ngModel)]='currency' name="currencyLine">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="flex mb-2">
+                            <div class="flex items-center w-1/3">
+                                <mat-checkbox [color]="'primary'" [(ngModel)]='isLeadTimeChecked'
+                                    name="isLeadTimeChecked" (change)="onCheckChange()">
+                                </mat-checkbox>
+                                <mat-form-field *ngIf="dataCopy.rfqSupplierHeaderInformationModel.qouteValideUntil"
+                                    class="w-full">
+                                    <mat-label>Quote valid until</mat-label>
+                                    <input matInput disabled
+                                        [(ngModel)]='dataCopy.rfqSupplierHeaderInformationModel.qouteValideUntil'
+                                        name="daysOrWeeks">
+                                </mat-form-field>
+                                <mat-form-field *ngIf="!dataCopy.rfqSupplierHeaderInformationModel.qouteValideUntil"
+                                    class="w-full">
+                                    <mat-label>Days or weeks</mat-label>
+                                    <input matInput disabled
+                                        [(ngModel)]='dataCopy.rfqSupplierHeaderInformationModel.daysOrWeeksInt + " " + dataCopy.rfqSupplierHeaderInformationModel.daysOrWeekType'
+                                        name="daysOrWeeks">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="w-1/3 relative">
+                                <div class="arrow-component">
+                                    <span class="arrow left"></span>
+                                    <span class="line"></span>
+                                    <span class="arrow right"></span>
+                                </div>
+
+                            </div>
+                            <div class="flex items-center w-1/3">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Lead Time</mat-label>
+                                    <input matInput disabled [(ngModel)]='leadTime' name="leadTime">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="flex mb-2">
+                            <div class="flex items-center w-1/3">
+                                <mat-checkbox [color]="'primary'" [(ngModel)]='isPromisedDateChecked'
+                                    name="isPromisedDateChecked" (change)="onCheckChange()">
+                                </mat-checkbox>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Delivery Time</mat-label>
+                                    <input matInput disabled
+                                        [(ngModel)]='dataCopy.rfqSupplierHeaderInformationModel.deliveryTime'
+                                        name="deliveryTime">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="w-1/3 relative">
+                                <div class="arrow-component">
+                                    <span class="arrow left"></span>
+                                    <span class="line"></span>
+                                    <span class="arrow right"></span>
+                                </div>
+
+                            </div>
+                            <div class="flex items-center w-1/3">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Promised Date</mat-label>
+                                    <input matInput disabled [(ngModel)]='promisedDate' name="promisedDate">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex align-center mt-4 italic">
+                    <mat-icon color="primary" class="icon-size-5 mr-2"
+                        [svgIcon]="'heroicons_outline:information-circle'"></mat-icon>
+                    Note:
+                </div>
+                <ul role="list" class="pl-7 list-disc list-inside italic text-sm">
+                    <li>
+                        If Information has to be copied only for selected lines please select Specific Lines and provide
+                        the applicable lines with commas
+                    </li>
+                    <li>
+                        If Information has to be copied for all lines please select All Lines Option
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col justify-start mt-5">
+                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                    <span>{{'Successfully saved'}}</span>
+                </div>
+                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                    <span>{{'Something went wrong'}}</span>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="cancel()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" [disabled]="disableCopy"
+                (click)="copyToLines()" type="submit">
+                <span class="mx-4">Copy</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

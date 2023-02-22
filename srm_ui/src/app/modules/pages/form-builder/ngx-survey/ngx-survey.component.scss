@@ -1,0 +1,78 @@
+:host ::ng-deep {
+    .mat-step-header {
+        &.mat-disabled {
+            cursor: default;
+
+            .mat-step-icon-state-done {
+                background-color: rgba(0, 0, 0, 0.54);
+            }
+
+            .mat-step-label.mat-step-label-active {
+                color: rgba(0, 0, 0, 0.54);
+            }
+        }
+    }
+
+    .mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper .mat-form-field-flex {
+        align-items: unset !important;
+    }
+
+    .mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix .mat-select .mat-select-trigger .mat-select-value {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mat-form-field-appearance-fill .mat-form-field-infix {
+        padding: 0.25em 0 0.75em 0;
+    }
+
+    .form-fieldset-content {
+        >div {
+            padding: 1rem;
+            margin: 0.25rem;
+            background-color: #f3f3f3;
+        }
+    }
+
+    .form-items-list {
+        padding: 1rem;
+
+        >div {
+            padding: 0.25rem 1rem;
+            margin: 0.25rem;
+            background-color: #f3f3f3;
+        }
+    }
+
+    textarea.mat-input-element {
+        min-height: 20px !important;
+        height: 20px !important;
+    }
+}
+
+.imagelogo {
+    width: 150px;
+    height: 50px;
+    border: 1px solid #3A86FF;
+    border-radius: 5px;
+}
+
+.imagebanner {
+    height: 80px;
+}
+
+.header-block {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    align-items: baseline;
+
+    div {
+        width: 16.66%;
+        background-repeat: repeat-x;
+    }
+}

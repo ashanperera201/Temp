@@ -1,0 +1,182 @@
+<div style="margin-top:10px;padding: 5px 31px;" class="notification-config-page flex flex-col flex-auto min-w-0">
+    <div class="flex justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Notifications</div>
+        <!-- <button  type="button" class="inline-flex" mat-stroked-button [color]="'primary'" [routerLink]="'/form-new'">
+            <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            <span class="mr-8">Create New Form</span>
+        </button> -->
+    </div>
+    <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+        <div class="mr-4 w-full flex-row justify-between">
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Notification Name</mat-label>
+                        <input matInput placeholder="Notification name" formControlName="notificationName">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Description</mat-label>
+                        <input matInput placeholder="Description" formControlName="description">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-slide-toggle formControlName="status" color="primary">Status
+                        ({{userForm.value.status?'Active':'Deactive'}})</mat-slide-toggle>
+                    <mat-slide-toggle formControlName="intendedParty" color="primary">Intended Party
+                        ({{userForm.value.intendedParty?'Internal':'External'}})</mat-slide-toggle>
+                </div>
+                <div *ngIf="!showPreview">
+                    <span>Notification Type</span>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                        formControlName="types">
+                        <mat-radio-button class="example-radio-button" color="primary" *ngFor="let type of types"
+                            [value]="type">
+                            {{type}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div *ngIf="!showPreview">
+                    <span>Main Category</span>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                        formControlName="mainCategory">
+                        <mat-radio-button class="example-radio-button" color="primary"
+                            *ngFor="let main of mainCategories" [value]="main">
+                            {{main}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div *ngIf="!showPreview">
+                    <span>Notification Trigger</span>
+                    <mat-form-field appearance="fill">
+                        <mat-select formControlName="notificationTriggers" name="notificationTriggers">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let x of notificationTrigger" [value]="x.value">
+                                {{x.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="!showPreview">
+                    <span>Time Due</span>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="timeDue">
+                        <mat-radio-button class="example-radio-button" color="primary" *ngFor="let type of times"
+                            [value]="type">
+                            {{type}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div *ngIf="!showPreview">
+                    <span>Time Duration</span>
+                    <mat-form-field appearance="fill">
+                        <input matInput placeholder="Time Duration" formControlName="timeDuration">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-select formControlName="timeDurationSelect" name="timeDurationSelect">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let x of openDates" [value]="x.value">
+                                {{x.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-icon>info</mat-icon>
+                    <mat-hint align="end">
+                        Please keep blank if Time Due selection is ‘Immediate’
+                    </mat-hint>
+
+                </div>
+                <div *ngIf="!showPreview">
+                    <span>&nbsp;</span>
+                    <mat-checkbox color="primary" formControlName="recurrance" (change)="disabledRecurrance($event)">
+                        Recurrance</mat-checkbox>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Every</mat-label>
+                        <input matInput placeholder="Notification in" formControlName="recurranceDuration">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-select formControlName="recurranceSelect" name="recurranceSelect">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let x of openDates" [value]="x.value">
+                                {{x.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-icon>info</mat-icon>
+                    <mat-hint align="end">
+                        Messages will be triggered until atleast one message is seen
+                    </mat-hint>
+
+                </div>
+
+                <div *ngIf="!showPreview">
+                    <span>Recipients</span>
+                    <mat-checkbox color="primary" formControlName="suppliers">Suppliers</mat-checkbox>
+                    <mat-checkbox color="primary" formControlName="evaluators">Evaluators</mat-checkbox>
+                    <mat-checkbox color="primary" formControlName="approvers">Approvers</mat-checkbox>
+                    <mat-checkbox color="primary" formControlName="collaborationTeam">Collaboration Team</mat-checkbox>
+                    <mat-checkbox color="primary" formControlName="sRTeam">SR Team</mat-checkbox>
+                    <mat-checkbox color="primary" formControlName="financeTeam">Finance Team</mat-checkbox>
+                    <mat-checkbox color="primary" formControlName="aPTeam">AP Team</mat-checkbox>
+                </div>
+
+                <div class="action-button" *ngIf="!showPreview">
+                    <button mat-raised-button type="button" (click)="goToNotification()">Cancel</button>
+                    <button mat-raised-button color="primary" type="button" (click)="editForm()"
+                        *ngIf="editBtn">Edit</button>
+                    <button mat-raised-button color="primary" type="button" (click)="goToPreview()"
+                        *ngIf="!editBtn">Next</button>
+                </div>
+
+
+                <div *ngIf="showPreview">
+                    <span>Notification Type</span>
+                    <mat-radio-group formControlName="notificationType" aria-label="Select an option">
+                        <mat-radio-button color="primary" value="customTitle">Custom</mat-radio-button>
+                        <mat-radio-button color="primary" value="existingTitle">Custom Selection</mat-radio-button>
+                    </mat-radio-group>
+
+                    <mat-form-field appearance="fill" *ngIf="userForm.value.notificationType==='existingTitle'">
+                        <mat-label>Select template</mat-label>
+                        <mat-select formControlName="templateSelect" name="templateSelect"
+                            (selectionChange)="templateSelected(userForm.value.templateSelect)">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let x of notificationsSelect" [value]="x.value">
+                                {{x.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="showPreview">
+                    <span>Notification Title</span>
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Title</mat-label>
+                        <input matInput placeholder="Title" formControlName="notificationTitle">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="showPreview">
+                    <span>Notification Content</span>
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Content</mat-label>
+                        <div [innerHTML]="notificationContent"></div>
+                        <textarea matInput placeholder="Content" formControlName="notificationContent"
+                            rows="5"></textarea>
+                        <mat-hint align="end">{{userForm.value.notificationContent.length}} / 500</mat-hint>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="showPreview">
+                    <span>Sender Name</span>
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Sender Name</mat-label>
+                        <input matInput placeholder="Sender Name" formControlName="senderName">
+                    </mat-form-field>
+                </div>
+
+                <div class="action-button" *ngIf="showPreview">
+                    <button mat-raised-button type="button" (click)="goBack()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit">Save</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>

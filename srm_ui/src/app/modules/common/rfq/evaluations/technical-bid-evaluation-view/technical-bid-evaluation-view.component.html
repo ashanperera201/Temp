@@ -1,0 +1,147 @@
+<div class="pb-4 px-4 srm-bg rounded-lg">
+    <div class="pt-5 pb-2">
+        <div class="flex">
+            <mat-form-field class="w-1/4 pr-2" *ngIf="(RFQModel.isTBEBuyerOrApprover || RFQModel.isCBEBuyerOrApprover)">
+                <mat-label>TBE Approval Status</mat-label>
+                <input matInput disabled [(ngModel)]="RFQModel.tbeApprovalStatusName" name="bidEvaluationstatusName">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pr-2">
+                <mat-label>Supplier Evaluation Status</mat-label>
+                <input matInput disabled [(ngModel)]="bidEvaluation.statusName" name="bidEvaluationstatusName">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pr-2">
+                <mat-label>RFQ No</mat-label>
+                <input matInput disabled [(ngModel)]="RFQModel.rfqNo" name="rfqNo">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>REV No</mat-label>
+                <input matInput disabled [(ngModel)]="RFQModel.revNo" name="revNo">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Program ID</mat-label>
+                <input matInput disabled [(ngModel)]="RFQModel.programName" name="projectNo">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pl-2">
+                <mat-label>Project Code</mat-label>
+                <input matInput disabled [(ngModel)]="RFQModel.project" name="projectName">
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field class="w-1/4 pr-2">
+                <mat-label>Technical Evaluation Number</mat-label>
+                <input matInput disabled [(ngModel)]="bidEvaluation.evaluationNumber" name="evaluationNumber">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2" *ngIf="!(RFQModel.isEvaluatorViewer || RFQModel.isTBEBuyerOrApprover || RFQModel.isCBEBuyerOrApprover)">
+                <mat-label>Evaluator’s Name</mat-label>
+                <input matInput disabled [(ngModel)]="profileSet.name" name="bidEvaluation_userName">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pl-2" *ngIf="(RFQModel.isEvaluatorViewer || RFQModel.isTBEBuyerOrApprover || RFQModel.isCBEBuyerOrApprover)">
+                <mat-label>Select Evaluator</mat-label>
+                <mat-select (selectionChange)="onSupplierChangeTechnical(selectedSupId)" [(ngModel)]="selectedEvlId">
+                    <mat-option *ngFor="let evl of evaluators" [value]="evl.id">
+                        {{evl.employeeName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <mat-form-field class="w-1/4 px-2">
+                <mat-label>Discipline</mat-label>
+                <mat-select [(ngModel)]="bidEvaluation.disciplineId" name="discipline">
+                    <mat-option *ngFor="let discipline of bidEvaluation.disciplineLists" [value]="discipline.id">
+                        {{discipline.lookUpName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field> -->
+            <mat-form-field class="w-1/4 pl-2">
+                <mat-label>Select Supplier Response</mat-label>
+                <mat-select (selectionChange)="onSupplierChangeTechnical(selectedSupId)" [(ngModel)]="selectedSupId">
+                    <mat-option *ngFor="let sup of supplierSearchModel.supplierViewModels" [value]="sup.id">
+                        {{sup.supplierName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<!-- <div class="flex items-center justify-end">
+    <span>More</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+        <mat-icon color="primary" class="icon-size-6" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <div class="flex flex-col min-width-235">
+            <button class="sm:inline-flex p-0" mat-menu-item>
+                <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                    [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                <span class="mr-4 ml-1">Placeholder</span>
+            </button>
+            <button class="sm:inline-flex p-0" mat-menu-item>
+                <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                    [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                <span class="mr-4 ml-1">Placeholder</span>
+            </button>
+            <button class="sm:inline-flex p-0" mat-menu-item>
+                <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                    [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                <span class="mr-4 ml-1">Placeholder</span>
+            </button>
+            <button class="sm:inline-flex p-0" mat-menu-item>
+                <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                    [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                <span class="mr-4 ml-1">Placeholder</span>
+            </button>
+            <button class="sm:inline-flex p-0" mat-menu-item>
+                <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                    [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                <span class="mr-4 ml-1">Placeholder</span>
+            </button>
+        </div>
+    </mat-menu>
+</div> -->
+
+<mat-tab-group class="tab-type-one-secondary inner is-parent-tab"
+[animationDuration]="'0'">
+<mat-tab label="Header" *ngIf="bidTechnicalFlag">
+    <ng-template matTabContent>
+        <app-technical-bid-evaluation-header-view (rfqUpdated)="UpdateRFQModel($event)" [rfqModel]="RFQModel" [RFQID]="rfqId" [context]="this"
+            [bidEvaluationModel]="bidEvaluation" [dataSource20]="dataSource20"
+            [dataSource172]="dataSource172" [dataSource182]="dataSource182"
+            [dataSource4]="dataSource4" [dataSource432]="dataSource432"
+            [dataSource622]="dataSource622" [dataSource722]="dataSource722"
+            [dataSource822]="dataSource822" [dataSource9]="dataSource9"
+            [dataSource932]="dataSource932" [displayedColumn20]="displayedColumn20"
+            [displayedColumn172]="displayedColumn172"
+            [displayedColumn182]="displayedColumn182"
+            [displayedColumn42]="displayedColumn42"
+            [displayedColumn432]="displayedColumn432"
+            [displayedColumn622]="displayedColumn622"
+            [displayedColumn722]="displayedColumn722"
+            [displayedColumn822]="displayedColumn822"
+            [displayedColumn92]="displayedColumn92"
+            [displayedColumn932]="displayedColumn932">
+        </app-technical-bid-evaluation-header-view>
+    </ng-template>
+
+</mat-tab>
+<mat-tab label="Lines" class="direct-child-of-parent" *ngIf="bidTechnicalFlag">
+    <ng-template matTabContent class="direct-child-of-parent">
+        <app-technical-bid-evaluation-line-view (rfqUpdated)="UpdateRFQModel($event)" [RFQID]="rfqId" [context]="this"
+            [bidEvaluationModel]="bidEvaluation" [rfqModel]="RFQModel" [dataSource20]="dataSource20"
+            [dataSource172]="dataSource172" [dataSource182]="dataSource182"
+            [dataSource4]="dataSource4" [dataSource432]="dataSource432"
+            [dataSource622]="dataSource622" [dataSource722]="dataSource722"
+            [dataSource822]="dataSource822" [dataSource9]="dataSource9"
+            [dataSource932]="dataSource932" [displayedColumn20]="displayedColumn20"
+            [displayedColumn172]="displayedColumn172"
+            [displayedColumn182]="displayedColumn182"
+            [displayedColumn42]="displayedColumn42"
+            [displayedColumn432]="displayedColumn432"
+            [displayedColumn622]="displayedColumn622"
+            [displayedColumn722]="displayedColumn722"
+            [displayedColumn822]="displayedColumn822"
+            [displayedColumn92]="displayedColumn92"
+            [displayedColumn932]="displayedColumn932">
+        </app-technical-bid-evaluation-line-view>
+
+    </ng-template>
+</mat-tab>
+</mat-tab-group>

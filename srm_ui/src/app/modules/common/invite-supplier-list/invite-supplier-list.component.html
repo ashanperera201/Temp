@@ -1,0 +1,104 @@
+<!--table search bar panel-->
+<div class="flex justify-end mb-5">
+    <div class="flex justify-between">
+
+        <div class="flex flex-col justify-end sm:flex-row items-center max-w-xs sm:max-w-none">
+            <mat-form-field class="fuse-mat-no-subscript sm:w-44 rounded-r-none">
+                <mat-select [value]="'all'" [(ngModel)]="selectedValue" (selectionChange)="selectchange()">
+                    <mat-option value="all">All</mat-option>
+                    <ng-container>
+                        <mat-option *ngFor="let col of columnsToDisplayDesc" [value]="col">
+                            {{col}}
+                        </mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="fuse-mat-no-subscript sm:w-96 mt-4 sm:mt-0 rounded-l-none"
+                            [floatLabel]="'always'">
+                <mat-icon
+                    matPrefix
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here..." #input [(ngModel)]="filterName">
+            </mat-form-field>
+        </div>
+
+        <div class="flex items-center pl-1">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+                <mat-icon color="primary" svgIcon="heroicons_outline:view-boards"></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="min-width-235 z-1">
+                <div class="flex flex-col max-h-80"  (click)="$event.stopPropagation();">
+                    <div class="flex flex-col overflow-auto">
+                        <mat-checkbox class="select-all" [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                        (change)="toggleAllSelection($event)"><strong>Select/ Unselect All</strong></mat-checkbox>
+                        <mat-checkbox class="mat-menu-item" class="px-6 py-3"  [checked]="item.selected" [color]="'primary'" #c (click)="addRemoveField(item.name,c)" *ngFor="let item of FilterdisplayedColumns">{{item.name}}</mat-checkbox> 
+                    </div>
+                    <div class="flex flex-col sticky bottom-0 bg-white">
+                        <div class="flex justify-start mt-5 flex-col">
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                                <span>{{errormessage}}</span>
+                            </div>
+                            <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                                <span>{{successmessage}}</span>
+                            </div>
+                        </div>
+                        <button class="sm:inline-flex mx-6 my-2" mat-raised-button (click)="saveFields()" [color]="'primary'">Save</button>
+                    </div>
+
+
+                </div>
+            </mat-menu>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--table component-->
+
+<div  class="overflow-auto bg-gray-50 rounded-lg">
+    <div class="loader-inline" *ngIf="isloading">
+        <img src="assets/images/xitricon-loader.gif" alt="loading">
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort class="expanded-rows-table font-helvetica text-gray-500">
+
+        <ng-container [matColumnDef]="column.val" *ngFor="let column of ColumnList">
+            <th mat-header-cell style="min-width: 250px;" *matHeaderCellDef> {{column.name}} </th>
+            <td mat-cell *matCellDef="let element"> 
+              <div >{{element[column.val]}}</div>
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row (click)="openRowInfo(row.supplierCode)" *matRowDef="let row; columns: columnsToDisplay;"></tr>
+  
+          <tr class="mat-row" *matNoDataRow [hidden]="isloading">
+              <td class="mat-cell" colspan="13">No data matching </td>
+          </tr>
+    </table>
+</div>
+<div class="flex justify-between">
+    <div class="color-legends">
+        <!-- <div class="color-legend">
+            <div class="rounded-item-criticality one"></div>
+            <div class="legend-label">Very High</div>
+        </div>
+        <div class="color-legend">
+            <div class="rounded-item-criticality two"></div>
+            <div class="legend-label">High</div>
+        </div>
+        <div class="color-legend">
+            <div class="rounded-item-criticality three"></div>
+            <div class="legend-label">Medium</div>
+        </div>
+        <div class="color-legend">
+            <div class="rounded-item-criticality four"></div>
+            <div class="legend-label">Low</div>
+        </div> -->
+    </div>
+    <mat-paginator #tableOnePaginator class="flex text-lg" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true"></mat-paginator>
+</div>

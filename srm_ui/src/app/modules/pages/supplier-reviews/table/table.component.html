@@ -1,0 +1,76 @@
+<div class="w-full justify-between flex">
+  <mat-form-field appearance="fill" class="w-1/5 mr-4">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input [disabled]="disabled">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <div class="w-4/5">
+    <mat-form-field class="w-full" appearance="fill" *ngIf="names==='allUser'">
+      <mat-label>Selected user(s)</mat-label>
+      <mat-chip-list #chipList aria-label="selection">
+        <mat-chip [disabled]="disabled" *ngFor="let x of selectedUser" (removed)="remove(x)">
+          {{x.name}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="fill" *ngIf="names==='allRoles'">
+      <mat-label>Selected user group(s)</mat-label>
+      <mat-chip-list #chipList aria-label="selection">
+        <mat-chip [disabled]="disabled" *ngFor="let x of selectedGroup" (removed)="removeGroup(x)">
+          {{x.name}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="fill" *ngIf="names==='allSupplier'">
+      <mat-label>Selected supplier(s)</mat-label>
+      <mat-chip-list #chipList aria-label="selection">
+        <mat-chip [disabled]="disabled" *ngFor="let x of selectedSuppliers" (removed)="removeSuppliers(x)">
+          {{x.supplierName}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+</div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full" matSort>
+
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle(): null; clickedRowsAll($event)"
+        [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [aria-label]="checkboxLabel()" color="primary" [disabled]="disabled">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()" [disabled]="disabled"
+        (change)="$event ? selection.toggle(row) : null; clickedRows(row, $event)" [checked]="selection.isSelected(row)"
+        [aria-label]="checkboxLabel(row)" color="primary">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      {{column.header}}
+    </th>
+    <td mat-cell *matCellDef="let row">
+      {{column.cell(row)}}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row);">
+  </tr>
+</table>
+<div class="flex justify-end w-full">
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>

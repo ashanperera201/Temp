@@ -1,0 +1,17 @@
+<div class="items-page flex flex-auto min-w-0">
+    <drawer-mini class="drawer-mini"></drawer-mini>
+
+    <div class="flex-auto overflow-hidden sm:p-6 md:p-8">
+        <div class="flex justify-between">
+            <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">Invite Suppliers</div>
+            <button class="sm:inline-flex ml-auto" mat-raised-button [color]="'primary'" (click)="openNewInviteSupplierForm()">
+                <span class="mx-8">Add new Invite Supplier</span>
+            </button>
+        </div>
+
+        <div class="relative overflow-hidden mt-8 min-h-80 w-full">
+            <app-items-invite-supplier-list></app-items-invite-supplier-list>
+        </div>
+    </div>
+
+</div>

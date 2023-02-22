@@ -1,0 +1,356 @@
+<div class="flex flex-col flex-auto w-full">
+    <!-- Products list -->
+    <!-- <button type="button" (click)="CheckData()">Test Form</button> -->
+    <input type="hidden" formControlName="rfqId" />
+    <div class="flex flex-col flex-auto w-full mb-6">
+        <div class="flex justify-end">
+            <button  *ngIf="RFQModel.isSaveAsDraft && isChanged" type="button" (click)="SaveScoring()" class="sm:inline-flex mr-4"
+            mat-raised-button [color]="'primary'">
+                <span class="mx-8">Save Changes</span>
+            </button>
+        </div>
+        <div>
+            <p class="font-medium text-lg mb-2 pt-4">
+                Header Tabs
+            </p>
+        </div>
+
+        <ng-container>
+            <ng-container>
+                <div class="grid line-items-parent overflow-x-auto w-full">
+                    <!-- Header -->
+                    <div class="line-items-parent-grid z-12 sticky top-0 grid gap-9 pt-4 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                        <div>Header Tabs</div>
+                        <div [mat-sort-header]="'points'">Weights in points</div>
+                        <div [mat-sort-header]="'percentage'">Weights in %</div>
+                        <div [mat-sort-header]="'knockOutScore'">Knock Out Score</div>
+                        <div></div>
+                    </div>
+                    <!-- Rows -->
+                    <ng-container>
+                        <ng-container>
+                            <div [disabled]="true" *ngFor="let hdrscoring of scoringModel.rfqHeaderScoringCriterias"
+                                class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="line-items-parent-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            {{hdrscoring.criteriaName}}
+                                        </p>
+                                    </div>
+                                    <div class="flex">
+                                        <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                            <input matInput [(ngModel)]="hdrscoring.points" type="number"
+                                           (change)="UpdateHdrPointsandPercent(hdrscoring,'pts')" [disabled]="!RFQModel.isSaveAsDraft">
+                                            </mat-form-field>
+                                    </div>
+                                    <div class="flex">
+                                        <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                            <input matInput [(ngModel)]="hdrscoring.percentatge" type="number"
+                                            (change)="UpdateHdrPointsandPercent(hdrscoring,'percent')" [disabled]="!RFQModel.isSaveAsDraft">
+                                            </mat-form-field>
+                                    </div>
+                                    <div class="flex">
+                                        <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                            <input matInput [(ngModel)]="hdrscoring.knockOutScore" type="number"
+                                            (change)="UpdateIsChange()" [disabled]="!RFQModel.isSaveAsDraft">
+                                            </mat-form-field>
+                                    </div>                                   
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button
+                                            (click)="toggleDisplay(hdrscoring)">
+                                            <mat-icon color="primary" class="icon-size-6"
+                                                [svgIcon]="hdrscoring.isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                            </mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <ng-container *ngIf="getActiveDetailsTab(hdrscoring.id)">
+                                    <div class="overflow-hidden">
+                                        <div class="flex">
+                                            <!-- Selected product details panel -->
+                                            <div class="overflow-auto srm-bg rounded-lg mt-4 w-full">
+                                                <div class="grid pl-4 line-items-inner">
+                                                    <!-- Header -->
+                                                   <!--  <div class="line-items-inner-grid custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary"
+                                                        matSort matSortDisableClear>
+                                                        <div [mat-sort-header]="'name'"></div>
+                                                        <div [mat-sort-header]="'type'"></div>
+                                                        <div [mat-sort-header]="'description'"></div>
+                                                      
+                                                    </div> -->
+                                                    <!-- Rows -->
+                                                    <ng-container>
+                                                        <ng-container>
+                                                            <div *ngFor="let headerModel of hdrscoring.rfqScoringHeaderDetailModel"
+                                                                class="line-items-inner-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                                               
+                                                                <div>
+                                                                    <p class="font-medium text-base">
+                                                                        {{headerModel.itemName}}
+                                                                    </p>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                                                        <input matInput [(ngModel)]="headerModel.weightInPoints" type="number"
+                                                                        (change)="UpdateHdrdetListPointsandPercent(headerModel,'pts')" [disabled]="!RFQModel.isSaveAsDraft">
+                                                                        </mat-form-field>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                                                        <input matInput [(ngModel)]="headerModel.weightInPercentage" type="number"
+                                                                        (change)="UpdateHdrdetListPointsandPercent(headerModel,'percent')" [disabled]="!RFQModel.isSaveAsDraft">
+                                                                        </mat-form-field>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="custom-tbl-item summary overflow-hidden m-1">
+                                <div
+                                    class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+                                    <div style="color:red;">{{HeaderScoreError}}</div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            {{headerTotalPoints}}: Total Weights in Points
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            {{headerTotalPercentage}}%: Total Weights in %
+                                        </p>
+                                    </div>
+                                    <div class="ml-auto"></div>
+                                </div>
+                            </div>
+                           
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+
+            </ng-container>
+          
+        </ng-container>
+
+        <ng-container>
+            <ng-container>
+                <div class="grid partline-items-parent overflow-x-auto w-full">
+                    <!-- Header -->
+                    <div class="partline-items-parent-grid z-12 sticky top-0 grid gap-9 pt-4 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                       
+                        <div>Line #</div>
+                        <div>Part No</div>
+                        <div>Part Description</div>
+                        <div [mat-sort-header]="'points'">Weights in points</div>
+                        <div [mat-sort-header]="'percentage'">Weights in %</div>
+                        <div [mat-sort-header]="'knockOutScore'">Knock Out Score</div>
+                        <div></div>
+                    </div>
+                    <!-- Rows -->
+                    <ng-container>
+                        <ng-container>
+                            <div  *ngFor="let partscoring of scoringModel.rfqPartLineScoringCriterias"
+                                class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="partline-items-parent-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            {{partscoring.lineNumber}}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            {{partscoring.partName}}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            {{partscoring.partDescirption}}
+                                        </p>
+                                    </div>
+                                    <div class="flex">
+                                        <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                            <input matInput [(ngModel)]="partscoring.points" type="number"
+                                           (change)="UpdateHdrItemPointsandPercent(partscoring,'pts')" [disabled]="!RFQModel.isSaveAsDraft">
+                                            </mat-form-field>
+                                    </div>
+                                    <div class="flex">
+                                        <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                            <input matInput [(ngModel)]="partscoring.percentatge" type="number"
+                                            (change)="UpdateHdrItemPointsandPercent(partscoring,'percent')" [disabled]="!RFQModel.isSaveAsDraft">
+                                            </mat-form-field>
+                                    </div>
+                                    <div class="flex">
+                                        <mat-form-field class="w-full pt-1 standalone-input">                                                        
+                                            <input matInput [(ngModel)]="partscoring.knockOutScore" type="number"
+                                            (change)="UpdateIsChange()" [disabled]="!RFQModel.isSaveAsDraft">
+                                           
+                                            </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button
+                                            (click)="toggleDisplay(partscoring)">
+                                            <mat-icon color="primary" class="icon-size-6"
+                                                [svgIcon]="partscoring.isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                            </mat-icon>
+                                        </button>
+                                    </div>
+                                 
+                                </div>
+                                <ng-container *ngIf="getActiveDetailsTab(partscoring.id)">
+                                    <div class="overflow-hidden">
+                                        <div class="flex">
+                                            <!-- Selected product details panel -->
+                                            <div class="overflow-auto srm-bg rounded-lg mt-4 w-full">
+                                                <div class="grid pl-4 partline-items-inner">
+                                                  
+                                                     <ng-container>
+                                                        <ng-container>
+                                                            <div *ngFor="let linecreteriaModel of partscoring.rfqLineScoringCriteriaModel"
+                                                                class="partline-items-inner-grid grid items-center gap-5 py-px px-2 custom-tbl-row">
+                                                               
+                                                                
+                                                                <div class="flex">
+                                                                    <div class="mr-auto">
+                                                                       
+                                                                    </div>
+                                                                    <div class="flex w-full" style="max-width:250px;">  <p class="font-medium text-base ">
+                                                                        {{linecreteriaModel.criteriaName}}
+                                                                    </p></div>
+                                                                    <div class="flex w-full" style="max-width:100px;">
+                                                                       
+                                                                    </div>
+                                                                    <div class="flex w-full" style="max-width:250px;"><mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                        <input matInput [(ngModel)]="linecreteriaModel.points" type="number"
+                                                                        (change)="UpdateHdrItemInnerPointsandPercent(linecreteriaModel,'pts')" [disabled]="!RFQModel.isSaveAsDraft">
+                                                                        </mat-form-field></div>
+                                                                    <div class="flex w-full" style="max-width:250px;"> <mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                        <input matInput [(ngModel)]="linecreteriaModel.percentatge" type="number"
+                                                                        (change)="UpdateHdrItemInnerPointsandPercent(linecreteriaModel,'percent')" [disabled]="!RFQModel.isSaveAsDraft">
+                                                                        </mat-form-field>
+                                                                       </div>
+                                                                    <div class="flex w-full" style="max-width:250px;"> <mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                        <input matInput [(ngModel)]="linecreteriaModel.knockOutScore" type="number" (change)="UpdateIsChange()" [disabled]="!RFQModel.isSaveAsDraft">
+                                                                        
+                                                                </mat-form-field></div>
+                                                                    
+                                                                       
+                                                                        <div class="mr-auto">
+                                                                            <button class="px-2 leading-6" mat-icon-button
+                                                                                (click)="toggleDisplay(linecreteriaModel)">
+                                                                                <mat-icon color="primary" class="icon-size-6"
+                                                                                    [svgIcon]="linecreteriaModel.isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                                                </mat-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                </div>
+                                                                
+                                                                
+                                                             
+                                                               
+                                                                <ng-container *ngIf="getActiveDetailsTab(linecreteriaModel.id)">
+                                                                    <div class="overflow-hidden">
+                                                                        <div class="flex ">
+                                                                         
+                                                                            <div class="overflow-auto srm-bg rounded-lg mt-4 mb-5 w-full">
+                                                                                <div class="grid pl-4 partline-subitem-inner">
+                                                                                    <ng-container>
+                                                                                        <div *ngFor="let lineinnerModel of linecreteriaModel.rfqScoringLineDetailModel"
+                                                                                        class="partline-subitem subitem-center gap-4 py-px px-2 custom-tbl-row">
+                                                                                        <div class="flex">
+                                                                                            <div class="flex w-full" style="max-width:250px;">
+                                                                       
+                                                                                            </div>
+                                                                                            <div class="flex w-full" style="max-width:200px;">
+                                                                                                <p class="font-medium text-base">
+                                                                                                    {{lineinnerModel.itemName}}
+                                                                                                </p>
+                                                                                            </div>
+                                                                                            <div class="flex w-full" style="max-width:250px;">
+                                                                                                <mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                                                    <input matInput [(ngModel)]="lineinnerModel.weightInPoints" type="number"
+                                                                                                    (change)="UpdateHdrItemInnerListPointsandPercent(lineinnerModel,'pts')" [disabled]="!RFQModel.isSaveAsDraft">
+                                                                                                    </mat-form-field>
+                                                                                            </div>
+                                                                                            <div class="flex w-full" style="max-width:250px;">
+                                                                                                <mat-form-field class="w-full px-2 standalone-input">                                                        
+                                                                                                    <input matInput [(ngModel)]="lineinnerModel.weightInPercentage" type="number"
+                                                                                                    (change)="UpdateHdrItemInnerListPointsandPercent(lineinnerModel,'percent')" [disabled]="!RFQModel.isSaveAsDraft">
+                                                                                                    </mat-form-field>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                            
+                                                                                            
+                                                                                        </div>
+                                                                                    </ng-container>
+                                                                                    </div>
+                                                                            </div>
+                                
+                                                                        </div>
+                                                                    </div>
+                                                                </ng-container>
+                                                              
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container> 
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <div class="partline-items-parent-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div class="flex"  style="color:red;">{{partscoring.showError}}</div>
+                                    <div class="flex"></div>
+                                    <div class="flex"></div>
+                                    <div class="flex"> <p class="font-medium text-base">
+                                        {{partscoring.totalPoint}}: Total Weights in Points
+                                    </p></div>
+                                    <div class="flex"> <p class="font-medium text-base">
+                                        {{partscoring.totalPercent}}%: Total Weights in %
+                                    </p></div>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item summary overflow-hidden m-1">
+                                <div
+                                    class="part-grid grid items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+                                    <div style="color:red;">{{LineScoreError}}</div>
+                                    <div></div>
+                                    <div></div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            {{partlineTotalPoints}}: Total Weights in Points
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            {{partlineTotalPercentage}}%: Total Weights in %
+                                        </p>
+                                    </div>
+                                    <div class="ml-auto"></div>
+                                </div>
+                            </div>
+                           
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+
+            </ng-container>
+        </ng-container>
+
+        <ng-template #noProducts>
+            <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no products!</div>
+        </ng-template>
+
+    </div>
+   
+
+</div>

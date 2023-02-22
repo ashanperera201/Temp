@@ -1,0 +1,12 @@
+<mat-label class="label" style="font-weight: 600;color: black;">{{item.label}} <span *ngIf="item.required">*</span>
+</mat-label>
+<ngx-intl-tel-input [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+    [searchCountryField]="[SearchCountryField.Iso2,SearchCountryField.Name]"
+    [selectedCountryISO]="CountryISO.UnitedStates" [separateDialCode]="separateDialCode"
+    [numberFormat]="PhoneNumberFormat.National" [maxLength]="10" name="phone" [formControl]="phone">
+</ngx-intl-tel-input>
+
+<mat-error *ngIf="item.errors && item.errors.length && view">
+    <div *ngFor="let error of item.errors">{{error.message}}</div>
+</mat-error>
+<mat-hint align="start" *ngIf="!(item.errors && item.errors.length)"><strong>{{item.hint}}</strong> </mat-hint>

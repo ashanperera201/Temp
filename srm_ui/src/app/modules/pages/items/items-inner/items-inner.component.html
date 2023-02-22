@@ -1,0 +1,1277 @@
+<div class="items-page flex flex-auto min-w-0">
+    <drawer-mini class="drawer-mini"></drawer-mini>
+
+    <div class="flex flex-col overflow-hidden flex-auto sm:p-6 md:p-8">
+        <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+            <span style="color: #06038D;"> PASS Supplier Registration </span>
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium text-xl ml-px mt-2">
+                <div>
+                    <a href="http://localhost:4200/dashboard" class="whitespace-nowrap text-primary-500 font-semibold ml-px">All Items</a>
+                </div>
+                <div class="flex items-center ml-2 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1">Item 1234</a>
+                </div>
+            </div>
+        </div>
+        <div class="relative overflow-hidden min-h-80 w-full">
+
+            <div class="overflow-auto srm-bg rounded-lg">
+                <form class="flex flex-col w-full" [formGroup]="supplierDetailsSummary2">
+                    <div class="flex flex-col sm:flex-row p-6">
+                        <div class="flex flex-auto flex-wrap">
+                            <div class="flex flex-col w-full">
+
+                                <div class="flex">
+                                    <mat-form-field class="w-1/3 pr-2">
+                                        <mat-label>SR No</mat-label>
+                                        <input matInput [formControlName]="'numbers'" readonly>
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/3 px-2">
+                                        <mat-label>Created On</mat-label>
+                                        <input matInput [formControlName]="'created'" >
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/3 pl-2">
+                                        <mat-label>Status</mat-label>
+                                        <input matInput [formControlName]="'status'" >
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="flex">
+                                    <mat-form-field class="w-1/3 pr-2">
+                                        <mat-label>Supplier Code</mat-label>
+                                        <input matInput [formControlName]="'code'" >
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/3 px-2">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput [formControlName]="'name'" >
+                                    </mat-form-field>
+                                    <div class="w-1/3 pl-2 relative">
+                                        <span class="font-semibold mb-2">Invited Supplier?</span>
+                                        <mat-radio-group class="flex mt-4" [color]="'primary'" [value]="'yes'">
+                                            <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                Yes
+                                            </mat-radio-button>
+                                            <mat-radio-button class="mb-2" [value]="'no'">
+                                                No
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="overflow-auto srm-bg rounded-lg rounded-t-none">
+                <mat-tab-group class="tab-type-one is-parent-tab" [animationDuration]="'0'">
+
+                    <mat-tab label="Supplier Registration Data">
+                        <ng-template matTabContent>
+                            <mat-tab-group class="tab-type-two is-parent-tab" [animationDuration]="'0'">
+
+                                <mat-tab label="Supplier Details">
+                                    <ng-template matTabContent>
+                                        <mat-tab-group class="tab-type-three" [animationDuration]="'0'">
+
+                                            <mat-tab label="Supplier Details">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="supplierDetails2">
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-1/3 pr-2">
+                                                                <mat-label>Name</mat-label>
+                                                                <input matInput [formControlName]="'name'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 px-2">
+                                                                <mat-label>Name 2</mat-label>
+                                                                <input matInput [formControlName]="'name2'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 pl-2">
+                                                                <mat-label>Date</mat-label>
+                                                                <input matInput [formControlName]="'date'" >
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-1/3 pr-2">
+                                                                <mat-label>Sample Input 1</mat-label>
+                                                                <input matInput [formControlName]="'adcs'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 px-2">
+                                                                <mat-label>Email</mat-label>
+                                                                <input matInput [formControlName]="'email'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 pl-2">
+                                                                <mat-label>Sample Input 2</mat-label>
+                                                                <input matInput [formControlName]="'status'" >
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                            <mat-tab label="Address">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="address2">
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-1/3 pr-2">
+                                                                <mat-label>Country</mat-label>
+                                                                <input matInput [formControlName]="'country'">
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 px-2">
+                                                                <mat-label>City</mat-label>
+                                                                <input matInput [formControlName]="'city'">
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 pl-2">
+                                                                <mat-label>Other City</mat-label>
+                                                                <input matInput [formControlName]="'othercity'">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-1/3 pr-2">
+                                                                <mat-label>PO Box</mat-label>
+                                                                <input matInput [formControlName]="'pobox'">
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 px-2">
+                                                                <mat-label>Postal Code</mat-label>
+                                                                <input matInput [formControlName]="'postalcode'">
+                                                            </mat-form-field>
+                                                            <div class="w-1/3 pl-2 relative">
+                                                                <span class="font-semibold mb-2">Supplier Location</span>
+                                                                <mat-radio-group [formControlName]="'suplocation'" class="flex mt-4" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'in'">
+                                                                        In Kingdom
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'out'">
+                                                                        Out Kingdom
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-1/2 pr-2">
+                                                                <mat-label>Street</mat-label>
+                                                                <input matInput [formControlName]="'street'">
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/2 pl-2">
+                                                                <mat-label>Other City</mat-label>
+                                                                <input matInput [formControlName]="'othercity2'">
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                            <mat-tab label="Contact Person">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="contactPerson2">
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-1/3 pr-2">
+                                                                <mat-label>First Name</mat-label>
+                                                                <input matInput [formControlName]="'firstname'" >
+                                                                <mat-select matPrefix [formControlName]="'title'">
+                                                                    <mat-option [value]="1">Mr.</mat-option>
+                                                                    <mat-option [value]="2">Ms.</mat-option>
+                                                                    <mat-option [value]="3">Mrs.</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 px-2">
+                                                                <mat-label>Last Name</mat-label>
+                                                                <input matInput [formControlName]="'lastname'" >
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-1/3 pr-2">
+                                                                <mat-label>Position</mat-label>
+                                                                <input matInput [formControlName]="'position'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 px-2">
+                                                                <mat-label>Email</mat-label>
+                                                                <input matInput [formControlName]="'email'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 pl-2">
+                                                                <mat-label>Telephone</mat-label>
+                                                                <input matInput [formControlName]="'telephone'" >
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-4/12 pr-2">
+                                                                <mat-label>Telephone</mat-label>
+                                                                <input matInput [formControlName]="'telephone2'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-2/12 px-2">
+                                                                <mat-label>Ext</mat-label>
+                                                                <input matInput [formControlName]="'ext'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-3/12 px-2">
+                                                                <mat-label>Mobile</mat-label>
+                                                                <input matInput [formControlName]="'mobile'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-3/12 pl-2">
+                                                                <mat-label>Mobile</mat-label>
+                                                                <input matInput [formControlName]="'mobile'" >
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-1/3 pr-2">
+                                                                <mat-label>Fax</mat-label>
+                                                                <input matInput [formControlName]="'fax'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="w-1/3 px-2">
+                                                                <mat-label>Mobile</mat-label>
+                                                                <input matInput [formControlName]="'mobile3'" >
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                            <mat-tab label="Registration Details">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="registrationDetails2">
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-2/6 pr-2">
+                                                                <mat-label>Registration/License/CR# *</mat-label>
+                                                                <input matInput [formControlName]="'regnumber'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="flex flex-col w-3/6 px-2">
+                                                                <mat-label>Registration File</mat-label>
+                                                                <input matInput  hidden>
+                                                                <input matInput [formControlName]="'regfile'" >
+                                                                <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                            </mat-form-field>
+
+                                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-1/6 pl-2">
+                                                                <mat-label>Expiration Date</mat-label>
+                                                                <input matInput [matDatepicker]="picker2" [formControlName]="'expirationdate'" >
+                                                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                                <mat-datepicker #picker2></mat-datepicker>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-2/6 pr-2">
+                                                                <mat-label>VAT Number</mat-label>
+                                                                <input matInput [formControlName]="'vatnumber'" >
+                                                            </mat-form-field>
+                                                            <mat-form-field class="flex flex-col w-3/6 px-2">
+                                                                <mat-label>VAT File</mat-label>
+                                                                <input matInput [formControlName]="'vatfile'" />
+                                                                <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-2/6 pr-2">
+                                                                <mat-label>Gosi certificate Expiry Date</mat-label>
+                                                                <input matInput [matDatepicker]="pickergosi" [formControlName]="'gosiexpirationdate'" >
+                                                                <mat-datepicker-toggle matSuffix [for]="pickergosi"></mat-datepicker-toggle>
+                                                                <mat-datepicker #pickergosi></mat-datepicker>
+                                                            </mat-form-field>
+                                                            <mat-form-field class="flex flex-col w-3/6 px-2">
+                                                                <mat-label>Gosi File</mat-label>
+                                                                <input matInput [formControlName]="'gosifile'" />
+                                                                <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-2/6 pr-2">
+                                                                <mat-label>Saudization Certificate Exp. Date</mat-label>
+                                                                <input matInput [matDatepicker]="pickersaudi" [formControlName]="'saudiexpirationdate'" >
+                                                                <mat-datepicker-toggle matSuffix [for]="pickersaudi"></mat-datepicker-toggle>
+                                                                <mat-datepicker #pickersaudi></mat-datepicker>
+                                                            </mat-form-field>
+                                                            <mat-form-field class="flex flex-col w-3/6 px-2">
+                                                                <mat-label>Saudization Certificate</mat-label>
+                                                                <input matInput [formControlName]="'saudifile'" />
+                                                                <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-2/6 pr-2">
+                                                                <mat-label>Zakath Certificate Expiry</mat-label>
+                                                                <input matInput [matDatepicker]="pickerzakath" [formControlName]="'zakathexpirationdate'" >
+                                                                <mat-datepicker-toggle matSuffix [for]="pickerzakath"></mat-datepicker-toggle>
+                                                                <mat-datepicker #pickerzakath></mat-datepicker>
+                                                            </mat-form-field>
+                                                            <mat-form-field class="flex flex-col w-3/6 px-2">
+                                                                <mat-label>Zakath Certificate</mat-label>
+                                                                <input matInput [formControlName]="'zakathfile'" />
+                                                                <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                            <mat-tab label="Category Section">
+                                                <ng-template matTabContent>
+                                                    <datatable></datatable>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                        </mat-tab-group>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab label="Profile Details">
+                                    <ng-template matTabContent>
+                                        <mat-tab-group class="tab-type-three" [animationDuration]="'0'">
+
+                                            <mat-tab label="General Information">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="generalinformation2">
+                                                        <div class="flex">
+                                                            <mat-form-field class="w-1/2">
+                                                                <mat-label>01. Type of Organization *</mat-label>
+                                                                <input matInput [formControlName]="'orgType'" >
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex flex-col">
+                                                            <p class="my-6 font-medium mt-2 w-3/5 text-default">
+                                                                02. Number Of Employees In Your Organization
+                                                            </p>
+                                                            <div class="flex">
+                                                                <mat-form-field class="w-1/5 pr-2">
+                                                                    <mat-label>Managerial</mat-label>
+                                                                    <input matInput [formControlName]="'managerial'" >
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-1/5 px-2">
+                                                                    <mat-label>Technical</mat-label>
+                                                                    <input matInput [formControlName]="'technical'" >
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-1/5 px-2">
+                                                                    <mat-label>Operations</mat-label>
+                                                                    <input matInput [formControlName]="'operations'" >
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-1/5 px-2">
+                                                                    <mat-label>Saudi Nationals</mat-label>
+                                                                    <input matInput [formControlName]="'saudi'" >
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-1/5 pl-2">
+                                                                    <mat-label>Total</mat-label>
+                                                                    <input matInput [formControlName]="'total'" >
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-3/5 text-default">
+                                                                03. List the name, country of incorporation and address of the parent company of your organization (if any)
+                                                            </p>
+                                                            <mat-form-field class="w-2/5 pl-2">
+                                                                <textarea matInput [formControlName]="'list'" [rows]="3" matTextareaAutosize></textarea>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mb-2 mt-2 w-3/5 text-default">
+                                                                04. Provide your organization’s Management Organogram
+                                                            </p>
+                                                            <div class="w-2/5 pl-2 mb-6 mt-2">
+                                                                <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" type="file">
+                                                                    <mat-icon class="icon-size-5  mx-2" [svgIcon]="'mat_outline:upload'"></mat-icon>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mb-2 mt-2 w-3/5 text-default">
+                                                                05. List all owners/principals’ names, country of residence and percentage of ownership of your organization
+                                                            </p>
+                                                            <mat-form-field class="w-2/5 pl-2">
+                                                                <textarea matInput [formControlName]="'list2'" [rows]="3" matTextareaAutosize></textarea>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                            <mat-tab label="Financial Status">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="financialstatus2">
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-3/5 text-default">
+                                                                01. Your organization’s operating profit (loss) for the previous year (USD)
+                                                            </p>
+                                                            <div class="flex w-2/5 pl-2">
+                                                                <mat-form-field class="w-1/2 pr-2">
+                                                                    <mat-select [value]="'21'">
+                                                                        <mat-option [value]="'21'">Year</mat-option>
+                                                                        <ng-container>
+                                                                            <mat-option value="21">2021</mat-option>
+                                                                            <mat-option value="20">2020</mat-option>
+                                                                        </ng-container>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-1/2 pl-2">
+                                                                    <input matInput [formControlName]="'year1'" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-3/5 text-default">
+                                                                02. Your organization’s net income (loss) for the previous year (USD)
+                                                            </p>
+                                                            <div class="flex w-2/5 pl-2">
+                                                                <mat-form-field class="w-1/2 pr-2">
+                                                                    <mat-select [value]="'21'">
+                                                                        <mat-option [value]="'21'">Year</mat-option>
+                                                                        <ng-container>
+                                                                            <mat-option value="21">2021</mat-option>
+                                                                            <mat-option value="20">2020</mat-option>
+                                                                        </ng-container>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-1/2 pl-2">
+                                                                    <input matInput [formControlName]="'year1'" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-3/5 text-default">
+                                                                03. Your organization's current asset for the previous year (USD)
+                                                            </p>
+                                                            <div class="flex w-2/5 pl-2">
+                                                                <mat-form-field class="w-1/2 pr-2">
+                                                                    <mat-select [value]="'21'">
+                                                                        <mat-option [value]="'21'">Year</mat-option>
+                                                                        <ng-container>
+                                                                            <mat-option value="21">2021</mat-option>
+                                                                            <mat-option value="20">2020</mat-option>
+                                                                        </ng-container>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-1/2 pl-2">
+                                                                    <input matInput [formControlName]="'year1'" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-3/5 text-default">
+                                                                04. Your organization's total liabilities for the previous year (USD
+                                                            </p>
+                                                            <div class="flex w-2/5 pl-2">
+                                                                <mat-form-field class="w-1/2 pr-2">
+                                                                    <mat-select [value]="'21'">
+                                                                        <mat-option [value]="'21'">Year</mat-option>
+                                                                        <ng-container>
+                                                                            <mat-option value="21">2021</mat-option>
+                                                                            <mat-option value="20">2020</mat-option>
+                                                                        </ng-container>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-1/2 pl-2">
+                                                                    <input matInput [formControlName]="'year1'" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-3/5 text-default">
+                                                                05. Your organization's total equity for the previous year (USD
+                                                            </p>
+                                                            <div class="flex w-2/5 pl-2">
+                                                                <mat-form-field class="w-1/2 pr-2">
+                                                                    <mat-select [value]="'21'">
+                                                                        <mat-option [value]="'21'">Year</mat-option>
+                                                                        <ng-container>
+                                                                            <mat-option value="21">2021</mat-option>
+                                                                            <mat-option value="20">2020</mat-option>
+                                                                        </ng-container>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-1/2 pl-2">
+                                                                    <input matInput [formControlName]="'year1'" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex flex-col">
+                                                            <p class="my-6 font-medium mt-2 w-full text-default">
+                                                                06. Attach financial statements (audited, if available) for the past three years, including balance sheets and profit and loss statements
+                                                            </p>
+                                                            <div class="pl-6">
+                                                                <div class="flex">
+                                                                    <p class="my-6 font-medium mb-2 mt-2 w-3/5 text-default">
+                                                                        01. Financial Year (1) (Recent)
+                                                                    </p>
+                                                                    <mat-form-field class="w-2/5">
+                                                                        <input matInput [formControlName]="'finyear1'" />
+                                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <p class="my-6 font-medium mb-2 mt-2 w-3/5 text-default">
+                                                                        02. Financial Year (2)
+                                                                    </p>
+                                                                    <mat-form-field class="w-2/5">
+                                                                        <input matInput [formControlName]="'finyear2'" />
+                                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <p class="my-6 font-medium mb-2 mt-2 w-3/5 text-default">
+                                                                        02. Financial Year (3)
+                                                                    </p>
+                                                                    <mat-form-field class="w-2/5">
+                                                                        <input matInput [formControlName]="'finyear3'" />
+                                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                            <mat-tab label="Experience and Qualification">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="experience2">
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                01. State the Number of Years in the Present Business
+                                                            </p>
+                                                            <mat-form-field class="w-1/5">
+                                                                <mat-select [value]="'21'">
+                                                                    <mat-option [value]="'21'">Year</mat-option>
+                                                                    <ng-container>
+                                                                        <mat-option value="21">2021</mat-option>
+                                                                        <mat-option value="20">2020</mat-option>
+                                                                    </ng-container>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                02. Does your organization own the plant and equipment required to supply the materials/services offered? *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                03. If applicable, does your organization have a design capability? If yes, provide details. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <div class="flex flex-col w-4/5">
+                                                                <p class="my-6 font-medium mt-2 text-default">
+                                                                    04. Is any process required to produce the finished product/service, outsourced by your organization to other suppliers? If yes, provide details *
+                                                                </p>
+                                                                <mat-form-field class="w-3/5">
+                                                                    <input matInput [formControlName]="'processdocs'" />
+                                                                    <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                                </mat-form-field>
+                                                            </div>
+
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+
+                                                            <div class="flex flex-col w-4/5">
+                                                                <p class="my-6 font-medium mt-2 text-default">
+                                                                    05. Does your organization have an internal written policy for verifying and controlling outsourced suppliers’ qualifications & capacity and performance? *
+                                                                </p>
+                                                                <mat-form-field class="w-3/5">
+                                                                    <input matInput [formControlName]="'internalpolicy'" />
+                                                                    <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                                </mat-form-field>
+                                                            </div>
+
+
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                06. Is your organization registered/ accredited with any recognized 3rd party certifying body? If ‘Yes’, provide details and copies of all certifications *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                07. Has your organization had any project/ order suspended/ terminated in the last five years? If yes, provide details with reasons. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="flex">
+                                                            <div class="flex flex-col w-4/5">
+                                                                <p class="my-6 font-medium mt-2 text-default">
+                                                                    08. Please provide business references
+                                                                </p>
+                                                                <mat-form-field class="w-3/5">
+                                                                    <input matInput [formControlName]="'businessref1'" />
+                                                                    <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                                </mat-form-field>
+                                                                <mat-form-field class="w-3/5 mt-2">
+                                                                    <input matInput [formControlName]="'businessref2'" />
+                                                                    <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+
+
+
+
+
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                            <mat-tab label="Legal">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="legal2">
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                01. Is your organization currently or has been in the last three years involved in any litigation and/or any arbitration proceedings? if yes, provide details. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <div class="flex flex-col w-4/5">
+                                                                <p class="my-6 font-medium mt-2 text-default">
+                                                                    02. Does your organization have an internal compliance program that addresses the prevention of corruption, money laundering and terrorism? If yes, provide a high-level description as an attachment. Also. indicate whether the program includes training to employees. *
+                                                                </p>
+                                                                <div class="ml-6 mb-6">
+                                                                    <div class="mb-2 font-medium text-default">A Government Official is:</div>
+                                                                    <ul class="list-disc list-inside space-y-2">
+                                                                        <li class="font-medium">Any person who receives any remuneration from public funds.</li>
+                                                                        <li class="font-medium">Any person in the public service as contemplated in any relevant public service act.</li>
+                                                                        <li class="font-medium">Any functionary or official serving within, or an employee or servant of a public body.</li>
+                                                                    </ul>
+
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                03. Has your organization or have any of its shareholders, directors, officers ever offered gifts or bribes to any government official and/or his relative, or ever been investigated for, convicted of, or entered into a settlement or plea arrangement involving corrupt practices to facilitate business transactions or obtain business advantages?If yes, provide details. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                04. Has your organization had its assets, accounts or financial transactions blocked for actual or suspected involvement in terrorist activities or received notice that all or any financial transactions involving assets of your organization or any of its shareholders, directors or officers are to be blocked? If yes, provide details. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                05. Has your organization had any convictions under any labor legislation in the past five years? if yes, provide details. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                06. Has your organization had any convictions under any environmental legislation in the past five years? If yes, provide details. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                07. Please disclose if any shareholder, director, officer or employee of IMI has an interest in your organization.
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+
+
+
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                            <mat-tab label="Health, Safety & Environment">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="health2">
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                01. Does your organization have a formal HSE written policy? If 'Yes', provide a copy. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                02. Does your organization have documented HSE Management System? *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                03. Is your organization currently certified for the Health & Safety Management System ISO 45001? If ‘Yes’,
+                                                                provide a copy of the certification *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                04. is your Organization currently certified for the Environmental Management System ISO 14001? If ‘Yes’, provide a
+                                                                copy of the certification *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                05. Does your organization have a dedicated person responsible for HSE? If 'Yes’, please provide name and designation. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                06. Does your organization keep HSE statistics? If 'Yes’, please provide the following: *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                            <mat-tab label="Quality">
+                                                <ng-template matTabContent>
+                                                    <form class="flex flex-col w-full" [formGroup]="quality2">
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                01. Does your organization have a formal Quality written policy? If 'Yes', provide a copy*
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                02. Does your organization have a Quality Management System? If 'Yes', provide a copy*
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                03. Is your Quality Management System currently certified to ISO 9001:2015? If ‘Yes’, provide a copy of the certifications. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                04. Does your organization have a dedicated person responsible for Quality? If 'Yes’, please provide name and designation. *
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex">
+                                                            <p class="my-6 font-medium mt-2 w-4/5 text-default">
+                                                                05. Provide the date of the last Quality Management System review?
+                                                            </p>
+                                                            <div class="flex relative">
+                                                                <mat-radio-group [formControlName]="'radio1'" class="flex mt-2" [color]="'primary'">
+                                                                    <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                                        Yes
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="mb-2" [value]="'no'">
+                                                                        No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </ng-template>
+                                            </mat-tab>
+
+                                        </mat-tab-group>
+                                    </ng-template>
+                                </mat-tab>
+
+                            </mat-tab-group>
+                        </ng-template>
+                    </mat-tab>
+
+                    <mat-tab label="Documents">
+                        <ng-template matTabContent>
+                            <mat-tab-group class="tab-type-two" [animationDuration]="'0'">
+
+                                <mat-tab label="All">
+                                    <ng-template matTabContent>
+                                        <form class="flex flex-col w-full divide-solid divide-y-2 divide-gray-200" [formGroup]="documents2">
+                                            <div class="flex flex-col pb-6">
+                                                <p class="my-2 font-medium mt-0 w-4/5 text-default">
+                                                    Registration Documents
+                                                </p>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                    <mat-form-field class="w-1/2 pl-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile2'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile3'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                    <mat-form-field class="w-1/2 pl-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile4'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile5'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col py-6">
+                                                <p class="my-2 font-medium mt-2 w-4/5 text-default">
+                                                    General Information Documents
+                                                </p>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docgenfile'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col py-6">
+                                                <p class="my-2 font-medium mt-2 w-4/5 text-default">
+                                                    Financial Status Documents
+                                                </p>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docfinfile'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col py-6">
+                                                <p class="my-2 font-medium mt-2 w-4/5 text-default">
+                                                    Experience & Qualification Documents
+                                                </p>
+                                            </div>
+                                            <div class="flex flex-col py-6">
+                                                <p class="my-2 font-medium mt-2 w-4/5 text-default">
+                                                    Legal Documents
+                                                </p>
+                                            </div>
+                                            <div class="flex flex-col py-6">
+                                                <p class="my-2 font-medium mt-2 w-4/5 text-default">
+                                                    Health, Safety & Environment Documents
+                                                </p>
+                                            </div>
+                                            <div class="flex flex-col pt-6">
+                                                <p class="my-2 font-medium mt-2 w-4/5 text-default">
+                                                    Quality Documents
+                                                </p>
+                                            </div>
+                                        </form>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab label="Registration Detail">
+                                    <ng-template matTabContent>
+                                        <form class="flex flex-col w-full divide-solid divide-y-2 divide-gray-200" [formGroup]="regdetails2">
+                                            <div class="flex flex-col pb-6">
+                                                <p class="my-2 font-medium mt-0 w-4/5 text-default">
+                                                    Registration Documents
+                                                </p>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                    <mat-form-field class="w-1/2 pl-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile2'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile3'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                    <mat-form-field class="w-1/2 pl-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile4'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile5'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab label="General Information">
+                                    <ng-template matTabContent>
+                                        <form class="flex flex-col w-full divide-solid divide-y-2 divide-gray-200" [formGroup]="gendetails2">
+                                            <div class="flex flex-col pb-6">
+                                                <p class="my-2 font-medium mt-0 w-4/5 text-default">
+                                                    Financial Status Documents
+                                                </p>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab label="Financial Status">
+                                    <ng-template matTabContent>
+                                        <form class="flex flex-col w-full divide-solid divide-y-2 divide-gray-200" [formGroup]="findetails2">
+                                            <div class="flex flex-col pb-6">
+                                                <p class="my-2 font-medium mt-0 w-4/5 text-default">
+                                                    Financial Status
+                                                </p>
+                                                <div class="flex">
+                                                    <mat-form-field class="w-1/2 pr-2">
+                                                        <input matInput  hidden>
+                                                        <input matInput [formControlName]="'docregfile'" >
+                                                        <mat-icon matSuffix class="icon-size-5 text-secondary" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab label="Experience & Qualification">
+                                    <ng-template matTabContent>
+                                        <div>Experience & Qualification</div>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab label="Legal">
+                                    <ng-template matTabContent>
+                                        <div>Legal</div>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab label="Health, Safety & Environment">
+                                    <ng-template matTabContent>
+                                        <div>Health, Safety & Environment</div>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab label="Quality">
+                                    <ng-template matTabContent>
+                                        <div>Quality</div>
+                                    </ng-template>
+                                </mat-tab>
+
+                            </mat-tab-group>
+                        </ng-template>
+                    </mat-tab>
+
+                    <mat-tab label="Action Items">
+                        <ng-template matTabContent>
+                            <mat-tab-group class="tab-type-two" [animationDuration]="'0'">
+
+                                <mat-tab label="Decision">
+                                    <ng-template matTabContent>
+                                        <form class="flex flex-col w-full divide-solid divide-y-2 divide-gray-200" [formGroup]="actionitems2">
+                                            <div class="flex flex-col pb-6">
+                                                <div class="w-1/3 pb-4 relative">
+                                                    <span class="font-semibold mb-1">Outcome</span>
+                                                    <mat-radio-group [formControlName]="'outcome'" class="flex mt-4" [color]="'primary'">
+                                                        <mat-radio-button class="mb-2 mr-4" [value]="'matrix'">
+                                                            Perform Criticality Matrix
+                                                        </mat-radio-button>
+                                                        <mat-radio-button class="mb-2 mr-4" [value]="'moreinfo'">
+                                                            Need more information
+                                                        </mat-radio-button>
+                                                        <mat-radio-button class="mb-2" [value]="'reject'">
+                                                            Reject the Registration form
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                                <mat-form-field class="w-full">
+                                                    <mat-label>Remarks</mat-label>
+                                                    <textarea matInput [formControlName]="'list'" [rows]="3" matTextareaAutosize></textarea>
+                                                </mat-form-field>
+                                                <button class="sm:inline-flex mr-auto" mat-raised-button [color]="'primary'">
+                                                    <span class="mx-8">Notify Supplier</span>
+                                                </button>
+                                            </div>
+                                            <div class="flex flex-col py-6">
+                                                <div class="w-1/3 pb-4 relative">
+                                                    <span class="font-semibold mb-1">Outcome</span>
+                                                    <mat-radio-group [formControlName]="'outcome2'" class="flex mt-4" [color]="'primary'">
+                                                        <mat-radio-button class="mb-2 mr-4" [value]="'yes'">
+                                                            Recommended
+                                                        </mat-radio-button>
+                                                        <mat-radio-button class="mb-2 mr-4" [value]="'no'">
+                                                            Not Recommended
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                                <mat-form-field class="w-full">
+                                                    <mat-label>Comment</mat-label>
+                                                    <textarea matInput [formControlName]="'list'" [rows]="3" matTextareaAutosize></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                        </form>
+                                    </ng-template>
+                                </mat-tab>
+
+                            </mat-tab-group>
+                        </ng-template>
+                    </mat-tab>
+
+                    <mat-tab label="History" class="direct-child-of-parent">
+                        <ng-template matTabContent class="direct-child-of-parent">
+                            <div class="padded-child-tab-content">
+                                <datatable></datatable>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
+
+                </mat-tab-group>
+            </div>
+
+        </div>
+    </div>
+</div>

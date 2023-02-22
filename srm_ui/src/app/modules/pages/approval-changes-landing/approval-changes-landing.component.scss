@@ -1,0 +1,13 @@
+.header-form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: space-around;
+    align-items: baseline;
+}
+
+.header {
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+

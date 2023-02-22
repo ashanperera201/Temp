@@ -1,0 +1,49 @@
+ <!--first screen-->
+ <div class="min-w-full p-2">
+    <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+        
+         <!--headers-->
+        <div class="text-3xl font-cairo font-bold mb-5 pl-1 pt-2">
+           <p>Amend Bid Closing Date</p>   
+        </div>
+        <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+            <div class="mr-4">
+                <mat-form-field  class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                    <mat-label>Bid Opening Date</mat-label>
+                    <input  matInput type="datetime-local"
+                    placeholder="start date" [(ngModel)]="bidOpeningDate" readonly> 
+                </mat-form-field>
+            <mat-form-field  class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                <mat-label>Bid Closing Date</mat-label>
+                <input  matInput type="datetime-local"
+                placeholder="start date" [(ngModel)]="bidClosingDate" readonly> 
+              
+            </mat-form-field>
+            <mat-form-field  class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                <mat-label>New Bid Closing Date</mat-label>
+                <input  matInput type="datetime-local" (change)="handleDateChange()"
+                placeholder="start date" [(ngModel)]="newbidClosingDate"> 
+                
+            </mat-form-field>
+            </div>
+            <span style="color: red;"
+                *ngIf="errmsg">
+                <strong>Bid Closing Date & Time</strong> should be after <strong>Bid
+                    Opening Date & Time</strong>
+            </span>
+            </div>
+    </div>
+
+    <!--buttons-->
+    <div class="flex justify-end ml-auto p-6">
+        
+        <button type="button" class="sm:inline-flex mr-4" (click)="doAction()" mat-stroked-button [color]="'primary'">
+            <span class="mx-8">Cancel</span>
+        </button>
+       
+       <button class="sm:inline-flex mr-4"  mat-raised-button [color]="'primary'" (click)="submitValue()" [disabled]="isSaved">
+            <span class="mx-8">Save</span>
+       </button>
+    </div>
+</div>
+

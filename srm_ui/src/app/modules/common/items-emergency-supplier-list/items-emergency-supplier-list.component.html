@@ -1,0 +1,316 @@
+<!--table search bar panel-->
+<div class="flex justify-end mb-5">
+    <div class="flex justify-between" *ngIf="iserror">
+        <div class="flex items-center pr-1">
+            <div class="flex align-center text-warn font-medium mb-2">
+                <mat-icon [svgIcon]="'warning_amber'" class="mr-2 text-warn"></mat-icon>
+                <span>{{errormessage}} &nbsp;</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-between">
+        <div class="flex items-center pr-1">
+            <button mat-icon-button aria-label="Reset" (click)="ResetTable()">
+                <mat-icon color="primary" svgIcon="mat_outline:restore"></mat-icon>
+            </button>
+        </div>
+
+        <div class="flex items-center pl-1">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+                <mat-icon color="primary" svgIcon="heroicons_outline:view-boards"></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="min-width-235 z-1">
+                <div class="flex flex-col max-h-80" (click)="$event.stopPropagation();">
+                    <div class="flex flex-col overflow-auto">
+                        <mat-checkbox class="select-all" [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                            (change)="toggleAllSelection()"><strong>Select/ Unselect All</strong></mat-checkbox>
+                        <section *ngFor="let selectedColumn of ColumnList">
+                            <mat-checkbox class="px-6 py-3" [(ngModel)]="selectedColumn.isSelected"
+                                [value]="selectedColumn" (change)="isAllSelected()">{{selectedColumn.name}}
+                            </mat-checkbox>
+                        </section>
+                    </div>
+                </div>
+            </mat-menu>
+            <button mat-icon-button aria-label="Download Excel file" (click)="ExportToExcel()">
+                <img src="assets/icons/excel.svg" alt="download excel file">
+            </button>
+        </div>
+    </div>
+</div>
+
+<!--table component-->
+<div class="overflow-auto bg-gray-50 rounded-lg">
+    <div class="loader-inline" *ngIf="dataSource.filteredData.length === 0 && isloading">
+        <img src="assets/images/xitricon-loader.gif" alt="loading">
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort class="expanded-rows-table font-helvetica text-gray-500">
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 100px"> S.No </th>
+            <td mat-cell *matCellDef="let element; index as i">
+                {{tableOnePaginator.pageSize * tableOnePaginator.pageIndex + i + 1}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="supplierId">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Supplier Code
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="supplierId" (keyup)="filterChange('supplierId',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.supplierId}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Supplier Name
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="name" (keyup)="filterChange('name',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Position
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="position" (keyup)="filterChange('position',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="contactName">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person Name
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="contactPersonName" (keyup)="filterChange('contactPersonName',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.contactName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="supplierEmail">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Email
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="supplierEmail" (keyup)="filterChange('supplierEmail',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.contactemail}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="supplierPhone">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Phone
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="supplierPhone" (keyup)="filterChange('supplierPhone',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.contactPhone}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ifsStatus">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Status
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="ifsStatus" (keyup)="filterChange('ifsStatus',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.ifsStatus}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="registrationNumber">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> CR/Registration #
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="registrationNumber" (keyup)="filterChange('registrationNumber',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.registrationNumber}} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="createdDate">
+            <th mat-header-cell *matHeaderCellDef> Created Date
+                <mat-form-field class="form-field" floatLabel="never" style="width: 250px !important">
+                    <mat-date-range-input id="DateValue" [formGroup]="range" [rangePicker]="picker">
+                        <input [(ngModel)]="date}} #StartDate matStartDate formControlName="start" placeholder="Start">
+                        <input [(ngModel)]="date}} #EndDate matEndDate formControlName="end" placeholder="End">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle *ngIf="fromDateValue && toDateValue" matSuffix>
+                        <mat-icon matSuffix matDatepickerToggleIcon (click)="clearDate()">clear</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker>
+                        <mat-date-range-picker-actions>
+                            <button mat-button matDateRangePickerCancel>Cancel</button>
+                            <button mat-raised-button color="primary" matDateRangePickerApply
+                                (click)="checkDate(StartDate, EndDate)">Apply</button>
+                        </mat-date-range-picker-actions>
+                    </mat-date-range-picker>
+                </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.createdDate| date: 'dd-MMM-yyyy, HH:mm'}} </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="createdDate">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Created Date
+                <div class="flex">
+                    <mat-form-field class="form-field pr-2" floatLabel="never">
+                        <input matInput [(ngModel)]="createddatefrom" [matDatepicker]="pickerfrom" placeholder="YYYY-MM-DD"
+                            [max]="maxDate" id="pickerfrom" name="pickerfrom"
+                            onkeypress="return event.charCode == 45 || event.charCode >= 48 && event.charCode <= 57"
+                            (dateChange)="filterChange('createddatefrom',$event); selectedDate('createddatefrom',$event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerfrom"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerfrom></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field class="form-field" floatLabel="never">
+                        <input matInput [(ngModel)]="createddateto" [matDatepicker]="pickerto" placeholder="YYYY-MM-DD"
+                            [min]="minDate" id="pickerto" name="pickerto"
+                            onkeypress="return event.charCode == 45 || event.charCode >= 48 && event.charCode <= 57"
+                            (dateChange)="filterChange('createddateto',$event); selectedDate('createddateto',$event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerto"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerto></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.createdDate| date: 'dd-MMM-yyyy, HH:mm'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="yearOfEstablishement">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Year Of Establishment
+                <div class="flex">
+                    <mat-form-field>
+                        <input matInput min="0" type="number" class="form-field pr-2" [(ngModel)]="establishmentyearfrom" (keyup)="filterChange('establishmentyearfrom',$event)" placeholder="Start" />
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                    &nbsp;
+                    <mat-form-field>
+                        <input matInput min="0" type="number" class="form-field" [(ngModel)]="establishmentyearto" (keyup)="filterChange('establishmentyearto',$event)" placeholder="End" />
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.yearOfEstablishement}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ifsSupplierCode">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> IFS Supplier Code
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="ifsSupplierCode" (keyup)="filterChange('ifsSupplierCode',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.ifsSupplierCode}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pushSupplierStatus">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Push Supplier Status
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="pushSupplierStatus" (keyup)="filterChange('pushSupplierStatus',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.pushSupplierStatus}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Role
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="role" (keyup)="filterChange('role',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="buyerName">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Creator Name
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="buyerName" (keyup)="filterChange('buyerName',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.buyerName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="buyerEmail">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Creator Email
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="buyerEmail" (keyup)="filterChange('buyerEmail',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.buyerEmail}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="srmRemark">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Remark/Requested Department
+                <div>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="srmRemark" (keyup)="filterChange('srmRemark',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.srmRemark}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="route(row.supplierId)"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow [hidden]="isloading">
+            <td class="mat-cell" colspan="13">No data matching </td>
+        </tr>
+    </table>
+</div>
+<div class="flex justify-between">
+    <div class="color-legends">
+        <!-- <div class="color-legend">
+            <div class="rounded-item-criticality one"></div>
+            <div class="legend-label">Very High</div>
+        </div>
+        <div class="color-legend">
+            <div class="rounded-item-criticality two"></div>
+            <div class="legend-label">High</div>
+        </div>
+        <div class="color-legend">
+            <div class="rounded-item-criticality three"></div>
+            <div class="legend-label">Medium</div>
+        </div>
+        <div class="color-legend">
+            <div class="rounded-item-criticality four"></div>
+            <div class="legend-label">Low</div>
+        </div> -->
+    </div>
+    <mat-paginator #tableOnePaginator class="flex text-lg" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true"></mat-paginator>
+</div>

@@ -1,0 +1,107 @@
+<div class="supplier-evaluation-page flex flex-col flex-auto min-w-0 sm:p-6 md:p-8">
+    <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+        Summary of Evaluation Results
+    </div>
+    <div class="text-3xl font-cairo font-cairo font-bold tracking-tight leading-8 mb-10">
+        Supplier Performance Reviews
+    </div>
+    <div class="relative">
+    <div class="srm-bg rounded-lg rounded-t-none">
+            <div class="flex flex-col flex-wrap pt-4 sm:flex-row items-center max-w-xs sm:max-w-none">
+
+                <!-- Search options -->
+                <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+                    <mat-form-field
+                        class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-96 mt-4 sm:mt-0 mr-1 mb-3"
+                        [floatLabel]="'always'">
+                        <input (keyup)="applyFilter($event)" matInput placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- table -->
+            <div class="overflow-auto pt-8 bg-gray-50 rounded-lg">
+                <table mat-table [dataSource]="outcomes" matSort
+                    class="expanded-rows-table font-helvetica text-gray-500" style="width: calc(100% - 2px);">
+
+                    <!-- Evaluation Name Column -->
+                    <ng-container matColumnDef="EvaluationName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluation Name </th>
+                        <td (click)="goToReviewSummary(row)" mat-cell *matCellDef="let row"><a
+                                style="cursor: pointer;">{{row.evaluationName}}</a> </td>
+                    </ng-container>
+
+                    <!-- Review Timeline Column -->
+                    <ng-container matColumnDef="reviewTimeline">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Review TimeLine </th>
+
+                        <td (click)="goToReviewSummary(row)" mat-cell *matCellDef="let row">
+                           <a *ngIf="row.periodType==presetTypePeriod"
+                                    style="cursor: pointer;">{{row.presetPeriod}}</a>
+                                <a *ngIf="row.periodType==customTypePeriod" style="cursor: pointer;">
+                                    {{('0' + (row.startDate.getDate())).slice(-2)}}/{{('0' +
+                                    (row.startDate.getMonth()+1)).slice(-2)}}/{{row.startDate.getFullYear()}}
+                                    -
+                                    {{('0' + (row.endDate.getDate())).slice(-2)}}/{{('0' +
+                                    (row.endDate.getMonth()+1)).slice(-2)}}/{{row.endDate.getFullYear()}}
+                                </a>
+                         
+                        </td>
+
+
+                    </ng-container>
+
+                    <!-- Requested By Column -->
+                    <ng-container matColumnDef="RequestedBy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Requested By </th>
+                        <td (click)="goToReviewSummary(row)" mat-cell *matCellDef="let row"><a
+                                style="cursor: pointer;">{{row.createdUser}}</a> </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                        <td (click)="goToReviewSummary(row)" mat-cell *matCellDef="let row"><a
+                                style="cursor: pointer;">{{row.status}}</a> </td>
+                    </ng-container>
+                    <!-- Outcome Name Column -->
+                    <ng-container matColumnDef="outcome">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Outcome </th>
+                        <td (click)="goToReviewSummary(row)" mat-cell *matCellDef="let row"><a
+                                style="cursor: pointer;">{{row.outcome}}</a> </td>
+                    </ng-container>
+                    <!-- Initiated Date Column -->
+                    <ng-container matColumnDef="InitiatedDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Initiated Date </th>
+                        <td (click)="goToReviewSummary(row)" mat-cell *matCellDef="let row"><a
+                                style="cursor: pointer;">{{row.createdDate}}</a> </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+                <div class="flex justify-end">
+                    <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                </div>
+
+                <!--button-->
+                <div class="flex justify-end ml-auto p-6">
+                    <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
+                        <span class="mx-8">Back</span>
+                    </button>
+                </div>
+            </div>
+
+</div>
+<ng-template #errorDialog>
+    <!-- <h2 matDialogTitle>Hello, world!</h2> -->
+    <p matDialogContent><em>Waiting for reviews!</em></p>
+    <mat-dialog-actions>
+        <button mat-button matDialogClose>Dismiss</button>
+    </mat-dialog-actions>
+</ng-template>

@@ -1,0 +1,14 @@
+<mat-label class="label" style="font-weight: 600;color: black;">{{ item.label }} <span *ngIf="item.required">*</span>
+</mat-label>
+<mat-form-field class="pt-2" [ngClass]="{'gray':view === false}">
+
+  <input #inputField matInput [type]="item.style || 'text'" [disabled]="!editable" [attr.id]="item.name"
+    [(ngModel)]="item.value" [minlength]="item.fieldValidation ? item.fieldValidation.minLength : undefined "
+    (ngModelChange)="onValueChanges(item)" [errorStateMatcher]="matcher"
+    placeholder="Please add {{item.style || 'value'}}" [required]="item.required">
+  <mat-error *ngIf="item.errors && item.errors.length && view">
+    <div *ngFor="let error of item.errors">{{error.message}}</div>
+  </mat-error>
+  <mat-hint align="start" *ngIf="!(item.errors && item.errors.length)">{{item.hint}}</mat-hint>
+
+</mat-form-field>

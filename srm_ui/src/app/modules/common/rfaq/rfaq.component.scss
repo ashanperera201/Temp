@@ -1,0 +1,154 @@
+/* set dashboard alignments */
+.dashboard-page {
+    margin-top:10px;
+    padding: 5px 31px;
+}
+
+/* status styles */
+.color-legends .status {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    min-height: 14px;
+}
+
+.status.inprogress {
+    background: #FFCA08;
+}
+
+.status {
+    width: 21px;
+    height: 21px;
+    min-width: 21px;
+    min-height: 21px;
+    border-radius: 50% !important;
+}
+
+/* countdown timer styles */
+.countdown-timer{
+    margin-right: 40px;
+    border-radius: 3px;
+}
+
+.countdown-timer-items{
+    display: flex;
+}
+
+.countdown-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 5px 10px;
+    background: #28324B;    
+}
+
+.countdown-item-days{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 5px 10px;
+    background: #F65158;
+}
+
+span{
+    margin-left: 5px;
+    font-weight: normal;
+}
+
+/* set flags in text fields */
+.rounded-image{
+    object-fit: cover;
+    border-radius: 50%;
+    height: 24px;
+    width: 24px; 
+}
+
+/* set alighments in input fields */
+.mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper .mat-form-field-flex{
+    min-height: 38px !important;
+    .mat-form-field-infix .mat-input-element{
+        padding: 10px 0 !important;
+    }
+}
+.mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-suffix .mat-icon-button{
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    min-height: 36px;
+}
+.mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix .mat-select{
+    padding: 10px 0;
+}
+
+.standalone-input.mat-form-field {
+    width: 100%;
+    .mat-form-field-wrapper {
+        margin-bottom: 0 !important;
+        .mat-form-field-flex{
+            min-height: 36px !important;
+        }
+    }
+}
+
+//button styles 
+.mat-stroked-button.mat-button-base{
+	border-radius: 5px !important;
+	border-color: var(--fuse-primary) !important;
+	&.rounded-l-none{
+		border-bottom-left-radius: 0 !important;
+		border-top-left-radius: 0 !important;
+	}
+	&.mat-warn{
+		border-color: var(--fuse-warn) !important;
+	}
+}
+.mat-raised-button.mat-button-base, .mat-flat-button.mat-button-base, .mat-button.mat-button-base{
+	border-radius: 5px !important;
+	&.rounded-l-none{
+		border-bottom-left-radius: 0 !important;
+		border-top-left-radius: 0 !important;
+	}
+}
+.mat-button,
+.mat-flat-button,
+.mat-raised-button,
+.mat-stroked-button {
+	font-size: 14px !important;
+	min-height: 38px !important;
+}
+.small-btn.mat-button,
+.small-btn.mat-flat-button,
+.small-btn.mat-raised-button,
+.small-btn.mat-stroked-button {
+    min-height: 28px !important;
+}
+.h-36{
+    height: 36px !important;
+}
+.height-32{
+    height: 32px !important;
+}
+.m-h-30{
+    min-height: 30px !important;
+    min-width: 30px !important;
+    max-height: 30px !important;
+    max-width: 30px !important;
+}
+.parent-with-hover-child-btn{
+    .hover-child-btn{
+        display: none !important;
+    }
+    &:hover{
+        .hover-child-btn{
+            display: block !important;
+        }
+    }
+}

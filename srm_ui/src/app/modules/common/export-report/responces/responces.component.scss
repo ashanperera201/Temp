@@ -1,0 +1,28 @@
+.square_green{
+width: 23px;
+height: 23px;
+background: #A8D3C1;
+}
+
+.square_red{
+    width: 23px;
+    height: 23px;
+    background: #D3A8A8;
+    ;
+}
+
+.table-block{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    align-items: baseline;
+    div{
+        width: 50%;
+        background-repeat:repeat-x;
+    }
+}
+
+
+    

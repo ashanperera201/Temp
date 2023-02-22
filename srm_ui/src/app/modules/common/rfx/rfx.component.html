@@ -1,0 +1,225 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0">
+
+    <div class="flex justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Manage RFX</div>
+        <!-- <button (click)="OpenNextStepURL('rfq')" class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'">
+            <span class="mx-8">Create New RFX</span>
+        </button> -->
+    </div>
+    <div class="relative">
+        <mat-chip-list class="flex mb-6">
+            <mat-basic-chip [removable]="true" #chip0="matChip" (click)="chip0.select();fetchRFXData('RFQ','type')"
+                [selectable]="true" selected disableRipple>
+                RFQ
+            </mat-basic-chip>
+            <mat-basic-chip [removable]="true" #chip="matChip" (click)="chip.select();fetchRFXData('RFI','type')"
+                [selectable]="true" disableRipple>
+                RFI
+            </mat-basic-chip>
+            <mat-basic-chip [removable]="true" #chip1="matChip" (click)="chip1.select();fetchRFXData('RFAQ','type')"
+                [selectable]="true" disableRipple>
+                RFAQ
+            </mat-basic-chip>
+            <mat-basic-chip [removable]="true" #chip2="matChip" (click)="chip2.select();fetchRFXData('Draft','status')"
+                [selectable]="true" disableRipple>
+                Draft
+            </mat-basic-chip>
+
+            <mat-basic-chip [removable]="true" #chip3="matChip"
+                (click)="chip3.select();fetchRFXData('Publish/Bid Live','status')" [selectable]="true" disableRipple>
+                Published
+            </mat-basic-chip>
+            <mat-basic-chip [removable]="true" #chip4="matChip"
+                (click)="chip4.select();fetchRFXData('Awarded','status')" [selectable]="true" disableRipple>
+                Awarded
+            </mat-basic-chip>
+            <mat-basic-chip [removable]="true" #chip5="matChip"
+                (click)="chip5.select();fetchRFXData('Revise','status')" [selectable]="true" disableRipple>
+                Revised
+            </mat-basic-chip>
+        </mat-chip-list>
+        <!--table component-->
+
+        <!--base table component-->
+        <div class="overflow-auto bg-gray-50 rounded-lg">   
+            <table mat-table [dataSource]="rfxSearchModel.rfqModels" matSort (matSortChange)="sortData($event)"
+                class="expanded-rows-table with-search font-helvetica text-gray-500">
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef style="width: 50px; max-width: 60px; min-width: 50px"></th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical">
+                            </mat-icon>
+                        </button>
+                        <mat-menu #options="matMenu" class="min-width-235 z-1">
+                            <button *ngIf="row.statusName == 'Planned Draft'" mat-menu-item (click)="DeleteRFX(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash">
+                                </mat-icon>
+                                Delete
+                            </button>
+                            <button mat-menu-item type="button" (click)="OpenURL('/rfq',row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil">
+                                </mat-icon>
+                                Edit or Revise
+                            </button>
+                            <button mat-menu-item (click)="copyRFQ(row)">
+                                <mat-icon color="primary" class="icon-size-5"
+                                    svgIcon="heroicons_outline:document-duplicate"></mat-icon>
+                                Duplicate
+                            </button>
+                            <button *ngIf="row.statusName == 'Planned Draft'" mat-menu-item  (click)="openUserList(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:users">
+                                </mat-icon>
+                                Re-Assign Owner
+                            </button>
+                            <button mat-menu-item>
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:download">
+                                </mat-icon>
+                                Download PDF
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <!-- RFX No Column -->
+                <ng-container matColumnDef="number">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 130px; min-width: 120px">
+                        <div class="th-with-search">
+                            <span>RFX No</span>
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="rfxSearchModel.rfxNo" #input >
+                                <!-- <input matInput placeholder="Search by Title" #input [(ngModel)]="title"> -->
+                                <mat-icon matSuffix (click)="FetchBasicData()">search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.rfqNo}} </td>
+                </ng-container>
+
+                <!-- RFX Revision Column -->
+                <ng-container matColumnDef="revision">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                        <div class="th-with-search">
+                            <span>Revision</span>
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="rfxSearchModel.revision" #input class="form-field">
+                                <mat-icon matSuffix (click)="FetchBasicData()">search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.revNo}} </td>
+                </ng-container>
+
+                <!-- RFX Type Column -->
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 140px">
+                        <div class="th-with-search">
+                            <span>RFx Type</span>
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="rfxSearchModel.rfxType" #input class="form-field">
+                                <mat-icon matSuffix (click)="FetchBasicData()">search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.rfxType}} </td>
+                </ng-container>
+
+                <!-- RFX Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px; max-width: 210px">
+                        <div class="th-with-search">
+                            <span>RFx Name</span>
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="rfxSearchModel.rfxName" #input class="form-field">
+                                <mat-icon matSuffix (click)="FetchBasicData()">search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.rfqName}} </td>
+                </ng-container>
+
+                <!-- RFX Created By Column -->
+                <ng-container matColumnDef="created">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                        <div class="th-with-search">
+                            <span>Buyer</span>
+                            <mat-form-field>
+                                <!-- <input matInput class="form-field">
+                                <mat-icon matSuffix (click)="SearchData('created',$event)">search</mat-icon> -->
+                                <input matInput [(ngModel)]="rfxSearchModel.buyerName" #input class="form-field">
+                                <mat-icon matSuffix (click)="FetchBasicData()">search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.buyerName}} </td>
+                </ng-container>
+
+                <!-- RFX Start Date Column -->
+                <ng-container matColumnDef="startDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 180px; min-width: 170px">
+                        <div class="th-with-search">
+                            <span>Start date</span>                            
+                            <mat-form-field>
+                                <!-- <input matInput class="form-field">
+                                <mat-icon matSuffix (click)="SearchData('startDate',$event)">search</mat-icon> -->
+                                <input matInput [(ngModel)]="rfxSearchModel.startDate" #input class="form-field">
+                                <mat-icon matSuffix (click)="FetchBasicData()">search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.bidOpeningDate | date: 'yyyy-MM-dd'}} </td>
+                </ng-container>
+
+                <!-- RFX End Date Column -->
+                <ng-container matColumnDef="endDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 180px; min-width: 170px">
+                        <div class="th-with-search">
+                            <span>End date</span>
+                            <mat-form-field>
+                                <!-- <input matInput class="form-field">
+                                <mat-icon matSuffix (click)="SearchData('endDate',$event)">search</mat-icon> -->
+                                <input matInput [(ngModel)]="rfxSearchModel.endDate" #input class="form-field">
+                                <mat-icon matSuffix (click)="FetchBasicData()">search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.bidClosingDate | date: 'yyyy-MM-dd'}} </td>
+                </ng-container>
+
+                <!-- RFX Status Column -->
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 140px">
+                        <div class="th-with-search">
+                            <span>Status</span>
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="rfxSearchModel.statusName" #input class="form-field">
+                                <mat-icon matSuffix (click)="FetchBasicData()">search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{getStatusName(row.statusName)}}</td>
+                    
+                    <!-- <td *ngIf="!(row.statusName=='Award Send for Approval' || row.statusName=='Send for Approval')" mat-cell *matCellDef="let row"></td> -->
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <!-- <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="8">No data matching the filter "{{input.value}}"</td>
+                </tr> -->
+            </table>
+        </div>
+        <div class="flex justify-end">
+            <mat-paginator [length]="rfxSearchModel.totalItems" [pageSize]="rfxSearchModel.pageSize"
+                [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)"
+                showFirstLastButtons>
+            </mat-paginator>
+        </div>
+        <!--table component end-->
+    </div>
+
+</div>

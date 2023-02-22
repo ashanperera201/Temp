@@ -1,0 +1,89 @@
+<div>
+    <mat-card class="srm-bg example-card" *ngFor="let shtcmodel of obs | async">
+
+        <div class="card-style mb-6 p-0">
+            <h1>Terms and Conditions -
+                <p
+                    *ngIf="shtcmodel.rfqTermsConditionModel.termsConditionModel.isBeforeSubmitMandatory || shtcmodel.rfqTermsConditionModel.termsConditionModel.isOnLoadMandatory">
+                    Mandatory</p>
+                <p
+                    *ngIf="!shtcmodel.rfqTermsConditionModel.termsConditionModel.isBeforeSubmitMandatory || !shtcmodel.rfqTermsConditionModel.termsConditionModel.isOnLoadMandatory">
+                    Optional</p>
+            </h1>
+        </div>
+
+        <mat-card-content>
+            <mat-card class="boldText example-card">
+                <!-- <h2><p>Introduction</p></h2>    -->
+                <p>
+                <p></p>
+                <!-- <p>These Website Standarad Terms and Conditions written on this webpage shall manage your use of our website, Website Name accessible at Website.com</p>
+                <p>These Terms will be applied fully and affect to your use of this Website. By using this Website, you agreed to accept all terms and conditions written
+                    in here. You must not use this Website if you disagree<br>with any of these Website Standard Terms and Conditions.
+                </p>
+                <p>Minors or people below 18 years old are not allowed to use this Website</p>
+                <p>Intellectual Property Rights<br>Other than the content own, under these Terms, Company Name and/or its licensors own all the intellectual property 
+                    rights and materials contained in this Website</p>
+                <p>You are granted limited license only purposes of viewing the material contained on Website.<br>Restrictions<br>
+                    You are specfically restricted from all of the following:</p>
+                <p>publishing any Website material in any other media;<br>selling,sublicensing and/or otherwise comme............</p>
+                 -->
+
+                <div class="card-style mb-6 p-0">
+                    <div class="flex w-100% pl-2" style="text-align: left;  background-attachment: fixed;"></div>
+                    <div class="font-medium leading-5 truncate"
+                        [innerHTML]="shtcmodel.rfqTermsConditionModel.termsConditionModel.wordData"></div>
+                </div>
+            </mat-card>
+
+            <a class="link mx-3"
+                (click)="DownloadTermsMedia(shtcmodel.rfqTermsConditionModel.etMediaId,shtcmodel.rfqTermsConditionModel.fileName,shtcmodel.rfqTermsConditionModel.fileExtension)">{{shtcmodel.rfqTermsConditionModel.fileName}}</a>
+        </mat-card-content>
+
+        <mat-card-content>
+            <div>
+                <p *ngIf="shtcmodel.rfqTermsConditionModel.termsConditionModel.isBeforeSubmitMandatory">Do you accept
+                    the above T&C’s? Consent is required before submit.</p>
+                <p>Do you accept the above T&C’s? Consent is required before proceeding to view
+                    the event.</p>
+                <mat-radio-group aria-label="Select an option" class="pl-4" [(ngModel)]="shtcmodel.isAccepted"
+                    [color]="'primary'" [disabled]="shtcmodel.isControlDisable == true">
+                    <mat-radio-button [value]="true">Yes</mat-radio-button>
+                    <mat-radio-button [value]="false">No</mat-radio-button>
+                </mat-radio-group>
+                <br>
+                <mat-form-field class="w-1/9 pr-2">
+                    <br>
+                    <br>
+                    <mat-label>
+                        Remarks
+                    </mat-label>
+                    <input [disabled]="shtcmodel.isControlDisable == true" matInput [(ngModel)]="shtcmodel.comments"
+                        name="{{shtcmodel.id}}-shtcmodel.comments">
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <div class="flex justify-end ml-auto p-6">
+                <button [disabled]="shtcmodel.isControlDisable == true"
+                    *ngIf="shtcmodel.rfqTermsConditionModel.termsConditionModel.isBeforeSubmitMandatory || shtcmodel.rfqTermsConditionModel.termsConditionModel.isOnLoadMandatory"
+                    type="button" (click)="UpdateTerms(shtcmodel)" class="sm:inline-flex mr-4" mat-raised-button
+                    [color]="'primary'">
+                    I confirm
+                </button>
+                <button type="button"
+                    *ngIf="!shtcmodel.rfqTermsConditionModel.termsConditionModel.isBeforeSubmitMandatory || !shtcmodel.rfqTermsConditionModel.termsConditionModel.isOnLoadMandatory"
+                    class="sm:inline-flex mr-4" mat-raised-button [color]="'primary'">
+                    Go to Event
+                </button>
+            </div>
+        </mat-card-actions>
+
+    </mat-card>
+    <div class="flex justify-end">
+        <!-- <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
+        <mat-paginator [pageSize]="1"></mat-paginator>
+    </div>
+
+</div>

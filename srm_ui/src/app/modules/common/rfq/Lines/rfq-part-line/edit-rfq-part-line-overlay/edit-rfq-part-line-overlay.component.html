@@ -1,0 +1,109 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full" [formGroup]="partLineForm" (ngSubmit)="onFormSubmit(partLineForm.value)">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Edit Part Line
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+            <div class="flex">
+                <div class="w-full">
+                    <div class="flex w-full">
+                        <div class="w-full">
+                            <!-- added new -->
+                            <div>
+                                <!-- added new -->
+                                <div class="flex flex-col">
+                                    <!-- added new -->
+                                    <div class="flex w-full">
+                                        <div class="flex flex-col w-1/2 pr-2">
+                                            <div class="w-full">
+                                                <p class="my-2 font-medium mt-2 text-default">
+                                                    Line# : {{partLine.lineNumber}}
+                                                </p>
+                                            </div>
+                                            <div class="w-full">
+                                                <p class="my-2 font-medium mt-2 text-default">
+                                                    Part ID : {{partLine.pcName}}
+                                                </p>
+                                            </div>
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium mt-4 text-default">
+                                                    Activity : {{getActivity(partLine.activityId)}}
+                                                </p>
+                                            </div>
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium mt-5 text-default">
+                                                    Quantity : {{partLine.purchaseQty}}
+                                                </p>
+                                            </div>
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium mt-5 text-default">
+                                                    Need by Date : {{partLine.wantedDate}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col w-1/2 pl-4">
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium text-default">
+                                                    PR # : {{partLine.prNumber}}
+                                                </p>
+                                            </div>
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium mt-5 text-default">
+                                                    Sub Project Code : {{getSubProject(partLine.subProjectId)}}
+                                                </p>
+                                            </div>
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium mt-5 text-default">
+                                                    Part Description : {{partLine.partDescirption}}
+                                                </p>
+                                            </div>
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium mt-5 text-default">
+                                                    UOM : {{partLine.uomName}}
+                                                </p>
+                                            </div>
+                                            <div class="w-full">
+                                                <p class="mb-2 font-medium mt-5 text-default">
+                                                    IFS Reference Price : {{partLine.startPrice}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full my-4">
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Target Price</mat-label>
+                                            <input matInput formControlName="targetPrice" />
+                                        </mat-form-field>
+                                        <p class="my-2 font-medium mt-2 text-default">
+                                            Show Prices
+                                        </p>
+                                        <mat-radio-group class="flex" [color]="'primary'"
+                                            formControlName="showPriceToSuppliers">
+                                            <mat-radio-button class="mb-2 mr-4" [value]="true">
+                                                Yes
+                                            </mat-radio-button>
+                                            <mat-radio-button class="mb-2 mr-4" [value]="false">
+                                                No
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="submit">
+                <span class="mx-4">Update</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

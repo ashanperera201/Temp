@@ -1,0 +1,32 @@
+<div class="min-w-full p-2">
+   
+        <div class="pb-1">
+            <div class="text-3xl font-bold mb-6">
+               Populate RFx Screen from CSV File
+            </div>
+        </div>
+        
+        <div class="flex w-full flex-col">
+            <p class="mt-6 mb-2 font-medium text-l text-secondary">
+                1. Load the Updated file
+            </p>
+            <div class="form-group pt-4 pl-5">
+                <label for="file"></label>
+                <input type="file" id="fileImport" type="file" #file accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" placeholder="Choose file" (change)="uploadFile($event)">
+            </div>
+            <p class="mb-2 pt-4 font-regular italic text-sm text-secondary">
+               Before uploading, please ensure the file format is downloaded from RFx options by clicking on Download Template.
+            </p>
+            </div>
+
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Back</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" (click)="uploadDocument()" type="submit">
+                <span class="mx-4">Upload</span>
+            </button>
+        </mat-dialog-actions>
+   
+
+</div>

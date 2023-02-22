@@ -1,0 +1,2027 @@
+<div class="flex flex-col flex-auto w-full">
+    <!-- Products list -->
+    <div class="flex flex-col flex-auto w-full mb-6">
+        <div>
+            <p class="font-medium text-lg mb-2 pt-4">
+                Header Tabs
+            </p>
+        </div>
+        <ng-container>
+            <ng-container>
+                <div class="cardlist-grid srm-bg grid survey-parent overflow-x-auto w-full">
+                    <!-- Header -->
+                    <div class="scoring-grid grid gap-4 pt-4 px-2 m-1 text-secondary" matSort matSortDisableClear>
+                        <div>Header Tabs</div>
+                        <div [mat-sort-header]="'list'">Weights in points</div>
+                        <div [mat-sort-header]="'description'">Weights in %</div>
+                        <div></div>
+                    </div>
+                    <!-- Rows -->
+                    <ng-container>
+                        <ng-container>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Attribute Items
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="attributeItems"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Cost Factors
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="costFactors"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Payment Schedules
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="paymentSchedules"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Attachment
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="attachment"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Document Text
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="documentText"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Notes
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="notes"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Deliverables
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="10">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="10%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="deliverables"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            <div class="custom-tbl-item summary overflow-hidden m-1">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+                                    <div></div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            100: Total Weights in Points
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            100%: Total Weights in %
+                                        </p>
+                                    </div>
+                                    <div class="ml-auto"></div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+            </ng-container>
+        </ng-container>
+
+        <ng-template #attributeItems>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Attribute Items 01
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Attribute Items 02
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #costFactors>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto srm-bg rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Breakdown Costs
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Material Costs
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Labor Costs
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Transport Costs
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #paymentSchedules>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Freight Cost
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Initiation of Project
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #attachment>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Supplier Details Attachments
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Sourcing Attachments
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #documentText>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Item batch 15435
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Item batch 22353
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #notes>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Hazards and Caution
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Technicalities
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #deliverables>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Item Batch 10023
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="10">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="10%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #noProducts>
+            <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no products!</div>
+        </ng-template>
+
+    </div>
+    <div class="flex flex-col flex-auto w-full">
+        <div>
+            <p class="font-medium text-lg mb-2 pt-4">
+                Line Tabs
+            </p>
+        </div>
+        <ng-container>
+            <ng-container>
+                <div class="cardlist-grid srm-bg grid survey-parent overflow-x-auto w-full">
+                    <!-- Header -->
+                    <div class="scoring-grid grid gap-4 pt-4 px-2 m-1 text-secondary" matSort matSortDisableClear>
+                        <div>Lines Tabs</div>
+                        <div [mat-sort-header]="'list'">Weights in points</div>
+                        <div [mat-sort-header]="'description'">Weights in %</div>
+                        <div></div>
+                    </div>
+                    <!-- Rows -->
+                    <ng-container>
+                        <ng-container>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Attribute Items
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="attributeItems2"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Cost Factors
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="15">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="15%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="costFactors2"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Payment Schedules
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="35">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="35%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="paymentSchedules2"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Attachment
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="25">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="25%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="attachment2"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Document Text
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="35">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="35%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="documentText2"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Notes
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="30%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="notes2"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item bg-white shadow-sm border overflow-hidden rounded-lg border-lg m-1 mb-4">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            Deliverables
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="15">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field class="w-full pt-1 standalone-input">
+                                            <input matInput value="15%">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="px-2 leading-6" mat-icon-button (click) = toggleDisplay()>
+                                            <mat-icon color="primary" class="icon-size-6" [svgIcon]="isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ng-container *ngIf="isShow">
+                                        <ng-container *ngTemplateOutlet="deliverables2"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            <div class="custom-tbl-item summary overflow-hidden m-1">
+                                <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+                                    <div></div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            100: Total Weights in Points
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-base">
+                                            100%: Total Weights in %
+                                        </p>
+                                    </div>
+                                    <div class="ml-auto"></div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+            </ng-container>
+        </ng-container>
+
+        <ng-template #attributeItems2>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Minnimum Order
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Packaging
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Shipment Date
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Maximum Order
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Return Policy
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Construction
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #costFactors2>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto srm-bg rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Line Price
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Cost of Start-Up & C/Ammissioning Spares
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="15%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Cost of Inspection Requirements
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            First Fills and Lubricants Cost
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #paymentSchedules2>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Freight Cost
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Project Initiation - Phase 1
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #attachment2>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Attachment 1 - Technical
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Attachment 2 - Commercial
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #documentText2>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Fragile Goods - Packaging
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Urgent Order - Delivery Date
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #notes2>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Fragile Goods - Packaging
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Urgent Order - Delivery Date
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #deliverables2>
+            <div class="overflow-hidden">
+                <div class="flex">
+
+                    <div class="overflow-auto bg-white rounded-lg mt-4 w-full">
+                        <div class="grid scoring-grid-inner">
+                            <!-- Header -->
+                            <div class="scoring-grid hidden custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'name'"></div>
+                                <div [mat-sort-header]="'desc'"></div>
+                                <div [mat-sort-header]="'type'"></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container>
+                                <ng-container>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            SDD Submission
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                    <div class="scoring-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div>
+                                            Design Approvals
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5">
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field class="w-full pt-1 standalone-input">
+                                                <input matInput value="5%">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #noProducts>
+            <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no products!</div>
+        </ng-template>
+
+    </div>
+    <div class="flex flex-col flex-auto w-full">
+        <div>
+            <p class="font-medium text-lg mb-2 pt-4">
+                Line Items
+            </p>
+        </div>
+        <ng-container>
+            <ng-container>
+                <div class="grid scoring-line-items srm-bg rounded-lg overflow-x-auto w-full">
+                    <p class="font-medium text-base mb-2 pt-4 pl-2">
+                        Line Type  - Part / Rental / No Part
+                    </p>
+                    <!-- Header -->
+                    <div class="scoring-line-items-grid z-10 sticky top-0 grid gap-4 pt-4 pb-2 px-2 text-secondary" matSort matSortDisableClear>
+                        <div [mat-sort-header]="'lineno'">Line #</div>
+                        <div [mat-sort-header]="'partid'">Part ID</div>
+                        <div [mat-sort-header]="'partdescription'">Part Description</div>
+                        <div [mat-sort-header]="'weightspoints'">Weights in points</div>
+                        <div [mat-sort-header]="'weights'">Weights in %</div>
+                    </div>
+                    <!-- Rows -->
+                    <ng-container>
+                        <ng-container>
+                            <div class="scoring-line-items-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                <div class="truncate">01</div>
+                                <div>1121247</div>
+                                <div>Ball Bearings - SKF 6206</div>
+                                <div>
+                                    <mat-form-field class="w-full pt-1 standalone-input">
+                                        <input matInput value="25">
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="w-full pt-1 standalone-input">
+                                        <input matInput value="25%">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="scoring-line-items-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                <div class="truncate">02</div>
+                                <div>2121248</div>
+                                <div>Ball Bearings - SKF 6206</div>
+                                <div>
+                                    <mat-form-field class="w-full pt-1 standalone-input">
+                                        <input matInput value="5">
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="w-full pt-1 standalone-input">
+                                        <input matInput value="5%">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="scoring-line-items-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                <div class="truncate">03</div>
+                                <div>7121248</div>
+                                <div>Ball Bearings - SKF 6206</div>
+                                <div>
+                                    <mat-form-field class="w-full pt-1 standalone-input">
+                                        <input matInput value="45">
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="w-full pt-1 standalone-input">
+                                        <input matInput value="45%">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="custom-tbl-item summary overflow-hidden m-1">
+                                <div class="scoring-line-items-grid grid items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div>
+                                        <p class="font-medium text-base">100: Total Weights in Points</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-base">100%: Total Weights in %</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+            </ng-container>
+        </ng-container>
+
+        <ng-template #noProducts>
+            <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no products!</div>
+        </ng-template>
+
+    </div>
+
+    <div class="flex flex-col flex-auto w-full">
+        <div>
+            <p class="font-medium text-lg mb-2 pt-4">
+                Scoring Criteria
+            </p>
+        </div>
+        <div>
+            <div class="flex srm-bg rounded-lg divide-solid divide-x divide-gray-300">
+                <div class="w-1/2 pr-4 pl-2">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid with-custom-headers scoring-line-items-criteria srm-bg rounded-lg overflow-x-auto w-full">
+                                <p class="font-medium text-base mb-2 pt-4 pl-2">
+                                    RFX Header
+                                </p>
+                                <div class="color-legends justify-end mb-4">
+                                    <div class="color-legend">
+                                        <div class="status rounded" style="background: #C9E5D8"></div>
+                                        <div class="legend-label">Weights</div>
+                                    </div>
+                                </div>
+                                <!-- Header -->
+
+                                <div class="scoring-line-items-criteria-grid z-10 sticky top-0 grid gap-4 pt-4 pb-2 text-secondary" matSort matSortDisableClear>
+                                    <div [mat-sort-header]="'lineno'">Criteria</div>
+                                    <div [mat-sort-header]="'partid'" class="custom-header" style="background: #C9E5D8;">Points</div>
+                                    <div [mat-sort-header]="'partdescription'" class="custom-header" style="background: #C9E5D8;">Percentage</div>
+                                    <div [mat-sort-header]="'weightspoints'" class="custom-header" style="background: #C9E5D8;">Knock-out Score</div>
+                                </div>
+                                <!-- Rows -->
+                                <ng-container>
+                                    <ng-container>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div class="truncate">Attributes</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div class="truncate">Cost Factors</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div class="truncate">Payment schedules</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Terms and conditions</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Attachment</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Document Text</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Notes</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Deliverables</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Survey Forms</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="custom-tbl-item summary overflow-hidden m-1">
+                                            <div class="scoring-line-items-criteria-grid flex items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+                                                <div class="w-full text-right pr-6">
+                                                    <p class="font-medium text-base">RFX Header Knock-Out Score</p>
+                                                </div>
+                                                <div class="w-123">
+                                                    <p class="font-medium text-base">50</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+                <div class="w-1/2 pl-4 pr-2">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid with-custom-headers scoring-line-items-criteria srm-bg rounded-lg overflow-x-auto w-full">
+                                <p class="font-medium text-base mb-2 pt-4 pl-2">
+                                    RFX Lines
+                                </p>
+                                <div class="color-legends justify-end mb-4">
+                                    <div class="color-legend">
+                                        <div class="status rounded" style="background: #C9E5D8"></div>
+                                        <div class="legend-label">Weights</div>
+                                    </div>
+                                </div>
+                                <!-- Header -->
+                                <div class="scoring-line-items-criteria-grid z-10 sticky top-0 grid gap-4 pt-4 pb-2 text-secondary" matSort matSortDisableClear>
+                                    <div [mat-sort-header]="'lineno'">Criteria</div>
+                                    <div [mat-sort-header]="'partid'" class="custom-header" style="background: #C9E5D8;">Points</div>
+                                    <div [mat-sort-header]="'partdescription'" class="custom-header" style="background: #C9E5D8;">Percentage</div>
+                                    <div [mat-sort-header]="'weightspoints'" class="custom-header" style="background: #C9E5D8;">Knock-out Score</div>
+                                </div>
+                                <!-- Rows -->
+                                <ng-container>
+                                    <ng-container>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div class="truncate">Attributes</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div class="truncate">Cost Factors</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div class="truncate">Payment schedules</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Attachment</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Document Text</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Notes</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>Deliverables</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="custom-tbl-item summary overflow-hidden m-1">
+                                            <div class="scoring-line-items-criteria-grid flex items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+                                                <div class="w-full text-right pr-6">
+                                                    <p class="font-medium text-base">RFX Lines Knock-Out Score</p>
+                                                </div>
+                                                <div class="w-123">
+                                                    <p class="font-medium text-base">50</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="flex srm-bg rounded-lg">
+                <div class="w-1/2 pr-4 pl-2 mt-4">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid with-custom-headers scoring-line-items-criteria srm-bg rounded-lg overflow-x-auto w-full">
+                                <p class="font-medium text-base mb-2 pt-4 pl-2">
+                                    Bid Price Responses
+                                </p>
+                                <div class="color-legends justify-end mb-4">
+                                    <div class="color-legend">
+                                        <div class="status rounded" style="background: #C9E5D8"></div>
+                                        <div class="legend-label">Weights</div>
+                                    </div>
+                                </div>
+                                <!-- Header -->
+                                <div class="scoring-line-items-criteria-grid z-10 sticky top-0 grid gap-4 pt-4 pb-2 text-secondary" matSort matSortDisableClear>
+                                    <div [mat-sort-header]="'lineno'">Line #</div>
+                                    <div [mat-sort-header]="'partid'" class="custom-header" style="background: #C9E5D8;">Points</div>
+                                    <div [mat-sort-header]="'partdescription'" class="custom-header" style="background: #C9E5D8;">Percentage</div>
+                                    <div [mat-sort-header]="'weightspoints'" class="custom-header" style="background: #C9E5D8;">Knock-out Score</div>
+                                </div>
+                                <!-- Rows -->
+                                <ng-container>
+                                    <ng-container>
+
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>01</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>02</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="scoring-line-items-criteria-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>03</div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="02">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="2.5%">
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-form-field class="w-full pt-1 standalone-input">
+                                                    <input matInput value="03">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="custom-tbl-item summary overflow-hidden m-1">
+                                            <div class="scoring-line-items-criteria-grid flex items-center gap-4 py-px px-2 custom-tbl-row bg-transparent border-0">
+                                                <div class="w-full text-right pr-6">
+                                                    <p class="font-medium text-base">RFX Header Knock-Out Score</p>
+                                                </div>
+                                                <div class="w-123">
+                                                    <p class="font-medium text-base">50</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #noProducts>
+            <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no products!</div>
+        </ng-template>
+
+    </div>
+
+</div>

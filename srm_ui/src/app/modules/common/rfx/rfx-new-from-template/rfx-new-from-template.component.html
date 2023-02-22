@@ -1,0 +1,139 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0">
+
+    <div class="flex justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">
+            Create a RFx
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium text-lg ml-px mt-1">
+                <div>
+                    <a href="/dashboard" class="whitespace-nowrap text-primary-500 font-semibold ml-px">All RFx List</a>
+                </div>
+                <div class="flex items-center ml-2 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1">Create RFx</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="relative">
+        <!--table component-->
+
+        <!--base table component-->
+        <div class="overflow-auto rounded-lg">
+            <div class="py-2">
+                <mat-radio-group class="flex" [color]="'primary'">
+                    <mat-radio-button class="mb-2 mr-4" [value]="'New'" [checked]="false" (click)="OpenURL('rfx-new')">
+                        Create New RFX
+                    </mat-radio-button>
+                    <mat-radio-button class="mb-2 mr-4" [value]="'Template'" [checked]="true" (click)="OpenURL('rfx-new-from-template')">
+                        Create From Template
+                    </mat-radio-button>
+                    <mat-radio-button class="mb-2" [value]="'Existing'" [checked]="false" (click)="OpenURL('rfx-new-from-existing')">
+                        Create From Existing
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="overflow-auto srm-bg rounded-lg rounded-t-none">
+                <div class="p-6">
+
+                    <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+                        <div class="mr-4">
+                            <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-96 mt-4 sm:mt-0 mr-1 mb-3" [floatLabel]="'always'">
+                                <div class="text-secondary px-8" matPrefix>Name</div>
+                                <input matInput placeholder="Search by Name" #input  [(ngModel)]="rfxSearchTemplates.rfxTempName">
+
+                            </mat-form-field>
+                            <mat-form-field class="fuse-mat-no-subscript sm:w-44 mr-1 mb-3">
+                                <mat-select [value]="rfxSearchTemplates.rfxTempType" [(ngModel)]="rfxSearchTemplates.rfxTempType">
+                                    <mat-option value="">Select Type</mat-option>
+                                    <ng-container>
+                                        <mat-option value="RFQ">RFQ</mat-option>
+                                        <mat-option value="RFAQ">RFAQ</mat-option>
+                                        <mat-option value="RFI">RFI</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <button class="sm:inline-flex mb-3" mat-stroked-button [color]="'primary'" type="button" (click)="FetchBasicData()">
+                            <mat-icon matPrefix class="icon-size-5 ml-8" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                            <span class="mr-8 ml-4">Search</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <p class="mt-6 mb-2 font-medium w-3/5 text-l text-secondary">
+                Search Results
+            </p>
+            <div class="overflow-auto">
+                <table mat-table [dataSource]="rfxTemplates" matSort class="expanded-rows-table font-helvetica text-gray-500">
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 60px; min-width: 50px; width: 50px"></th>
+                        <td mat-cell *matCellDef="let row">
+                            <!-- <mat-radio-group class="flex" [color]="'primary'"> -->
+                                <mat-radio-button  (change)="OnInputTypeChange(row)" [value]="row.itemNo"></mat-radio-button>
+                            <!-- </mat-radio-group> -->
+                        </td>
+                    </ng-container>
+
+                    <!-- RFX No Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 130px; min-width: 120px; width: 120px">
+                            Name
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.templateName}} </td>
+                    </ng-container>
+
+                    <!-- RFX Revision Column -->
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 320px; min-width: 110px;">
+                            Description
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.rfqDescription}} </td>
+                    </ng-container>
+
+                    <!-- RFX Type Column -->
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 140px;">
+                            RFx Type
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.rfxType}} </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    
+                </table>
+            </div>
+            <div class="flex justify-end">
+                <mat-paginator [length]="rfxSearchTemplates.totalItems" [pageSize]="rfxSearchTemplates.pageSize"
+                    [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+            <div class="flex justify-end ml-auto p-6">
+                
+                <!-- <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
+                    <span class="mx-8">Previous Step</span>
+                </button> -->
+                <button class="sm:inline-flex" mat-raised-button [color]="'primary'" (click)="CreateRFX('rfq')">
+                    <span class="mx-8">Create RFX</span>
+                </button>
+                <button class="sm:inline-flex mr-4" mat-button [color]="'primary'">
+                    <span class="mx-8">Cancel</span>
+                </button>
+            </div>
+        </div>
+
+        <!--table component end-->
+    </div>
+
+</div>

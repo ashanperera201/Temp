@@ -1,0 +1,360 @@
+<div class="pb-4 px-4 srm-bg rounded-lg" *ngIf="dynamicdata">
+    <div class="pt-5 pb-2">
+        <div class="flex" *ngIf="dynamicdata.headerRow">
+            <mat-form-field class="w-1/4 pr-2">
+                <mat-label>RFQ No</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerRow[0].rfqNo">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>REV No</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerRow[0].revNo">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Program ID</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerRow[0].name">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pl-2">
+                <mat-label>Project Code</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerRow[0].name">
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field class="w-1/4 pr-2" *ngIf="dynamicdata.headerRow">
+                <mat-label>Technical Evaluation Number</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerRow[0].tEvaluationNumber">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Evaluator’s Name (Technical)</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerRow[0].tEvaluatorName">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Commercial Evaluation Number</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerRow[0].cEvaluationNumber">
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pl-2">
+                <mat-label>Evaluator’s Name (Commercial)</mat-label>
+                <input matInput disabled [(ngModel)]="dynamicdata.headerRow[0].cEvaluatorName">
+            </mat-form-field>
+        </div>
+
+    </div>
+</div>
+<div class="mt-4 px-2">
+    <div class="mt-4">
+        <p class="font-medium text-lg mb-2">
+            Line Type - Parts / Rental / No Parts
+        </p>
+        <div class="item-block basic-info mb-4 srm-bg rounded-lg px-4 py-2">
+            <div class="relative">
+                <!-- Products list -->
+                <div class="flex flex-col flex-auto w-full">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid line-items-parent2 overflow-x-auto w-full">
+                                <!-- Header -->
+                                <div class="noneditable-line-items-parent-grid2 z-10 sticky top-0 grid gap-20 pt-4 pb-2 px-2 text-secondary"
+                                    matSort matSortDisableClear>
+                                    <div [mat-sort-header]="'lineno'">Line #</div>
+                                    <div [mat-sort-header]="'partid'">Part ID</div>
+                                    <div [mat-sort-header]="'partdescription'">Part Description</div>
+                                    <div [mat-sort-header]="'quantity'">Quantity</div>
+                                    <div [mat-sort-header]="'uom'">UOM</div>
+                                    <div [mat-sort-header]="'needbydate'">Need by Date</div>
+                                    <div [mat-sort-header]="'targetprice'">Target Price</div>
+                                    <div [mat-sort-header]="'totalprice'">Total Price</div>
+                                    <div></div>
+                                </div>
+                                <!-- Rows -->
+                                <ng-container>
+                                    <ng-container *ngFor="let item of partlines">
+                                        <div
+                                            class="noneditable-line-items-parent-grid2 grid items-center gap-20 py-px px-2 custom-tbl-row">
+                                            <div class="truncate">{{item.lineNumber}}</div>
+                                            <div>{{item.pcName}}</div>
+                                            <div>{{item.partDescirption}}</div>
+                                            <div>{{item.purchaseQty}}</div>
+                                            <div>{{item.baseUnit}}</div>
+                                            <div>{{item.wantedDate}}</div>
+                                            <div>{{item.targetPrice}}</div>
+                                            <div>{{item.totalPrice}}</div>
+                                            <div class="ml-auto">
+                                                <button class="px-2 leading-6" mat-icon-button
+                                                    (click)="toggleDisplay(item.id)">
+                                                    <mat-icon color="primary" class="icon-size-6"
+                                                        [svgIcon]="detailsDisplayMap.get(item.id)? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="overflow-auto">
+                                            <ng-container *ngIf="getActiveDetailsTab(item.id)">
+                                                <div class="overflow-hidden">
+                                                    <div class="flex w-full">
+                                                        <!-- Selected product details panel -->
+                                                        <div class="w-full mt-4 py-2 srm-bg rounded-lg">
+                                                            <p class="font-medium text-lg mb-2">
+                                                                Supplier Response
+                                                            </p>
+
+                                                            <div
+                                                                class="grid awardline-grid-parent bg-white overflow-x-auto w-full">
+                                                                <!-- Header -->
+                                                                <div class="awardline-grid z-10 sticky top-0 grid gap-4 pt-4 pb-2 px-2 text-secondary"
+                                                                    matSort matSortDisableClear>
+                                                                    <div [mat-sort-header]="'unitprice'">Unit Price
+                                                                    </div>
+                                                                    <div [mat-sort-header]="'discount'">Discount</div>
+                                                                    <div [mat-sort-header]="'finalunitprice'">Final Unit
+                                                                        Price</div>
+                                                                    <div [mat-sort-header]="'totprice'">Total Price
+                                                                    </div>
+                                                                    <div [mat-sort-header]="'savingtarget'">Savings from
+                                                                        Target</div>
+                                                                    <div [mat-sort-header]="'supname'">Supplier Name
+                                                                    </div>
+                                                                    <div></div>
+                                                                </div>
+                                                                <!-- Rows -->
+                                                                <ng-container>
+                                                                    <ng-container>
+                                                                        <div *ngFor="let itemSR of item.supplierResponses"
+                                                                            class="awardline-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                                                            <div class="truncate">{{itemSR.unitPrice}}
+                                                                            </div>
+                                                                            <div>{{itemSR.discount}}</div>
+                                                                            <div>{{itemSR.finalUnitPrice}}</div>
+                                                                            <div>{{itemSR.totalPrice}}</div>
+                                                                            <div>{{itemSR.savingsFromTarget}}</div>
+                                                                            <div>{{itemSR.supplierName}}</div>
+                                                                            <div class="ml-auto"
+                                                                                *ngIf="!item.isLineAwarded">
+                                                                                <button
+                                                                                    class="sm:inline-flex m-1 h-36 small-btn"
+                                                                                    mat-stroked-button
+                                                                                    [color]="'primary'" type="button"
+                                                                                    (click)="openAwardSelectedLine(false,itemSR.id,itemSR.supplierID,itemSR.supplierName,item.supplierResponses)">
+                                                                                    <span class="mx-8">Award Line</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="ml-auto"
+                                                                                *ngIf="itemSR.isLineAwarded">
+                                                                                Selected for Award
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #rowDetailsTemplate2>
+
+                    </ng-template>
+
+                    <ng-template #noProducts>
+                        <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no
+                            products!</div>
+                    </ng-template>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- <div class="flex justify-end ml-auto p-6 mt-4" *ngIf="dynamicdata.headerRow[0].isOverAllAwarded==null">
+            <button class="sm:inline-flex" mat-stroked-button [color]="'primary'">
+                <span class="mx-8">Award Overall</span>
+            </button>
+        </div> -->
+    </div>
+    <div class="flex flex-col">
+        <p class="font-medium text-base text-default mb-3">
+            Select Evaluation
+        </p>
+        <mat-radio-group class="flex" [color]="'primary'"
+            [(ngModel)]="evaluationType">
+            <mat-radio-button class="mb-2 mr-6" [value]="">
+                ALL
+            </mat-radio-button>
+            <mat-radio-button class="mb-2 mr-6" [value]="'TBE'">
+                TBE
+            </mat-radio-button>
+            <mat-radio-button class="mb-2 mr-6" [value]="'CBE'">
+                CBE
+            </mat-radio-button>
+            <mat-radio-button class="mb-2" [value]="'Price'">
+                Price
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+    <div class="flex justify-between">
+        <div class="w-1/4" *ngIf="this.evaluationType=='Price' || this.evaluationType==null">
+            <apx-chart
+                [series]="chartOptionsScores.series"
+                [chart]="chartOptionsScores.chart"
+                [dataLabels]="chartOptionsScores.dataLabels"
+                [plotOptions]="chartOptionsScores.plotOptions"
+                [yaxis]="chartOptionsScores.yaxis"
+                [legend]="chartOptionsScores.legend"
+                [fill]="chartOptionsScores.fill"
+                [stroke]="chartOptionsScores.stroke"
+                [tooltip]="chartOptionsScores.tooltip"
+                [xaxis]="chartOptionsScores.xaxis"
+                [grid]="chartOptionsScores.grid"
+                [states]="chartOptionsScores.states"
+            ></apx-chart>
+        </div>
+        <div class="w-1/4" *ngIf="this.evaluationType=='TBE' || this.evaluationType==null">
+            <apx-chart
+                [series]="chartOptionsTBERanks.series"
+                [chart]="chartOptionsTBERanks.chart"
+                [dataLabels]="chartOptionsTBERanks.dataLabels"
+                [plotOptions]="chartOptionsTBERanks.plotOptions"
+                [yaxis]="chartOptionsTBERanks.yaxis"
+                [legend]="chartOptionsTBERanks.legend"
+                [fill]="chartOptionsTBERanks.fill"
+                [stroke]="chartOptionsTBERanks.stroke"
+                [tooltip]="chartOptionsTBERanks.tooltip"
+                [xaxis]="chartOptionsTBERanks.xaxis"
+                [grid]="chartOptionsTBERanks.grid"
+                [states]="chartOptionsTBERanks.states"
+            ></apx-chart>
+        </div>
+        <div class="w-1/4" *ngIf="this.evaluationType=='CBE' || this.evaluationType==null">
+            <apx-chart
+                [series]="chartOptionsCBERanks.series"
+                [chart]="chartOptionsCBERanks.chart"
+                [dataLabels]="chartOptionsCBERanks.dataLabels"
+                [plotOptions]="chartOptionsCBERanks.plotOptions"
+                [yaxis]="chartOptionsCBERanks.yaxis"
+                [legend]="chartOptionsCBERanks.legend"
+                [fill]="chartOptionsCBERanks.fill"
+                [stroke]="chartOptionsCBERanks.stroke"
+                [tooltip]="chartOptionsCBERanks.tooltip"
+                [xaxis]="chartOptionsCBERanks.xaxis"
+                [grid]="chartOptionsCBERanks.grid"
+                [states]="chartOptionsCBERanks.states"
+            ></apx-chart>
+        </div>
+    </div>
+
+    <div class="item-block basic-info mb-4 mt-4 srm-bg rounded-lg px-4 py-2">
+        <div class="flex divide-solid divide-x divide-gray-300 flex-row">
+            <div class="w-full relative">
+                <p class="font-medium text-lg mb-2">
+                    Best Overall Supplier (Recommendation)
+                </p>
+                <div class="item-block basic-info mb-4 srm-bg rounded-lg px-4 py-2">
+                    <!-- Products list -->
+                    <div class="flex flex-col flex-auto w-full" *ngIf="dynamicdata">
+                        <ng-container>
+                            <ng-container>
+                                <div class="grid overall-supplier-grid-parent overflow-x-auto w-full">
+                                    <!-- Header -->
+                                    <div class="overall-supplier-grid z-10 sticky top-0 grid gap-4 pt-4 pb-2 px-2 text-secondary"
+                                        matSort matSortDisableClear>
+                                        <div [mat-sort-header]="'supp'">Supplier </div>
+                                        <div [mat-sort-header]="'totprice'">Total Price</div>
+                                        <div [mat-sort-header]="'savingstarget'">Savings from Target</div>
+                                        <div [mat-sort-header]="'rank'">Rank</div>
+                                        <div [mat-sort-header]="'tbe'">TBE</div>
+                                        <div [mat-sort-header]="'cbe'">CBE</div>
+
+                                    </div>
+                                    <!-- Rows -->
+                                    <ng-container>
+                                        <ng-container>
+                                            <div *ngFor="let item of  dynamicdata.overallRecommendation"
+                                                class="overall-supplier-grid grid items-center gap-4 py-px pt-2 pb-2 custom-tbl-row bg-white">
+                                                <div>{{item.supplierName}}</div>
+                                                <div>{{item.totalPrice}}</div>
+                                                <div>{{item.savingsFromTargetPrice}}</div>
+                                                <div class="pl-3">{{item.supplierRank}}</div>
+                                                <div class="pl-3">{{item.tbe}}</div>
+                                                <div class="pl-3">{{item.cbe}}</div>
+
+                                            </div>
+
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+
+                        <ng-template #noProducts>
+                            <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no
+                                Suppliers!</div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="w-1/3 flex flex-col items-center justify-center"
+                *ngIf="!isSupplierSame && scoreRecommendation && rankRecommendation">
+                <p class="font-medium text-lg mb-2">
+                    Price based Recommendation
+                </p>
+                <div class="bg-white py-2 px-4 text-lg font-bold text-primary shadow-md rounded-md">
+                    {{scoreRecommendation.supplierName}}
+                </div>
+                <p class="font-medium text-lg mb-2">
+                    Rank based Recommendation
+                </p>
+                <div class="bg-white py-2 px-4 text-lg font-bold text-primary shadow-md rounded-md">
+                    {{rankRecommendation.supplierName}}
+                </div>
+            </div>
+            <div class="w-1/3 flex flex-col items-center justify-center"
+                *ngIf="isSupplierSame && scoreRecommendation && rankRecommendation">
+                <p class="font-medium text-lg mb-2">
+                    Recommendation
+                </p>
+                <div class="bg-white py-2 px-4 text-lg font-bold text-primary shadow-md rounded-md">
+                    {{scoreRecommendation.supplierName}}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-end ml-auto p-6 mt-4" *ngIf="isauto">
+        <button *ngIf="RFQModel.nextStatusName=='Award InProgress'" class="sm:inline-flex mr-4" mat-stroked-button
+            [color]="'primary'" (click)="openAwardRecommendLine(true,null)">
+            <span class="mx-8">Accept Recommendation</span>
+        </button><button *ngIf="RFQModel.nextStatusName=='Award InProgress'" class="sm:inline-flex" mat-raised-button
+            [color]="'primary'" type="button" (click)="openAwardSelectedLine(true,null,null,null,null)">
+            <span class="mx-8">Award Manually</span>
+        </button>
+    </div>
+    <div class="flex justify-end ml-auto p-6">
+        <button *ngIf="dynamicdata && RFQModel.isROAApproveReject" (click)="rejectionConfirm()" type="button"
+            class="w-20 mr-4" mat-raised-button color="warn">
+            <span class="mx-8">Reject</span>
+        </button>
+
+        <button *ngIf="dynamicdata && RFQModel.isROAApproveReject" (click)="approvalConfirm()" type="button"
+            class="w-20 e-bgcolor-green text-white" mat-raised-button>
+            <span class="mx-8">Approve</span>
+        </button>
+
+        <button *ngIf="dynamicdata && RFQModel.isROAPublish" (click)="publishROA()" type="button"
+            class="w-20 e-bgcolor-green text-white" mat-raised-button>
+            <span class="mx-8">Publish</span>
+        </button>
+        <button *ngIf=" dynamicdata && RFQModel.isROASendForApproval && !processing" class="sm:inline-flex mr-4" mat-raised-button
+            [color]="'primary'" (click)="RFQSendForApproval()">
+            <span class="mx-8">Send For Approval</span>
+        </button>
+
+    </div>
+</div>

@@ -1,0 +1,19 @@
+.costfactor-items-parent-grid {
+    border-top: 1px solid #eeeeee !important;
+    border-bottom: 1px solid #eeeeee !important;
+    font-weight: 500;
+}
+ 
+
+.costfactor-items-inner {
+    width: 100%;
+
+    .costfactor-items-inner-grid {
+        grid-template-columns: 5% 20% 15% 12% 25% 13% 15% 110px 155px;
+        padding-bottom: 5px;
+    }
+
+    .inner-header{
+        font-weight: 600;
+    }
+}

@@ -1,0 +1,12 @@
+.chart-block{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    align-items: baseline;
+    div{
+        width: 33%;
+        background-repeat:repeat-x;
+    }
+}

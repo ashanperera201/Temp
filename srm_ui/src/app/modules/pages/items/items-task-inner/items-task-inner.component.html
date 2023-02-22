@@ -1,0 +1,27 @@
+<div class="items-page flex flex-auto min-w-0">
+    <drawer-mini class="drawer-mini"></drawer-mini>
+
+    <div class="flex flex-col overflow-hidden flex-auto sm:p-6 md:p-8">
+        <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+            All Tasks
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium text-xl ml-px mt-2">
+                <div>
+                    <a href="http://localhost:4200/dashboard" class="whitespace-nowrap text-primary-500 font-semibold ml-px">All Tasks</a>
+                </div>
+                <div class="flex items-center ml-2 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1">Task 1234</a>
+                </div>
+            </div>
+        </div>
+        <div class="relative overflow-hidden min-h-80 w-full">
+            <div class="overflow-auto srm-bg rounded-lg rounded-t-none">
+                <div class="iframe-parent" style="min-height: 800px">
+                    <iframe id="designer" src="/assets/workflow/designer.html" allowfullscreen></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

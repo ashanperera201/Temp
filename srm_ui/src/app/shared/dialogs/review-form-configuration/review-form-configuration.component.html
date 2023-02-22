@@ -1,0 +1,69 @@
+<div class="review-container">
+    <div class="review-container__header">
+        <div class="header">
+            <h2>Review Form Configuration</h2>
+        </div>
+        <div class="close">
+            <button mat-icon-button (click)="closeModal()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <form class="review-container__form" [formGroup]="reviewForm" autocomplete="off">
+        <div class="review-container__form--item m-t-2">
+            <mat-form-field appearance="outline">
+                <mat-label>Configuration Code</mat-label>
+                <input matInput placeholder="Configuration Code" formControlName="configurationCode">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Configuration Name</mat-label>
+                <input matInput placeholder="Configuration Name" formControlName="configurationName">
+            </mat-form-field>
+        </div>
+        <div class="review-container__form--item">
+            <mat-form-field appearance="outline">
+                <mat-label>Module</mat-label>
+                <mat-select placeholder="Select Module" formControlName="module">
+                    <mat-option value="supplier-onboard">Supplier Onboard</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Element Items</mat-label>
+                <mat-select placeholder="Select Element" formControlName="elementItem">
+                    <mat-option value="tabs">Tabs</mat-option>
+                    <mat-option value="button">Button</mat-option>
+                </mat-select>
+                <mat-error *ngIf="reviewForm?.get('elementItem').invalid">This field is required.</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="review-container__form--item">
+            <mat-form-field appearance="outline">
+                <mat-label>Element Count</mat-label>
+                <input matInput placeholder="Element Count" max="10" min="1" maxlength="2"
+                    (keypress)="isNumeric($event)" oncopy="return false" onpaste="return false"
+                    formControlName="elementCount">
+                <mat-error *ngIf="reviewForm?.get('elementCount').invalid">This field is required.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline"
+                *ngIf="reviewForm?.get('module')?.value && reviewForm?.get('module')?.value === 'supplier-onboard'">
+                <mat-label>Process Step</mat-label>
+                <mat-select placeholder="Process Step" formControlName="processStep">
+                    <mat-option *ngFor="let process of processSteps"
+                        [value]="process.value">{{process?.label}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div [ngSwitch]="reviewForm?.get('elementItem')?.value">
+            <p *ngSwitchCase="'tabs'">
+                <app-dynamic-tabs #dynamicTabs *ngIf="reviewForm?.get('elementCount')?.value > 0"
+                    [count]="reviewForm?.get('elementCount')?.value"></app-dynamic-tabs>
+            </p>
+        </div>
+
+        <div class="btn-actions">
+            <button mat-raised-button color="primary" (click)="onSaveConfig()">Save Config</button>
+        </div>
+    </form>
+</div>

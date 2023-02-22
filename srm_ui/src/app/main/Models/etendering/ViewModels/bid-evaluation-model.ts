@@ -1,0 +1,50 @@
+import { RFQEvaluationSupplierAttributeGroupModel } from "../rfq-evaluation-supplier-attribute-group-model";
+import { RFQEvaluationSupplierCostFactorGroupModel } from "../rfq-evaluation-supplier-cost-factor-group-model";
+import { RFQEvaluationSupplierPartLineModel } from "./rfq-evaluation-supplier-partline-Model";
+
+export class BidEvaluationModel {
+    evaluationNumber: string;
+    rfqSupplierHeaderInformationModel:any;
+    attributeCategoryName: string;
+    rFQId: string;
+    attributeCategoryId: string;
+    supplierId: string;
+    disciplineId: string;
+    rFQCollaborationTeamId: string;
+    rFQSupplierHeaderInformationId: string;
+    rFQCollaborationTeam: any[];
+    bidHeaderEvaluationModel: any[];
+    bidPartLinesEvaluationModel: any[];
+    rFQSupplierHeaderInformation: any[];
+    rFQEvaluationSupplierHeaderAttachments: any[];
+    rFQEvaluationSupplierHeaderNotes: any[];
+    rfqEvaluationSupplierHeaderPaymentSchedules: any[];
+    rFQEvaluationSupplierLineAttachments: any[];
+    rFQEvaluationSupplierLineAttributes: any[];
+    rFQEvaluationSupplierLineDeliverables: any[];
+    rFQEvaluationSupplierLineDocumentTexts: any[];
+    rFQEvaluationSupplierLinePaymentSchedules: any[];
+    rFQSupplierHeaderInformationModel: any[];
+    rFQEvaluationSupplierPartLineNotes: any[];
+    rFQEvaluationSupplierHeaderDeliverables : any[];
+    rfqEvaluationSupplierHeaderAttributeGroups: RFQEvaluationSupplierAttributeGroupModel[];
+    rfqEvaluationSupplierHeaderCostFactorGroups: RFQEvaluationSupplierCostFactorGroupModel[];
+    rfqEvaluationSupplierLineAttributeGroups: RFQEvaluationSupplierAttributeGroupModel[];
+    rfqEvaluationSupplierLinesCostFactorGroups : RFQEvaluationSupplierCostFactorGroupModel[];
+    rfqEvaluationSupplierPartLines : RFQEvaluationSupplierPartLineModel[];
+    disciplineLists: any[];
+
+    buyerNotes: string;
+    supplierNotes: string;
+    supplierComments: string;
+    weight: string;
+    comments: string;
+    rfqScoringLineNoteId: string;
+    evaluation: boolean;
+    rrfqScoringLineNoteList: any[];
+    score: string;
+    statusName: string;
+    isSendForApproval : boolean;
+    userId: string;
+    userName: string;
+}

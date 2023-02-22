@@ -1,0 +1,281 @@
+<div style="margin-top:10px;padding: 5px 31px;" class="dashboard-page flex flex-col flex-auto min-w-0">
+    
+    <div class="bg-gray-50 rounded-lg">
+        
+        <div class="relative">
+
+            <div class="mt-4">
+                
+                <div class="item-block mb-4 srm-bg rounded-lg p-6">
+                    <div class="relative">
+
+                        <div class="font-bold ;"><span style="text-decoration: underline">Supplier Registration
+                                Information</span></div>
+                        
+                        <!-- <div class="font-bold ;">      
+                                <button (click)="getData(supplierId)" style="cursor: pointer; margin-left: -46px; position: absolute; z-index: 999999; margin-top: -2px;"><span><mat-icon >info</mat-icon></span></button>
+                        </div>     -->
+                        <div class="flex justify-end ml-auto p-6">
+                            <button class="w-30 e-bgcolor-blue text-white" mat-raised-button (click)="getData(supplierId)" style="background-color: #4b90f8;    width: 280px !important;">
+                                <span class="mx-8"> View Supplier Registered Information</span>
+                            </button>
+                        </div>
+                        <div
+                            class="flex justify-between border rounded bg-white mt-4 mb-2 p-4 divide-solid divide-x divide-gray-300">
+                            <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                                <h3 class="text-base font-medium leading-none text-secondary">Supplier ID</h3>
+                                <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">IMI-2022-{{
+                                    supplierId }}</p>
+                            </div>
+                            <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                                <h3 class="text-base font-medium leading-none text-secondary">Supplier Name</h3>
+                                <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{
+                                    supplierName }}</p>
+                            </div>
+                            <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                                <h3 class="text-base font-medium leading-none text-secondary">Status</h3>
+                                <div *ngIf="status === 'Approved'">
+                                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">Change Approval Approved</p>
+                                </div>    
+                                <div *ngIf="status != 'Approved'">
+                                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{ status }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                                <h3 class="text-base font-medium leading-none text-secondary">Requested Date</h3>
+                                <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{
+                                    submittedDate }}</p>
+                            </div>
+                            <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                                <h3 class="text-base font-medium leading-none text-secondary">Approval Category</h3>
+                                <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{
+                                    approvalCategoryString }}</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-5">
+
+                            <div class="font-bold ;"><span style="text-decoration: underline">Requested Change
+                                    Details</span></div>
+                            <div class="pt-5">
+                                <table mat-table [dataSource]="changeDetailsDataSource" matSort
+                                    class="expanded-rows-table font-helvetica text-gray-500"
+                                    style="width: calc(100% - 2px); background: #fafafa !important; padding: 0 2px;"
+                                    id="htmlData" #htmlData>
+
+                                    <ng-container matColumnDef="page">
+                                        <th mat-header-cell *matHeaderCellDef style="max-width: 120px; width: 120px">
+                                            Page
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"> <a>{{row.page}}</a></td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="tab">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            style="max-width: 120px; width: 120px">
+                                            Tab
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"><a>{{row.tab}}</a></td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="fieldName">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            style="max-width: 150px; width: 120px">
+                                            Field Name
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"><a>{{row.fieldName}}</a> </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="oldValue">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            style="max-width: 120px; width: 120px">
+                                            <span
+                                                style=" background-color: #839FE7; color: white; width: 350px; height: 25px;">
+                                                Initial Value </span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <a *ngIf="row.type === 'File'" style="color: #007bc3;cursor: pointer"
+                                                (click)="downloadFile(row.oldValue, false)">{{row.oldValue}}</a>
+                                            <a *ngIf="row.type !== 'File'">{{row.oldValue}}</a>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="newValue">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                            style="max-width: 120px; width: 100px">
+                                            <span
+                                                style=" background-color: #8D880D; color: white; width: 280px; height: 25px;">
+                                                Updated Value </span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <a *ngIf="row.type === 'File'" style="color: #00C389;cursor: pointer"
+                                                (click)="downloadFile(row.newValue, true)">{{row.newValue}}</a>
+                                            <a *ngIf="row.type !== 'File'"><span style="color:#00C389 ;">{{row.newValue}}</span></a>
+                                        </td>
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="changeDetailsColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: changeDetailsColumns;"></tr>
+                                    <tr class="mat-row" *matNoDataRow>
+                                        <td class="mat-cell" colspan="4">Nothing Changed</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Category table -->
+                        <div class="pt-8" *ngIf="this.oldCategoryDataSource && this.oldCategoryDataSource.data">
+                            <div class="font-bold ;"><span style="text-decoration: underline">Category Changes</span>
+                            </div>
+                            <br>
+                            <div class="flex">
+                                <div class="flex flex-col w-1/2 mr-2">
+                                    <div>
+                                        <div class="font-bold ;"><span style="text-decoration: underline">Initial
+                                                Values</span></div>
+                                        <table mat-table [dataSource]="oldCategoryDataSource" matSort
+                                            class="expanded-rows-table font-helvetica text-gray-500"
+                                            style="width:calc(100% - 2px) ;background: #fafafa !important; padding: 0 2px;"
+                                            id="htmlData" #htmlData>
+
+                                            <ng-container matColumnDef="position">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="max-width: 150px; width: 150px">
+                                                    No
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <a href="#">{{row.position}}</a>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="generalCategory">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="max-width: 150px; width: 200px">
+                                                    General Category
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <a href="#">{{row.generalCategory}}</a>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="subCategory">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="max-width: 150px; width: 200px">
+                                                    Sub Category
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <a href="#">{{row.subCategory}}</a>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="detailCategory">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="max-width: 150px; width: 200px">
+                                                    Detail Catogory
+                                                </th>
+                                                <td mat-cell *matCellDef="let row"
+                                                    style="border-right: 1px solid #ababab;">
+                                                    <a href="#">{{row.detailCategory}}</a>
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="categoryColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: categoryColumns;"></tr>
+
+                                            <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="4">No matching data</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col w-1/2 mr-2">
+                                    <div>
+                                        <div class="font-bold ;"><span style="text-decoration: underline">Updated
+                                                Values</span></div>
+                                        <table mat-table [dataSource]="newCategoryDataSource" matSort
+                                            class="expanded-rows-table font-helvetica text-gray-500"
+                                            style="width:calc(100% - 2px) ;background: #fafafa !important; padding: 0 2px;"
+                                            id="htmlData" #htmlData>
+
+                                            <ng-container matColumnDef="position">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="max-width: 150px; width: 150px">
+                                                    No
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <a style="color: #19d319 !important;" href="#">{{row.position}}</a>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="generalCategory">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="max-width: 150px; width: 200px">
+                                                    General Category
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <a style="color: #19d319 !important;" href="#">{{row.generalCategory}}</a>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="subCategory">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="max-width: 150px; width: 200px">
+                                                    Sub Category
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <a style="color: #19d319 !important;" href="#">{{row.subCategory}}</a>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="detailCategory">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="max-width: 150px; width: 200px">
+                                                    Detail Catogory
+                                                </th>
+                                                <td mat-cell *matCellDef="let row"
+                                                    style="border-right: 1px solid #ababab;">
+                                                    <a style="color: #19d319 !important;" href="#">{{row.detailCategory}}</a>
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="categoryColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: categoryColumns;"></tr>
+
+                                            <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="4">No matching data</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- other tables -->
+                    </div>
+                </div>
+            </div>
+            <div class="loader-inline" *ngIf="isloadingdecision">
+                <img src="assets/images/xitricon-loader.gif" alt="loading">
+            </div>
+
+            <div class="flex justify-end ml-auto p-6" *ngIf="issuccess">
+
+            <div class="flex align-center text-green font-medium mb-2" >
+                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green">
+                </mat-icon>
+                <span>{{successmessage}}</span>
+            </div>
+            </div>
+            <div class="flex justify-end ml-auto p-6" *ngIf="status!='Approved'">
+                <button *ngIf="availableForApproval" [disabled]="disableButton" class="w-30 mr-4" mat-raised-button color="warn" (click)="reject()">
+                    <span class="mx-8">Reject</span>
+                </button>
+                <button *ngIf="availableForApproval"  [disabled]="disableButton" class="w-30 e-bgcolor-green text-white" mat-raised-button (click)="approve()">
+                    <span class="mx-8">Approve</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

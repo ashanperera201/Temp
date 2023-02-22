@@ -1,0 +1,323 @@
+<div>
+    <button mat-icon-button #notificationsOrigin (click)="openSupplierPanel()">
+        <mat-icon [svgIcon]="'heroicons_solid:chat-alt'" color="primary"></mat-icon>
+        <span class="absolute top-0 right-0 left-0 flex items-center justify-center h-3">
+            <span *ngIf="unreadCount>0" [textContent]="unreadCount"
+                class="flex items-center justify-center flex-shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5 rounded-full bg-red-500 text-indigo-50 text-xs font-medium">
+
+            </span>
+        </span>
+    </button>
+
+    <ng-template #supplierPanel>
+
+        <div
+            class="fixed my-1 mx-1 top-0 bottom-0 right-0 flex flex-col w-120 rounded-lg overflow-hidden shadow-md border-1 border-gray-800">
+
+            <!-- Header -->
+            <div class="flex flex-shrink-0 items-center py-2 pr-4 pl-6 bg-primary text-on-primary">
+                <div class="text-lg font-medium leading-10">All Messages</div>
+                <div class="ml-auto">
+                    <button mat-icon-button (click)="closePanel()">
+                        <mat-icon class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="py-6 px-6 bg-white">
+                <mat-form-field class="fuse-mat-no-subscript fuse-mat-rounded fuse-mat-dense w-full"
+                    [floatLabel]="'always'">
+                    <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                    <input matInput [autocomplete]="'off'" [placeholder]="'Search Suppliers...'">
+                </mat-form-field>
+            </div>
+
+            <!-- Content -->
+            <div class="relative flex flex-col flex-auto divide-y overflow-y-auto bg-card">
+                <!-- Notifications -->
+                <ng-container>
+                    <div class="flex flex-col group hover:bg-gray-50">
+
+                        <!-- Notification with a link -->
+                        <div class="flex overflow-y-auto flex-col-reverse">
+                            <div *ngIf="suppliers"  class="flex flex-col flex-auto flex-shrink bg-card">
+                                <!-- <div (click)="openMessagePanel()" class="z-20 flex items-center py-5 px-6 cursor-pointer border-b hover:bg-gray-100">
+                                    <div class="relative flex flex-0 items-center justify-center w-10 h-10">
+                                        <div
+                                            class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600">
+                                            A
+                                        </div>
+                                    </div>
+                                    <div class="min-w-0 ml-4">
+                                        <div class="font-medium leading-5 truncate" >All Suppliers</div>
+                                        <div class="leading-5 truncate">
+                                            {{somemsg}}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-end self-start ml-auto pl-2">
+                                        <div class="text-sm leading-5 text-secondary">26/04/2021</div>
+                                    </div>
+                                </div> -->
+                                <div  *ngFor="let supplier of suppliers" (click)="openMessagePanel(supplier)" class="z-20 flex items-center py-5 px-6 cursor-pointer border-b hover:bg-gray-100">
+                                    <div class="relative flex flex-0 items-center justify-center w-10 h-10">
+                                        <div *ngIf="false" class="new-message-dot absolute top-0 right-0 flex-0 w-2 h-2 -ml-0.5 rounded-full ring-2 ring-bg-card bg-primary text-on-primary">
+                                        </div>
+                                        <!-- <img *ngIf="false" alt="Contact avatar" class="w-full h-full rounded-full object-cover"
+                                            src="assets/images/avatars/male-01.jpg"> -->
+                                            <mat-icon class="icon-size-6" matSuffix  [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                                            <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600">{{getShortName(supplier.supplierName)}}</div>
+                                            
+                                            
+                                    </div>
+                                    <div class="min-w-0 ml-4">
+                                        <div class="font-medium leading-5 truncate">{{supplier.supplierName}}</div>
+                                        <div class="leading-5 truncate text-primary">
+                                            {{unreadsomemsg}}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-end self-start ml-auto pl-2">
+                                        <div class="text-sm leading-5 text-secondary">{{datesomemsg}}</div>
+                                    </div>
+                                </div>
+                                <!-- <div (click)="openMessagePanel()" class="z-20 flex items-center py-5 px-6 cursor-pointer border-b hover:bg-gray-100">
+                                    <div class="relative flex flex-0 items-center justify-center w-10 h-10">
+                                        <img alt="Contact avatar" class="w-full h-full rounded-full object-cover"
+                                            src="assets/images/avatars/male-02.jpg">
+                                    </div>
+                                    <div class="min-w-0 ml-4">
+                                        <div class="font-medium leading-5 truncate">Justin Langley</div>
+                                        <div class="leading-5 truncate text-secondary">
+                                            Waiting for your feedback on invoice.
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-end self-start ml-auto pl-2">
+                                        <div class="text-sm leading-5 text-secondary">26/04/2021</div>
+                                    </div>
+                                </div>
+                                <div (click)="openMessagePanel()" class="z-20 flex items-center py-5 px-6 cursor-pointer border-b hover:bg-gray-100">
+                                    <div class="relative flex flex-0 items-center justify-center w-10 h-10">
+                                        <img alt="Contact avatar" class="w-full h-full rounded-full object-cover"
+                                            src="assets/images/avatars/female-01.jpg">
+                                    </div>
+                                    <div class="min-w-0 ml-4">
+                                        <div class="font-medium leading-5 truncate">Jessica Fence</div>
+                                        <div class="leading-5 truncate text-secondary">
+                                            Waiting for your feedback on invoice.
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-end self-start ml-auto pl-2">
+                                        <div class="text-sm leading-5 text-secondary">26/04/2021</div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Notification content template -->
+                    <ng-template #notificationContent>
+
+                    </ng-template>
+                </ng-container>
+
+                <!-- No notifications -->
+                <!--                <ng-container>-->
+                <!--                    <div class="flex flex-col flex-auto items-center justify-center sm:justify-start py-12 px-8">-->
+                <!--                        <div class="flex flex-0 items-center justify-center w-14 h-14 rounded-full bg-primary-100">-->
+                <!--                            <mat-icon class="text-primary-500-700" [svgIcon]="'heroicons_outline:bell'"></mat-icon>-->
+                <!--                        </div>-->
+                <!--                        <div class="mt-5 text-2xl font-semibold tracking-tight">No Conversations</div>-->
+                <!--                        <div class="w-full max-w-60 mt-1 text-md text-center text-secondary">When you have conversations, they will appear here.</div>-->
+                <!--                    </div>-->
+                <!--                </ng-container>-->
+
+            </div>
+
+        </div>
+
+    </ng-template>
+    <ng-template #messagePanel>
+
+        <div class="fixed my-1 mx-1 top-0 bottom-0 right-0 flex flex-col w-120 rounded-lg overflow-hidden shadow-md border-1 border-gray-800">
+
+            <!-- Header -->
+            <div class="flex flex-shrink-0 items-center py-2 pr-4 pl-6 bg-primary text-on-primary">
+                <div class="flex">
+                    <button *ngIf="IsSupplier==true" mat-icon-button  mat-icon-button (click)="openSupplierPanel()">
+                        <mat-icon class="icon-size-5 text-current mr-2" [svgIcon]="'heroicons_solid:arrow-left'">
+                        </mat-icon>
+                    </button>
+                </div>
+
+                <div class="ml-auto">
+                    <button mat-icon-button (click)="closePanel()">
+                        <mat-icon class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="relative flex flex-col flex-auto divide-y overflow-y-auto bg-card">
+                <div class="chat-content flex flex-col overflow-hidden h-full">
+                    <div class="flex flex-0 items-center pl-6 py-4 bg-gray-50 shadow-md border">
+                        <div class="flex items-center">
+                            <div class="relative flex flex-0 items-center justify-center w-10 h-10">
+                                <!-- <img alt="Contact Chat" class="w-full h-full rounded-full object-cover"
+                                    src="assets/images/avatars/male-01.jpg"> -->
+                                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="account_circle"></mat-icon>
+                            </div>
+                            <div class="min-w-0 ml-4">
+                                <div class="font-medium leading-5 truncate">{{supplier.supplierName}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex overflow-y-auto flex-col-reverse h-full" in-viewport (inViewportAction)="focus()">
+                        <div class="flex flex-col flex-auto flex-shrink p-6 bg-card dark:bg-transparent">
+                            <ng-container *ngFor="let notificn of notifications">
+
+                                
+                                <ng-container>
+                                    <div class="flex items-center justify-center my-3 -mx-6 bg-white sticky top-0 z-10">
+                                        <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary">
+                                            {{notificn.date}}
+                                        </div>
+                                    </div>
+                                </ng-container>
+                              <div *ngFor="let internalMsg of notificn.messages">
+                                    <!-- My block -->
+                                    <div [ngClass]="internalMsg.isInternal==true ? 'flex justify-end mt-0.5 parent-with-hover-child-btn' : 'hdidlityChats'">
+                                        <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Options" class="mt-1 m-h-30 hover-child-btn">
+                                            <mat-icon class="icon-size-5 text-current" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                                        </button>
+                                        <mat-menu #options="matMenu" class="min-width-235 z-1">
+                                            <button type="button" (click)="deleteMessage(internalMsg.id)"  mat-menu-item>
+                                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash"></mat-icon>
+                                                Delete
+                                            </button>
+                                        </mat-menu>
+                                        <div class="flex flex-col items-end max-w-3/4">
+                                            <!-- Bubble -->
+                                            <div class="relative px-3 py-2 rounded-2xl bg-blue-500 text-blue-50">
+                                                <!-- Speech bubble tail -->
+                                                <ng-container>
+                                                    <div class="absolute bottom-0 w-3 transform text-blue-500 -right-1 -mr-px mb-px">
+                                                        <ng-container *ngTemplateOutlet="speechBubbleExtension">
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                                <!-- Message -->
+                                                <div [ngClass]="internalMsg.isAttach==true ? 'hdidlityChats' : 'min-w-4 leading-5'">
+                                                    {{internalMsg.etMessage}}
+                                                </div>
+                                                <div [ngClass]="internalMsg.isAttach==false ? 'hdidlityChats' : 'min-w-4 leading-5'">
+                                                    <div class="flex items-center rounded px-4 py-1">
+                                                        <mat-icon matSuffix class="icon-size-4 text-current mr-1" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                        <span class="truncate">{{internalMsg.etMessage}}</span><!-- filename instead of etMessage -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Time -->
+                                            <ng-container>
+                                                <div  class="my-0.5 text-sm font-medium text-secondary mr-3">
+                                                    {{internalMsg.timeOnly}}
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <!-- end of My block -->
+                                
+                                    <!-- Client block -->
+                                    <div [ngClass]="internalMsg.isInternal==false ? 'flex flex-col items-start mt-3' : 'hdidlityChats'">
+                                        <!-- Bubble -->
+                                        <div class="relative max-w-3/4 px-3 py-2 rounded-2xl bg-gray-200 text-gray-500">
+                                            <!-- Speech bubble tail -->
+                                            <ng-container>
+                                                <div class="absolute bottom-0 w-3 transform text-gray-200 -left-1 -ml-px mb-px -scale-x-1">
+                                                    <ng-container *ngTemplateOutlet="speechBubbleExtension"></ng-container>
+                                                </div>
+                                            </ng-container>
+                                            <!-- Message -->
+                                            <div [ngClass]="internalMsg.isAttach==true ? 'hdidlityChats' : 'min-w-4 leading-5'">
+                                                {{internalMsg.etMessage}}
+                                            </div>
+                                            <div [ngClass]="internalMsg.isAttach==false ? 'hdidlityChats' : 'min-w-4 leading-5'">
+                                                <div class="flex items-center rounded px-4 py-1">
+                                                    <mat-icon matSuffix class="icon-size-4 text-current mr-1" [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                                                    <span class="truncate">{{internalMsg.etMessage}}</span><!-- filename instead of etMessage -->
+                                                    <button mat-icon-button type="button" (click)="DownloadMediaLines(internalMsg)" aria-label="download" class="m-h-30 ml-2">
+                                                        <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:download"></mat-icon>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Time -->
+                                        <ng-container>
+                                            <div (mouseover)="focus(internalMsg)" class="my-0.5 text-sm font-medium text-secondary ml-3">
+                                                {{internalMsg.timeOnly}}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                    <!-- end of Client block -->
+                                </div>
+                           
+                                
+
+
+                                
+
+                            </ng-container>
+
+                            <!-- Select chat or start new template -->
+                            <ng-template #selectChatOrStartNew>
+                                <div
+                                    class="flex flex-col flex-auto items-center justify-center bg-gray-100 dark:bg-transparent">
+                                    <mat-icon class="icon-size-24" [svgIcon]="'iconsmind:speach_bubble'"></mat-icon>
+                                    <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">Select a
+                                        conversation or start a new chat</div>
+                                </div>
+                            </ng-template>
+
+                            <!-- Speech bubble tail SVG -->
+                            <!-- @formatter:off -->
+                            <ng-template #speechBubbleExtension>
+                                <svg width="100%" height="100%" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <path
+                                            d="M1.01522827,0.516204834 C-8.83532715,54.3062744 61.7609863,70.5215302 64.8009949,64.3061218 C68.8074951,54.8859711 30.1663208,52.9997559 37.5036011,0.516204834 L1.01522827,0.516204834 Z"
+                                            fill="currentColor" fill-rule="nonzero"></path>
+                                    </g>
+                                </svg>
+                            </ng-template>
+                            <!-- @formatter:on -->
+                        </div>
+                    </div>
+
+                    <div class="flex items-end p-4 border-t bg-gray-50 dark:bg-transparent">
+                        <div class="flex items-center h-11 my-px">
+                            <button (click)="file.click()" type="button" class="ml-0.5" mat-icon-button>
+                                <mat-icon [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                            </button>
+                            <input type="hidden" [(ngModel)]="etMediaId">
+                                                <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" readonly hidden>
+                        </div>
+                        <mat-form-field
+                            class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded fuse-mat-bold w-full ml-4">
+                            <textarea [(ngModel)]="msgSubject" class="min-h-5 my-0 resize-none"
+                                style="margin: 11px 0 !important; padding: 0 !important;" [rows]="1"
+                                matInput></textarea>
+                        </mat-form-field>
+                        <div class="flex items-center h-11 my-px ml-4">
+                            <button type="button" (click)="sendMessage()" mat-icon-button>
+                                <mat-icon class="transform rotate-90" [svgIcon]="'heroicons_outline:paper-airplane'">
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </ng-template>
+</div>

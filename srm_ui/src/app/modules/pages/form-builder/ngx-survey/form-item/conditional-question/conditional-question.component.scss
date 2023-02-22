@@ -1,0 +1,19 @@
+.mat-form-field {
+    display: block;
+}
+
+.custom-table{
+    height: 10rem !important;
+    width: 100% !important;
+    overflow-y: scroll !important;
+
+    table{
+        width: 100% !important;
+    }
+}
+
+.btn-actions{
+    justify-self: flex-end;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}

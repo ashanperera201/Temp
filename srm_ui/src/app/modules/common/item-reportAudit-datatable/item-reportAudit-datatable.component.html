@@ -1,0 +1,1481 @@
+<div class="flex justify-end mb-5">
+    <div class="flex justify-between" *ngIf="iserror">
+        <div class="flex items-center pr-1">
+            <div class="flex align-center text-warn font-medium mb-2">
+                <mat-icon [svgIcon]="'warning_amber'" class="mr-2 text-warn"></mat-icon>
+                <span>{{errormessage}} &nbsp;</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-between">
+        <div class="flex items-center pr-1">
+            <mat-radio-group>
+                <mat-radio-button class="px-6 py-3" checked value="without_categories" (click)="selectCategoryOption('Without Categories')">Without Categories</mat-radio-button>
+                <mat-radio-button class="px-6 py-3" value="with_categories" (click)="selectCategoryOption('With Categories')">With Categories</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+    <div class="flex justify-between">
+        <div class="flex items-center pr-1">
+            <button mat-icon-button aria-label="Reset">
+                <mat-icon color="primary" svgIcon="mat_outline:restore" (click)="resetFilters()"></mat-icon>
+            </button>
+        </div>
+        <div class="flex items-center pl-1">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+                <mat-icon color="primary" svgIcon="heroicons_outline:view-boards"></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="min-width-235 z-1">
+                <div class="flex flex-col max-h-80" (click)="$event.stopPropagation();">
+                    <div class="flex flex-col overflow-auto">
+                        <mat-checkbox class="select-all" [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                            (change)="toggleAllSelection()"><strong>Select/ Unselect All</strong></mat-checkbox>
+                        <section *ngFor="let selectedColumn of DropdownList">
+                            <mat-checkbox class="px-6 py-3" [(ngModel)]="selectedColumn.completed"
+                                [value]="selectedColumn" (change)="isAllSelected()">{{selectedColumn.name}}
+                            </mat-checkbox>
+                        </section>
+                    </div>
+                </div>
+            </mat-menu>
+            <button mat-icon-button aria-label="Download Excel file" (click)="ExportToExcel()">
+                <img src="assets/icons/excel.svg" alt="download excel file">
+            </button>
+        </div>
+    </div>
+</div>
+<div class="overflow-auto bg-gray-50 rounded-lg">
+    <div class="loader-inline" *ngIf="isloading">
+        <img src="assets/images/xitricon-loader.gif" alt="loading">
+    </div>
+    <table mat-table [dataSource]="dataSourceDashboard" class="expanded-rows-table font-helvetica text-gray-500">
+
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 150px"> Supplier Code
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="position" (keyup)="filterChange('position',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="supplierName">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Supplier Details - Supplier Name (in English)
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="supplierName"
+                            (keyup)="filterChange('supplierName',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.supplierName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="supplierNameArabic">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Supplier Details - Supplier Name (in Arabic)
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="supplierNameArabic"
+                            (keyup)="filterChange('supplierNameArabic',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.supplierNameArabic}} </td>
+        </ng-container>
+        <ng-container matColumnDef="criticality">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 150px">
+                Criticality
+                <mat-form-field class="mt-1">
+                    <input matInput class="form-field" [(ngModel)]="criticality"
+                        (keyup)="filterChange('criticality',$event)">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.criticality}} </td>
+        </ng-container>
+        <ng-container matColumnDef="website">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px">
+                Supplier Details - Website
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="website"
+                            (keyup)="filterChange('website',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.website}} </td>
+        </ng-container>
+        <ng-container matColumnDef="supplierType">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px">
+                Supplier Details - Supplier Type
+                <div></div>
+                <mat-form-field class="mt-1">
+                    <input matInput class="form-field" [(ngModel)]="supplierType"
+                        (keyup)="filterChange('supplierType',$event)">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.supplierType}} </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Status
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="status" (keyup)="filterChange('status',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        </ng-container>
+       
+        <ng-container matColumnDef="country">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Address - Country
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="country" (keyup)="filterChange('country',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.country}} </td>
+        </ng-container>
+        <ng-container matColumnDef="createddate">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px">
+                Created Date
+                <div class="flex flex-row mt-1">
+                    <mat-form-field class="form-field pr-2" floatLabel="never">
+                        <input matInput [(ngModel)]="createddatefrom" [matDatepicker]="pickerfrom" [max]="maxCreatedDate"
+                            placeholder="YYYY-MM-DD" id="pickerfrom" name="pickerfrom"
+                            (ngModelChange)="filterChange('createddatefrom',$event)"
+                            onkeypress="return event.charCode == 45 || event.charCode >= 48 && event.charCode <= 57"
+                            (dateChange)="selectedDate('createddatefrom',$event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerfrom"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerfrom></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field class="form-field" floatLabel="never">
+                        <input matInput [(ngModel)]="createddateto" [min]="minCreatedDate" [matDatepicker]="pickerto" placeholder="YYYY-MM-DD"
+                            id="pickerto" name="pickerto" (ngModelChange)="filterChange('createddateto',$event)"
+                            onkeypress="return event.charCode == 45 || event.charCode >= 48 && event.charCode <= 57"
+                            (dateChange)="selectedDate('createddateto',$event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerto"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerto></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.createddate}} </td>
+        </ng-container>
+        <ng-container matColumnDef="establishmentyear">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px">
+                Supplier Details - Establishment Year
+                <div class="flex mt-1">
+                    <mat-form-field class="form-field pr-2">
+                        <input matInput class="form-field" type="number" [(ngModel)]="establishmentyearfrom"
+                            (keyup)="filterChange('establishmentyearfrom',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput class="form-field" type="number" [(ngModel)]="establishmentyearto"
+                            (keyup)="filterChange('establishmentyearto',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.establishmentyear}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="issuedby">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Supplier Details - Issued By
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="issuedby" (keyup)="filterChange('issuedby',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.issuedby}} </td>
+        </ng-container>
+        <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Address - City
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="city" (keyup)="filterChange('city',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+        </ng-container>
+        <ng-container matColumnDef="otherCity">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Address - Other City
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="otherCity" (keyup)="filterChange('otherCity',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.otherCity}} </td>
+        </ng-container>
+        <ng-container matColumnDef="poBox">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Address - PoBox
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="poBox" (keyup)="filterChange('poBox',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.poBox}} </td>
+        </ng-container>
+        <ng-container matColumnDef="postalcode">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Address - Postal Code
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="postalcode"
+                            (keyup)="filterChange('postalcode',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.postalcode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="adressline1">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Address - Address Line1
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="adressline1"
+                            (keyup)="filterChange('adressline1',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.adressline1}} </td>
+        </ng-container>
+        <ng-container matColumnDef="adressline2">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Address - Address Line2
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="adressline2"
+                            (keyup)="filterChange('adressline2',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.adressline2}} </td>
+        </ng-container>
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person - Title
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="title"
+                            (keyup)="filterChange('title',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+        <ng-container matColumnDef="firstname">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person - First Name
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="firstname"
+                            (keyup)="filterChange('firstname',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
+        </ng-container>
+        <ng-container matColumnDef="lastname">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person - Last Name
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="lastname"
+                            (keyup)="filterChange('lastname',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.lastname}} </td>
+        </ng-container>
+        <ng-container matColumnDef="currentPosition">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Contact Person - Current Position
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="currentPosition"
+                            (keyup)="filterChange('currentPosition',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.currentPosition}} </td>
+        </ng-container>
+        <ng-container matColumnDef="telNoCountryCode">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Contact Person - Tel No CountryCode
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="telNoCountryCodeVal"
+                            (keyup)="filterChange('telNoCountryCode',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.telNoCountryCode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="telNo">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person - Tel No
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" type="number" [min]="0" [(ngModel)]="telNoVal"
+                            (keyup)="filterChange('telNo',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.telNo}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ext">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person - Ext
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" type="number" [min]="0" [(ngModel)]="extVal"
+                            (keyup)="filterChange('ext',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.ext}} </td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person - Email
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="EmailVal" (keyup)="filterChange('email',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+        <ng-container matColumnDef="mobNoCountryCode">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Contact Person - Mob No CountryCode
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="mobNoCountryCodeVal" (keyup)="filterChange('mobNoCountryCode',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.mobNoCountryCode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="mobNo">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person - Mob No
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" type="number" [min]="0" [(ngModel)]="mobNoVal" (keyup)="filterChange('mobNo',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.mobNo}} </td>
+        </ng-container>
+        <ng-container matColumnDef="faxNoCountryCode">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Contact Person - Fax No CountryCode
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="faxNoCountryCodeVal" (keyup)="filterChange('faxNoCountryCode',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.faxNoCountryCode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="faxNo">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person - Fax No
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" type="number" [min]="0" [(ngModel)]="faxNoVal" (keyup)="filterChange('faxNo',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.faxNo}} </td>
+        </ng-container>
+        <ng-container matColumnDef="hijriCalendar">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Contact Person - Hijri Calendar
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="hijriCalendarVal" (keyup)="filterChange('hijriCalendar',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.hijriCalendar}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="crno">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Registration Details - CR No
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="CRNoVal" (keyup)="filterChange('crno',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.crno}} </td>
+        </ng-container>
+        <ng-container matColumnDef="crExpDate">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Registration Details - CR Exp Date
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="crExpDateVal" (keyup)="filterChange('crExpDate',$event)"
+                        onkeypress="return event.charCode == 47 || event.charCode >= 48 && event.charCode <= 57"
+                        placeholder="MM/DD/YYYY">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.crExpDate}} </td>
+        </ng-container>
+        <ng-container matColumnDef="vatno">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Registration Details - Vat No
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="VatNoVal" (keyup)="filterChange('vatno',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.vatno}} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="regDate">
+            <th mat-header-cell *matHeaderCellDef> Registration Details - Reg Date
+                <mat-form-field>
+                    <input matInput class="form-field" [(ngModel)]="regDateVal" (keyup)="filterChange('regDate',$event)"
+                    onkeypress="return event.charCode == 47 || event.charCode >= 48 && event.charCode <= 57"
+                    placeholder="MM/DD/YYYY">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.regDate| date: 'dd-MMM-yyyy'}} </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="gosiExpDate">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Registration Details - GOSI Exp Date
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="gosiExpDateVal" (keyup)="filterChange('gosiExpDate',$event)"
+                        onkeypress="return event.charCode == 47 || event.charCode >= 48 && event.charCode <= 57"
+                        placeholder="MM/DD/YYYY">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.gosiExpDate}} </td>
+        </ng-container>
+        <ng-container matColumnDef="saudizationCertificateExpDate">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Registration Details - Saudization Exp Date
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="saudizationCertificateExpDateVal" (keyup)="filterChange('saudizationCertificateExpDate',$event)"
+                        onkeypress="return event.charCode == 47 || event.charCode >= 48 && event.charCode <= 57"
+                        placeholder="MM/DD/YYYY">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.saudizationCertificateExpDate}} </td>
+        </ng-container>
+        <ng-container matColumnDef="zakathExpDate">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Registration Details - Zakat Exp Date
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="zakathExpDateVal" (keyup)="filterChange('zakathExpDate',$event)"
+                        onkeypress="return event.charCode == 47 || event.charCode >= 48 && event.charCode <= 57"
+                        placeholder="MM/DD/YYYY">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.zakathExpDate}} </td>
+        </ng-container>
+        <ng-container matColumnDef="addtionalMaterial">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Registration Details - Additional Material
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="addtionalMaterialVal"
+                            (keyup)="filterChange('addtionalMaterial',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.addtionalMaterial}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="waselAddress">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Registration Details - Wasel Address
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="waselAddressVal"
+                            (keyup)="filterChange('waselAddress',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.waselAddress}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="typeoforg">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Gen. Info. - 1. Type Of Org
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="TypeOfOrgVal"
+                            (keyup)="filterChange('typeoforg',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.typeoforg}} </td>
+        </ng-container>
+        <ng-container matColumnDef="manegerialCount">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Gen. Info. - 2. Manegerial
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="manegerialCountVal"
+                            (keyup)="filterChange('manegerialCount',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.manegerialCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="operationsCount">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Gen. Info. - 2. Operational
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="operationsCountVal"
+                            (keyup)="filterChange('operationsCount',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.operationsCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="saudiNationalsCount">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Gen. Info. - 2. Saudi Nationals
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="saudiNationalsCountVal"
+                            (keyup)="filterChange('saudiNationalsCount',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.saudiNationalsCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="technicalCount">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Gen. Info. - 2. Technical
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="technicalCountVal"
+                            (keyup)="filterChange('technicalCount',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.technicalCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="totalCount">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Gen. Info. - 2. Total
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="totalCountVal"
+                            (keyup)="filterChange('totalCount',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.totalCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="parentCompany">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Gen. Info. - 3. Add. of the parent company
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="parentCompanyVal"
+                            (keyup)="filterChange('parentCompany',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.parentCompany}} </td>
+        </ng-container>
+        <ng-container matColumnDef="sisterCompany">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 400px"> Gen. Info. - 4. Add. of the sister/affiliated companies
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="sisterCompanyVal"
+                            (keyup)="filterChange('sisterCompany',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.sisterCompany}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ownerCompany">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Gen. Info. - 5. List all owners/principals’ name
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="ownerCompanyVal"
+                            (keyup)="filterChange('ownerCompany',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.ownerCompany}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="operatingProfitYear">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Fin. Status - 1. Operating profit - Year
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="operatingProfitYearVal"
+                            (keyup)="filterChange('operatingProfitYear',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.operatingProfitYear}} </td>
+        </ng-container>
+        <ng-container matColumnDef="operatingProfitValue">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Fin. Status - 1. Operating profit - Value
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="operatingProfitValueVal"
+                            (keyup)="filterChange('operatingProfitValue',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.operatingProfitValue}} </td>
+        </ng-container>
+        <ng-container matColumnDef="netIncomeYear">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Fin. Status - 2. Net income - Year
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="netIncomeYearVal"
+                            (keyup)="filterChange('netIncomeYear',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.netIncomeYear}} </td>
+        </ng-container>
+        <ng-container matColumnDef="netIncomeValue">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Fin. Status - 2. Net income - Value
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="netIncomeValueVal"
+                            (keyup)="filterChange('netIncomeValue',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.netIncomeValue}} </td>
+        </ng-container>
+        <ng-container matColumnDef="currentAssetYear">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Fin. Status - 3. Current asset - Year
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="currentAssetYearVal"
+                            (keyup)="filterChange('currentAssetYear',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.currentAssetYear}} </td>
+        </ng-container>
+        <ng-container matColumnDef="currentAssetValue">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Fin. Status - 3. Current asset - Value
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="currentAssetValueVal"
+                            (keyup)="filterChange('currentAssetValue',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.currentAssetValue}} </td>
+        </ng-container>
+        <ng-container matColumnDef="totalLiabilitiesYear">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Fin. Status - 4. Total liabilities - Year
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="totalLiabilitiesYearVal"
+                            (keyup)="filterChange('totalLiabilitiesYear',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.totalLiabilitiesYear}} </td>
+        </ng-container>
+        <ng-container matColumnDef="totalLiabilitiesValue">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Fin. Status - 4. Total liabilities - Value
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="totalLiabilitiesValueVal"
+                            (keyup)="filterChange('totalLiabilitiesValue',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.totalLiabilitiesValue}} </td>
+        </ng-container>
+        <ng-container matColumnDef="totalEquityYear">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Fin. Status - 5. Total equity - Year
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="totalEquityYearVal"
+                            (keyup)="filterChange('totalEquityYear',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.totalEquityYear}} </td>
+        </ng-container>
+        <ng-container matColumnDef="totalEquityValue">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Fin. Status - 5. Total equity - Value
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="totalEquityValueVal"
+                            (keyup)="filterChange('totalEquityValue',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.totalEquityValue}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="noOfBusinessYears">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 400px"> Exp. & Qua. - 1. Number of Years in the Business
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="noOfBusinessYearsVal"
+                            (keyup)="filterChange('noOfBusinessYears',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.noOfBusinessYears}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ownsPlantEquipment">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Exp. & Qua. - 2. Own the plant and equipment
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="ownsPlantEquipmentVal"
+                            (keyup)="filterChange('ownsPlantEquipment',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.ownsPlantEquipment}} </td>
+        </ng-container>
+        <ng-container matColumnDef="designnCapability">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Exp. & Qua. - 3. Design capability
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="designnCapabilityVal"
+                            (keyup)="filterChange('designnCapability',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.designnCapability}} </td>
+        </ng-container>
+        <ng-container matColumnDef="finishedProduct">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Exp. & Qua. - 4. Product/Service outsourcing
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="finishedProductVal"
+                            (keyup)="filterChange('finishedProduct',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.finishedProduct}} </td>
+        </ng-container>
+        <ng-container matColumnDef="internalPolicy">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Exp. & Qua. - 5. Internal Written policy
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="internalPolicyVal"
+                            (keyup)="filterChange('internalPolicy',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.internalPolicy}} </td>
+        </ng-container>
+        <ng-container matColumnDef="registered3rdPartyBody">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Exp. & Qua. - 6. 3rd party certifying
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="registered3rdPartyBodyVal"
+                            (keyup)="filterChange('registered3rdPartyBody',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.registered3rdPartyBody}} </td>
+        </ng-container>
+        <ng-container matColumnDef="suspendedProj">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Exp. & Qua. - 7. Project/Order suspened
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="suspendedProjVal"
+                            (keyup)="filterChange('suspendedProj',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.suspendedProj}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="litigation">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Legal - 1. Involved in any litigation
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="litigationVal"
+                            (keyup)="filterChange('litigation',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.litigation}} </td>
+        </ng-container>
+        <ng-container matColumnDef="compliance">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Legal - 2. Internal compliance program
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="complianceVal"
+                            (keyup)="filterChange('compliance',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.compliance}} </td>
+        </ng-container>
+        <ng-container matColumnDef="shareholder">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Legal - 3. offered gifts or bribes
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="shareholderVal"
+                            (keyup)="filterChange('shareholder',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.shareholder}} </td>
+        </ng-container>
+        <ng-container matColumnDef="legalAsset">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Legal - 4. financial transactions blocked
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="legalAssetVal"
+                            (keyup)="filterChange('legalAsset',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.legalAsset}} </td>
+        </ng-container>
+        <ng-container matColumnDef="labour">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Legal - 5. convictions under labor legislation
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="labourVal"
+                            (keyup)="filterChange('labour',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.labour}} </td>
+        </ng-container>
+        <ng-container matColumnDef="environment">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 400px"> Legal - 6. convictions under environmental legislation
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="environmentVal"
+                            (keyup)="filterChange('environment',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.environment}} </td>
+        </ng-container>
+        <ng-container matColumnDef="imiInterested">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Legal - 7. IMI has an interest
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="imiInterestedVal"
+                            (keyup)="filterChange('imiInterested',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.imiInterested}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hse">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> HSE - 1. HSE written policy
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="hseVal"
+                            (keyup)="filterChange('hse',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.hse}} </td>
+        </ng-container>
+        <ng-container matColumnDef="docuHse">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> HSE - 2. HSE Management System
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="docuHseVal"
+                            (keyup)="filterChange('docuHse',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.imiInterested}} </td>
+        </ng-container>
+        <ng-container matColumnDef="isohealth">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> HSE - 3. ISO 45001 Certified
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="isohealthVal"
+                            (keyup)="filterChange('isohealth',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.isohealth}} </td>
+        </ng-container>
+        <ng-container matColumnDef="envtMgt1">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> HSE - 4. ISO 14001 Certified
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="envtMgt1Val"
+                            (keyup)="filterChange('envtMgt1',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.envtMgt1}} </td>
+        </ng-container>
+        <ng-container matColumnDef="dedicatedpers">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> HSE - 5. person responsible for HSE?
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="dedicatedpersVal"
+                            (keyup)="filterChange('dedicatedpers',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.dedicatedpers}} </td>
+        </ng-container>
+        <ng-container matColumnDef="hseName">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> HSE - 5. person responsible for HSE? - Name
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="hseNameVal"
+                            (keyup)="filterChange('hseName',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.hseName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="hseDesig">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 400px"> HSE - 5. person responsible for HSE? - Designation
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="hseDesigVal"
+                            (keyup)="filterChange('hseDesig',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.hseDesig}} </td>
+        </ng-container>
+        <ng-container matColumnDef="statistic">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> HSE - 6. HSE statistics
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="statisticVal"
+                            (keyup)="filterChange('statistic',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.statistic}} </td>
+        </ng-container>
+        <ng-container matColumnDef="statisticNear">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> HSE - 6. HSE statistics - Near Miss
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="statisticNearVal"
+                            (keyup)="filterChange('statisticNear',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.statisticNear}} </td>
+        </ng-container>
+        <ng-container matColumnDef="statisticFirst">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> HSE - 6. HSE statistics - First Aid Case
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="statisticFirstVal"
+                            (keyup)="filterChange('statisticFirst',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.statisticFirst}} </td>
+        </ng-container>
+        <ng-container matColumnDef="statisticMedical">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> HSE - 6. HSE statistics - Medical Tre. Case
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="statisticMedicalVal"
+                            (keyup)="filterChange('statisticMedical',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.statisticMedical}} </td>
+        </ng-container>
+        <ng-container matColumnDef="statisticLost">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> HSE - 6. HSE statistics - Lost Time Injuries
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="statisticLostVal"
+                            (keyup)="filterChange('statisticLost',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.statisticLost}} </td>
+        </ng-container>
+        <ng-container matColumnDef="statisticFatal">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> HSE - 6. HSE statistics - Fatality
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="statisticFatalVal"
+                            (keyup)="filterChange('statisticFatal',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.statisticFatal}} </td>
+        </ng-container>
+        <ng-container matColumnDef="statisticEnvt">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> HSE - 6. HSE statistics - Env. Incident
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="statisticEnvtVal"
+                            (keyup)="filterChange('statisticEnvt',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.statisticEnvt}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="qualityPolicy">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Quality - 1. Quality written policy
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="qualityPolicyVal"
+                            (keyup)="filterChange('qualityPolicy',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.qualityPolicy}} </td>
+        </ng-container>
+        <ng-container matColumnDef="qualityMgt">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Quality - 2. Quality Management System
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="qualityMgtVal"
+                            (keyup)="filterChange('qualityMgt',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.qualityMgt}} </td>
+        </ng-container>
+        <ng-container matColumnDef="qualityMgtIso">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Quality - 3. Certified to ISO 9001:2015
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="qualityMgtIsoVal"
+                            (keyup)="filterChange('qualityMgtIso',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.qualityMgtIso}} </td>
+        </ng-container>
+        <ng-container matColumnDef="qualityResp1">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Quality - 4. Person responsible for Quality
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="qualityResp1Val"
+                            (keyup)="filterChange('qualityResp1',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.qualityResp1}} </td>
+        </ng-container>
+        <ng-container matColumnDef="qualityResp2">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 400px"> Quality - 4. Person responsible for Quality - Name
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="qualityResp2Val"
+                            (keyup)="filterChange('qualityResp2',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.qualityResp2}} </td>
+        </ng-container>
+        <ng-container matColumnDef="qualityResp3">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 400px"> Quality - 4. Person responsible for Quality - Designation
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="qualityResp3Val"
+                            (keyup)="filterChange('qualityResp3',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>             
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.qualityResp3}} </td>
+        </ng-container>
+        <ng-container matColumnDef="qualityreviewDate">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Quality - 5. QMS Audit date
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="qualityreviewDateVal" (keyup)="filterChange('qualityreviewDate',$event)"
+                        onkeypress="return event.charCode == 47 || event.charCode >= 48 && event.charCode <= 57"
+                        placeholder="MM/DD/YYYY">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.qualityreviewDate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="accountcurrency">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - Acc. Currency
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="AccountCurrencyVal"
+                            (keyup)="filterChange('accountcurrency',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.accountcurrency}} </td>
+        </ng-container>
+        <ng-container matColumnDef="accountholdername">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - Acc. Holder Name
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="AccountHolderNameVal"
+                            (keyup)="filterChange('accountholdername',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.accountholdername}} </td>
+        </ng-container>
+        <ng-container matColumnDef="accountnumber">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - Acc. Number
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="AccountNumberVal"
+                            (keyup)="filterChange('accountnumber',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.accountnumber}} </td>
+        </ng-container>
+        <ng-container matColumnDef="bankaddress">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - Bank Add. Line1
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="BankAddressVal"
+                            (keyup)="filterChange('bankaddress',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.bankaddress}} </td>
+        </ng-container>
+        <ng-container matColumnDef="bankaddress2">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - Bank Add. Line2
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="BankAddress2Val"
+                            (keyup)="filterChange('bankaddress2',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.bankaddress2}} </td>
+        </ng-container>
+        <ng-container matColumnDef="bankcountrycode">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - Bank Country Code
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="BankCountryCodeVal"
+                            (keyup)="filterChange('bankcountrycode',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>              
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.bankcountrycode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="bankname">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px">Bank info. - Bank Name
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="BankNameVal"
+                            (keyup)="filterChange('bankname',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.bankname}} </td>
+        </ng-container>
+        <ng-container matColumnDef="multicurrency">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - Multicurrency
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="MulticurrencyVal"
+                            (keyup)="filterChange('multicurrency',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.multicurrency}} </td>
+        </ng-container>
+        <ng-container matColumnDef="otherbank">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - Other Bank
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="OtherBankVal"
+                            (keyup)="filterChange('otherbank',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.otherbank}} </td>
+        </ng-container>
+        <ng-container matColumnDef="swiftcode">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - BIC/SWIFT Code
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="SwiftCodeVal"
+                            (keyup)="filterChange('swiftcode',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.swiftcode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ibanNo">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 350px"> Bank info. - IBAN No
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="ibanNoVal" (keyup)="filterChange('ibanNo',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.ibanNo}} </td>
+        </ng-container>
+        <ng-container matColumnDef="statusremark">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Status
+                Remark
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="status_remark"
+                            (keyup)="filterChange('statusremark',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.statusremark}} </td>
+        </ng-container>
+        <ng-container matColumnDef="statuscomment">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Decision Remark
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="status_comment"
+                            (keyup)="filterChange('statuscomment',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.statuscomment}} </td>
+        </ng-container>
+        <ng-container matColumnDef="iscurrentstatus">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Is Current
+                Status
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="iscurrent_status"
+                            (keyup)="filterChange('iscurrentstatus',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.iscurrentstatus}} </td>
+        </ng-container>
+        <ng-container matColumnDef="actioncommand">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Action Command
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="action_command"
+                            (keyup)="filterChange('actioncommand',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.actioncommand}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="auditcreateddate">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Audit
+                Created Date
+                <div class="flex flex-row mt-1">
+                    <mat-form-field class="form-field pr-2" floatLabel="never">
+                        <input matInput [(ngModel)]="audit_createddatefrom" [matDatepicker]="pickerfrom" [max]="maxAuditDate"
+                            placeholder="YYYY-MM-DD" id="pickerfrom" name="pickerfrom"
+                            (ngModelChange)="filterChange('auditcreateddatefrom',$event)"
+                            onkeypress="return event.charCode == 45 || event.charCode >= 48 && event.charCode <= 57"
+                            (dateChange)="selectedDate('auditcreateddatefrom',$event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerfrom"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerfrom></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field class="form-field" floatLabel="never">
+                        <input matInput [(ngModel)]="audit_createddateto" [min]="minAuditDate" [matDatepicker]="pickerto" placeholder="YYYY-MM-DD"
+                            id="pickerto" name="pickerto" (ngModelChange)="filterChange('auditcreateddateto',$event)"
+                            onkeypress="return event.charCode == 45 || event.charCode >= 48 && event.charCode <= 57"
+                            (dateChange)="selectedDate('auditcreateddateto',$event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerto"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerto></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.auditcreateddate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="audittype">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Audit
+                Type
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="AuditTypeVal"
+                            (keyup)="filterChange('audittype',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.audittype}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="audituserid">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Audit User ID
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="audit_userid"
+                            (keyup)="filterChange('audituserid',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>               
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.audituserid}} </td>
+        </ng-container>
+        <ng-container matColumnDef="audituserrole">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Audit User
+                Role
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="audit_userrole"
+                            (keyup)="filterChange('audituserrole',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.audituserrole}} </td>
+        </ng-container>
+        <ng-container matColumnDef="pushsupplierstatus">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Push
+                Supplier Status
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="push_supplier_status"
+                            (keyup)="filterChange('pushsupplierstatus',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.pushsupplierstatus}} </td>
+        </ng-container>
+        <ng-container matColumnDef="invitedsupplier">
+            <th mat-header-cell *matHeaderCellDef style="min-width: 250px"> Invited
+                Supplier
+                <div>
+                    <mat-form-field class="mt-1">
+                        <input matInput class="form-field" [(ngModel)]="invited_supplier"
+                            (keyup)="filterChange('invitedsupplier',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>                
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.invitedsupplier}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedDashboardColumns"></tr>
+        <tr mat-row (click)="openRowInfo(row.supplierID)" *matRowDef="let row; columns: displayedDashboardColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow [hidden]="isloading">
+            <td class="mat-cell" colspan="4">No data matching the filter</td>
+        </tr>
+    </table>
+
+</div>
+<div class="flex justify-end">
+    <mat-paginator #tableOnePaginator class="flex text-lg" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true">
+    </mat-paginator>
+</div>

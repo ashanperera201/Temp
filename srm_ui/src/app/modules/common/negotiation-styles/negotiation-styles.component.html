@@ -1,0 +1,135 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0 negotiation-style">
+    <div class="flex justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Negotiation Styles</div>
+        <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" (click)="openDialog()">
+            <span class="mx-8">Add Negotiation Style</span>
+        </button>
+    </div>
+    <div class="relative">
+        <!--table component-->
+        <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+            <div class="p-6">
+
+                <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+                    <div class="mr-4">
+                        <mat-form-field
+                            class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3"
+                            [floatLabel]="'always'">
+                            <div class="text-secondary px-4" matPrefix>Style Name</div>
+                            <input matInput placeholder="Search by Style Name" #input [(ngModel)]="styleName">
+                        </mat-form-field>
+                        <mat-form-field
+                            class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-90 mt-4 sm:mt-0 mr-1 mb-3"
+                            [floatLabel]="'always'">
+                            <div class="text-secondary px-4" matPrefix>Description</div>
+                            <input matInput placeholder="Search by Description" #input [(ngModel)]="description">
+                        </mat-form-field>
+                        <mat-form-field class="fuse-mat-no-subscript sm:w-32 mt-4 sm:mt-0 mb-3">
+                            <mat-select [(ngModel)]="type">
+                                <mat-option value="">Select Type</mat-option>
+                                <mat-option value="private">Private</mat-option>
+                                <mat-option value="public">Public</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <button class="sm:inline-flex mb-3 colorOveride" mat-stroked-button [color]="'primary'"
+                        (click)="searchData()">
+                        <mat-icon matPrefix class="icon-size-5 ml-8" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                        <span class="mr-8 ml-4">Search</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!--base table component-->
+        <div class="overflow-auto bg-gray-50 rounded-lg">
+            <table mat-table [dataSource]="negotiationStyleSearchModel.negotiationStyleModels" matSort
+                (matSortChange)="sortData($event)" class="expanded-rows-table font-helvetica text-gray-500">
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef style="width: 50px; max-width: 60px; min-width: 50px"></th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical">
+                            </mat-icon>
+                        </button>
+                        <mat-menu #options="matMenu" class="min-width-235 z-1">
+                            <button mat-menu-item (click)="editNegotiationStyleData(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil">
+                                </mat-icon>
+                                Edit
+                            </button>
+                            <button mat-menu-item (click)="deleteNegotiationStyleData(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash">
+                                </mat-icon>
+                                Delete
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <!-- Negotiation Style Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 190px; min-width: 170px">
+                        Negotiation Style Name
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.nsName}}
+                    </td>
+                </ng-container>
+
+                <!-- Description Column -->
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                        Description
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+                </ng-container>
+
+                <!-- Bidding Style Item -->
+                <ng-container matColumnDef="bidding">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                        Bidding Style
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.bidingStyleName}} </td>
+                </ng-container>
+
+                <!-- Two Stage Column -->
+                <ng-container matColumnDef="stage">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                        Two Stage
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.isTwoStageRFx == true ? "Yes" : "No"}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 100px; min-width: 90px">
+                        Negotiation Style Type
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.isPrivate == true ? "Private" : "Public"}}
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                </tr>
+            </table>
+        </div>
+        <div class="flex justify-end">
+            <mat-paginator [length]="negotiationStyleSearchModel.totalItems"
+                [pageSize]="negotiationStyleSearchModel.pageSize" [pageSizeOptions]="[5, 10, 15, 20, 25, 100]"
+                (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+        <!--table component end-->
+    </div>
+</div>

@@ -1,0 +1,57 @@
+.performance-evaluation-page {
+
+    form {
+        width: 100%;
+
+        div {
+            margin: 0 0 0 1rem;
+            width: 100%;
+        }
+    }
+
+    table {
+        width: 100%;
+    }
+
+    .head {
+        width: 12.5% !important;
+        font-weight: 500;
+        margin-bottom: 1rem !important;
+
+        &:first-of-type {
+            width: 50% !important;
+        }
+    }
+
+    .charts {
+        margin: 5px 5px 13px 1rem !important;
+        padding: 1rem;
+        min-width: 250px;
+        box-shadow: 1px 1px 2px 0px rgb(0 0 0 / 7%), 0px 5px 2px 1px rgb(0 0 0 / 7%), 0px 3px 7px 0px rgb(0 0 0 / 8%);
+    }
+
+    .line {
+        background-color: #fbfbfb;
+        padding-top: 0.5rem;
+        margin-bottom: 0.5rem !important;
+
+        .questions {
+            width: 50% !important;
+        }
+
+        .answers {
+            width: 12.5% !important;
+            padding-bottom: 1rem !important;
+        }
+    }
+
+    .block {
+        background-color: #fbfbfb;
+        padding: 0.5rem;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .mat-form-field.mat-form-field-appearance-fill {
+        min-width: 100%;
+    }
+}

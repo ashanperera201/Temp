@@ -1,0 +1,193 @@
+<div class="relative">
+    <!-- <fuse-alert *ngIf="Message" [appearance]="'fill'" [dismissible]="true" [dismissed]="false" [name]="'successerror'"
+        [type]="'success'">
+        {{Message}} Successfully
+    </fuse-alert> -->
+    <!--table component-->
+    <div class="flex justify-end">
+        <button [matMenuTriggerFor]="menu" type="button" class="inline-flex" mat-stroked-button [color]="'primary'" [disabled]="!rfqModel.isSaveAsDraft">
+            <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            <span class="mr-8">Add Terms & Condition</span>
+        </button>
+        <mat-menu #menu="matMenu">
+            <div class="flex flex-col max-h-60">
+                <button class="sm:inline-flex p-0" mat-menu-item (click)="addTerms()">
+                    <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                        [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    <span class="mr-4 ml-1">Add From Basic Data</span>
+                </button>
+                <button class="sm:inline-flex p-0" mat-menu-item (click)="addNewTerms()">
+                    <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                        [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    <span class="mr-4 ml-1">Create New</span>
+                </button>
+            </div>
+        </mat-menu>
+    </div>
+    <!--base table component-->
+    <div class="overflow-auto bg-gray-50 rounded-lg pt-4">
+        <table *ngIf="rFQHeaderTermsConditionSearchModel.rfqTermsConditionModel" mat-table
+            [dataSource]="rFQHeaderTermsConditionSearchModel.rfqTermsConditionModel" matSort
+            (matSortChange)="sortData($event)" class="expanded-rows-table font-helvetica text-gray-500">
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef style="max-width: 50px; width: 50px"></th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns" [disabled]="!rfqModel.isSaveAsDraft">
+                        <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical">
+                        </mat-icon>
+                    </button>
+                    <mat-menu #options="matMenu" class="min-width-235 z-1">
+                        <button *ngIf="row.isEditable" mat-menu-item type="button"
+                            (click)="EditRFQHeaderTermsCondition(row)">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil"></mat-icon>
+                            Edit
+                        </button>
+                        <button mat-menu-item type="button" (click)="DeleteRFQHeaderTermsCondition(row)">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash"></mat-icon>
+                            Delete
+                        </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <!-- no Column -->
+            <ng-container matColumnDef="no">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 70px; min-width: 50px">
+                    No
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.no}}
+                </td>
+            </ng-container>
+
+            <!-- name Column -->
+            <ng-container matColumnDef="termsname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                    Name
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+            </ng-container>
+
+            <!-- inputtype Item -->
+            <ng-container matColumnDef="inputtype">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                    Input Type
+                </th>
+                <td mat-cell *matCellDef="let row"> {{row.inputType }} </td>
+            </ng-container>
+
+            <!--Preview Column -->
+            <ng-container matColumnDef="preview">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                    Preview
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{row.input}}
+                </td>
+            </ng-container>
+
+            <!--type Column -->
+            <!-- <ng-container matColumnDef="type3">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 170px; min-width: 160px">
+                    Type
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-form-field class="standalone-input">
+                        <mat-select [(ngModel)]="row.attributeCategoryId"
+                            (selectionChange)="UpdateRFQTermsCondition(row,'Cat')" [disabled]="!rfqModel.isSaveAsDraft">
+                            <mat-option value={{guiEmpty}}>Select Type</mat-option>
+                            <mat-option *ngFor="let categoryType of attributeCategorys" [value]="categoryType.id"> -->
+            <!--if used table -->
+            <!-- {{categoryType.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container> -->
+
+            <!--editable Column -->
+            <ng-container matColumnDef="editable">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 120px">
+                    Editable
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-form-field class="standalone-input">
+                        <mat-select [checked]="row.isEditable" [(ngModel)]="row.isEditable"
+                            (selectionChange)="UpdateRFQTermsCondition(row,'Edit')">
+                            <mat-option [value]="true">Yes</mat-option>
+                            <mat-option [value]="false">No</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+
+            <!--default Column -->
+            <ng-container matColumnDef="default">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 80px; min-width: 60px">
+                    Default
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox [disabled]="true" [color]="'primary'" [checked]="row.isDefault"
+                        (change)="UpdateRFQTermsCondition(row,'Def')" [(ngModel)]="row.isDefault"></mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!--beforequote Column -->
+            <ng-container matColumnDef="beforequote">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                    Before Quote
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- <mat-form-field *ngIf="row.isEditable" class="standalone-input">
+                        <mat-select [(ngModel)]="row.beforeQuoteId"
+                            (selectionChange)="UpdateRFQTermsCondition(row,'BQ')">
+                            <mat-option *ngFor="let categoryType of quotes" [value]="categoryType.id"> -->
+                    <!--if used table -->
+                    <!-- {{categoryType.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                    <span>{{selectQuote(row.beforeQuoteId)}}</span>
+                </td>
+            </ng-container>
+
+            <!--endquote Column -->
+            <ng-container matColumnDef="endquote">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                    End of Quote
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- <mat-form-field *ngIf="row.isEditable" class="standalone-input">
+                        <mat-select [(ngModel)]="row.endOfQuoteId"
+                            (selectionChange)="UpdateRFQTermsCondition(row,'EQ')">
+                            <mat-option *ngFor="let categoryType of quotes" [value]="categoryType.id"> -->
+                    <!--if used table -->
+                    <!-- {{categoryType.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                    <span>{{selectQuote(row.endOfQuoteId)}}</span>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumn5"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumn5;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <!-- <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{Input .value}}"</td>
+            </tr> -->
+        </table>
+    </div>
+    <div class="flex justify-end">
+        <mat-paginator [length]="rFQHeaderTermsConditionSearchModel.totalItems"
+            [pageSize]="rFQHeaderTermsConditionSearchModel.pageSize" [pageSizeOptions]="[5,10, 25, 100]"
+            (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+        </mat-paginator>
+    </div>
+    <!--table component end-->
+
+</div>

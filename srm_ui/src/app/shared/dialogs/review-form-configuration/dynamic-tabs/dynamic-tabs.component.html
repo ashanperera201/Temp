@@ -1,0 +1,42 @@
+<div class="tabs-container">
+    <div *ngIf="reviewFormView && reviewFormView.length > 0">
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab *ngFor="let reviewForm of reviewFormView; let i = index">
+                <ng-template mat-tab-label>
+                    <div *ngIf="reviewForm?.isEditable">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Tab Title</mat-label>
+                            <input matInput type="text" [(ngModel)]="reviewForm.tabTitle"
+                                (keyup.enter)="onTabEditHeader(reviewForm, i)">
+                        </mat-form-field>
+                    </div>
+                    <span *ngIf="!reviewForm?.isEditable">{{reviewForm?.tabTitle}}</span>
+                    <mat-icon *ngIf="!reviewForm?.isEditable" class="ml-2 edit"
+                        (click)="onTabEditHeader(reviewForm, i)">edit</mat-icon>
+                    <mat-icon *ngIf="reviewForm?.isEditable" class="ml-2 edit"
+                        (click)="onTabEditHeader(reviewForm, i)">save</mat-icon>
+                </ng-template>
+
+                <div class="flex" *ngIf="reviewForm?.selectedReviewForm?.name">
+                    <h2>Selected Review Form Name: {{ reviewForm?.selectedReviewForm?.name }}</h2>
+                    <!-- TODO EDIT WORK FLOW LATER. -->
+                    <!-- <mat-icon *ngIf="reviewForm?.selectedReviewForm?.name" class="ml-2 edit pointer">edit</mat-icon> -->
+                </div>
+
+                <form class="example-form" *ngIf="!reviewForm?.selectedReviewForm?.name">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Review Form</mat-label>
+                        <input type="text" placeholder="Select Review Form" matInput [formControl]="reviewFormControl"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                            (optionSelected)="onInputChange(i)">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option?.name">
+                                {{option?.name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </form>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

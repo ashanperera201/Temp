@@ -1,0 +1,152 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0 currency">
+
+    <div class="flex justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Currency Rate</div>
+        <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" (click)="openDialog()">
+            <span class="mx-8">Add Currency</span>
+        </button>
+    </div>
+    <div class="relative">
+        <!--table component-->
+        <div class="flex">
+            <mat-form-field class="sm:w-52">
+                <mat-label>Company Base Currency</mat-label>
+                <mat-select name="baseCurrency"  (selectionChange)="SaveDefaults()" [(value)]="currencySearchModel.baseCurrency">
+                    <mat-option value="defaultGuid">
+                        --Select Currency--
+                    </mat-option>
+                    <mat-option *ngFor="let cr of currencySearchModel.currencyModels" [(value)]="cr.id">
+                        {{cr.currencyCode}} - {{cr.currencyName}}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error>
+                    <span *ngIf="!teamList.get('teamName').valid && teamList.get('teamName').touched">Please enter Team Name</span>
+                </mat-error> -->
+            </mat-form-field>
+        </div>
+
+        <!--base table component-->
+        <div class="overflow-auto bg-gray-50 rounded-lg">
+            <table mat-table [dataSource]="currencySearchModel.currencyRates" matSort class="expanded-rows-table font-helvetica text-gray-500">
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef style="width: 50px; max-width: 60px; min-width: 50px"></th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                        </button>
+                        <mat-menu #options="matMenu" class="min-width-235 z-1">
+                            <button *ngIf="row.isActive" mat-menu-item (click)="DeleteCR(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:ban"></mat-icon>
+                                Inactivate
+                            </button>
+                            <button *ngIf="!row.isActive" mat-menu-item (click)="ActivateCR(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:ban"></mat-icon>
+                                Activate
+                            </button>
+                        </mat-menu>                        
+                    </td>
+                </ng-container>
+
+                <!-- Code Column -->
+                <ng-container matColumnDef="currencyCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 190px; min-width: 170px">
+                        Currency Code
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.currencyCode}}
+                    </td>
+                </ng-container>
+
+                <!-- Rate Item -->
+                <ng-container matColumnDef="rate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                        Rate
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.rate}} </td>
+                </ng-container>
+
+                <!-- validDate Column -->
+                <ng-container matColumnDef="validFrom">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                        Valid From
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.validFrom | date: 'dd-MMM-yyyy'}} </td>
+                </ng-container>
+
+                <!-- Conversion Factor Column -->
+                <ng-container matColumnDef="conversion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                        Conversion Factor
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.conversionFactor}}
+                    </td>
+                </ng-container>
+
+                <!-- Data Type Column -->
+                <ng-container matColumnDef="rfq">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px; background: #CCD7EA;
+
+">
+                        RFQ
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox [checked]="row.isRFQ" (change)="SaveDefaults()" name="RFQ{{row.currencyName}}" [(ngModel)]="row.isRFQ" class="mb-4 mr-5" [color]="'primary'"></mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Data Type Column -->
+                <ng-container matColumnDef="rfi">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px; background: #CCD7EA;
+
+">
+                        RFI
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox class="mb-4 mr-5" [color]="'primary'" (change)="SaveDefaults()" name="RFI{{row.currencyName}}" [(ngModel)]="row.isRFI" [checked]="row.isRFI" ></mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Data Type Column -->
+                <ng-container matColumnDef="rfaq">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px; background: #CCD7EA;
+
+">
+                        RFAQ
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox [checked]="row.isRFAQ" (change)="SaveDefaults()" name="RFAQ{{row.currencyName}}" [(ngModel)]="row.isRFAQ" class="mb-4 mr-5" [color]="'primary'"></mat-checkbox>
+                    </td>
+                </ng-container>
+                 <!-- Data Type Column -->
+                 <ng-container matColumnDef="activedeactive">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px; background: #CCD7EA;
+
+">
+Active/Inactive
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.isActive  ? 'Active' : 'Inactive'}}
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter</td>
+                </tr>
+            </table>
+        </div>
+        <div class="flex justify-end">
+            <mat-paginator [length]="currencySearchModel.totalItems" [pageSize]="currencySearchModel.pageSize" [pageSizeOptions]="[10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+        <!--table component end-->
+    </div>
+   
+</div>

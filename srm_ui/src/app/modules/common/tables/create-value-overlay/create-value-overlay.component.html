@@ -1,0 +1,74 @@
+ <!--first screen-->
+ <div class="min-w-full p-2">
+    <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+        
+         <!--headers-->
+        <div class="text-3xl font-cairo font-bold mb-5 pl-1 pt-2">
+           <p *ngIf="data.action==='createValue'">Create New Value</p>   
+        </div>
+        <div >
+
+
+            <div class="flex justify-between border rounded bg-white pt-4 mb-2 p-4 divide-solid divide-x divide-gray-300">
+                <div  class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Table Name</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{tabledetail.tableName}}</p>
+                </div>
+                <div  class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Source</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{tabledetail.sourceDB}}</p>
+                </div>
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary"> Status</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">Enabled <mat-slide-toggle disabled color="primary" [checked]="isDelete"></mat-slide-toggle></p>
+                </div>
+                <div class="block flex flex-col px-6 my-3 items-center justify-center text-center w-full">
+                    <h3 class="text-base font-medium leading-none text-secondary">Dabase Unique ID</h3>
+                    <p class="text-2xl font-semibold mt-2 leading-none font-roboto font-medium">{{id}}</p>
+                </div>
+            </div>
+
+            <!--input fields-->
+            <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+            <div class="mr-4">
+            
+            <mat-form-field *ngIf="data.action==='createValue' || data.action==='editValue'" class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                <mat-label>UI Code</mat-label>
+                <input matInput [(ngModel)]="colName">  
+            </mat-form-field>
+           <!--  <mat-form-field *ngIf="data.action==='editValue'" class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3 px-2">
+                <mat-label>Database Unique ID</mat-label>
+                <input matInput [(ngModel)]="id">  
+            </mat-form-field> -->
+           
+            <!-- <mat-form-field *ngIf="data.action==='createValue'" class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3">
+                <mat-label>Parent (UI Code)</mat-label>
+                <mat-select>
+                    <mat-option></mat-option>
+                    <ng-container>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field> -->
+            </div>
+            </div>
+            <mat-form-field class="w-full px-2">
+                <mat-label>Description</mat-label>
+                <input matInput [(ngModel)]="colDesc">    
+            </mat-form-field>
+            
+        </div>
+    </div>
+
+    <!--buttons-->
+    <div class="flex justify-end ml-auto p-6">
+        
+        <button type="button" class="sm:inline-flex mr-4" (click)="doAction()" mat-stroked-button [color]="'primary'">
+            <span class="mx-8">Cancel</span>
+        </button>
+       
+       <button class="sm:inline-flex mr-4"  mat-raised-button [color]="'primary'" (click)="submitValue()" [disabled]="isSaved">
+            <span class="mx-8">Save</span>
+       </button>
+    </div>
+</div>
+

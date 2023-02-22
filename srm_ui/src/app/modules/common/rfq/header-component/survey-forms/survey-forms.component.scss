@@ -1,0 +1,20 @@
+.survey-parent {
+
+    .custom-tbl-header {
+        border-top: 1px solid #eeeeee !important;
+        border-bottom: 1px solid #eeeeee !important;
+        font-weight: 500;
+        padding: 5px 0;
+    }
+
+    .custom-tbl-td {
+        border-top: 1px solid #eeeeee !important;
+        border-bottom: 1px solid #eeeeee !important;
+        padding: 5px 0;
+    }
+}
+
+.survey-inner-grid {
+    grid-template-columns: 40px 400px 400px 250px 120px;
+    min-width: 900px;
+}

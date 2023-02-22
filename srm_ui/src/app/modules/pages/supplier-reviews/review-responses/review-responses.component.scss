@@ -1,0 +1,56 @@
+/* set supplier-evaluation alignments */
+
+.card-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    margin: 0 auto;
+  }
+.review-responses-page {
+    margin-top: 10px;
+    padding: 5px 31px;
+
+
+    .textcolor {
+        color: #3996c7;
+    }
+
+    .fontsize {
+        font-size: 10px;
+    }
+
+
+    .header-block {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-content: center;
+        justify-content: space-between;
+        align-items: baseline;
+
+        div {
+            width: 33.33%;
+            background-repeat: repeat-x;
+        }
+    }
+
+    .table {
+        width: auto;
+    }
+
+    .mat-focused {
+        color: #000 !important;
+    }
+
+    .mat-form-field-infix {
+        color:#999;
+    }
+    .text-3xl {
+        color:rgba(44, 105, 139, 1);
+    }
+
+    .filter {
+        display: block;
+      }
+}

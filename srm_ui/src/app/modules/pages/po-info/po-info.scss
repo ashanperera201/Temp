@@ -1,0 +1,44 @@
+/* set dashboard alignments */
+.dashboard-page {
+    margin-top:10px;
+    padding: 5px 31px;
+}
+
+.example-margin {
+    margin: 0 10px;
+  }
+
+.textcolor{
+    color: #3996c7;
+}
+
+.fontsize{
+    font-size: 10px;
+}
+
+.header-block{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    align-items: baseline;
+
+    div{
+        width: 33.33%;
+        background-repeat:repeat-x;
+    }
+}
+
+.example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }

@@ -1,0 +1,27 @@
+.full-width {
+    width: 100%;
+}
+
+:host ::ng-deep {
+    .mat-dialog-content {
+        
+        .mat-input-element::placeholder {
+            color: #1e293b !important;
+        }
+
+        .mat-form-field-invalid {
+            color: #1e293b !important;
+            caret-color: #1e293b !important;
+
+            .mat-form-field-wrapper {
+                .mat-form-field-flex {
+                    border-color: #ccd5e0 !important;
+                    caret-color: #ccd5e0 !important;
+                }
+            }
+
+
+        }
+
+    }
+}

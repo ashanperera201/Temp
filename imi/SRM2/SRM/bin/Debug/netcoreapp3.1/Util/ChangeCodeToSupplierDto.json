@@ -1,0 +1,690 @@
+[
+  {
+    "Code": "r1",
+    "Property": "RegistrationLicenseCertificate",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Valid Company Certificate/Licence/CR",
+    "Type": "File"
+  },
+  {
+    "Code": "v1",
+    "Property": "VatRegistration",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Vat Registration",
+    "Type": "File"
+  },
+  {
+    "Code": "g1",
+    "Property": "GOSICertificate",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "GOSI Certificate",
+    "Type": "File"
+  },
+  {
+    "Code": "s1",
+    "Property": "SaudizationCertificate",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Saudization Certificate",
+    "Type": "File"
+  },
+  {
+    "Code": "z1",
+    "Property": "ZakatCertificate",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Zakat Certificate",
+    "Type": "File"
+  },
+  {
+    "Code": "a1",
+    "Property": "LetterOfAssociationFile",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Letter Of Association File",
+    "Type": "File"
+  },
+  {
+    "Code": "m1",
+    "Property": "OrgaizationChart",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Orgaization Chart",
+    "Type": "File"
+  },
+  {
+    "Code": "f1",
+    "Property": "FinancialYear1",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Financial Year 1",
+    "Type": "File"
+  },
+  {
+    "Code": "f2",
+    "Property": "FinancialYear2",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Financial Year 2",
+    "Type": "File"
+  },
+  {
+    "Code": "f3",
+    "Property": "FinancialYear3",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Financial Year 3",
+    "Type": "File"
+  },
+  {
+    "Code": "e1",
+    "Property": "OrganizationDesignCapability",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Organization Design Capability",
+    "Type": "File"
+  },
+  {
+    "Code": "e2",
+    "Property": "FinishedProductProcess",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Finished Product Process",
+    "Type": "File"
+  },
+  {
+    "Code": "e3",
+    "Property": "ThirdPartyCertifyingBody",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Third Party CertifyingBody",
+    "Type": "File"
+  },
+  {
+    "Code": "e4",
+    "Property": "BusinessReferences",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Business References",
+    "Type": "File"
+  },
+  {
+    "Code": "e5",
+    "Property": "PreventionOfCorruption",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Prevention Of Corruption",
+    "Type": "File"
+  },
+  {
+    "Code": "h1",
+    "Property": "HseWrittenPolicy",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Hse Written Policy",
+    "Type": "File"
+  },
+  {
+    "Code": "h2",
+    "Property": "HseManagementDocument",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Hse Management Document",
+    "Type": "File"
+  },
+  {
+    "Code": "h3",
+    "Property": "SafetyManagementDocument",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Safety Management Document",
+    "Type": "File"
+  },
+  {
+    "Code": "h4",
+    "Property": "EnvironManagementDocument",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Environment Management Document",
+    "Type": "File"
+  },
+  {
+    "Code": "h6",
+    "Property": "StatisticsDocument",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Statistics Document",
+    "Type": "File"
+  },
+  {
+    "Code": "q1",
+    "Property": "QualityPolicyDocument",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Quality Policy Document",
+    "Type": "File"
+  },
+  {
+    "Code": "q2",
+    "Property": "QualityManagementSystem",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Quality Management System",
+    "Type": "File"
+  },
+  {
+    "Code": "q3",
+    "Property": "QMSISODocument",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "QMS ISO Document",
+    "Type": "File"
+  },
+  {
+    "Code": "a2",
+    "Property": "AdditionalAttachment1",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Additional Attachment 1",
+    "Type": "File"
+  },
+  {
+    "Code": "a3",
+    "Property": "AdditionalAttachment2",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Additional Attachment 2",
+    "Type": "File"
+  },
+  {
+    "Code": "a4",
+    "Property": "AdditionalAttachment3",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Additional Attachment 3",
+    "Type": "File"
+  },
+  {
+    "Code": "a5",
+    "Property": "AdditionalAttachment4",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Additional Attachment 4",
+    "Type": "File"
+  },
+  {
+    "Code": "a6",
+    "Property": "AdditionalAttachment5",
+    "Page": "Supplier Details",
+    "Tab": "Registration Details",
+    "FieldName": "Additional Attachment 5",
+    "Type": "File"
+  },
+  {
+    "Code": "b1",
+    "Property": "BankLetter",
+    "Page": "Bank Information",
+    "Tab": "Bank Information",
+    "FieldName": "Valid Bank Letter",
+    "Type": "File"
+  },
+  {
+    "Code": "b2",
+    "Property": "BankLetterWithCompanyLetterHead",
+    "Page": "Bank Information",
+    "Tab": "Bank Information",
+    "FieldName": "Bank Information with Company Letter Head",
+    "Type": "File"
+  },
+  {
+    "Code": "1",
+    "Property": "supplier_name",
+    "Page": "Supplier Details",
+    "Tab": "Supplier Details",
+    "FieldName": "Supplier Name (in English)",
+    "Type": "Text"
+  },
+  {
+    "Code": "2",
+    "Property": "supplier_name_arabic",
+    "Page": "Supplier Details",
+    "Tab": "Supplier Details",
+    "FieldName": "Supplier Name (in Arabic, if applicable)",
+    "Type": "Text"
+  },
+  {
+    "Code": "3",
+    "Property": "establishment_year",
+    "Page": "Supplier Details",
+    "Tab": "Supplier Details",
+    "FieldName": "Establishment Year",
+    "Type": "Text"
+  },
+  {
+    "Code": "4",
+    "Property": "issued_by",
+    "Page": "Supplier Details",
+    "Tab": "Supplier Details",
+    "FieldName": "Issued By",
+    "Type": "Text"
+  },
+  {
+    "Code": "5",
+    "Property": "web_site",
+    "Page": "Supplier Details",
+    "Tab": "Supplier Details",
+    "FieldName": "Website",
+    "Type": "Text"
+  },
+  {
+    "Code": "6",
+    "Property": "supplier_type",
+    "Page": "Supplier Details",
+    "Tab": "Supplier Details",
+    "FieldName": "Supplier Type",
+    "Type": "Text"
+  },
+  {
+    "Code": "7",
+    "Property": "country",
+    "Page": "Supplier Details",
+    "Tab": "Address",
+    "FieldName": "Country",
+    "Type": "Text"
+  },
+  {
+    "Code": "8",
+    "Property": "city",
+    "Page": "Supplier Details",
+    "Tab": "Address",
+    "FieldName": "City",
+    "Type": "Text"
+  },
+  {
+    "Code": "9",
+    "Property": "other_city",
+    "Page": "Supplier Details",
+    "Tab": "Address",
+    "FieldName": "Other City",
+    "Type": "Text"
+  },
+  {
+    "Code": "!",
+    "Property": "po_box",
+    "Page": "Supplier Details",
+    "Tab": "Address",
+    "FieldName": "PO Box",
+    "Type": "Text"
+  },
+  {
+    "Code": "@",
+    "Property": "postal_code",
+    "Page": "Supplier Details",
+    "Tab": "Address",
+    "FieldName": "Postal Code",
+    "Type": "Text"
+  },
+  {
+    "Code": "#",
+    "Property": "address_line1",
+    "Page": "Supplier Details",
+    "Tab": "Address",
+    "FieldName": "Address Line 1",
+    "Type": "Text"
+  },
+  {
+    "Code": "$",
+    "Property": "address_line2",
+    "Page": "Supplier Details",
+    "Tab": "Address",
+    "FieldName": "Address Line 2",
+    "Type": "Text"
+  },
+  {
+    "Code": "%",
+    "Property": "title",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Title",
+    "Type": "Text"
+  },
+  {
+    "Code": "^",
+    "Property": "first_name",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "First Name",
+    "Type": "Text"
+  },
+  {
+    "Code": "&",
+    "Property": "last_name",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Last Name",
+    "Type": "Text"
+  },
+  {
+    "Code": "*",
+    "Property": "position",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Position",
+    "Type": "Text"
+  },
+  {
+    "Code": "(",
+    "Property": "telphone_country_code",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Telephone Country Code",
+    "Type": "Text"
+  },
+  {
+    "Code": ")",
+    "Property": "telephone_no",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Telephone No",
+    "Type": "Text"
+  },
+  {
+    "Code": "<",
+    "Property": "extension",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Ext",
+    "Type": "Text"
+  },
+  {
+    "Code": ">",
+    "Property": "mobile_country_code",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Mobile Country Code",
+    "Type": "Text"
+  },
+  {
+    "Code": "?",
+    "Property": "mobile_no",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Mobile No",
+    "Type": "Text"
+  },
+  {
+    "Code": "/",
+    "Property": "fax_country_code",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Fax Country Code",
+    "Type": "Text"
+  },
+  {
+    "Code": ":",
+    "Property": "fax_no",
+    "Page": "Supplier Details",
+    "Tab": "Contact of Suppplier",
+    "FieldName": "Fax No",
+    "Type": "Text"
+  },
+  {
+    "Code": "|",
+    "Property": "additional_material",
+    "Page": "Supplier Details",
+    "Tab": "Category Section",
+    "FieldName": "Additional scope of Materials and Sevices",
+    "Type": "Text"
+  },
+  {
+    "Code": "+",
+    "Property": "supplierCategories",
+    "Page": "Supplier Details",
+    "Tab": "Category Section",
+    "FieldName": "Category",
+    "Type": "Text"
+  },
+  {
+    "Code": "~",
+    "Property": "typeOfOrganization",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Type of Organization",
+    "Type": "Text"
+  },
+  {
+    "Code": "`",
+    "Property": "typeOfOrganization2",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Type of Organization - other",
+    "Type": "Text"
+  },
+  {
+    "Code": "11",
+    "Property": "managerialno",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Managerial",
+    "Type": "Text"
+  },
+  {
+    "Code": "12",
+    "Property": "technicalno",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Technical",
+    "Type": "Text"
+  },
+  {
+    "Code": "13",
+    "Property": "operationsno",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Operations",
+    "Type": "Text"
+  },
+  {
+    "Code": "14",
+    "Property": "saudiNationalsno",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Saudi Nationals",
+    "Type": "Text"
+  },
+  {
+    "Code": "15",
+    "Property": "totallno",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Total",
+    "Type": "Text"
+  },
+  {
+    "Code": "16",
+    "Property": "parentcompany",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Parent Company",
+    "Type": "Text"
+  },
+  {
+    "Code": "17",
+    "Property": "sistercompany",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Sister/Affiliated Companies",
+    "Type": "Text"
+  },
+  {
+    "Code": "18",
+    "Property": "ownercompany",
+    "Page": "Profile Detail",
+    "Tab": "General Information",
+    "FieldName": "Owners/Principals",
+    "Type": "Text"
+  },
+  {
+    "Code": "19",
+    "Property": "operatingProfit1",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Operating profit (loss) year",
+    "Type": "Text"
+  },
+  {
+    "Code": "20",
+    "Property": "operatingProfit2",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Operating profit (loss) value",
+    "Type": "Text"
+  },
+  {
+    "Code": "21",
+    "Property": "netIncome1",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Net income (loss) year",
+    "Type": "Text"
+  },
+  {
+    "Code": "22",
+    "Property": "netIncome2",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Net income (loss) value",
+    "Type": "Text"
+  },
+  {
+    "Code": "23",
+    "Property": "currentAsset1",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Current asset year",
+    "Type": "Text"
+  },
+  {
+    "Code": "24",
+    "Property": "currentAsset2",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Current asset value",
+    "Type": "Text"
+  },
+  {
+    "Code": "25",
+    "Property": "totalLiable1",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Total liabilities year",
+    "Type": "Text"
+  },
+  {
+    "Code": "26",
+    "Property": "totalLiable2",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Total liabilities value",
+    "Type": "Text"
+  },
+  {
+    "Code": "27",
+    "Property": "totalEquity1",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Total equity year",
+    "Type": "Text"
+  },
+  {
+    "Code": "28",
+    "Property": "totalEquity2",
+    "Page": "Profile Detail",
+    "Tab": "Financial Status",
+    "FieldName": "Total equity value",
+    "Type": "Text"
+  },
+  {
+    "Code": "59",
+    "Property": "bankCountryCodes",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "Bank Country Code",
+    "Type": "Text"
+  },
+  {
+    "Code": "60",
+    "Property": "bankName",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "Bank Name",
+    "Type": "Text"
+  },
+  {
+    "Code": "61",
+    "Property": "otherBankName",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "Other Bank Name",
+    "Type": "Text"
+  },
+  {
+    "Code": "62",
+    "Property": "swiftcode",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "Swift Code",
+    "Type": "Text"
+  },
+  {
+    "Code": "63",
+    "Property": "accountHolderName",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "Account Holder Name",
+    "Type": "Text"
+  },
+  {
+    "Code": "=",
+    "Property": "accountCurrency",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "Account Currency",
+    "Type": "Text"
+  },
+  {
+    "Code": "64",
+    "Property": "account_number",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "Account Number",
+    "Type": "Text"
+  },
+  {
+    "Code": "65",
+    "Property": "ibanNo",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "IBAN Number",
+    "Type": "Text"
+  },
+  {
+    "Code": "z",
+    "Property": "bankAddress",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "Bank Address",
+    "Type": "Text"
+  },
+  {
+    "Code": "y",
+    "Property": "bankAddress2",
+    "Page": "Bank Detail",
+    "Tab": "Bank Information",
+    "FieldName": "Bank Address 2",
+    "Type": "Text"
+  }
+]

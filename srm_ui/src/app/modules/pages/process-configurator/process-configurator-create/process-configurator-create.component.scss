@@ -1,0 +1,98 @@
+.config-container {
+    height: auto;
+    width: inherit;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &--title {
+            h3 {
+                font-weight: 500 !important;
+            }
+        }
+    }
+
+    &__step-configs {
+
+        &--step-configurator {
+            margin-top: 1rem;
+        }
+    }
+
+    &__btn-actions {
+        padding-left: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1rem;
+
+        button {
+            width: 15%;
+        }
+    }
+}
+
+
+.form {
+    &--item {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+
+        mat-form-field {
+            width: 100%;
+        }
+    }
+}
+
+.process-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+
+
+// .process-container {
+//     &__header {
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+//         padding-left: 1rem;
+//         padding-right: 1rem;
+
+//         .header {
+//             padding-top: .5rem;
+
+
+//         }
+//     }
+
+//     &__form {
+
+//         &--item {
+
+//         }
+//     }
+// }
+
+// .m-t-2 {
+//     margin-top: 2rem;
+// }
+
+// .btn-actions {
+
+// }
+
+// .step-configurator {
+//     h2 {
+//         margin-left: 1rem !important;
+//     }
+// }
+
+// .w-full {
+//     width: 100% !important;
+// }

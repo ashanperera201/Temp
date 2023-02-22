@@ -1,0 +1,137 @@
+<div class="review-response-approval-page min-w-full p-2">
+    <div style="padding-bottom: 30px" *ngIf="edit==1 && !dataService.todoOrigin">
+        <mat-label style="padding-bottom: 30px"><mat-icon style="color:green">
+            brightness_1
+        </mat-icon>Review Completed</mat-label>
+        <mat-label style="padding-bottom: 30px"><mat-icon style="color:#D84315">
+            brightness_1
+        </mat-icon>To be reviewed</mat-label>
+    </div>
+    <div class="loader-inline" *ngIf='loading'>
+        <img src="assets/images/xitricon-loader.gif" alt="loading">
+    </div>
+    <mat-form-field *ngIf="edit==1 && !dataService.todoOrigin" class="w-1/4 pr-2">
+        <mat-label>Select Supplier To Review</mat-label>
+        <mat-select (selectionChange)="loadSupplierReview($event)" [formControl]="supplierId">
+            <mat-option *ngFor="let cur of reviewableSuppliers" [value]="cur.supplierID">
+                <mat-icon *ngIf="cur.status==='done'" style="color:green">
+                    brightness_1
+                </mat-icon>
+                <mat-icon *ngIf="cur.status==='to do'" style="color:#D84315">
+                    brightness_1
+                </mat-icon>
+                {{cur.supplierName}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <ngx-survey [isPreview]="true" #survey [form]="form" [headerData]="formData" [enableFileUpload]="true" (formSubmit)="saveReview($event)" [editable]="edit==1" [view]="view">
+    </ngx-survey>
+    <div class="flex flex-row justify-between w-full" *ngIf="showLegends">
+        <span>5 : Outstanding</span>
+        <span>4 : Above average</span>
+        <span>3 : Average</span>
+        <span>2 : Below average</span>
+        <span>1 : Unsatisfactory</span>
+    </div>
+    <div class="w-full mr-4 flex flex-row justify-end block px-4">
+        <button *ngIf="approvalState!=1"  mat-button color="primary" (click)="goBack()" class="mr-4">Back</button>
+        <button *ngIf="edit==1" mat-raised-button color="primary" class="submit-button"
+            (click)="survey.submitForm()">Submit & Send for Approval</button>
+            <button *ngIf="canInformReviewer()" (click)="updateReviewerOnReinitiation()" class="sm:inline-flex ml-4"
+            mat-raised-button [color]="primary" type="button">
+            <span class="mx-4">Inform Reviewer</span></button>
+    </div>
+    <div *ngIf="approvalState==1" class="w-full mr-4 flex flex-col justify-between block">
+        <div class="font-bold"><label style="font-size: 20px;float:right; padding-right: 30px">Reviewer's Overall Score: {{review?.score| number : '1.2-2' }}</label></div>
+        <div class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Approvals</div>
+        <!-- <mat-stepper #stepper [selectedIndex]="stepIndex" labelPosition="bottom" linear="true">
+            <mat-step *ngFor="let approver of approverNames; let i = index" state="edit">
+                <ng-template matStepLabel><span>{{approver}}</span><br><span>{{approverRoles[i]}}</span>
+                </ng-template>
+            </mat-step>
+        </mat-stepper>  -->
+
+        <div class="flex flex-row" style="justify-content: space-around;">
+        <div class="flex  flex-col"  *ngFor="let approver of approverNames; let i = index">
+            <div class="flex flex-col items-center">
+                <div *ngIf="approvers[i].status === 'waiting for approval'"
+                    class="flex flex-shrink-0 items-center justify-center w-10 h-10 rounded-full bg-primary">
+                    <mat-icon class="icon-size-7 text-white" 
+                        svgIcon="mat_solid:account_circle"></mat-icon>
+                </div>
+                <div *ngIf="approvers[i].status !== 'waiting for approval'"
+                    class="flex flex-shrink-0 items-center justify-center w-10 h-10 rounded-full" style="background-color: grey;">
+                    <mat-icon class="icon-size-7 text-white" 
+                        svgIcon="mat_solid:account_circle"></mat-icon>
+                </div> 
+                <div class="pt-2">{{approver}}</div>
+                <div>{{approverRoles[i]}}</div>
+            </div> 
+        </div>
+    </div>
+    <div *ngIf="approvalState==1" class="w-full mr-4 flex flex-col justify-between block">
+        <div style="width:100%" class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Approvals</div>
+        <div>
+            <table style="width:100%" mat-table [dataSource]="approvers" class="mat-elevation-z8">
+                <ng-container matColumnDef="approverId">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Approver Id
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.approverId}} </td>
+                </ng-container>
+                <ng-container matColumnDef="approverName">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Approver Name
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.approverName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Email
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+                </ng-container>
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Status
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+                </ng-container>
+                <ng-container matColumnDef="approvedDate">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Date
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.modifiedDate.slice(0,10)}} </td>
+                </ng-container>
+                <ng-container matColumnDef="comments">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Comments
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.comments}} </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedApproverColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedApproverColumns;"></tr>
+            </table>
+        </div>
+    </div>
+    <div *ngIf="approvalState==1" class="w-full mr-4 flex flex-row justify-end block">
+        <button (click)="goBack()" class="sm:inline-flex ml-4"
+            mat-button [color]="'primary'" type="submit">
+            <span class="mx-4">Back</span>
+        </button>
+        <button [disabled]="!approverLoggedIn" (click)="reinitiateReview()" class="sm:inline-flex ml-4"
+            mat-raised-button [color]="'warn'" type="button">
+            <span class="mx-4">Reinitate/Reject</span>
+        </button> 
+        
+      
+        <!-- </button> <button [disabled]="!approverLoggedIn" (click)="rejectReview()" class="sm:inline-flex ml-4"
+            mat-raised-button [color]="'warn'" type="button">
+            <span class="mx-4">Reject</span> -->
+        <button [disabled]="!approverLoggedIn" (click)="approveReview()" class="sm:inline-flex ml-4"
+            mat-raised-button [color]="'primary'" type="submit">
+            <span class="mx-4">Approve</span>
+        </button>        
+    </div>

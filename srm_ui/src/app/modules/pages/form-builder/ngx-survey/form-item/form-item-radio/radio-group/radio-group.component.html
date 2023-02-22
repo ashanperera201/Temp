@@ -1,0 +1,46 @@
+<mat-radio-group [attr.aria-label]="label" *ngIf="!multiple"
+    (change)="onSelectionChange($event)"
+    [disabled]="!editable"
+    [(ngModel)]="value"
+    [required]="required"
+    style="display: flex; flex-direction:column;"
+>
+    <mat-radio-button color="primary" *ngFor="let option of options"
+    [value]="option.optionValue"
+    [checked]="isOptionSelected(option)"
+    ><span style="font-weight: 600;color: black; vertical-align: baseline;">{{option.label}}</span></mat-radio-button>
+
+</mat-radio-group> 
+<div class="example-list-section" *ngIf="multiple">
+      <!-- <div *ngFor="let option of options">
+        <mat-checkbox color="primary"
+            [value]="option.optionValue"
+            [checked]="isOptionSelected(option)"
+            [disabled]="!editable"
+            style="width: 15px;
+            height: 15px;
+            float: left;"
+            (change)="onCheckboxSelectionChange($event)">
+        </mat-checkbox>
+        <div style="font-weight: 600;color: black;">{{option.label}}</div></div> -->
+
+        <table class="table table-bordered">
+          <tbody>
+            <tr *ngFor="let option of options">
+              <td class="margin10">
+                <mat-checkbox color="primary"
+                [value]="option.optionValue"
+                [checked]="isOptionSelected(option)"
+                [disabled]="!editable"                
+                
+                (change)="onCheckboxSelectionChange($event)">
+            </mat-checkbox></td>
+            <td><span >{{option.label}}</span></td>
+
+            </tr>
+          </tbody>
+        </table>
+              
+
+
+</div>

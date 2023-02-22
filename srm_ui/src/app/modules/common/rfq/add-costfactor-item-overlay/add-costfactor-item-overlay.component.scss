@@ -1,0 +1,19 @@
+.add-costfactor-item-overlay {
+    .attribute-items-parent-grid {
+        grid-template-columns: 5% 30% 30% 20% 5%;
+        border-top: 1px solid #eeeeee;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .attribute-items-inner {
+        background: #eeeeee;
+
+        .attribute-items-inner-grid {
+            grid-template-columns: 40px auto;
+        }
+    }
+
+    .srm-bg2 {
+        background: #ededed;
+    }
+}

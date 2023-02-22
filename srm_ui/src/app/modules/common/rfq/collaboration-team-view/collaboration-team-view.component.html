@@ -1,0 +1,144 @@
+<!-- <fuse-alert *ngIf="Message"
+        [appearance]="'fill'"
+        [dismissible]="true"
+        [dismissed]="false"
+        [name]="'successerror'"
+        [type]="'success'">
+        {{Message}} Successfully
+    </fuse-alert> -->
+<div class="mt-4">
+    <div class="item-block mb-4 srm-bg rounded-lg p-6">
+        <div class="relative">
+            <!--table component-->
+            <div class="flex justify-end">
+                <!-- <button  type="button" class="inline-flex" mat-stroked-button [color]="'primary'" (click)="addTeamMember();">
+                    <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    <span class="mr-8">Add new team member</span>
+                </button> -->
+                <button [matMenuTriggerFor]="menu" type="button" class="inline-flex" mat-stroked-button [color]="'primary'" [disabled]="!rfqModel.isSaveAsDraft">
+                    <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    <span class="mr-8">Add New</span>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <div class="flex flex-col max-h-60">
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="addTeam()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Add Re-Usable Team</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="addTeamMember()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Add Team Member</span>
+                        </button>
+                       
+                    </div>
+                </mat-menu>
+            </div>
+            <!--base table component-->
+            <div class="overflow-auto bg-gray-50 rounded-lg">
+                <table mat-table [dataSource]="rfqCollaborationTeamAccessSearchModel.rfqCollaborationTeamAccessModel" matSort class="expanded-rows-table font-helvetica text-gray-500">
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 50px; width: 50px"></th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns" [disabled]="!rfqModel.isSaveAsDraft">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                            </button>
+                            <mat-menu #options="matMenu" class="min-width-235 z-1" >
+                                <button mat-menu-item (click)="editTeamMember(row)" *ngIf="row.rfqCollaborationTeam.collaborationTeamModel.teamName=='Other'">
+                                    <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil"></mat-icon>
+                                    Edit
+                                </button>
+                                <button mat-menu-item (click)="deleteTeamMember(row)">
+                                    <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    Delete
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <!--  User Name Column -->
+                    <ng-container matColumnDef="teamUserName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 100px">
+                            User Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{row.userModel.employeeName}}
+                        </td>
+                    </ng-container>
+
+                    <!-- RFX Role Column -->
+                    <ng-container matColumnDef="rfxRole">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px; min-width: 140px">
+                            RFX Role
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.role}} </td>
+                    </ng-container>
+
+                    <!-- Substitue Name Column -->
+                    <ng-container matColumnDef="substituteName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 100px">
+                            Substitute Name
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.substituteUsername}} </td>
+                    </ng-container>
+
+                    <!-- Access Level Column -->
+                    <ng-container matColumnDef="accessLevel">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 100px">
+                            Access Level
+                        </th>
+                        <td mat-cell *matCellDef="let row"> 
+                            <div *ngIf="row.isFull">Full</div>
+                                <div *ngIf="row.isView && !row.isFull">View Only </div>
+                                <div *ngIf="row.isEdit && !row.isFull">Edit </div>
+                            
+                            
+                        </td>
+                    </ng-container>
+
+                    <!-- Pages with Access Column -->
+                    <ng-container matColumnDef="pageAccess">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 140px; min-width: 130px">
+                            Pages with Access
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.pageName}} </td>
+                    </ng-container>
+
+                    <!-- Team Name Column -->
+                    <ng-container matColumnDef="teamName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 130px; min-width: 120px">
+                            Team Name
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.rfqCollaborationTeam.collaborationTeamModel.teamName}} </td>
+                    </ng-container>
+
+                    <!-- Team Description Column -->
+                    <ng-container matColumnDef="teamDescription">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 180px; min-width: 150px">
+                            Team Description
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.rfqCollaborationTeam.collaborationTeamModel.teamDescription}} </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumn13"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumn13;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="8">No data matching the filter</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="flex justify-end">
+                <mat-paginator [length]="rfqCollaborationTeamAccessSearchModel.totalItems" [pageSize]="rfqCollaborationTeamAccessSearchModel.pageSize"
+                    [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+                </mat-paginator>
+            </div>
+            <!--table component end-->
+        </div>
+    </div>
+</div>

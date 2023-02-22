@@ -1,0 +1,83 @@
+button.calendar, button.calendar:active {
+    width: 30px;
+    height: 35px;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEUSURBVEiJ7ZQxToVAEIY/YCHGxN6XGOIpnpaEsBSeQC9ArZbm9TZ6ADyBNzAhQGGl8Riv4BLAWAgmkpBYkH1b8FWT2WK/zJ8ZJ4qiI6XUI3ANnGKWBnht2/ZBDRK3hgVGNsCd7/ui+JkEIrKtqurLpEWaphd933+IyI3LEIdpCYCiKD6HcuOa/nwOa0ScJEnk0BJg0UTUWJRl6RxCYEzEmomsIlPU3IPW+grIAbquy+q6fluy/28RIBeRMwDXdXMgXLj/B2uimRXpui4D9sBeRLKl+1N+L+t6RwbWrZliTTTr1oxYtzVWiTQAcRxvTX+eJMnlUDaO1vpZRO5NS0x48sIwfPc87xg4B04MCzQi8hIEwe4bl1DnFMCN2zsAAAAASUVORK5CYII=') !important;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: center;
+    border: none;
+    margin-top: 3px;
+  }
+
+.ngb-dp-day {
+    width: 45px !important;
+    height: 45px !important;
+  }
+
+  .ngb-dp-day > div {
+    width: 45px !important;
+    height: 45px !important;
+    line-height: 30px !important;
+    background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .ngb-dp-weekday {
+    width: 45px !important;
+    background-color: #fff;
+      font-weight: bold;
+      font-style: normal !important;
+  }
+  .ngb-dp-weekdays{
+      border-bottom: none !important;
+  }
+    .ngb-dp-header{
+        padding-top: 16px !important;
+    }
+
+  .swal2-container.swal2-bottom, .swal2-container.swal2-center, .swal2-container.swal2-top{
+    pointer-events: painted !important;
+  }
+ngb-datepicker.dropdown-menu{
+    background: #fff;
+}
+
+  /* .swal2-container.swal2-center>.swal2-popup{
+    pointer-events:
+  } */
+
+
+  .mat-tooltip{
+    font-size: 10px !important;
+  }
+
+  .mat-checkbox-inner-container{
+
+    background-color: #3a86ff !important;
+
+  }
+
+  .test-toast{
+    display: flex;
+    flex-grow: 1;
+    overflow-y: auto !important;
+    max-height: 100% !important;
+  }
+
+.order-1 { 
+    order: 1 !important;
+    margin-top: -100px !important;
+    position: absolute;
+}
+.order-2 { order: 2; }
+
+.right-gap {
+  margin-right: auto;
+}
+
+.deny-class{
+  background-color: #62bbef !important;
+  color: white !important;
+}

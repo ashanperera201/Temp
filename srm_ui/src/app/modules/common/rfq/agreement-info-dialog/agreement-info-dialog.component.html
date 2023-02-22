@@ -1,0 +1,153 @@
+<form class="agreement-info">
+    <div class="header">
+        <h3 mat-dialog-title>Agreement Information</h3>
+        <button mat-icon-button aria-label="Close agreement information popup" (click)="onNoClick()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <div mat-dialog-content>
+        <div class="flex flex-row">
+            <mat-form-field class="w-full">
+                <mat-label>Purchase Type</mat-label>
+                <input matInput placeholder="Purchase Type"  name="purchaseType" type="text" #input [(ngModel)]="agreementInfo.purchaseType">
+                <!-- <div *ngIf="purchaseType.invalid && (purchaseType.dirty || purchaseType.touched)" class="alert alert-danger">
+
+            <div *ngIf="purchaseType.errors?.['required']">
+                Purchase Type is required.
+            </div>
+        </div> -->
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Purchase Type Description</mat-label>
+                <input matInput placeholder="Purchase Type Description" type="text" name="purchaseTypeDescription" #input [(ngModel)]="agreementInfo.purchaseTypeDescription">
+            </mat-form-field> 
+
+            <mat-form-field class="w-full">
+                <mat-label>Priority</mat-label>               
+                <mat-select [(ngModel)]="agreementInfo.priority" name="priority">                        
+                        <mat-option [value]="1">
+                            01
+                        </mat-option>
+                        <mat-option [value]="2">
+                            02
+                        </mat-option>
+                        <mat-option [value]="3">
+                            03
+                        </mat-option>
+                        <mat-option [value]="4">
+                            04
+                        </mat-option>
+                        <mat-option [value]="5">
+                            05
+                        </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Step Pricing Basis</mat-label>
+                <input matInput placeholder="Step Pricing Basis" #input [(ngModel)]="agreementInfo.stepPriceBasis"
+                    name="stepPricingBasis" type="text">
+            </mat-form-field>
+
+        </div>
+        <div class="flex flex-row">
+            <mat-form-field class="w-full">
+                <mat-label>Contract Title</mat-label>
+                <input matInput placeholder="Contract Title" #input [(ngModel)]="agreementInfo.contractTitle" name="contractTitle"
+                    type="text">
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Contract Rev No</mat-label>
+                <input matInput placeholder="Contract Rev No" #input [(ngModel)]="agreementInfo.revisionNumber" name="contractRevNo"
+                    type="text">
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Sign Date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="agreementInfo.contractSignDate" name="signDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Review date</mat-label>
+                <input matInput [matDatepicker]="picker1" [(ngModel)]="agreementInfo.reviewDate" name="reviewDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="flex flex-row">
+            <mat-form-field class="w-full">
+                <mat-label>Valid From date</mat-label>
+                <input matInput [matDatepicker]="picker2" [(ngModel)]="agreementInfo.validFromDate" name="validFromDate">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Valid to date</mat-label>
+                <input matInput [matDatepicker]="picker3" [(ngModel)]="agreementInfo.validToDate" name="validToDate">
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Agreement Group</mat-label>
+                <input matInput placeholder="Agreement Group" #input [(ngModel)]="agreementInfo.agreementGroup" name="agreementGroup" type="text">
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Agreement Group Description</mat-label>
+                <input matInput placeholder="Agreement Group Description" #input [(ngModel)]="agreementInfo.agreementGroupDescription"
+                    type="text" name="agreementGroupDescription">
+            </mat-form-field>
+        </div>
+        <div class="flex flex-row">
+            <mat-form-field class="w-full">
+                <mat-label>Agreement Type</mat-label>               
+                    <mat-select [(ngModel)]="agreementInfo.agreementTypeId" name="agreementType">                        
+                        <mat-option *ngFor="let categoryType of agreementGroupTypes" [value]="categoryType.id">
+                            {{categoryType.text}}
+                        </mat-option>
+                        
+                    </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Max Amount Option</mat-label>
+                <input matInput placeholder="Max Amount Option" #input [(ngModel)]="agreementInfo.maxAmountOption" type="text" name="maxAmountOption">
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Max Amount</mat-label>
+                <input matInput placeholder="Max Amount" #input [(ngModel)]="agreementInfo.maxAmount" type="text" name="maxAmount">
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Termination Condition</mat-label>
+                <input matInput placeholder="Termination Condition" #input [(ngModel)]="agreementInfo.terminationCondition" type="text" name="terminationCondition">
+            </mat-form-field>
+        </div>
+        <div class="flex flex-row">
+
+            <section class="section">
+                <p>
+                    <mat-checkbox [(ngModel)]="agreementInfo.isGroupAgreement" name="isGroupAgreement" color="primary">Group Agreement</mat-checkbox>
+                </p>
+                <p>
+                    <mat-checkbox [(ngModel)]="agreementInfo.isActiveChangeAgreementExists" name="isActiveChangeAgreementExists" color="primary">
+                        Active Change Agreement Exists
+                    </mat-checkbox>
+                </p>
+            </section>
+        </div>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-button (click)="onNoClick()">Close</button>
+        <button mat-raised-button *ngIf="!agreementInfo.isAgreementSubmitted" [mat-dialog-close]="agreementInfo" cdkFocusInitial color="primary" type="button" (click)="UpdateAgreementInformation(false)">Save</button>
+        <button mat-raised-button *ngIf="!agreementInfo.isAgreementSubmitted" [mat-dialog-close]="agreementInfo" cdkFocusInitial color="primary" type="button" (click)="UpdateAgreementInformation(true)">Submit</button>
+    </div>
+</form>

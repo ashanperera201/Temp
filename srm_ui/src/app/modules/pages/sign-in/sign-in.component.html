@@ -1,0 +1,57 @@
+<div class="page-bg">
+    <div class="srm-sign-in-page">
+        <div class="sign-in-content">
+            <!-- Logo -->
+            <div class="logo">
+                <img class="logo-img" src="assets/images/logo/srm-logo.svg">
+            </div>
+
+            <!-- Title -->
+            <div class="header">
+                <div class="title">Login to your Account</div>
+                <div class="description">Enter to continue and explore within your SRM</div>
+            </div>
+
+            <!-- Sign in form -->
+            <form class="sign-in-form">
+                <!-- Email field -->
+                <div class="input-field email-field">
+                    <label>Enter Your Username</label>
+                    <input type="text">
+                    <span class="error-label">Please enter a valid email address</span>
+                </div>
+
+                <!-- Password field -->
+                <div class="input-field has-error password-field">
+                    <label>Password</label>
+                    <div class="input-field-with-icon-wrapper">
+                        <input type="password">
+                        <button class="input-icon" (click)="clickToggle()"><img src="assets/images/icons/eye-open.svg"/></button>
+                    </div>
+                    <span class="error-label hide">Password is required</span>
+                </div>
+
+                <!-- Actions -->
+                <div class="sub-actions">
+                    <label class="checkbox">
+                        <span class="checkbox-input">
+                            <input type="checkbox" name="checkbox">
+                            <span class="checkbox-control">
+                              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                                <path fill='none' stroke='currentColor' stroke-width='3' d='M1.73 12.91l6.37 6.37L22.79 4.59' /></svg>
+                            </span>
+                        </span>
+                        <span class="checkbox-label">Remember Me</span>
+                    </label>
+                </div>
+
+                <!-- Submit button -->
+                <button class="sign-in-button width-full">
+                    <span>Login to Continue</span>
+                </button>
+
+            </form>
+        </div>
+    </div>
+</div>
+

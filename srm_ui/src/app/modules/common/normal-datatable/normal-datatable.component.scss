@@ -1,0 +1,30 @@
+table.expanded-rows-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 20px !important;
+    background: #fafafa !important;
+    padding: 0 2%;
+
+    td {
+        padding: 12px 16px !important;
+        box-shadow: 5px 2px 8px #e4e4e4;
+        background: white;
+        border: 3px solid white;
+        color: #464A53 !important;
+    }
+    th{
+        font-size: 14px !important;
+        padding: 8px 16px !important;
+        border-bottom-width: 0 !important;
+    }
+    tr.mat-header-row{
+        height: 32px !important;
+    }
+    tr:hover {
+        cursor: pointer;
+    }
+}
+
+.select-all {
+    margin: 5px 17px;
+}

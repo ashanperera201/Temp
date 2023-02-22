@@ -1,0 +1,117 @@
+<div class="config-container">
+    <div class="config-container__header">
+        <div class="config-container__header--title">
+            <h2>{{ title }}</h2>
+        </div>
+        <div class="config-container__header--close-btn">
+            <button mat-icon-button (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="config-container__step-configs">
+        <form class="form" autocomplete="off" [formGroup]="processConfiguratorForm">
+            <div class="form--item">
+                <mat-form-field appearance="outline">
+                    <mat-label>Process Name</mat-label>
+                    <input matInput placeholder="Process Name" name="processName" formControlName="processName">
+                    <mat-error *ngIf="processConfiguratorForm.get('processName')?.invalid">This field is
+                        required.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Process Description</mat-label>
+                    <input matInput placeholder="Process Description" name="processDescription"
+                        formControlName="processDescription">
+                </mat-form-field>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="config-container__step-configs--step-configurator">
+                <h2>Step Configurator</h2>
+
+                <div class="form--item">
+                    <div>
+                        <mat-label>Step 1 - Select the Process</mat-label>
+                        <mat-form-field appearance="outline">
+                            <mat-select formControlName="phaseOne">
+                                <mat-option value="supplier-onboard">Supplier Onboarding</mat-option>
+                                <mat-option value="supplier-performance">Supplier Performance</mat-option>
+                                <mat-option value="e-tendering">E - Tendering</mat-option>
+                                <mat-option value="b2b">B2B</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="processConfiguratorForm.get('phaseOne')?.invalid">
+                                This field is required.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="form--item">
+                    <div class="process-content">
+                        <mat-label>Step 2 - Select the Process Step</mat-label>
+                        <mat-form-field appearance="outline" class="w-full">
+                            <mat-select formControlName="phaseTwo">
+                                <mat-option value="initial-request">Supplier Initiation Step</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="processConfiguratorForm.get('phaseTwo')?.invalid">
+                                This field is required.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="process-content">
+                        <mat-label>Select the Form for this Process Step</mat-label>
+                        <mat-form-field appearance="outline" class="w-full">
+                            <mat-select formControlName="phaseTwoSelectedForm">
+                                <mat-option *ngFor="let request of initialRequests" [value]="request.configurationCode">
+                                    {{ request?.configurationName}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="processConfiguratorForm.get('phaseTwoSelectedForm')?.invalid">
+                                This field is required.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div class="form--item">
+                    <div class="process-content">
+                        <mat-label>Step 3 - Select the Process Step</mat-label>
+                        <mat-form-field appearance="outline" class="w-full">
+                            <mat-select formControlName="phaseThree">
+                                <mat-option value="supplier-questionnaire">Vendor Questionnaire</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="processConfiguratorForm.get('phaseThree')?.invalid">
+                                This field is required.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="process-content">
+                        <mat-label>Select the Form for this Process Step</mat-label>
+                        <mat-form-field appearance="outline" class="w-full">
+                            <mat-select formControlName="phaseThreeSelectedForm">
+                                <mat-option *ngFor="let request of supplierQuestionnairs"
+                                    [value]="request.configurationCode">
+                                    {{ request?.configurationName}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="processConfiguratorForm.get('phaseThreeSelectedForm')?.invalid">
+                                This field is required.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="config-container__btn-actions">
+        <button mat-raised-button (click)="closeDialog()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="onSaveConfig()">
+            {{existingRecord ? 'Update' : 'Save'}}
+        </button>
+    </div>
+</div>

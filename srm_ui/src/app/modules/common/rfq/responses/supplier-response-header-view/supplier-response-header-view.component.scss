@@ -1,0 +1,13 @@
+.survey-parent-grid {
+    grid-template-columns: 10% 30% auto 96px;
+    border-top: 1px solid #eeeeee !important;
+    border-bottom: 1px solid #eeeeee !important;
+
+}
+
+.survey-inner-grid {
+    grid-template-columns: 400px 300px 180px 180px 120px;
+    border-top: 1px solid #eeeeee !important;
+    border-bottom: 1px solid #eeeeee !important;
+    min-width: 900px;
+}

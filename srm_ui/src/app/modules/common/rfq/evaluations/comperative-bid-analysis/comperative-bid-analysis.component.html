@@ -1,0 +1,318 @@
+<div class="pb-2 px-4 srm-bg rounded-lg">
+    <div class="pt-5 pb-2">
+        <div class="flex">
+            <mat-form-field class="w-1/4 pr-2">
+                <mat-label>RFQ No</mat-label>
+                <input [(ngModel)]="dynamicdata.rfqNo" matInput disabled>
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>REV No</mat-label>
+                <input [(ngModel)]="dynamicdata.revNo" matInput disabled>
+            </mat-form-field>
+            <mat-form-field class="w-1/4 px-2">
+                <mat-label>Program ID</mat-label>
+                <input [(ngModel)]="dynamicdata.programID" matInput disabled>
+            </mat-form-field>
+            <mat-form-field class="w-1/4 pl-2">
+                <mat-label>Project Code</mat-label>
+                <input [(ngModel)]="dynamicdata.projectID" matInput disabled>
+            </mat-form-field>
+        </div>
+
+    </div>
+</div>
+<div class="item-block basic-info my-2 srm-bg rounded-lg px-4 py-2">
+    <div class="flex flex-col">
+        <div class="flex w-full divide-solid divide-x divide-gray-300">
+            <div class="flex w-1/2 flex-col pr-2">
+                <div class="pt-5 pb-2">
+                    <div class="flex">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Select Supplier Response</mat-label>
+                            <mat-select (selectionChange)="partLineChange()" [value]="supplierId"
+                                [(ngModel)]="supplierId">
+                                <mat-option [value]="00000000-0000-0000-0000-000000000000">
+                                    All Suppliers
+                                </mat-option>
+
+                                <mat-option *ngFor="let sup of suppliers" [value]="sup.id">
+                                    {{sup.supplierName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Line Number</mat-label>
+                            <mat-select (selectionChange)="partLineChange()" [value]="partLineId"
+                                [(ngModel)]="partLineId" name="partLineId" placeholder="Select Part Descirption">
+                                <mat-option [value]="00000000-0000-0000-0000-000000000000">
+                                    All Lines
+                                </mat-option>
+                                <mat-option *ngFor="let partLine of rfqPartLines" [value]="partLine.id">
+                                    {{partLine.partDescirption}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col">
+                        <p class="font-medium text-base text-default mb-3">
+                            Select Approval Level
+                        </p>
+                        <div class="flex">
+                            <mat-checkbox [(ngModel)]="isTechnicalCommercial" (change)="partLineChange()"
+                                class="flex mr-8" [color]="'primary'">
+                                All
+                            </mat-checkbox>
+                            <mat-checkbox [(ngModel)]="isTechnical" (change)="partLineChange()" class="flex mr-8"
+                                [color]="'primary'">
+                                Technically Approved
+                            </mat-checkbox>
+                            <mat-checkbox [(ngModel)]="isCommercial" (change)="partLineChange()" class="flex"
+                                [color]="'primary'">
+                                Commercially Approved
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="flex w-1/2 flex-col pl-2">
+                <div class="pt-5 pb-2">
+                    <div class="flex">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Created By (Buyer Name)</mat-label>
+                            <input [(ngModel)]="dynamicdata.buyerName" matInput disabled>
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Designation</mat-label>
+                            <input [(ngModel)]="dynamicdata.designation" matInput disabled>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-4 px-2">
+    <div class="flex justify-between items-center">
+        <p class="font-medium text-lg mb-2">
+            Line Type - Parts / Rental / No Parts
+        </p>
+        <!-- <div class="flex items-center justify-end">
+            <span>More</span>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Choose columns">
+                <mat-icon color="primary" class="icon-size-6" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <div class="flex flex-col min-width-235">
+                    <button class="sm:inline-flex p-0" mat-menu-item>
+                        <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                            [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                        <span class="mr-4 ml-1">Placeholder</span>
+                    </button>
+                    <button class="sm:inline-flex p-0" mat-menu-item>
+                        <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                            [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                        <span class="mr-4 ml-1">Placeholder</span>
+                    </button>
+                    <button class="sm:inline-flex p-0" mat-menu-item>
+                        <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                            [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                        <span class="mr-4 ml-1">Placeholder</span>
+                    </button>
+                    <button class="sm:inline-flex p-0" mat-menu-item>
+                        <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                            [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                        <span class="mr-4 ml-1">Placeholder</span>
+                    </button>
+                    <button class="sm:inline-flex p-0" mat-menu-item>
+                        <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                            [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                        <span class="mr-4 ml-1">Placeholder</span>
+                    </button>
+                </div>
+            </mat-menu>
+        </div> -->
+    </div>
+    <div class="item-block basic-info mb-4 srm-bg rounded-lg px-4 py-2">
+        <div class="relative">
+            <!-- Products list -->
+            <div class="flex flex-col flex-auto w-full">
+                <ng-container>
+                    <ng-container>
+                        <div class="grid line-items-parent2 overflow-x-auto w-full">
+                            <!-- Header -->
+                            <div class="noneditable-line-items-parent-grid2 z-10 sticky top-0 grid gap-4 pt-4 pb-2 px-2 text-secondary"
+                                matSort matSortDisableClear>
+                                <div [mat-sort-header]="'lineno'">Line #</div>
+                                <div [mat-sort-header]="'partid'">Part ID</div>
+                                <div [mat-sort-header]="'partdescription'">Part Description</div>
+                                <div [mat-sort-header]="'quantity'">Quantity</div>
+                                <div [mat-sort-header]="'uom'">UOM</div>
+                                <div [mat-sort-header]="'needbydate'">Need by Date</div>
+                                <div [mat-sort-header]="'targetprice'">Target Price</div>
+                                <div [mat-sort-header]="'totalprice'">Total Price</div>
+                                <div></div>
+                            </div>
+                            <!-- Rows -->
+                            <ng-container *ngIf="partLines && partLines.length > 0">
+                                <ng-container *ngFor="let pl of partLines">
+                                    <div
+                                        class="noneditable-line-items-parent-grid2 grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                        <div class="truncate">{{pl.lineNumber}}</div>
+                                        <div>{{pl.partId}}</div>
+                                        <div>{{pl.partDescirption}}</div>
+                                        <div>{{pl.purchaseQty}}</div>
+                                        <div>{{pl.uom}}</div>
+                                        <div>{{pl.wantedDate}}</div>
+                                        <div>{{pl.targetPrice}}</div>
+                                        <div>{{pl.totalPrice}}</div>
+                                        <div class="ml-auto">
+                                            <button class="px-2 leading-6" mat-icon-button
+                                                (click)="toggleDisplay(pl.id)">
+                                                <mat-icon color="primary" class="icon-size-6"
+                                                    [svgIcon]="detailsDisplayMap.get(pl.id)? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                </mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="overflow-auto">
+                                        <ng-container *ngIf="getActiveDetailsTab(pl.id)">
+                                            <div class="overflow-hidden">
+                                                <div class="flex flex-col w-full">
+                                                    <!--table component-->
+
+                                                    <!--base table component-->
+                                                    <p class="font-medium text-lg mb-2 mt-6">
+                                                        Supplier Response Details
+                                                    </p>
+                                                    <div class="overflow-auto srm-bg rounded-lg">
+                                                        <table
+                                                            class="custom-table-component expanded-rows-table font-helvetica text-gray-500">
+                                                            <tr>
+                                                                <th style="width: 200px;"></th>
+                                                                <th *ngFor="let item of dynamicdata.suppliers;"
+                                                                    style="width: 300px;">{{item.supplierName}}</th>
+
+                                                            </tr>
+
+                                                            <tr *ngFor="let itemData of pl.generalData;">
+                                                                <th>{{itemData.id}}</th>
+                                                                <td *ngFor="let supName of dynamicdata.suppliers;">
+
+                                                                    {{getData(itemData,supName)}}
+                                                                </td>
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <th colspan="4">Evaluation Details</th>
+                                                            </tr>
+                                                            <tr *ngFor="let itemData of pl.evaluationData;">
+                                                                <th style="background:#C9E5D8;">{{itemData.id}}</th>
+                                                                <td *ngFor="let supName of dynamicdata.suppliers;">
+
+                                                                    {{getData(itemData,supName)}}
+                                                                </td>
+
+                                                            </tr>
+                                                            <!-- <tr>
+                                                                <th style="background:#C9E5D8;">Score</th>
+                                                                <td>8</td>
+                                                                <td>5</td>
+                                                                <td>4</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th style="background:#C9E5D8;">Bid Acceptance</th>
+                                                                <td>Accepted</td>
+                                                                <td>Accepted, with reservations</td>
+                                                                <td>Accepted, with reservations</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th style="background:#C9E5D8;">Evaluator’s Comments</th>
+                                                                <td>We need to check if the substitute part ID will work for our machines. SKF is the tried and trusted for our operations</td>
+                                                                <td></td>
+                                                                <td>We need to check if the substitute part ID will work for our machines. SKF is the tried and trusted for our operations</td>
+                                                            </tr> -->
+                                                        </table>
+                                                    </div>
+                                                    <!--table component end-->
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <div class="w-1/4">
+                                                    <apx-chart [series]="pl.chartOptionsRanks.series" [chart]="pl.chartOptionsRanks.chart"
+                                                        [dataLabels]="pl.chartOptionsRanks.dataLabels" [plotOptions]="pl.chartOptionsRanks.plotOptions"
+                                                        [yaxis]="pl.chartOptionsRanks.yaxis" [legend]="pl.chartOptionsRanks.legend" [fill]="pl.chartOptionsRanks.fill"
+                                                        [stroke]="pl.chartOptionsRanks.stroke" [tooltip]="pl.chartOptionsRanks.tooltip"
+                                                        [xaxis]="pl.chartOptionsRanks.xaxis" [grid]="pl.chartOptionsRanks.grid" [states]="pl.chartOptionsRanks.states">
+                                                    </apx-chart>
+                                                </div>
+                                                <div class="w-1/4">
+                                                    <apx-chart
+                                                        [series]="pl.chartOptionsScores.series"
+                                                        [chart]="pl.chartOptionsScores.chart"
+                                                        [dataLabels]="pl.chartOptionsScores.dataLabels"
+                                                        [plotOptions]="pl.chartOptionsScores.plotOptions"
+                                                        [yaxis]="pl.chartOptionsScores.yaxis"
+                                                        [legend]="pl.chartOptionsScores.legend"
+                                                        [fill]="pl.chartOptionsScores.fill"
+                                                        [stroke]="pl.chartOptionsScores.stroke"
+                                                        [tooltip]="pl.chartOptionsScores.tooltip"
+                                                        [xaxis]="pl.chartOptionsScores.xaxis"
+                                                        [grid]="pl.chartOptionsScores.grid"
+                                                        [states]="pl.chartOptionsScores.states"
+                                                    ></apx-chart>
+                                                </div>
+                                                
+                                                <!-- <div class="w-1/4">
+                                                    <apx-chart
+                                                        [series]="chartOptions.series"
+                                                        [chart]="chartOptions.chart"
+                                                        [dataLabels]="chartOptions.dataLabels"
+                                                        [plotOptions]="chartOptions.plotOptions"
+                                                        [yaxis]="chartOptions.yaxis"
+                                                        [legend]="chartOptions.legend"
+                                                        [fill]="chartOptions.fill"
+                                                        [stroke]="chartOptions.stroke"
+                                                        [tooltip]="chartOptions.tooltip"
+                                                        [xaxis]="chartOptions.xaxis"
+                                                        [grid]="chartOptions.grid"
+                                                        [states]="chartOptions.states"
+                                                    ></apx-chart>
+                                            </div> -->
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+
+                    </ng-container>
+                </ng-container>
+
+                <ng-template #rowDetailsTemplate2>
+
+                </ng-template>
+
+                <ng-template #noProducts>
+                    <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no products!
+                    </div>
+                </ng-template>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="flex justify-end ml-auto p-6 mt-4">
+        <button class="sm:inline-flex mr-4" (click)="gotoTab(3)" mat-raised-button [color]="'primary'">
+            <span class="mx-8">View Summary</span>
+        </button>
+        <button class="sm:inline-flex" (click)="gotoTab(4)" mat-raised-button [color]="'primary'">
+            <span class="mx-8">Generate ROA</span>
+        </button>
+    </div>
+
+
+</div>

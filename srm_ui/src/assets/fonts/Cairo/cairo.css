@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'Cairo';
+    font-weight: normal;
+    font-style: normal;
+    font-named-instance: 'Regular';
+    src: url("Cairo-Regular.ttf") format("ttf");
+}
+@font-face {
+    font-family: 'Cairo';
+    font-weight: normal;
+    font-style: normal;
+    font-named-instance: 'SemiBold';
+    src: url("Cairo-SemiBold.ttf") format("ttf");
+}
+@font-face {
+    font-family: 'Cairo';
+    font-weight: normal;
+    font-style: normal;
+    font-named-instance: 'Bold';
+    src: url("Cairo-Bold.ttf") format("ttf");
+}
+@font-face {
+    font-family: 'Cairo';
+    font-weight: normal;
+    font-style: normal;
+    font-named-instance: 'Light';
+    src: url("Cairo-Light.ttf") format("ttf");
+}

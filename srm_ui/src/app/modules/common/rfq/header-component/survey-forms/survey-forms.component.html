@@ -1,0 +1,190 @@
+<div class="flex justify-end">
+    <button [matMenuTriggerFor]="menu" type="button" class="inline-flex" mat-stroked-button [color]="'primary'" [disabled]="!rfqModel.isSaveAsDraft">
+        <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+        <span class="mr-8">Add New</span>
+    </button>
+    <mat-menu #menu="matMenu">
+        <div class="flex flex-col max-h-60">
+            <button class="sm:inline-flex p-0" mat-menu-item (click)="addSurveyTemplate()">
+                <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                    [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                <span class="mr-4 ml-1">Add Survey Template</span>
+            </button>
+            <button class="sm:inline-flex p-0" mat-menu-item (click)="addSurveyQuestion()">
+                <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                    [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                <span class="mr-4 ml-1">Add Survey Question</span>
+            </button>
+            <button class="sm:inline-flex p-0" mat-menu-item (click)="createSurveyQuestion()">
+                <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                    [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                <span class="mr-4 ml-1">Create Question</span>
+            </button>
+        </div>
+    </mat-menu>
+</div>
+
+<div class="flex flex-auto w-full survey-parent">
+    <!-- Products list -->
+    <div class="flex flex-col flex-auto w-full">
+        <ng-container>
+            <ng-container>
+                <div class="grid survey-parent overflow-x-auto w-full">
+                    <!-- Header -->
+                    <div class="survey-parent-grid grid gap-4 pt-4 pb-2 px-2 text-secondary custom-tbl-header" matSort
+                        matSortDisableClear>
+                        <div></div>
+                        <div [mat-sort-header]="'list'">Template Name</div>
+                        <div [mat-sort-header]="'description'">Description</div>
+                        <div></div>
+                    </div>
+                    <!-- Rows -->
+                    <ng-container *ngIf="rfqHeaderSurveyQuestion && rfqHeaderSurveyQuestion.length > 0">
+                        <ng-container *ngFor="let surveyQuestion of rfqHeaderSurveyQuestion">
+                            <div class="survey-parent-grid custom-tbl-td grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                <div class="truncate">
+                                    <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns" [disabled]="!rfqModel.isSaveAsDraft">
+                                        <mat-icon color="primary" class="icon-size-5"
+                                            svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                                    </button>
+                                    <mat-menu #options="matMenu" class="min-width-235 z-1">
+                                        <button mat-menu-item (click)="editSurveyFormListDetails(surveyQuestion)"
+                                            *ngIf="surveyQuestion.isEventList">
+                                            <mat-icon color="primary" class="icon-size-5"
+                                                svgIcon="heroicons_outline:pencil"></mat-icon>
+                                            Edit
+                                        </button>
+                                        <button mat-menu-item
+                                            (click)="DeleteSurveyTemplate(surveyQuestion.rfqQuestionModelList)">
+                                            <mat-icon color="primary" class="icon-size-5"
+                                                svgIcon="heroicons_outline:trash"></mat-icon>
+                                            Delete
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                                <div class="truncate">{{surveyQuestion.name}}</div>
+                                <div class="truncate">{{surveyQuestion.description}}</div>
+                                <div class="ml-auto">
+                                    <button class="px-2 leading-6" mat-icon-button
+                                        (click)=toggleDisplay(surveyQuestion.id)>
+                                        <mat-icon color="primary" class="icon-size-6"
+                                            [svgIcon]="detailsDisplayMap.get(surveyQuestion.id)? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                        </mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <ng-container *ngIf="getactiveDetailsTab(surveyQuestion.id)">
+                                    <div class="overflow-hidden white-bg">
+                                        <div class="flex">
+                                            <!-- Selected product details panel -->
+                                            <div class="overflow-auto rounded-lg mt-4 w-full">
+                                                <div class="grid pl-8 attribute-items-inner">
+                                                    <!-- Header -->
+                                                    <div class="survey-inner-grid custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary"
+                                                        matSort matSortDisableClear>
+                                                        <div></div>
+                                                        <div [mat-sort-header]="'name'">Question Name</div>
+                                                        <div [mat-sort-header]="'desc'">Description</div>
+                                                        <!-- <div [mat-sort-header]="'type'">Type</div> -->
+                                                        <div [mat-sort-header]="'visibility'">Visibility to Suppliers
+                                                        </div>
+                                                    </div>
+                                                    <!-- Rows -->
+                                                    <ng-container>
+                                                        <ng-container>
+                                                            <div *ngFor="let surveyQuestionTemp of surveyQuestion.rfqQuestionModelList"
+                                                                class="survey-inner-grid custom-tbl-td grid items-center gap-4 px-2 custom-tbl-row">
+                                                                <div class="truncate">
+                                                                    <button mat-icon-button
+                                                                        [matMenuTriggerFor]="options"
+                                                                        aria-label="Choose columns"
+                                                                        [disabled]="!rfqModel.isSaveAsDraft">
+                                                                        <mat-icon color="primary" class="icon-size-5"
+                                                                            svgIcon="heroicons_outline:dots-vertical">
+                                                                        </mat-icon>
+                                                                    </button>
+                                                                    <mat-menu #options="matMenu"
+                                                                        class="min-width-235 z-1">
+                                                                        <button mat-menu-item
+                                                                            (click)="editSurveyFormItemDetails(surveyQuestionTemp)"
+                                                                            *ngIf="surveyQuestionTemp.rfq!=null">
+                                                                            <mat-icon color="primary"
+                                                                                class="icon-size-5"
+                                                                                svgIcon="heroicons_outline:pencil">
+                                                                            </mat-icon>
+                                                                            Edit
+                                                                        </button>
+                                                                        <button mat-menu-item
+                                                                            (click)="DeleteSurveyQuestion(surveyQuestionTemp)">
+                                                                            <mat-icon color="primary"
+                                                                                class="icon-size-5"
+                                                                                svgIcon="heroicons_outline:trash">
+                                                                            </mat-icon>
+                                                                            Delete
+                                                                        </button>
+                                                                    </mat-menu>
+                                                                </div>
+                                                                <div class="truncate">
+                                                                    {{surveyQuestionTemp.quetionsName}}</div>
+                                                                <div class="truncate">{{surveyQuestionTemp.description}}
+                                                                </div>
+                                                                <!-- <div class="flex">
+                                                                    <mat-form-field class="standalone-input">
+                                                                        <mat-select
+                                                                            [value]="surveyQuestionTemp.attributeCategoryId"
+                                                                            (selectionChange)="SaveSurveyQuestion(surveyQuestionTemp, 'RE')"
+                                                                            [(ngModel)]="surveyQuestionTemp.attributeCategoryId"
+                                                                            name="surveyQuestionTemp.id" [disabled]="!rfqModel.isSaveAsDraft">
+                                                                            <mat-option
+                                                                                *ngFor="let category of attributeCategoryTypes"
+                                                                                [value]="category.id"> {{category.text}}
+                                                                            </mat-option>
+                                                                        </mat-select>
+                                                                    </mat-form-field>
+                                                                </div> -->
+                                                                <div class="truncate pl-4">
+                                                                    <mat-checkbox [color]="'primary'"
+                                                                        name="{{surveyQuestionTemp.id}}"
+                                                                        [checked]="surveyQuestionTemp.isVisibleToSuppliers"
+                                                                        [(ngModel)]="surveyQuestionTemp.isVisibleToSuppliers"
+                                                                        (change)="SaveSurveyQuestion(surveyQuestionTemp, 'DT')" [disabled]="!rfqModel.isSaveAsDraft">
+                                                                    </mat-checkbox>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+                <!-- <div class="flex justify-end">
+                    <mat-paginator [length]="rfqsearchmodel.totalItems" [pageSize]="rfqsearchmodel.pageSize"
+                        [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)"
+                        showFirstLastButtons>
+                    </mat-paginator>
+                </div> -->
+            </ng-container>
+        </ng-container>
+
+        <ng-template #rowDetailsTemplate>
+
+        </ng-template>
+
+        <ng-template #noProducts>
+            <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no products!</div>
+        </ng-template>
+
+    </div>
+
+</div>

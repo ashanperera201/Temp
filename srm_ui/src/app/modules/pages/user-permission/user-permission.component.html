@@ -1,0 +1,105 @@
+<div class="flex column user-permission">
+    <div class="overflow-auto bg-gray-50 rounded-lg">
+        <!-- loading image -->
+        <div class="loader-inline" *ngIf="toDoOverviewDataSource.filteredData.length === 0 && isLoading">
+            <img src="assets/images/xitricon-loader.gif" alt="loading">
+        </div>
+
+
+        <!-- new permission bun -->
+        <button type="button" mat-raised-button color="primary" (click)="addNew()">Add new role</button>
+
+        <!-- data table -->
+        <table mat-table [dataSource]="toDoOverviewDataSource" matSort
+            class="expanded-rows-table font-helvetica text-gray-500 w-full">
+
+            <!-- roleName column -->
+            <ng-container matColumnDef="roleName">
+                <th mat-header-cell *matHeaderCellDef> <span mat-sort-header>Role Name</span>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="roleName"
+                            (keyup)="filterChange('roleName',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </th>
+                <td mat-cell *matCellDef="let element"><a (click)="getRowInfo(row)">{{element.roleName}}</a> </td>
+            </ng-container>
+
+            <!-- description column -->
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Description</span>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="description"
+                            (keyup)="filterChange('description',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+
+            <!-- type column -->
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Type</span>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="type" (keyup)="filterChange('type',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+            </ng-container>
+
+            <!-- createdBy column -->
+            <ng-container matColumnDef="createdBy">
+                <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Created By</span>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="createdBy"
+                            (keyup)="filterChange('createdBy',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
+            </ng-container>
+
+            <!-- createdDate column -->
+            <ng-container matColumnDef="createdDate">
+                <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Created Date</span>
+                    <mat-form-field>
+                        <input matInput class="form-field" [(ngModel)]="createdDate"
+                            (keyup)="filterChange('createdDate',$event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.createdDate}} </td>
+            </ng-container>
+
+            <!-- action column -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef><span mat-sort-header>Action</span>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-icon matSuffix (click)="editPermission(element)">
+                        edit</mat-icon>
+                    <mat-icon matSuffix (click)="copyPermission(element)">
+                        content_copy
+                    </mat-icon>
+                    <mat-slide-toggle (click)="activateUser(element)">{{element.isChecked?Activated:Deactivated}}
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedDashboardColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedDashboardColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow [hidden]="isLoading">
+                <td class="mat-cell" colspan="4">No data matching the filter</td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="flex justify-end">
+        <mat-paginator #tableOnePaginator class="flex text-lg" [pageSizeOptions]="[5, 10, 25]"
+            [showFirstLastButtons]="true">
+        </mat-paginator>
+    </div>
+</div>

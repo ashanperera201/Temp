@@ -1,0 +1,43 @@
+.notification-config-page {
+    form {
+        div {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-content: space-around;
+            justify-content: flex-start;
+            align-items: baseline;
+            margin-bottom: 2.5rem;
+            line-height: 2rem;
+
+            .mat-radio-button,
+            .mat-form-field,
+            .mat-checkbox,
+            .mat-slide-toggle,
+            span {
+                margin-right: 2rem;
+            }
+
+            button {
+                margin-left: 1rem;
+            }
+
+            & > span {
+                min-width: 20%;
+            }
+
+            .mat-form-field.mat-form-field-appearance-fill {
+                min-width: 275px;
+            }
+        }
+
+        .action-button {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+            justify-content: flex-end;
+            align-items: baseline;
+        }
+    }
+}

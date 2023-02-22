@@ -1,0 +1,9 @@
+<p>   Supplier Name : <b>{{suppliername}}</b> </p>
+<p>   Supplier Classification : <b>{{classification}}</b></p>
+<p>   SRM Recommendation : <b>{{srmrecommendation}}</b></p>
+<p>   SRM Recommendation Remark : <b>{{srmrecommendationremark}}</b></p>
+<p *ngIf="classification !='Non Critical'">   HSEQ Recommendation : <b>{{hseqrecommendation}}</b></p>
+<p *ngIf="classification !='Non Critical'">   HSEQ Recommendation Remark : <b>{{hseqrecommendationremark}}</b></p>
+<p>   SRM Remark (Only if GM/VP Rejected) : <b>{{srmremarkreject}}</b></p>
+<p>   GM Remark : <b>{{gmremark}}</b></p>
+<p>   VP Remark : <b>{{vpremark}}</b></p>

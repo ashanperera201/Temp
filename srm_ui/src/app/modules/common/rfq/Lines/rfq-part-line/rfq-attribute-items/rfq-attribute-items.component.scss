@@ -1,0 +1,12 @@
+.rfq-attribute-items-page {
+    .attribute-items-inner-grid {
+        grid-template-columns: 2% 15% 10% 15% 10% 10% 10% 10% 10% 10%;
+        word-wrap: break-word;
+    }
+
+    .attribute-items-parent-grid {
+        grid-template-columns: 5% 35% 35% 10% 5% !important;
+        border-top: 1px solid #eeeeee;
+        border-bottom: 1px solid #eeeeee;
+    }
+}

@@ -1,0 +1,129 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full" [formGroup]="frmPartLineDeliverable"
+        (ngSubmit)="onFormSubmit(frmPartLineDeliverable.value)">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                {{lblHeading}} Deliverable
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+
+            <div class="w-full">
+                <div class="flex flex-col">
+                    <!-- added new -->
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Milestone #</mat-label>
+                            <input matInput type="number" min="0" onkeydown="return event.keyCode !== 69"
+                                formControlName="mileStoneNo" (keyup)="onMilestoneNoChange()" />
+                            <mat-error>
+                                <span
+                                    *ngIf="frmPartLineDeliverable.get('mileStoneNo').hasError('duplicateMilestoneNo')">Please
+                                    enter unique Milestone #</span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Milestone Name</mat-label>
+                            <input matInput formControlName="name" />
+                            <!-- <span
+                                *ngIf="!teamList.get('teamDescription').valid && teamList.get('teamDescription').touched">Please
+                                enter Team Desc</span> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2">
+                            <mat-label>Description</mat-label>
+                            <input matInput formControlName="description" />
+                            <!-- <mat-error>
+                                <span *ngIf="!teamList.get('teamName').valid && teamList.get('teamName').touched">Please enter Team Name</span>
+                            </mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Type</mat-label>
+                            <mat-select formControlName="attributeCategoryId">
+
+                                <mat-option *ngFor="let attributecat of attributeCatagories" [value]="attributecat.id">
+                                    {{attributecat.text}}</mat-option>
+
+                            </mat-select>
+                            <!-- <mat-select [value]="1">
+                                <mat-option [value]="1">Technical</mat-option>
+                                <mat-option [value]="2">Commercial</mat-option>
+                            </mat-select> -->
+                            <!-- <mat-error>
+                                <span *ngIf="!teamList.get('teamName').valid && teamList.get('teamName').touched">Please enter Team Name</span>
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="w-1/2 pr-2 mb-4">
+                        <mat-checkbox [color]="'primary'" name="displayToSupplier" formControlName="displayToSupplier">
+                            Visibility To Suppliers</mat-checkbox>
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2" [class.has-error]="!validatePreviousMilestoneFormat"
+                            (keypress)="keyPressNumbersWithDecimal1()">
+                            <mat-label>Previous Milestone %</mat-label>
+                            <input matInput type="number" min="0" max="100" onkeydown="return event.keyCode !== 69"
+                                formControlName="previousMilestone" />
+                            <mat-hint *ngIf="!validatePreviousMilestoneFormat">Invalid Input, numbers required
+                            </mat-hint>
+                            <!-- <mat-error>
+                                <span *ngIf="!teamList.get('teamName').valid && teamList.get('teamName').touched">Please enter Team Name</span>
+                            </mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2" [class.has-error]="!validateProgressFormat"
+                            (keypress)="keyPressNumbersWithDecimal2()">
+                            <mat-label>Progress %</mat-label>
+                            <input matInput type="number" min="0" max="100" onkeydown="return event.keyCode !== 69"
+                                formControlName="progressPercentage" />
+                            <mat-hint *ngIf="!validateProgressFormat">Invalid Input, decimal values required</mat-hint>
+                            <!-- <span
+                                *ngIf="!teamList.get('teamDescription').valid && teamList.get('teamDescription').touched">Please
+                                enter Team Desc</span> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-1/2 pr-2" [class.has-error]="!validateStageProgressFormat"
+                            (keypress)="keyPressNumbersWithDecimal3()">
+                            <mat-label>Stage Progress %</mat-label>
+                            <input matInput type="number" min="0" max="100" onkeydown="return event.keyCode !== 69"
+                                formControlName="stagePaymentPercentage" />
+                            <mat-hint *ngIf="!validateStageProgressFormat">Invalid Input, decimal values required
+                            </mat-hint>
+                            <!-- <mat-error>
+                                <span *ngIf="!teamList.get('teamName').valid && teamList.get('teamName').touched">Please enter Team Name</span>
+                            </mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field class="w-1/2 pl-2">
+                            <mat-label>Begin Date</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="beginDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-start mt-5">
+                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn"></mat-icon>
+                    <span>{{'Successfully saved'}}</span>
+                </div>
+                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green"></mat-icon>
+                    <span>{{'Something went wrong'}}</span>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="submit"
+                [disabled]="isSaved">
+                <span class="mx-4">{{buttontext}}</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

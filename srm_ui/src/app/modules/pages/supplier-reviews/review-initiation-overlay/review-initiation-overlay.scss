@@ -1,0 +1,49 @@
+.row-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-direction: row;
+}
+
+.mat-radio-button {
+    padding-right: 1rem;
+}
+
+.mat-form-field-grade {
+    width: 30%;
+}
+
+.grading-catogory-grid {
+    grid-template-columns: 300px 15% 15% 50px;
+}
+
+.grading-method-grid {
+    grid-template-columns: 300px 15% 15%;
+}
+
+:host ::ng-deep {
+    .mat-tab-body {
+        overflow: hidden !important;
+        max-height: 50vh !important;
+        min-height: 27vh !important;
+    }
+
+    .mat-tab-body-content {
+        height: 100%;
+        overflow: auto;
+    }
+
+    .mat-dialog-actions {
+        background-color: #fff;
+    }
+
+    .mat-tab-header {
+        background-color: #fff;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .mat-dialog-content{
+        overflow: unset !important;
+    }
+
+}

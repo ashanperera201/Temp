@@ -1,0 +1,219 @@
+<div style="margin-top:10px;padding: 5px 31px;" class="performance-evaluation-page flex flex-col flex-auto min-w-0">
+    <div class="flex flex-col justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Summary of Evaluation</div>
+        <div class="font-cairo font-bold tracking-tight leading-8 mb-8">Evaluation Information</div>
+
+    </div>
+    <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="mr-4 flex flex-row justify-between mb-8 block">
+                <div *ngFor="let gm of generals">
+                    <mat-form-field appearance="fill">
+                        <mat-label class="text-bold">{{gm.title}}</mat-label>
+                        <input matInput [placeholder]="gm.title" [value]="gm.value" [FormControlName]="gm.formName"
+                            disabled>
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div class="mr-4 flex flex-row justify-between block">
+                <div class="flex flex-col">
+                    <mat-form-field appearance="fill" >
+                        <mat-label>Selected Supplier</mat-label>
+                        <input matInput placeholder="Selected Supplier" [value]="selectedSupplier" disabled>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Time Period</mat-label>
+                        <input matInput placeholder="Time Period" value="timePeriod" disabled>
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-row">
+                    <div class="flex flex-col">
+                        <mat-form-field appearance="fill" *ngFor="let type of types; let i = index" class="mb-6">
+                            <mat-label *ngIf="i===0">Reviewer Name</mat-label>
+                            <input matInput placeholder="Notification name" [value]="type" disabled>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col">
+                        <mat-form-field appearance="fill" *ngFor="let type of types; let i = index" class="mb-6">
+                            <mat-label *ngIf="i===0">Designation</mat-label>
+                            <input matInput placeholder="Notification name" [value]="type" disabled>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col">
+                        <mat-form-field appearance="fill" *ngFor="let type of types; let i = index" class="mb-6">
+                            <mat-label *ngIf="i===0">Department</mat-label>
+                            <input matInput placeholder="Notification name" [value]="type" disabled>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col">
+                        <mat-form-field appearance="fill" *ngFor="let type of types; let i = index" class="mb-6">
+                            <mat-label *ngIf="i===0">Published Date</mat-label>
+                            <input matInput placeholder="Notification name" [value]="type" disabled>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="mr-4 flex flex-row justify-between block">
+                <div class="w-1/2">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+                        <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+                            <th mat-header-cell *matHeaderCellDef style="background-color: #41BEDE; color:#fff">
+                                {{column.header}}
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{column.cell(row)}}
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <div class="w-1/2 charts">
+                    <apx-chart [series]="chartOptionsRanks.series" [chart]="chartOptionsRanks.chart"
+                        [dataLabels]="chartOptionsRanks.dataLabels" [plotOptions]="chartOptionsRanks.plotOptions"
+                        [yaxis]="chartOptionsRanks.yaxis" [legend]="chartOptionsRanks.legend"
+                        [fill]="chartOptionsRanks.fill" [stroke]="chartOptionsRanks.stroke"
+                        [tooltip]="chartOptionsRanks.tooltip" [xaxis]="chartOptionsRanks.xaxis"
+                        [grid]="chartOptionsRanks.grid" [states]="chartOptionsRanks.states"></apx-chart>
+                </div>
+            </div>
+            <div class="mr-4 flex flex-col justify-between block">
+                <div class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Question Level Summary</div>
+                <div>
+                    <table mat-table [dataSource]="questionSource" class="mat-elevation-z8 demo-table">
+                        <ng-container *ngFor="let column of questionColumns" [matColumnDef]="column.columnDef">
+                            <th mat-header-cell *matHeaderCellDef>
+                                {{column.header}}
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{column.cell(row)}}
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedQuestionColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedQuestionColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mr-4 flex flex-row justify-between mb-2 mt-8 overflow-auto block">
+                <div class="charts" *ngFor="let chart of questionCharts; let i = index">
+                    <apx-chart [series]="allCharts[i].series" [chart]="allCharts[i].chart"
+                        [dataLabels]="allCharts[i].dataLabels" [plotOptions]="allCharts[i].plotOptions"
+                        [yaxis]="allCharts[i].yaxis" [legend]="allCharts[i].legend" [fill]="allCharts[i].fill"
+                        [stroke]="allCharts[i].stroke" [tooltip]="allCharts[i].tooltip" [xaxis]="allCharts[i].xaxis"
+                        [grid]="allCharts[i].grid" [states]="allCharts[i].states">
+                    </apx-chart>
+                </div>
+            </div>
+            <div class="mr-4 flex flex-col justify-between block">
+                <div class="mr-4 flex flex-row justify-between ">
+                    <div *ngFor="let head of headers" class="head">{{head}}</div>
+                </div>
+                <div class="mr-4 flex flex-col justify-between">
+                    <div *ngFor="let content of contents" class="mr-4 flex flex-row justify-between line">
+
+                        <div class="questions">{{content.questions}}</div>
+                        <div class="answers" *ngFor="let data of content.data">
+                            {{data.status}}<br>{{data.recommended}}</div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="mr-4 flex flex-col justify-between block">
+                <div class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Question Level Summary</div>
+                <div>
+                    <table mat-table [dataSource]="questionSource" class="mat-elevation-z8 demo-table">
+                        <ng-container *ngFor="let column of questionColumns" [matColumnDef]="column.columnDef">
+                            <th mat-header-cell *matHeaderCellDef>
+                                {{column.header}}
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{column.cell(row)}}
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedQuestionColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedQuestionColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mr-4 flex flex-col justify-between block">
+                <div class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Blocked Suppliers</div>
+                <div>
+                    <table mat-table [dataSource]="blockSupplierSource" class="mat-elevation-z8 demo-table">
+                        <ng-container *ngFor="let column of blockSupplierColumns" [matColumnDef]="column.columnDef">
+                            <th mat-header-cell *matHeaderCellDef>
+                                {{column.header}}
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{column.cell(row)}}
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedBlockSupplierColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedBlockSupplierColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mr-4 flex flex-col justify-between block">
+                <div class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Approvals</div>
+                <mat-horizontal-stepper labelPosition="bottom">
+                    <mat-step *ngFor="let x of apps; let i = index" state="aa">
+                        <ng-template matStepLabel>{{x}}</ng-template>
+                    </mat-step>
+                </mat-horizontal-stepper>
+                <ng-template matStepperIcon="phone">
+                    <mat-icon>call_end</mat-icon>
+                </ng-template>
+            </div>
+            <div class="mr-4 flex flex-col justify-between block">
+                <div class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Approvals</div>
+                <div>
+                    <table mat-table [dataSource]="approvalsSource" class="mat-elevation-z8 demo-table">
+                        <ng-container *ngFor="let column of approvalsColumns" [matColumnDef]="column.columnDef">
+                            <th mat-header-cell *matHeaderCellDef>
+                                {{column.header}}
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{column.cell(row)}}
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedApprovalsColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedApprovalsColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mr-4 flex flex-col justify-between block">
+                <div class="font-cairo font-bold tracking-tight leading-8 mb-2 mt-8">Approval History</div>
+                <div>
+                    <table mat-table [dataSource]="approvalHistorySource" class="mat-elevation-z8 demo-table">
+                        <ng-container *ngFor="let column of approvalHistoryColumns" [matColumnDef]="column.columnDef">
+                            <th mat-header-cell *matHeaderCellDef>
+                                {{column.header}}
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{column.cell(row)}}
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedApprovalHistoryColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedApprovalHistoryColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mr-4 flex flex-row justify-end block">
+                <button class="sm:inline-flex ml-4" mat-raised-button [color]="'accent'" type="button">
+                    <span class="mx-4">Reinitation</span>
+                </button> <button class="sm:inline-flex ml-4" mat-raised-button [color]="'warn'" type="button">
+                    <span class="mx-4">Reject</span>
+                </button> <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="submit">
+                    <span class="mx-4">Approve</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

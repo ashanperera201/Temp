@@ -1,0 +1,99 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                Add Currency
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+
+                <div class="w-full">
+                    <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+                        <div class="mr-4">
+                            <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3" [floatLabel]="'always'">
+                                <div class="text-secondary px-4" matPrefix>Currency Code</div>
+                                <input matInput placeholder="Search by Currency Code" name="currencyCode" #input  [(ngModel)]="currencySearchModel.currencyCode">
+                            </mat-form-field>
+                            <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-90 mt-4 sm:mt-0 mr-1 mb-3" [floatLabel]="'always'">
+                                <div class="text-secondary px-4" matPrefix>Country</div>
+                                <input matInput placeholder="Search by Country" #input name="currencyName" [(ngModel)]="currencySearchModel.currencyName">
+                            </mat-form-field>
+
+                        </div>
+
+                        <button type="button" (click)="FetchBasicData()" class="sm:inline-flex mb-3" mat-stroked-button [color]="'primary'">
+                            <mat-icon matPrefix class="icon-size-5 ml-8" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                            <span class="mr-8 ml-4">Search</span>
+                        </button>
+                    </div>
+                    <div class="overflow-auto bg-gray-50 rounded-lg">
+                        <table mat-table [dataSource]="currencySearchModel.currencyRates"  matSort (matSortChange)="sortData($event)" class="expanded-rows-table font-helvetica text-gray-500">
+
+                            <!-- ID Column -->
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef style="max-width: 60px; min-width: 50px"></th>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox [(ngModel)]="row.isBind" name="{{row.currencyName}}" [checked]="row.isBind" [color]="'primary'"></mat-checkbox>
+                                </td>
+                            </ng-container>
+
+                            <!-- Code Column -->
+                            <ng-container matColumnDef="currency">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 190px; min-width: 170px">
+                                    Currency Code
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{row.currencyCode}}
+                                </td>
+                            </ng-container>
+
+                            <!-- Country -->
+                            <ng-container matColumnDef="country">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                    Country
+                                </th>
+                                <td mat-cell *matCellDef="let row"> {{row.currencyName}} </td>
+                            </ng-container>
+
+                            <!-- Rate -->
+                            <ng-container matColumnDef="rate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                    Rate
+                                </th>
+                                <td mat-cell *matCellDef="let row"> {{row.rate}} </td>
+                            </ng-container>
+
+                            <!-- Conversion Factor -->
+                            <ng-container matColumnDef="conversionFactor">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                    Conversion Factor
+                                </th>
+                                <td mat-cell *matCellDef="let row"> {{row.conversionFactor}} </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                            <!-- Row shown when there is no matching data. -->
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="flex justify-end">
+                        <mat-paginator [length]="currencySearchModel.totalItems" [pageSize]="currencySearchModel.pageSize" [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </div>
+
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="button" (click)="UpdateCurrencies()">
+                <span class="mx-4">Add To list</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

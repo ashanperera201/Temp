@@ -1,0 +1,23 @@
+.agreement-info {
+    .mat-form-field {
+        padding: 1rem;
+        width: 20%;
+    }
+
+    .section {
+        p {
+            padding-left: 1rem;
+        }
+    }
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+
+        h3 {
+            font-weight: 600;
+        }
+    }
+}

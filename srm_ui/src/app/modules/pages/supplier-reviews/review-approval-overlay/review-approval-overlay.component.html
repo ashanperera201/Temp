@@ -1,0 +1,83 @@
+<div class="w-20px p-2" *ngIf="firstScreen">
+    <div class="flex flex-col w-full">
+        <div class="pb-1">
+            <div class="font-bold">Approval Confirmation</div>
+            <hr />
+        </div>
+
+        <div class="flex w-full flex-col">
+            <p class="font-medium text-l text-secondary">
+                Hi <span>{{ approver }}</span
+                >,
+            </p>
+
+            <p class="font-medium text-l text-secondary">
+                Please confirm to approve and please enter approval comments.
+            </p>
+
+            <form class="example-form">
+                <mat-form-field class="w-full" appearance="fill">
+                    <textarea
+                        [(ngModel)]="comment"
+                        matInput
+                        placeholder=""
+                    ></textarea>
+                </mat-form-field>
+            </form>
+        </div>
+
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button
+                mat-button
+                mat-dialog-close
+                [color]="'primary'"
+                mat-stroked-button
+                (click)="doAction()"
+                type="button"
+            >
+                <span class="mx-4">Back</span>
+            </button>
+            <button
+                class="sm:inline-flex ml-4"
+                mat-raised-button
+                [color]="'primary'"
+                (click)="submit()"
+                type="submit"
+            >
+                <span class="mx-4">Confirm</span>
+            </button>
+        </mat-dialog-actions>
+    </div>
+</div>
+
+<div class="min-w-full p-2" *ngIf="lastScreen">
+    <div class="flex flex-col w-full">
+        <div class="pb-1">
+            <div class="font-bold">Approval Confirmation</div>
+            <hr />
+        </div>
+
+        <div class="flex w-full flex-col">
+            <p class="font-medium text-l text-secondary">
+                Hi <span>{{ approver }}</span
+                >,
+            </p>
+
+            <p class="font-medium text-l text-secondary">
+                Your Appoval has been confirmed
+            </p>
+
+            <mat-dialog-actions class="flex justify-end sticky bottom-0">
+                <button
+                    class="sm:inline-flex ml-4"
+                    mat-raised-button
+                    [color]="'primary'"
+                    (click)="Continue()"
+                    type="button"
+                >
+                    <span class="mx-4">Dismiss</span>
+                </button>
+            </mat-dialog-actions>
+        </div>
+    </div>
+</div>

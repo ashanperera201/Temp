@@ -1,0 +1,331 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0 numbering-sequence">
+
+
+    <div class="flex justify-between">
+        <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Numbering Sequence</div>
+        <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" (click)="openDialog()">
+            <span class="mx-8">Add New</span>
+        </button>
+    </div>
+    <div class="relative bg-gray-50">
+        <mat-tab-group class="tab-type-one is-parent-tab" [animationDuration]="'0'" (selectedTabChange)="numberingSequenceChange($event)">
+            <mat-tab label="RFQ" class="direct-child-of-parent" (click)="fetchNumberingSequenceData('RFQ')">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <div class="padded-child-tab-content">
+                        <!--table component-->
+
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg">
+                            <table mat-table [dataSource]="numberingSequenceSearchModel.numberingSequenceModels" matSort class="expanded-rows-table font-helvetica text-gray-500">
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef style="width: 50px; max-width: 60px; min-width: 50px"></th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns">
+                                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                                        </button>
+                                        <mat-menu #options="matMenu" class="min-width-235 z-1">
+                                            <button mat-menu-item (click)="editNumberingSequenceData(row)">
+                                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil"></mat-icon>
+                                                Edit
+                                            </button>
+                                            <button mat-menu-item (click)="deleteNumberingSequenceData(row)">
+                                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash"></mat-icon>
+                                                Delete
+                                            </button>
+                                        </mat-menu>
+                                    </td>
+                                </ng-container>
+
+                                <!-- startNumber Column -->
+                                <ng-container matColumnDef="startNumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 190px; min-width: 170px">
+                                        RFX Prefix
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startNumber}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- exists Item -->
+                                <ng-container matColumnDef="exists">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                        Project Exists?
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox [(ngModel)]="row.isProjectExists" [color]="'primary'"></mat-checkbox>
+                                    </td>
+                                </ng-container>
+
+                                <!-- suffix Column -->
+                                <!-- <ng-container matColumnDef="suffix">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                                        Suffix
+                                    </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.suffix}} </td>
+                                </ng-container> -->
+
+                                <!-- sequence Column -->
+                                <!-- <ng-container matColumnDef="sequence">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                                        Start of No. Sequence
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startOfNoSequence}}
+                                    </td>
+                                </ng-container> -->
+
+                                <!-- startDate Column -->
+                                <ng-container matColumnDef="startDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                                        Start Date
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startDate | date: 'dd-MMM-yyyy'}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- endDate Column -->
+                                <ng-container matColumnDef="endDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                                        End Date
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.endDate | date: 'dd-MMM-yyyy'}}
+                                    </td>
+                                </ng-container>
+
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="7">No data found</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="flex justify-end">
+                            <mat-paginator [length]="numberingSequenceSearchModel.totalItems" [pageSize]="numberingSequenceSearchModel.pageSize" [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+                            </mat-paginator>
+                        </div>
+                        <!--table component end-->
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="RFI" class="direct-child-of-parent" (click)="fetchNumberingSequenceData('RFI')">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <div class="padded-child-tab-content">
+                        <!--table component-->
+
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg">
+                            <table mat-table [dataSource]="numberingSequenceSearchModel.numberingSequenceModels" matSort class="expanded-rows-table font-helvetica text-gray-500">
+
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef style="width: 50px; max-width: 60px; min-width: 50px"></th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns">
+                                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                                        </button>
+                                        <mat-menu #options="matMenu" class="min-width-235 z-1">
+                                            <button mat-menu-item (click)="editNumberingSequenceData(row)">
+                                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil"></mat-icon>
+                                                Edit
+                                            </button>
+                                            <button mat-menu-item (click)="deleteNumberingSequenceData(row)">
+                                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash"></mat-icon>
+                                                Delete
+                                            </button>
+                                        </mat-menu>
+                                    </td>
+                                </ng-container>
+                                <!-- startNumber Column -->
+                                <ng-container matColumnDef="startNumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 190px; min-width: 170px">
+                                        RFX Prefix
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startNumber}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- exists Item -->
+                                <ng-container matColumnDef="exists">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                        Project Exists?
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox [ngModel]="row.isProjectExists" name="row.isProjectExists" [color]="'primary'"></mat-checkbox>
+                                    </td>
+                                </ng-container>
+
+                                <!-- suffix Column -->
+                                <!-- <ng-container matColumnDef="suffix">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                                        Suffix
+                                    </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.suffix}} </td>
+                                </ng-container> -->
+
+                                <!-- sequence Column -->
+                                <!-- <ng-container matColumnDef="sequence">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                                        Start of No. Sequence
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startOfNoSequence}}
+                                    </td>
+                                </ng-container> -->
+
+                                <!-- startDate Column -->
+                                <ng-container matColumnDef="startDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                                        Start Date
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startDate | date: 'dd-MMM-yyyy'}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- endDate Column -->
+                                <ng-container matColumnDef="endDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                                        End Date
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.endDate | date: 'dd-MMM-yyyy'}}
+                                    </td>
+                                </ng-container>
+
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data found</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="flex justify-end">
+                            <mat-paginator [length]="numberingSequenceSearchModel.totalItems" [pageSize]="numberingSequenceSearchModel.pageSize" [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+                            </mat-paginator>
+                        </div>
+                        <!--table component end-->
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="RFAQ" class="direct-child-of-parent" (click)="fetchNumberingSequenceData('RFAQ')">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <div class="padded-child-tab-content">
+                        <!--table component-->
+
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg">
+                            <table mat-table [dataSource]="numberingSequenceSearchModel.numberingSequenceModels" matSort class="expanded-rows-table font-helvetica text-gray-500">
+
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef style="width: 50px; max-width: 60px; min-width: 50px"></th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns">
+                                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                                        </button>
+                                        <mat-menu #options="matMenu" class="min-width-235 z-1">
+                                            <button mat-menu-item (click)="editNumberingSequenceData(row)">
+                                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil"></mat-icon>
+                                                Edit
+                                            </button>
+                                            <button mat-menu-item (click)="deleteNumberingSequenceData(row)">
+                                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash"></mat-icon>
+                                                Delete
+                                            </button>
+                                        </mat-menu>
+                                    </td>
+                                </ng-container>
+
+
+                                <!-- startNumber Column -->
+                                <ng-container matColumnDef="startNumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 190px; min-width: 170px">
+                                        RFX Prefix
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startNumber}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- exists Item -->
+                                <ng-container matColumnDef="exists">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                        Project Exists?
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox [ngModel]="row.isProjectExists" name="row.isProjectExists" [color]="'primary'"></mat-checkbox>
+                                    </td>
+                                </ng-container>
+
+                                <!-- suffix Column -->
+                                <!-- <ng-container matColumnDef="suffix">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                                        Suffix
+                                    </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.suffix}} </td>
+                                </ng-container> -->
+
+                                <!-- sequence Column -->
+                                <!-- <ng-container matColumnDef="sequence">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                                        Start of No. Sequence
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startOfNoSequence}}
+                                    </td>
+                                </ng-container> -->
+
+                                <!-- startDate Column -->
+                                <ng-container matColumnDef="startDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                                        Start Date
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startDate | date: 'dd-MMM-yyyy'}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- endDate Column -->
+                                <ng-container matColumnDef="endDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                                        End Date
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.endDate | date: 'dd-MMM-yyyy'}}
+                                    </td>
+                                </ng-container>
+
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data found</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="flex justify-end">
+                            <mat-paginator [length]="numberingSequenceSearchModel.totalItems" [pageSize]="numberingSequenceSearchModel.pageSize" [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+                            </mat-paginator>
+                        </div>
+                        <!--table component end-->
+                    </div>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+
+</div>
+

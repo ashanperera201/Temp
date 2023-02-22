@@ -1,0 +1,37 @@
+<div class="header-container">
+    <div class="header-container__title">
+        Role {{roleRef ? 'Update' : 'Create'}}
+    </div>
+    <div class="header-container__close-btn">
+        <button mat-icon-button color="primary" (click)="closeModal()">
+            <mat-icon class="cus-icon">close</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div class="body-container py-4" [formGroup]="roleForm">
+    <div class="flex items-center justify-between">
+        <mat-form-field appearance="outline">
+            <mat-label>Role Name</mat-label>
+            <input matInput placeholder="Role Name" id="roleName" formControlName="roleName" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Description" id="description" formControlName="roleDescription" required>
+        </mat-form-field>
+    </div>
+
+    <div class="body-container--radio-btn">
+        <mat-slide-toggle color="primary" formControlName="roleStatus">Role Status({{roleForm.get('roleStatus')?.value ?
+            'Active' : 'In-Active'}})
+        </mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="roleType" class="mx-4">Role Type({{
+            roleForm.get('roleType')?.value ? 'External': 'Internal'}})
+        </mat-slide-toggle>
+    </div>
+</div>
+
+<div class="button-content">
+    <button type="submit" [disabled]="roleForm.invalid" mat-raised-button color="primary"
+        (click)="onRoleSaveUpdate()">{{roleRef ? 'Update': 'Create'}} Role</button>
+</div>

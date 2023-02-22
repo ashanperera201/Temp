@@ -1,0 +1,155 @@
+<div style="margin-top:10px;padding: 5px 31px;" class="dashboard-page flex flex-col flex-auto min-w-0">
+    <!--style doesn't exist in the proper UI-->
+    <!-- <fuse-alert class="pb-2"
+        [appearance]="'fill'"
+        [dismissible]="true"
+        [dismissed]="false"
+        [name]="'successerror'"
+        [type]="'success'">
+        {{Message}} Successfully
+    </fuse-alert> -->
+    <div class="flex justify-between">
+        <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">Attribute Items</div>
+        <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" (click)="openDialog()">
+            <span class="mx-8">Create Attribute Item</span>
+        </button>
+    </div>
+    <div class="relative">
+        <div class="srm-bg mb-4 rounded-lg rounded-t-none">
+            <div class="p-6">
+
+                <div class="flex flex-col flex-wrap sm:flex-row items-center max-w-xs sm:max-w-none">
+                    <div class="mr-4">
+                        <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3" [floatLabel]="'always'">
+                            <div class="text-secondary px-4" matPrefix>Attribute Item </div>
+                            <input matInput name="attributeName" placeholder="Search by Item" #input [(ngModel)]="name">
+                        </mat-form-field>
+                        <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mr-1 mb-3" [floatLabel]="'always'">
+                            <div class="text-secondary px-4" matPrefix>Category</div>
+                            <input matInput name="categoryName" placeholder="Search by Category" #input [(ngModel)]="category" >
+                        </mat-form-field>
+                        <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix sm:w-80 mt-4 sm:mt-0 mb-3" [floatLabel]="'always'">
+                            <div class="text-secondary px-4" matPrefix>Description</div>
+                            <input matInput name="description" placeholder="Search by Description" #input [(ngModel)]="description">
+                        </mat-form-field>
+                        <mat-form-field class="fuse-mat-no-subscript sm:w-32 mt-4 sm:mt-0 mr-1 mb-3" [floatLabel]="'always'">
+                            <mat-select [value]="" [(ngModel)]= "dataTypeName">
+                                <mat-option value="">Data Type</mat-option>
+                            <ng-container>
+                                <mat-option *ngFor="let dataTypes of dataTypeList" [value]="dataTypes.text">{{dataTypes.text}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <button class="sm:inline-flex mb-3" mat-stroked-button [color]="'primary'" type="button" (click) ="searchData()">
+                        <mat-icon matPrefix class="icon-size-5 ml-8" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                        <span class="mr-8 ml-4">Search</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+        <!--table component-->
+
+        <!--base table component-->
+        <div class="overflow-auto bg-gray-50 rounded-lg">
+            <table mat-table [dataSource]="attributeSearchModel.attributeModels" matSort (matSortChange)="sortData($event)" class="expanded-rows-table font-helvetica text-gray-500" style="width: calc(100% - 2px); background: #fafafa !important; padding: 0 2px;">
+                <!--style doesnt exist in the proper UI-->
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef style="width: 50px; max-width: 60px; min-width: 50px"></th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns">
+                            <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                        </button>
+                        <mat-menu #options="matMenu" class="min-width-235 z-1">
+                            <button mat-menu-item type="button"  (click)="EditAttribute(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:pencil"></mat-icon>
+                                Edit
+                            </button>
+                            <button mat-menu-item (click)="DeleteAttribute(row)">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash"></mat-icon>
+                                Delete
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <!-- Category Column -->
+                <ng-container matColumnDef="categoryName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 190px; min-width: 170px">
+                        Category
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.categoryName}}
+                    </td>
+                </ng-container>
+
+                <!-- Attribute Item -->
+                <ng-container matColumnDef="attributeName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                        Attribute Item
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.attributeName}} </td>
+                </ng-container>
+
+                <!-- Description Column -->
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                        Description
+                    </th>
+                    <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+                </ng-container>
+
+                <!-- Data Type Column -->
+                <ng-container matColumnDef="dataTypeName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 160px; min-width: 150px">
+                        Data Type
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.dataTypeName}}
+                    </td>
+                </ng-container>
+
+                <!-- Input Value Column -->
+                <ng-container matColumnDef="inputVal">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 180px; min-width: 170px">
+                        Input Value
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button class="sm:inline-flex" mat-stroked-button [color]="'primary'" (click)="defineInputValue(row)">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [svgIcon]="'heroicons_solid:arrow-circle-right'"></mat-icon>
+                            <span class="mr-4 ml-2">Define</span>
+                        </button>
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="6">Table contains no data values</td>
+                </tr>
+            </table>
+        </div>
+        <div class="flex justify-end">
+            <mat-paginator [length]="attributeSearchModel.totalItems" [pageSize]="attributeSearchModel.pageSize" 
+            [pageSizeOptions]="[5,10,15,20,25,100]" (page)="pageEvent=$event;OnPaginateChange($event)" showFirstLastButtons>
+    
+            </mat-paginator>
+        </div>
+        <!--table component end-->
+    </div>
+   <!--  <div class="flex justify-end ml-auto p-6">
+        <button class="sm:inline-flex mr-4" mat-button [color]="'primary'">
+            <span class="mx-8">Cancel</span>
+        </button>
+        <button class="sm:inline-flex" mat-raised-button [color]="'primary'">
+            <span class="mx-8">Save Changes</span>
+        </button>
+    </div> -->
+</div>

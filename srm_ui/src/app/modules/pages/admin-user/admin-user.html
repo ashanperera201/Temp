@@ -1,0 +1,694 @@
+<div class="dashboard-page flex flex-col flex-auto min-w-0 sm:p-6 md:p-8" *ngIf="auth.user$ | async as user">
+    <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">
+        Admin User Privileges
+    </div>
+
+    <div class="overflow-auto srm-bg rounded-lg">
+
+        <form class="flex flex-col w-full">
+            <div class="flex flex-col sm:flex-row p-6">
+                <div class="flex flex-auto flex-wrap">
+                    <div class="flex flex-col w-full divide-solid divide-y-2 divide-gray-200">
+
+                        <div class="flex pb-6" *ngIf="auth.user$ | async as user">
+                            <mat-form-field class="w-1/3 pr-2">
+                                <mat-label>User Type</mat-label>
+                                <input matInput value="{{ user.nickname }}" readonly>
+                            </mat-form-field>
+                            <mat-form-field class="w-1/3 px-2">
+                                <mat-label>User Email</mat-label>
+                                <input matInput value="{{ user.email }}" readonly>
+                            </mat-form-field>
+                            <mat-form-field class="w-1/3 pl-2">
+                                <mat-label>User ID</mat-label>
+                                <input matInput value="{{ user.sub }}" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex py-6">
+                            <form>
+                                <mat-form-field class="fuse-mat-no-subscript sm:w-44 rounded-r-none w-1/3 pr-2">
+                                    <mat-label>Selected Role</mat-label>
+                                    <!-- <mat-label >{{fetchedMyRoleNew}}</mat-label> -->
+
+                                    <mat-select [(ngModel)]="selectedMyRole" name="selectedMyRole"
+                                        value="{{fetchedMyRoleNew}}">
+                                        <mat-option *ngFor="let data of fetchedUserRolesChange" [value]="data.name"
+                                            (click)=clickedRole(data.id)>
+                                            {{data.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <!-- <p style="color:black;"> Selected Role: {{selectedMyRole}} </p> -->
+
+                                <div class="flex justify-start mt-5 flex-col">
+                                    <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserrorChangeRole">
+                                        <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn">
+                                        </mat-icon>
+                                        <span>{{errormessageChangeRole}}</span>
+                                    </div>
+                                    <div class="flex align-center text-green font-medium mb-2"
+                                        *ngIf="issuccessChangeRole">
+                                        <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green">
+                                        </mat-icon>
+                                        <span>{{successmessageChangeRole}}</span>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <button class="sm:inline-flex ml-4 mt-6" mat-raised-button [color]="'primary'"
+                                (click)="changeMyRole()">
+                                <span class="mx-8">Change Role</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="overflow-auto srm-bg rounded-lg rounded-t-none">
+
+        <mat-tab-group class="tab-type-one is-parent-tab" [animationDuration]="'0'">
+
+            <mat-tab label="Create New User" class="direct-child-of-parent">
+                <ng-template matTabContent>
+                    <div class="padded-child-tab-content">
+                        <form class="flex flex-col w-full">
+                            <p class="font-medium mb-4 w-3/5 text-xl">
+                                Details
+                            </p>
+
+                            <div class="flex md:flex-row sm:flex-col">
+                                <div class="flex flex-col lg:w-2/6 md:w-full md:pr-6 sm:p-0">
+                                    <mat-form-field>
+                                        <mat-label>First Name</mat-label>
+                                        <input matInput [formControl]="firstnameFormControl"
+                                            [errorStateMatcher]="matcher" [ngModel]="searchUsername"
+                                            (ngModelChange)="usernameCheck($event)">
+                                        <mat-error
+                                            *ngIf="firstnameFormControl.hasError('text') && !firstnameFormControl.hasError('required')">
+                                            Please enter a valid firstname
+                                        </mat-error>
+                                        <mat-error *ngIf="firstnameFormControl.hasError('required')">
+                                            Firstname is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <div class="flex justify-start mt-5 flex-col">
+                                        <div class="flex align-center text-warn font-medium mb-2"
+                                            *ngIf="isUserAvailableAlready">
+                                            <mat-icon [svgIcon]="'heroicons_outline:check-circle'"
+                                                class="mr-2 text-warn"></mat-icon>
+                                            <span>{{errormessageUserAvailable}}</span>
+                                        </div>
+                                    </div>
+                                    <mat-form-field>
+                                        <mat-label>Last Name</mat-label>
+                                        <input matInput [formControl]="lastnameFormControl"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="lastnameFormControl.hasError('text') && !lastnameFormControl.hasError('required')">
+                                            Please enter a valid lastname
+                                        </mat-error>
+                                        <mat-error *ngIf="lastnameFormControl.hasError('required')">
+                                            Lastname is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-label>Email</mat-label>
+                                        <input type="email" matInput [formControl]="emailFormControl"
+                                            [errorStateMatcher]="matcher" placeholder="Ex. test@example.com">
+                                        <mat-error
+                                            *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                                            Please enter a valid email address
+                                        </mat-error>
+                                        <mat-error *ngIf="emailFormControl.hasError('required')">
+                                            Email is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex flex-col lg:w-2/6 md:w-full">
+                                    <mat-form-field>
+                                        <mat-label>Password</mat-label>
+                                        <input type="password" matInput [formControl]="passwordFormControl"
+                                            [ngModel]="searchStr" (ngModelChange)="changePassword($event)"
+                                            [errorStateMatcher]="isErrorStateTest" matTooltip="* Special characters (!@#$%^&*)
+                                        * Lower case (a-z), upper case (A-Z) and numbers (0-9)
+                                        * Must have 8 characters in length!">
+                                        <mat-icon [color]="'primary'" matTooltip="* Special characters (!@#$%^&*)
+                                        * Lower case (a-z), upper case (A-Z) and numbers (0-9)
+                                        * Must have 8 characters in length!">info</mat-icon>
+
+
+
+                                        <mat-error
+                                            *ngIf="passwordFormControl.hasError('password') && !passwordFormControl.hasError('required')">
+                                            Please enter a valid password
+                                        </mat-error>
+                                        <mat-error *ngIf="passwordFormControl.hasError('required')">
+                                            Password is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+
+                                    <div class="flex justify-start mt-5 flex-col">
+                                        <div class="flex align-center text-warn font-medium mb-2"
+                                            *ngIf="isPasswordWrong">
+                                            <mat-icon [svgIcon]="'heroicons_outline:check-circle'"
+                                                class="mr-2 text-warn"></mat-icon>
+                                            <span>{{errormessagePassword}}</span>
+                                        </div>
+                                    </div>
+                                    <!-- <mat-form-field>
+                                        <mat-label>Confirm Password</mat-label>
+                                        <input matInput [formControlName]="'confirmpassword'" >
+                                        <mat-icon [color]="'primary'">info</mat-icon>
+                                    </mat-form-field> -->
+                                </div>
+                            </div>
+                            <div class="flex justify-start mt-5 flex-col">
+                                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserror">
+                                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn">
+                                    </mat-icon>
+                                    <span>{{errormessage}}</span>
+                                </div>
+                                <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccess">
+                                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green">
+                                    </mat-icon>
+                                    <span>{{successmessage}}</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-end mt-5">
+                                <!-- <button mat-button mat-dialog-close [color]="'primary'">Cancel</button> -->
+                                <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'"
+                                    (click)="callCreateAPI()"
+                                    [disabled]="isCreateButtonEnable || isPasswordWrong || isUserAvailableAlready ">
+                                    <span class="mx-8">Create User</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Create User Role" class="direct-child-of-parent">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <div class="padded-child-tab-content">
+                        <div class="flex flex-col w-full">
+                            <p class="font-medium mb-4 w-3/5 text-xl">
+                                Create User Role
+                            </p>
+                            <!-- <mat-chip-list class="flex mb-6">
+                                <mat-basic-chip [removable]="true" [selectable]="true" disableRipple>
+                                    Admin
+                                    <mat-icon class="icon-size-5" matChipRemove [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                </mat-basic-chip>
+                                <mat-basic-chip [removable]="true" [selectable]="true" disableRipple>
+                                    IMI-GM
+                                    <mat-icon class="icon-size-5" matChipRemove [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                </mat-basic-chip>
+                                <mat-basic-chip [removable]="true" [selectable]="true" disableRipple>
+                                    IMI-HSEQ
+                                    <mat-icon class="icon-size-5" matChipRemove [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                </mat-basic-chip>
+                                <mat-basic-chip [removable]="true" [selectable]="true" disableRipple>
+                                    IMI-SRM Analyst
+                                    <mat-icon class="icon-size-5" matChipRemove [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                </mat-basic-chip>
+                            </mat-chip-list> -->
+
+                            <div class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+
+                                    <!-- <button mat-icon-button aria-label="Delete Role" (click)="removeField(0)" class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button> -->
+                                </div>
+                                <!-- <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input matInput [formControlName]="''">
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div> -->
+                            </div>
+
+                            <div *ngIf="field1" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl1"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(1)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="field2" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl2"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(2)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="field3" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl3"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(3)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="field4" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl4"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(4)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="field5" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl5"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(5)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="field6" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl6"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(6)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="field7" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl7"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(7)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="field8" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl8"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(8)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="field9" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl9"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(9)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="field10" class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input type="text" matInput [formControl]="newRoleFormControl10"
+                                            [errorStateMatcher]="matcher">
+                                        <mat-error
+                                            *ngIf="newRoleFormControl.hasError('text') && !newRoleFormControl.hasError('required')">
+                                            Please enter a valid role
+                                        </mat-error>
+                                        <mat-error *ngIf="newRoleFormControl.hasError('required')">
+                                            Role is <strong>required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" (click)="removeField(10)"
+                                        class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="sm:inline-flex mr-auto mt-4" mat-stroked-button [color]="'primary'">
+                                <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'">
+                                </mat-icon>
+                                <span class="mr-8" (click)="addAnotherRole()">Add Another Role</span>
+                            </button>
+
+                        </div>
+
+                        <div class="flex justify-start mt-5 flex-col">
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserrorRoleCreated">
+                                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn">
+                                </mat-icon>
+                                <span>{{errormessageRoleCreated}}</span>
+                            </div>
+                            <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccessRoleCreated">
+                                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green">
+                                </mat-icon>
+                                <span>{{successmessageRoleCreated}}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end mt-5">
+                            <!-- <button mat-button mat-dialog-close [color]="'primary'">Cancel</button> -->
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'">
+                                <span class="mx-8" (click)="createUserRole()">Create User Role</span>
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab label="Assign Role to User" class="direct-child-of-parent">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <div class="padded-child-tab-content">
+                        <div class="flex flex-col w-full">
+                            <p class="font-medium mb-4 w-3/5 text-xl">
+                                Assign Role to User
+                            </p>
+
+                            <div class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <mat-label >Users</mat-label>
+                                        <mat-select [(ngModel)]="selectedUserAssignRole" name="selectedUserAssignRole"
+                                            style="width: 185px;">
+                                            <mat-option *ngFor="let data of fetchedUsers" [value]="data.user_id">
+                                                {{data.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <p style="color:#fafafa;"> Selected User: {{selectedUserAssignRole}} </p>
+
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <mat-label >Roles</mat-label>
+                                        <mat-select [(ngModel)]="selectedAssignMyRole" name="selectedRole"
+                                            style="width: 185px;">
+                                            <mat-option *ngFor="let data of fetchedUserRoles" [value]="data.name"
+                                                (click)=clickedAssignRole(data.id)>
+                                                {{data.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <p style="color:#fafafa;"> Selected User: {{selectedAssignMyRole}} </p>
+                                    <!-- <button mat-icon-button aria-label="Delete Role" (click)="removeField(0)" class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button> -->
+                                </div>
+                                <!-- <div class="flex role-item overflow-hidden">
+                                    <mat-form-field [ngClass]="formFieldHelpers" class="mr-1 w-full">
+                                        <input matInput [formControlName]="''">
+                                    </mat-form-field>
+                                    <button mat-icon-button aria-label="Delete Role" class="flex mt-1">
+                                        <mat-icon color="warn" svgIcon="heroicons_outline:trash"></mat-icon>
+                                    </button>
+                                </div> -->
+                            </div>
+
+
+
+                            <div class="flex justify-start mt-5 flex-col">
+                                <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserrorAssigned">
+                                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn">
+                                    </mat-icon>
+                                    <span>{{errormessageAssigned}}</span>
+                                </div>
+                                <div class="flex align-center text-green font-medium mb-2"
+                                    *ngIf="issuccessAssigned">
+                                    <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green">
+                                    </mat-icon>
+                                    <span>{{successmessageAssigned}}</span>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end mt-5">
+                                <!-- <button mat-button mat-dialog-close [color]="'primary'">Cancel</button> -->
+                                <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'">
+                                    <span class="mx-8" (click)="assignUserRole()">Assign Role</span>
+                                </button>
+
+                                <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'">
+                                    <span class="mx-8" (click)="getAuthToken()">Test Auth token</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>    
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab label="All Users" class="direct-child-of-parent">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <div class="padded-child-tab-content pt-0">
+                        <table mat-table [dataSource]="dataSourceDashboard2"
+                            class="expanded-rows-table font-helvetica text-gray-500">
+
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <div>Name</div>
+                                    <mat-form-field>
+                                        <input matInput class="form-field">
+                                        <mat-icon matSuffix>search</mat-icon>
+                                    </mat-form-field>
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="changeRole">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <div>User ID</div>
+                                    <mat-form-field>
+                                        <input matInput class="form-field">
+                                        <mat-icon matSuffix>search</mat-icon>
+                                    </mat-form-field>
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.changeRole}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="assignedRole">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <div>Current Role/S</div>
+                                    <mat-form-field>
+                                        <input matInput class="form-field">
+                                        <mat-icon matSuffix>search</mat-icon>
+                                    </mat-form-field>
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.assignedRole}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    Action
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button class="sm:inline-flex sm:w-44 mr-4 mt-1" mat-stroked-button
+                                        [color]="'warn'">
+                                        <span class="mx-8">Delete User</span>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedDashboardColumns2"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedDashboardColumns2;"></tr>
+
+                            <!-- Row shown when there is no matching data. -->
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter</td>
+                            </tr>
+                        </table>
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab label="Configurations" class="direct-child-of-parent">
+                <ng-template matTabContent class="direct-child-of-parent">
+                    <div class="padded-child-tab-content">
+                        <div class="flex flex-col w-full">
+                            <div class="flex flex-col md:w-2/5 sm:w-full role-items-list align-center">
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field class="w-2/3 pr-3">
+                                        <mat-label>Maximum Category Limit</mat-label>
+                                        <input type="number" matInput [formControl]="maxCategoryFormControl" min="1" max="2016" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                        <mat-error *ngIf="maxCategoryFormControl.hasError('required')">
+                                             <strong>This is a required field</strong>
+                                        </mat-error>
+                                        <mat-error *ngIf="maxCategoryFormControl.hasError('min')">
+                                            The value is lower than the minimum (1)
+                                          </mat-error>
+                                          <mat-error *ngIf="maxCategoryFormControl.hasError('max')">
+                                            The value is greater than the maximum (2016)
+                                          </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field class="w-2/3 pr-3">
+                                        <mat-label>"Save as draft" Expiration period(days)</mat-label>
+                                        <input type="number" matInput [formControl]="draftFormControl" min="1" max="365" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                        <mat-error *ngIf="draftFormControl.hasError('required')">
+                                             <strong>This is a required field</strong>
+                                        </mat-error>
+                                        <mat-error *ngIf="draftFormControl.hasError('min')">
+                                            The value is lower than the minimum (1)
+                                          </mat-error>
+                                          <mat-error *ngIf="draftFormControl.hasError('max')">
+                                            The value is greater than the maximum (365)
+                                          </mat-error>
+                                    </mat-form-field> 
+                                </div>
+                                <div class="flex role-item overflow-hidden">
+                                    <mat-form-field class="w-2/3 pr-3">
+                                        <mat-label>Certificate Expiration period(days)</mat-label>
+                                        <input type="number" matInput [formControl]="certExpFormControl" min="1" max="365" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                        <mat-error *ngIf="certExpFormControl.hasError('required')">
+                                             <strong>This is a required field</strong>
+                                        </mat-error>
+                                        <mat-error *ngIf="certExpFormControl.hasError('min')">
+                                            The value is lower than the minimum (1)
+                                          </mat-error>
+                                          <mat-error *ngIf="certExpFormControl.hasError('max')">
+                                            The value is greater than the maximum (365)
+                                          </mat-error>
+                                    </mat-form-field> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-start mt-5 flex-col">
+                            <div class="flex align-center text-warn font-medium mb-2" *ngIf="iserrorSettings">
+                                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-warn">
+                                </mat-icon>
+                                <span  *ngIf="iserrorSettings && !iserrorNegSettings">{{'Something went wrong!'}}</span>
+                                <span  *ngIf="iserrorSettings && iserrorNegSettings">{{'Negative values are not allowed!'}}</span>
+                            </div>
+                            <div class="flex align-center text-green font-medium mb-2" *ngIf="issuccessSettings">
+                                <mat-icon [svgIcon]="'heroicons_outline:check-circle'" class="mr-2 text-green">
+                                </mat-icon>
+                                <span *ngIf="issuccessSettings">{{'Successfully Saved!'}}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end mt-5">
+                            <!-- <button mat-button mat-dialog-close [color]="'primary'">Cancel</button> -->
+                            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" [disabled]="maxCategoryFormControl.errors?.required || draftFormControl.errors?.required||maxCategoryFormControl.errors || draftFormControl.errors  || certExpFormControl.errors">
+                                <span class="mx-8" (click)="SaveConfig()">Save Configurations</span>
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+
+</div>

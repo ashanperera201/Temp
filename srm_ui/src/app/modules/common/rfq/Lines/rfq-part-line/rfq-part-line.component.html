@@ -1,0 +1,232 @@
+<div class="mt-4">
+    <div class="item-block basic-info mb-4 srm-bg rounded-lg p-6">
+        <div class="relative">
+
+            <div class="flex justify-end">
+                <button type="button" class="inline-flex" mat-stroked-button [color]="'primary'" (click)="addNewLine()" *ngIf="RFQModel.isManual == true">
+                    <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    <span class="mr-8">Add New Line</span>
+                </button>
+            </div>
+
+            <!-- Products list -->
+            <div class="flex flex-col flex-auto w-full mt-4">
+                <ng-container>
+                    <ng-container>
+                        <div class="grid line-items-parent overflow-x-auto w-full">
+                            <!-- Header -->
+                            <div class="line-items-parent-grid z-12 sticky top-0 grid gap-9 pt-4 pb-2 px-2 text-secondary"
+                                matSort matSortDisableClear>
+                                <div></div>
+                                <div [mat-sort-header]="'lineno'">Line #</div>
+                                <div [mat-sort-header]="'prno'">PR #</div>
+                                <div [mat-sort-header]="'partid'">Part ID</div>
+                                <div class="header-6" [mat-sort-header]="'partdescription'">Part Description</div>
+                                <div class="header-4" [mat-sort-header]="'subprojectcode'">Sub Project Code</div>
+                                <div [mat-sort-header]="'activity'">Activity</div>
+                                <div [mat-sort-header]="'quantity'">Quantity</div>
+                                <div [mat-sort-header]="'uom'">UOM</div>
+                                <div class="header-9" [mat-sort-header]="'needbydate'">Need by Date</div>
+                                <div class="header-10" [mat-sort-header]="'startprice'">Start Price</div>
+                                <div class="header-11" [mat-sort-header]="'targetprice'">Target Price</div>
+                                <div class="header-12" [mat-sort-header]="'showprices'">Show Prices</div>
+
+                            </div>
+                            <!-- Rows -->
+                            <ng-container *ngIf="rfqPartLines && rfqPartLines.length > 0">
+                                <ng-container *ngFor="let partLine of rfqPartLines; let i = index">
+                                    <div
+                                        class="line-items-parent-grid grid items-center gap-9 py-px px-2 custom-tbl-row">
+                                        <div class="truncate">
+                                            <button mat-icon-button [matMenuTriggerFor]="options"
+                                                aria-label="Choose columns" [disabled]="!RFQModel.isSaveAsDraft">
+                                                <mat-icon color="primary" class="icon-size-5"
+                                                    svgIcon="heroicons_outline:dots-vertical"></mat-icon>
+                                            </button>
+                                            <mat-menu #options="matMenu" class="min-width-235 z-1">
+                                                <button mat-menu-item (click)="EditLine(partLine)">
+                                                    <mat-icon color="primary" class="icon-size-5"
+                                                        svgIcon="heroicons_outline:pencil"></mat-icon>
+                                                    Edit
+                                                </button>
+                                                <button *ngIf="false" mat-menu-item>
+                                                    <mat-icon color="primary" class="icon-size-5"
+                                                        svgIcon="heroicons_outline:trash"></mat-icon>
+                                                    Delete
+                                                </button>
+                                            </mat-menu>
+                                        </div>
+                                        <div class="truncate">{{partLine.lineNumber}}</div>
+                                        <div class="truncate">{{partLine.prNumber}}</div>
+                                        <div>{{partLine.pcName}}</div>
+                                        <div>{{partLine.partDescirption}}</div>
+                                        <div>{{getSubProject(partLine.subProjectId)}}</div>
+                                        <!-- <div class="flex">
+                                            <mat-form-field class="standalone-input1">
+                                                <mat-select [value]="partLine.subProjectId"
+                                                    [(ngModel)]="partLine.subProjectId" name="subProjectId.id"
+                                                    (selectionChange)="updateRFQPartline(partLine)">
+                                                    <mat-option *ngFor="let type of subProjects" [value]="type.id">
+                                                        {{type.name}} </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div> -->
+
+                                        <div>{{getActivity(partLine.activityId)}}</div>
+                                        <!-- <div class="flex">
+                                            <mat-form-field class="w-full standalone-input1">
+                                                <mat-select [value]="partLine.activityId"
+                                                    [(ngModel)]="partLine.activityId" name="partLine.id"
+                                                    (selectionChange)="updateRFQPartline(partLine)">
+                                                    <mat-option *ngFor="let activity of activities"
+                                                        [value]="activity.id"> {{activity.text}} </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div> -->
+
+                                        <div>{{partLine.purchaseQty}}</div>
+                                        <div>{{partLine.uomName}}</div>
+                                        <div>
+                                            <input [matDatepicker]="picker1"
+                                                [(ngModel)]="partLine.wantedDate"
+                                                name="{{partLine.id}}-partLine.wantedDate.wantedDate"
+                                                disabled>
+                                            <!-- <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle> -->
+                                            <mat-datepicker #picker1>
+                                            </mat-datepicker>
+                                        </div>
+                                        <div>{{partLine.startPrice}}</div>
+                                        <div class="flex">
+                                            <mat-form-field style="max-width: 110px;">
+                                                <input matInput [(ngModel)]="partLine.targetPrice" type="number"
+                                                    (input)="updateRFQPartline(partLine)"
+                                                    [disabled]="!RFQModel.isSaveAsDraft">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- <div>{{partLine.targetPrice}}</div> -->
+                                        <div class="flex">
+                                            <mat-form-field class="standalone-input1">
+                                                <mat-select [(ngModel)]="partLine.showPriceToSuppliers"
+                                                    (selectionChange)="updateRFQPartline(partLine)"
+                                                    [disabled]="!RFQModel.isSaveAsDraft">
+                                                    <mat-option [value]="true">Yes</mat-option>
+                                                    <mat-option [value]="false">No</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="ml-auto">
+                                            <button class="px-2 leading-6" mat-icon-button
+                                                (click)="toggleDisplay(partLine.id,partLine)">
+                                                <mat-icon color="primary" class="icon-size-6"
+                                                    [svgIcon]="partLine.isShow? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                </mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <ng-container *ngIf="getActiveDetailsTab(partLine.id)">
+                                            <div class="overflow-hidden">
+                                                <div class="flex">
+                                                    <!-- Selected product details panel -->
+                                                    <div class="overflow-auto srm-bg rounded-lg mt-4 w-full">
+                                                        <div class="mt-4">
+                                                            <div
+                                                                class="item-block basic-info mb-4 srm-bg rounded-lg pt-1">
+                                                                <mat-tab-group class="tab-type-two is-parent-tab" *ngIf="RFQModel && RFQModel.rfxRules"
+                                                                    [animationDuration]="'0'" (selectedTabChange)="changeTab($event)" [selectedIndex]="selectedTabIndexLines">
+                                                                    <mat-tab label="Attribute Items"
+                                                                        *ngIf="RFQModel.rfxRules.isNegoStyRFXLinesAttributeItems">
+                                                                        <ng-template matTabContent>
+                                                                            <app-attribute-items [RFQID]="RFQID"
+                                                                                [RFQModel]="RFQModel"  [index]="i"
+                                                                                [RFQPartLineID]="partLine.id">
+                                                                            </app-attribute-items>
+                                                                        </ng-template>
+                                                                    </mat-tab>
+                                                                    <mat-tab label="Cost Factors"
+                                                                        *ngIf="RFQModel.rfxRules.isNegoStyRFXLinesCostFactors">
+                                                                        <ng-template matTabContent>
+                                                                            <app-rfq-cost-factors [RFQID]="RFQID"
+                                                                                [RFQModel]="RFQModel" [index]="i"
+                                                                                [RFQPartLineID]="partLine.id">
+                                                                            </app-rfq-cost-factors>
+                                                                        </ng-template>
+                                                                    </mat-tab>
+                                                                    <mat-tab label="Payment Schedules"
+                                                                        *ngIf="RFQModel.rfxRules.isNegoStyRFXLinesPS">
+                                                                        <ng-template matTabContent>
+                                                                            <app-rfq-payment-schedules [RFQID]="RFQID"
+                                                                                [RFQModel]="RFQModel"
+                                                                                [RFQPartLineID]="partLine.id">
+                                                                            </app-rfq-payment-schedules>
+                                                                        </ng-template>
+                                                                    </mat-tab>
+                                                                    <mat-tab label="Attachments"
+                                                                        *ngIf="RFQModel.rfxRules.isNegoStyRFXLinesAttachmentsItems">
+                                                                        <ng-template matTabContent>
+                                                                            <app-rfq-attachments [RFQID]="RFQID"
+                                                                                [RFQModel]="RFQModel"
+                                                                                [RFQPartLineID]="partLine.id">
+                                                                            </app-rfq-attachments>
+                                                                        </ng-template>
+                                                                    </mat-tab>
+                                                                    <mat-tab label="Document Text"
+                                                                        *ngIf="RFQModel.rfxRules.isNegoStyRFXLinesDocumentTexts">
+                                                                        <ng-template matTabContent>
+                                                                            <app-rfq-document-text [RFQID]="RFQID"
+                                                                                [RFQModel]="RFQModel"
+                                                                                [RFQPartLineID]="partLine.id">
+                                                                            </app-rfq-document-text>
+                                                                        </ng-template>
+                                                                    </mat-tab>
+                                                                    <mat-tab label="Notes"
+                                                                        *ngIf="RFQModel.rfxRules.isNegoStyRFXLinesNotes">
+                                                                        <ng-template matTabContent>
+                                                                            <app-rfq-notes [RFQID]="RFQID"
+                                                                                [RFQModel]="RFQModel"
+                                                                                [RFQPartLineID]="partLine.id">
+                                                                            </app-rfq-notes>
+                                                                        </ng-template>
+                                                                    </mat-tab>
+                                                                    <mat-tab label="Deliverables"
+                                                                        *ngIf="RFQModel.rfxRules.isNegoStyRFXLinesDeliverables">
+                                                                        <ng-template matTabContent>
+                                                                            <app-rfq-deliverables [RFQID]="RFQID"
+                                                                                [RFQModel]="RFQModel"
+                                                                                [RFQPartLineID]="partLine.id">
+                                                                            </app-rfq-deliverables>
+                                                                        </ng-template>
+                                                                    </mat-tab>
+                                                                </mat-tab-group>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                    <hr>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+
+                        <!-- <mat-paginator class="flex text-base justify-end" [pageSizeOptions]="[10, 25, 100]">
+                        </mat-paginator> -->
+                    </ng-container>
+                </ng-container>
+
+                <ng-template #rowDetailsTemplate2>
+
+                </ng-template>
+
+                <ng-template #noProducts>
+                    <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">There are no products!
+                    </div>
+                </ng-template>
+
+            </div>
+
+        </div>
+    </div>
+</div>

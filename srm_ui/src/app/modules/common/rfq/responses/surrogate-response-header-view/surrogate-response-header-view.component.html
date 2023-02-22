@@ -1,0 +1,1807 @@
+<div class="mt-4 px-4 py-2 srm-bg rounded-lg">
+    <p class="font-medium text-lg mb-2">
+        Header Information
+    </p>
+
+    <div class="pb-4">
+        <div class="pt-5 pb-2" *ngIf="showData">
+            <div class="flex">
+                <mat-form-field class="w-1/9 pr-2">
+                    <mat-label>Quote Number</mat-label>
+                    <input matInput [(ngModel)]='rfqSupplierHeaderInformationModel.qouteNumber' name="qouteNumber"
+                        disabled>
+                </mat-form-field>
+                <mat-form-field class="w-1/9 px-2">
+                    <mat-label>Ref Number</mat-label>
+                    <input matInput [(ngModel)]='rfqSupplierHeaderInformationModel.refNumber' name="refNumber">
+                </mat-form-field>
+                <mat-form-field class="w-1/9 px-2">
+                    <mat-label>RFQ Currency</mat-label>
+                    <mat-select [(ngModel)]='rfqSupplierHeaderInformationModel.currencyId'
+                        name="rfqSupplierHeaderInformationModel.id">
+                        <mat-option *ngFor="let currency of currencies" [value]="currency.currencyId">
+                            {{currency.currencyName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-1/9 px-2">
+                    <mat-label>Quote valid until</mat-label>
+                    <input matInput [(ngModel)]='rfqSupplierHeaderInformationModel.qouteValideUntil'
+                        name="qouteValideUntil" [matDatepicker]="picker1212">
+                    <mat-datepicker-toggle matSuffix [for]="picker1212">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker1212></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="w-1/9 px-2">
+                    <mat-label>Days or Weeks</mat-label>
+                    <input matInput [(ngModel)]='rfqSupplierHeaderInformationModel.daysOrWeeks' name="daysOrWeeks"
+                        [matDatepicker]="picker212">
+                    <mat-datepicker-toggle matSuffix [for]="picker212">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker212></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="w-1/9 px-2">
+                    <mat-label>Delivery Time</mat-label>
+                    <input matInput [(ngModel)]='rfqSupplierHeaderInformationModel.deliveryTime' name="deliveryTime">
+                </mat-form-field>
+                <mat-form-field class="w-3/9 pl-2">
+                    <mat-label>Supplier Site</mat-label>
+                    <input matInput [(ngModel)]='rfqSupplierHeaderInformationModel.supplierSite' name="supplierSite">
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-4/9 pr-2">
+                    <mat-label>Note to buyer</mat-label>
+                    <textarea matInput [(ngModel)]='rfqSupplierHeaderInformationModel.noteToBuyer' name="noteToBuyer"
+                        [rows]="1" matTextareaAutosize [matAutosizeMinRows]="1"></textarea>
+                </mat-form-field>
+
+                <input type="file" #file placeholder="Choose File"
+                    (change)="uploadFileHeaderInformationAttatchment(file.files)" readonly hidden>
+
+                <div class="flex w-3/9 pl-2">
+                    <mat-form-field class="w-full">
+                        <mat-label>Attachment</mat-label>
+                        <input matInput [(ngModel)]='rfqSupplierHeaderInformationAttatchmentModel[0].etMediaId'
+                            name="rfqSupplierHeaderInformationAttatchmentModel[0].etMediaId" readonly hidden>
+                        <input matInput [(ngModel)]='rfqSupplierHeaderInformationAttatchmentModel[0].fileName'
+                            name="rfqSupplierHeaderInformationAttatchmentModel[0].fileName" readonly>
+                        <button matSuffix mat-icon-button color="warn"
+                            *ngIf="rfqSupplierHeaderInformationAttatchmentModel[0].isInformationDeleteAndDownloadEnabledVisible"
+                            (click)="DeleteHeaderInformationAttatchmentFile(rfqSupplierHeaderInformationAttatchmentModel[0])">
+                            <mat-icon class="icon-size-5 text-warn" [svgIcon]="'heroicons_outline:trash'">
+                            </mat-icon>
+                        </button>
+                        <mat-icon matSuffix class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_outline:paper-clip'"
+                            (click)="DownloadHeaderInformationAttatchmentMedia(rfqSupplierHeaderInformationAttatchmentModel[0])">
+                        </mat-icon>
+                    </mat-form-field>
+                    <div class="pl-2 pt-6">
+                        <button class="sm:inline-flex" mat-stroked-button (click)="file.click()" [color]="'primary'">
+                            <mat-icon class="icon-size-5 mx-2" [svgIcon]="'mat_outline:upload'"></mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="flex flex-col">
+                <div class="flex flex-col flex-auto w-full mb-4">
+                    <div class="flex w-full justify-between">
+                        <p class="font-medium text-lg mb-2 pt-4">
+                            Line Shipment Details
+                        </p>
+                        <div class="flex justify-end">
+                            <button type="button" class="inline-flex" mat-stroked-button [color]="'primary'"
+                                (click)="openShipment()">
+                                <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'">
+                                </mat-icon>
+                                <span class="mr-8">Add Shipment</span>
+                            </button>
+                        </div>
+                    </div>
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid shipment-grid-parent srm-bg rounded-lg overflow-x-auto w-full">
+                                <!-- Header -->
+                                <div class="shipment-grid z-10 sticky top-0 grid unsorted-custom-grid gap-4 pt-4 pb-2 px-2 text-secondary"
+                                    matSort matSortDisableClear>
+                                    <div></div>
+                                    <div>Country</div>
+                                    <div>City</div>
+                                    <div>Port</div>
+                                    <div>Inco Terms</div>
+                                    <div>Inco Terms Country</div>
+                                    <div>Inco Terms City</div>
+                                    <div>Inco Terms Port</div>
+                                </div>
+                                <!-- Rows -->
+                                <ng-container
+                                    *ngIf="rfqSupplierHeaderCountryOriginModel && rfqSupplierHeaderCountryOriginModel.length > 0">
+                                    <ng-container *ngFor="let countryOrigin of rfqSupplierHeaderCountryOriginModel">
+                                        <div class="shipment-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                            <div>
+                                                <button mat-icon-button [matMenuTriggerFor]="options"
+                                                    aria-label="Choose columns">
+                                                    <mat-icon color="primary" class="icon-size-5"
+                                                        svgIcon="heroicons_outline:dots-vertical">
+                                                    </mat-icon>
+                                                </button>
+                                                <mat-menu #options="matMenu" class="min-width-235 z-1">
+                                                    <button mat-menu-item (click)="editShipment(countryOrigin)">
+                                                        <mat-icon color="primary" class="icon-size-5"
+                                                            svgIcon="heroicons_outline:pencil">
+                                                        </mat-icon>
+                                                        Edit
+                                                    </button>
+                                                    <button mat-menu-item (click)="deleteShipment(countryOrigin.id)">
+                                                        <mat-icon color="primary" class="icon-size-5"
+                                                            svgIcon="heroicons_outline:trash">
+                                                        </mat-icon>
+                                                        Delete
+                                                    </button>
+                                                </mat-menu>
+                                            </div>
+                                            <div>
+                                                {{countryOrigin.countryName}}
+                                            </div>
+                                            <div>{{countryOrigin.cityName}}
+                                            </div>
+                                            <div>{{countryOrigin.portName}}
+                                            </div>
+                                            <div>
+                                                {{countryOrigin.ifsIncoTermName}}
+                                            </div>
+                                            <div>
+                                                {{countryOrigin.incoTermCountryName}}
+                                            </div>
+                                            <div>
+                                                {{countryOrigin.incoTermCityName}}
+                                            </div>
+                                            <div>
+                                                {{countryOrigin.incoTermPortName}}
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #noProducts>
+                        <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">
+                            There is no data!</div>
+                    </ng-template>
+
+                </div>
+                <div class="flex w-full justify-end">
+                    <button type="button" class="inline-flex" mat-raised-button [color]="'primary'"
+                        (click)="openCopytoLines()">
+                        <span class="mx-4">Copy to Lines</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="item-block mb-4 pt-1">
+
+        <mat-tab-group class="tab-type-one-secondary inner" [animationDuration]="'0'"
+            *ngIf="rfqModel && rfqModel.rfxRules">
+            <mat-tab label="Attribute Items" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderAttributeItems">
+                <ng-template matTabContent>
+
+                    <div class="flex flex-auto w-full">
+
+                        <!-- Products list -->
+                        <div class="flex flex-col flex-auto w-full">
+                            <ng-container>
+                                <ng-container>
+                                    <div class="grid attribute-items-parent2 overflow-x-auto w-full">
+                                        <!-- Header -->
+                                        <div class="attribute-items-parent-grid2 z-10 sticky top-0 grid gap-4 pt-4 pb-2 px-2 text-secondary"
+                                            matSort matSortDisableClear>
+                                            <div [mat-sort-header]="'sku'">List
+                                                Title</div>
+                                            <div [mat-sort-header]="'name'">List
+                                                Name</div>
+                                            <div [mat-sort-header]="'price'">
+                                                Attribute Group</div>
+                                            <div></div>
+                                        </div>
+                                        <!-- Rows -->
+                                        <ng-container
+                                            *ngIf="rfqSupplierHeaderAttributeGroupModel && rfqSupplierHeaderAttributeGroupModel.length > 0">
+                                            <ng-container
+                                                *ngFor="let attrGroup of rfqSupplierHeaderAttributeGroupModel">
+                                                <div
+                                                    class="attribute-items-parent-grid2 grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                                    <div class="truncate">
+                                                        {{attrGroup.title}}</div>
+                                                    <div class="truncate">
+                                                        {{attrGroup.name}}</div>
+                                                    <div>{{attrGroup.group}}</div>
+                                                    <div class="ml-auto">
+                                                        <button class="px-2 leading-6" mat-icon-button
+                                                            (click)=toggleHeaderAttributeDisplay(attrGroup.id)>
+                                                            <mat-icon color="primary" class="icon-size-6"
+                                                                [svgIcon]="detailsHeaderAttributeDisplayMap.get(attrGroup.id)? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                            </mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <ng-container
+                                                        *ngIf="getHeaderAttributeActiveDetailsTab(attrGroup.id)">
+                                                        <div class="w-full">
+                                                            <div class="color-legends justify-end mb-4 mt-8">
+                                                                <div class="color-legend">
+                                                                    <div class="status rounded"
+                                                                        style="background: #CCD7EA">
+                                                                    </div>
+                                                                    <div class="legend-label">
+                                                                        Supplier
+                                                                        Response
+                                                                        Columns
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--table component-->
+                                                            <!--base table component-->
+                                                            <div class="overflow-auto bg-gray-50 rounded-lg">
+
+                                                                <table mat-table
+                                                                    [dataSource]="attrGroup.rfqSupplierHeaderAttributeModels"
+                                                                    matSort
+                                                                    class="expanded-rows-table font-helvetica text-gray-500">
+
+                                                                    <!-- attributeItem -->
+                                                                    <ng-container matColumnDef="attributeItem">
+                                                                        <th mat-header-cell *matHeaderCellDef
+                                                                            mat-sort-header
+                                                                            style="max-width: 250px; width: 250px; min-width: 170px">
+                                                                            Attribute
+                                                                            Item
+                                                                        </th>
+                                                                        <td mat-cell *matCellDef="let row">
+                                                                            {{row.rfqAttributeModel.attributeName}}
+                                                                        </td>
+                                                                    </ng-container>
+
+                                                                    <!-- description -->
+                                                                    <ng-container matColumnDef="description">
+                                                                        <th mat-header-cell *matHeaderCellDef
+                                                                            mat-sort-header
+                                                                            style="max-width: 180px; width: 180px; min-width: 110px">
+                                                                            Description
+                                                                        </th>
+                                                                        <td mat-cell *matCellDef="let row">
+                                                                            {{row.description}}
+                                                                        </td>
+                                                                    </ng-container>
+
+                                                                    <!-- expectedValue -->
+                                                                    <ng-container matColumnDef="expectedValue">
+                                                                        <th mat-header-cell *matHeaderCellDef
+                                                                            mat-sort-header
+                                                                            style="max-width: 160px; width: 160px; min-width: 150px">
+                                                                            Expected
+                                                                            Value
+                                                                        </th>
+                                                                        <td mat-cell *matCellDef="let row">
+                                                                            {{row.rfqAttributeModel.expectedValue}}
+                                                                        </td>
+                                                                    </ng-container>
+
+                                                                    <!-- value -->
+                                                                    <ng-container matColumnDef="value">
+                                                                        <th mat-header-cell *matHeaderCellDef
+                                                                            mat-sort-header
+                                                                            style="max-width: 120px; width: 120px; min-width: 110px; background: #CCD7EA;">
+                                                                            Value
+                                                                        </th>
+                                                                        <td mat-cell *matCellDef="let row">
+                                                                            <mat-form-field
+                                                                                *ngIf=" row.rfqAttributeModel.attributeModel.dataTypeName ==='Number' || row.rfqAttributeModel.attributeModel.dataTypeName ==='Text' || row.rfqAttributeModel.attributeModel.dataTypeName ==='Dropdown List'"
+                                                                                class="w-full">
+                                                                                <input matInput
+                                                                                    [(ngModel)]='row.targetValue'
+                                                                                    [name]='row.targetValue'>
+                                                                            </mat-form-field>
+                                                                            <mat-form-field
+                                                                                *ngIf=" row.rfqAttributeModel.attributeModel.dataTypeName ==='Date'"
+                                                                                class="w-full">
+                                                                                <input matInput
+                                                                                    [(ngModel)]='row.targetValue'
+                                                                                    [name]='row.targetValue'
+                                                                                    [matDatepicker]="picker121">
+                                                                                <mat-datepicker-toggle matSuffix
+                                                                                    [for]="picker121">
+                                                                                </mat-datepicker-toggle>
+                                                                                <mat-datepicker #picker121>
+                                                                                </mat-datepicker>
+                                                                            </mat-form-field>
+                                                                        </td>
+                                                                    </ng-container>
+
+                                                                    <!-- assocCosts -->
+                                                                    <ng-container matColumnDef="assocCosts">
+                                                                        <th mat-header-cell *matHeaderCellDef
+                                                                            mat-sort-header
+                                                                            style="max-width: 150px; width: 150px; min-width: 140px; background: #CCD7EA;">
+                                                                            Associated
+                                                                            Costs
+                                                                        </th>
+                                                                        <td mat-cell *matCellDef="let row">
+                                                                            <mat-form-field class="w-full">
+                                                                                <mat-select
+                                                                                    [value]="row.associatedCosts"
+                                                                                    [(ngModel)]="row.associatedCosts"
+                                                                                    [name]='row.id'>
+                                                                                    <mat-option [value]="true">
+                                                                                        Yes
+                                                                                    </mat-option>
+                                                                                    <mat-option [value]="false">
+                                                                                        No
+                                                                                    </mat-option>
+                                                                                </mat-select>
+                                                                            </mat-form-field>
+                                                                        </td>
+                                                                    </ng-container>
+
+                                                                    <!-- cost -->
+                                                                    <ng-container matColumnDef="cost">
+                                                                        <th mat-header-cell *matHeaderCellDef
+                                                                            mat-sort-header
+                                                                            style="max-width: 120px; width: 120px; min-width: 110px; background: #CCD7EA;">
+                                                                            Cost
+                                                                        </th>
+                                                                        <td mat-cell *matCellDef="let row">
+                                                                            <mat-form-field class="w-full">
+                                                                                <input matInput [(ngModel)]='row.cost'
+                                                                                    [name]='row.cost'>
+                                                                            </mat-form-field>
+                                                                        </td>
+                                                                    </ng-container>
+
+                                                                    <!-- comments -->
+                                                                    <ng-container matColumnDef="comments">
+                                                                        <th mat-header-cell *matHeaderCellDef
+                                                                            mat-sort-header
+                                                                            style="max-width: 180px; width: 180px; min-width: 130px; background: #CCD7EA;">
+                                                                            Comments
+                                                                        </th>
+                                                                        <td mat-cell *matCellDef="let row">
+                                                                            <mat-form-field class="w-full">
+                                                                                <input matInput
+                                                                                    [(ngModel)]='row.supplierComment'
+                                                                                    [name]='row.supplierComment'>
+                                                                            </mat-form-field>
+                                                                        </td>
+                                                                    </ng-container>
+
+                                                                    <tr mat-header-row
+                                                                        *matHeaderRowDef="displayedColumn19">
+                                                                    </tr>
+                                                                    <tr mat-row
+                                                                        *matRowDef="let row; columns: displayedColumn19;">
+                                                                    </tr>
+
+                                                                    <!-- Row shown when there is no matching data. -->
+                                                                    <tr class="mat-row" *matNoDataRow>
+                                                                        <td class="mat-cell" colspan="4">
+                                                                            No
+                                                                            data
+                                                                            matching
+                                                                            the
+                                                                            filter
+                                                                            "{{input.value}}"
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <!--table component end-->
+
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+
+                            <ng-template #noProducts>
+                                <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">
+                                    There are no products!</div>
+                            </ng-template>
+
+                        </div>
+
+                    </div>
+
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Cost Factors" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderCostFactors">
+                <ng-template matTabContent>
+
+                    <div class="flex flex-auto w-full">
+                        <!-- Products list -->
+                        <div class="flex flex-col flex-auto w-full">
+                            <ng-container>
+                                <ng-container>
+                                    <div class="grid noneditable-costfactor-items-parent overflow-x-auto w-full">
+                                        <!-- Header -->
+                                        <div class="noneditable-costfactor-items-parent-grid z-10 sticky top-0 grid gap-4 pt-4 pb-2 px-2 text-secondary"
+                                            matSort matSortDisableClear>
+                                            <div [mat-sort-header]="'list'">Cost
+                                                Factor List</div>
+                                            <div [mat-sort-header]="'description'">
+                                                Description</div>
+                                            <div></div>
+                                        </div>
+                                        <!-- Rows -->
+                                        <ng-container
+                                            *ngIf="rfqSupplierCostFactorGroupModel && rfqSupplierCostFactorGroupModel.length > 0">
+                                            <ng-container
+                                                *ngFor="let supplierCostFactorGroup of rfqSupplierCostFactorGroupModel">
+
+                                                <div
+                                                    class="noneditable-costfactor-items-parent-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                                    <div class="truncate">
+                                                        {{supplierCostFactorGroup.name}}
+                                                    </div>
+                                                    <div class="truncate">
+                                                        {{supplierCostFactorGroup.description}}
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <button class="px-2 leading-6" mat-icon-button
+                                                            (click)=toggleDisplaySupplierHeaderCF(supplierCostFactorGroup.id)>
+                                                            <mat-icon color="primary" class="icon-size-6"
+                                                                [svgIcon]="detailsSupplierHeaderCFDisplayMap.get(supplierCostFactorGroup.id)? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                            </mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <ng-container
+                                                        *ngIf="getactiveDetailsSupplierHeaderCFTab(supplierCostFactorGroup.id)">
+                                                        <div class="overflow-hidden">
+                                                            <div class="flex">
+                                                                <!-- Selected product details panel -->
+                                                                <div
+                                                                    class="overflow-auto srm-bg rounded-lg mt-4 px-4 w-full">
+
+                                                                    <div class="color-legends justify-end mb-4 mt-8">
+                                                                        <div class="color-legend">
+                                                                            <div class="status rounded"
+                                                                                style="background: #CCD7EA">
+                                                                            </div>
+                                                                            <div class="legend-label">
+                                                                                Supplier
+                                                                                Response
+                                                                                Columns
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--table component-->
+                                                                    <!--base table component-->
+                                                                    <div class="overflow-auto bg-gray-50 rounded-lg">
+
+                                                                        <table mat-table
+                                                                            [dataSource]="supplierCostFactorGroup.rfqSupplierHearderCostFactorList"
+                                                                            matSort
+                                                                            class="expanded-rows-table font-helvetica text-gray-500">
+
+                                                                            <!-- costfactName -->
+                                                                            <ng-container matColumnDef="costfactName">
+                                                                                <th mat-header-cell *matHeaderCellDef
+                                                                                    mat-sort-header
+                                                                                    style="max-width: 300px; width: 300px; min-width: 170px">
+                                                                                    Cost
+                                                                                    Factor
+                                                                                    Name
+                                                                                </th>
+                                                                                <td mat-cell *matCellDef="let row">
+                                                                                    {{row.rfqHeaderCostFactorModel.costFactorName}}
+                                                                                </td>
+                                                                            </ng-container>
+
+                                                                            <!-- costfactType -->
+                                                                            <ng-container matColumnDef="costfactType">
+                                                                                <th mat-header-cell *matHeaderCellDef
+                                                                                    mat-sort-header
+                                                                                    style="max-width: 180px; width: 180px; min-width: 110px">
+                                                                                    Cost
+                                                                                    Factor
+                                                                                    Type
+                                                                                </th>
+                                                                                <td mat-cell *matCellDef="let row">
+                                                                                    {{row.rfqHeaderCostFactorModel.costTypeName}}
+                                                                                </td>
+                                                                            </ng-container>
+
+                                                                            <!-- costfactDesc -->
+                                                                            <ng-container matColumnDef="costfactDesc">
+                                                                                <th mat-header-cell *matHeaderCellDef
+                                                                                    mat-sort-header
+                                                                                    style="min-width: 110px">
+                                                                                    Description
+                                                                                </th>
+                                                                                <td mat-cell *matCellDef="let row">
+                                                                                    {{row.rfqHeaderCostFactorModel.description}}
+                                                                                    zxczx
+                                                                                </td>
+                                                                            </ng-container>
+
+                                                                            <!-- costfactExpectedValue -->
+                                                                            <ng-container
+                                                                                matColumnDef="costfactExpectedValue">
+                                                                                <th mat-header-cell *matHeaderCellDef
+                                                                                    mat-sort-header
+                                                                                    style="max-width: 200px; width: 200px; min-width: 110px">
+                                                                                    Expected
+                                                                                    Value
+                                                                                </th>
+                                                                                <td mat-cell *matCellDef="let row">
+                                                                                    {{row.rfqHeaderCostFactorModel.expectedValue}}
+                                                                                </td>
+                                                                            </ng-container>
+
+                                                                            <!-- costfactValue -->
+                                                                            <ng-container matColumnDef="costfactValue">
+                                                                                <th mat-header-cell *matHeaderCellDef
+                                                                                    mat-sort-header
+                                                                                    style="max-width: 120px; width: 120px; min-width: 110px; background: #CCD7EA;">
+                                                                                    Value
+                                                                                </th>
+                                                                                <td mat-cell *matCellDef="let row">
+                                                                                    <mat-form-field class="w-full">
+                                                                                        <input matInput
+                                                                                            [(ngModel)]="row.supplierResponse"
+                                                                                            name="{{row.id}}-row.supplierResponse">
+                                                                                        <!-- {{row.supplierResponse}} -->
+                                                                                    </mat-form-field>
+                                                                                </td>
+                                                                            </ng-container>
+
+                                                                            <!-- costfactComments -->
+                                                                            <ng-container
+                                                                                matColumnDef="costfactComments">
+                                                                                <th mat-header-cell *matHeaderCellDef
+                                                                                    mat-sort-header
+                                                                                    style="max-width: 250px; width: 250px; min-width: 110px; background: #CCD7EA;">
+                                                                                    Comments
+                                                                                </th>
+                                                                                <td mat-cell *matCellDef="let row">
+                                                                                    <mat-form-field class="w-full">
+                                                                                        <input matInput
+                                                                                            [(ngModel)]="row.supplierComment"
+                                                                                            name="{{row.id}}-row.supplierComment">
+                                                                                        <!-- {{row.supplierComment}} -->
+                                                                                    </mat-form-field>
+                                                                                </td>
+                                                                            </ng-container>
+
+
+
+                                                                            <tr mat-header-row
+                                                                                *matHeaderRowDef="displayedColumn17">
+                                                                            </tr>
+                                                                            <tr mat-row
+                                                                                *matRowDef="let row; columns: displayedColumn17;">
+                                                                            </tr>
+
+                                                                            <!-- Row shown when there is no matching data. -->
+                                                                            <tr class="mat-row" *matNoDataRow>
+                                                                                <td class="mat-cell" colspan="4">
+                                                                                    No
+                                                                                    data
+                                                                                    matching
+                                                                                    the
+                                                                                    filter
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                    <!--table component end-->
+
+                                                                    <p class="font-medium text-lg mt-2 py-4 pl-1">
+                                                                        Cost Factors
+                                                                        added by
+                                                                        Supplier
+                                                                    </p>
+
+                                                                    <!--table component-->
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+
+                                    <mat-paginator class="flex text-base justify-end" [pageSizeOptions]="[10, 25, 100]">
+                                    </mat-paginator>
+                                </ng-container>
+                            </ng-container>
+
+                            <ng-template #rowDetailsTemplate>
+                                <div class="overflow-hidden">
+                                    <div class="flex">
+                                        <!-- Selected product details panel -->
+                                        <div class="overflow-auto srm-bg rounded-lg mt-4 px-4 w-full">
+
+                                            <div class="color-legends justify-end mb-4 mt-8">
+                                                <div class="color-legend">
+                                                    <div class="status rounded" style="background: #CCD7EA">
+                                                    </div>
+                                                    <div class="legend-label">
+                                                        Supplier Response Columns
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--table component-->
+                                            <!--base table component-->
+                                            <div class="overflow-auto bg-gray-50 rounded-lg">
+
+
+                                                <table mat-table [dataSource]="dataSource17" matSort
+                                                    class="expanded-rows-table font-helvetica text-gray-500">
+
+                                                    <!-- costfactName -->
+                                                    <ng-container matColumnDef="costfactName">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="max-width: 300px; width: 300px; min-width: 170px">
+                                                            Cost Factor Name
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            {{row.costfactName}}
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <!-- costfactType -->
+                                                    <ng-container matColumnDef="costfactType">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="max-width: 180px; width: 180px; min-width: 110px">
+                                                            Cost Factor Type
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            {{row.costfactType}}
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <!-- costfactDesc -->
+                                                    <ng-container matColumnDef="costfactDesc">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="min-width: 110px">
+                                                            Description
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            {{row.costfactDesc}}
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <!-- costfactExpectedValue -->
+                                                    <ng-container matColumnDef="costfactExpectedValue">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="max-width: 200px; width: 200px; min-width: 110px">
+                                                            Expected Value
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            <mat-form-field class="w-full">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <!-- costfactValue -->
+                                                    <ng-container matColumnDef="costfactValue">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="max-width: 120px; width: 120px; min-width: 110px; background: #CCD7EA;">
+                                                            Value
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            <mat-form-field class="w-full">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <!-- costfactComments -->
+                                                    <ng-container matColumnDef="costfactComments">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="max-width: 250px; width: 250px; min-width: 110px; background: #CCD7EA;">
+                                                            Comments
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            <mat-form-field class="w-full">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </ng-container>
+
+
+
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumn17">
+                                                    </tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumn17;">
+                                                    </tr>
+
+                                                    <!-- Row shown when there is no matching data. -->
+                                                    <!-- <tr class="mat-row"
+                                                        *matNoDataRow>
+                                                        <td class="mat-cell"
+                                                            colspan="4">No data
+                                                            matching the filter
+                                                            "{{input.value}}"</td>
+                                                    </tr> -->
+                                                </table>
+                                            </div>
+                                            <!--table component end-->
+
+                                            <p class="font-medium text-lg mt-2 py-4 pl-1">
+                                                Cost Factors added by Supplier
+                                            </p>
+
+                                            <!--table component-->
+                                            <!--base table component-->
+                                            <div class="overflow-auto bg-gray-50 rounded-lg">
+
+
+                                                <table mat-table [dataSource]="dataSource17" matSort
+                                                    class="expanded-rows-table font-helvetica text-gray-500">
+
+                                                    <!-- costfactName -->
+                                                    <ng-container matColumnDef="costfactName">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="max-width: 300px; width: 300px; min-width: 170px">
+                                                            Cost Factor Name
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            {{row.costfactName}}
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <!-- costfactType -->
+                                                    <ng-container matColumnDef="costfactType">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="max-width: 180px; width: 180px; min-width: 110px">
+                                                            Cost Factor Type
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            {{row.costfactType}}
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <!-- costfactDesc -->
+                                                    <ng-container matColumnDef="costfactDesc">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="min-width: 110px">
+                                                            Description
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            {{row.costfactDesc}}
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <!-- costfactValue -->
+                                                    <ng-container matColumnDef="costfactValue">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                            style="max-width: 120px; width: 120px; min-width: 110px;">
+                                                            Value
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            {{row.costfactValue}}
+                                                        </td>
+                                                    </ng-container>
+
+
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumn18">
+                                                    </tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumn18;">
+                                                    </tr>
+
+                                                    <!-- Row shown when there is no matching data. -->
+                                                    <!-- <tr class="mat-row"
+                                                        *matNoDataRow>
+                                                        <td class="mat-cell"
+                                                            colspan="4">No data
+                                                            matching the filter
+                                                            "{{input.value}}"</td>
+                                                    </tr> -->
+                                                </table>
+                                            </div>
+                                            <!--table component end-->
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </ng-template>
+
+                            <ng-template #noProducts>
+                                <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">
+                                    There are no products!</div>
+                            </ng-template>
+
+                        </div>
+
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Payment Schedules" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderPS">
+                <ng-template matTabContent>
+                    <div class="relative">
+                        <!--table component-->
+                        <!--base table component-->
+                        <div *ngIf="rfqSupplierHeaderPaymentScheduleModel"
+                            class="overflow-auto bg-gray-50 rounded-lg pt-4">
+                            <table mat-table [dataSource]="rfqSupplierHeaderPaymentScheduleModel" matSort
+                                class="expanded-rows-table font-helvetica text-gray-500">
+
+                                <!-- payno Column -->
+                                <ng-container matColumnDef="payno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 130px; min-width: 120px">
+                                        Pay Sched No
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderPaymentScheduleModel.payScheduleNo}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+                                <!--description Column -->
+                                <ng-container matColumnDef="description2">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 170px">
+                                        Description
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderPaymentScheduleModel.description}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+                                <!-- Work% Column -->
+                                <ng-container matColumnDef="work">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 100px; min-width: 80px">
+                                        Work%
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderPaymentScheduleModel.workPercentage}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef>
+                                        {{total.toFixed(2)}} % </td>
+                                </ng-container>
+
+                                <!-- Milestone Item -->
+                                <ng-container matColumnDef="milestone">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 120px; min-width: 110px">
+                                        Milestone
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderPaymentScheduleModel.milestone}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+
+                                <!-- payment Column -->
+                                <ng-container matColumnDef="payment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 120px; min-width: 100px">
+                                        Payment %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderPaymentScheduleModel.paymentPercentage}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef>
+                                        {{total1.toFixed(2)}} % </td>
+                                </ng-container>
+
+                                <!--Retention Column -->
+                                <ng-container matColumnDef="retention">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 110px; min-width: 100px">
+                                        Retention %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderPaymentScheduleModel.retentionPercentage}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+                                <!--release Column -->
+                                <ng-container matColumnDef="release">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 120px; min-width: 100px">
+                                        Release %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderPaymentScheduleModel.releasePercentage}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+                                <!--release value Column -->
+                                <ng-container matColumnDef="releasevalue">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 180px; min-width: 160px">
+                                        Release Value
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderPaymentScheduleModel.releaseValue}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef>
+                                        {{total2.toFixed(2)}} USA</td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumn42"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumn42;">
+                                </tr>
+                                <tr mat-footer-row *matFooterRowDef="displayedColumn42; sticky: true">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <!-- <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data
+                                        matching the filter "{{input.value}}"</td>
+                                </tr> -->
+                            </table>
+                        </div>
+                        <!--table component end-->
+                        <div class="flex justify-between align-center mt-8">
+                            <p class="font-medium text-lg">
+                                Supplier Response
+                            </p>
+                            <div class="color-legends justify-end">
+                                <div class="color-legend">
+                                    <div class="status rounded" style="background: #CCD7EA"></div>
+                                    <div class="legend-label">Supplier Response
+                                        Columns</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--table component-->
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg pt-4">
+                            <table mat-table [dataSource]="rfqSupplierHeaderPaymentScheduleModel" matSort
+                                class="expanded-rows-table font-helvetica text-gray-500">
+
+                                <!-- payno Column -->
+                                <ng-container matColumnDef="payno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 130px; min-width: 120px; background: #CCD7EA">
+                                        Pay Sched No
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.paySchedNo'
+                                                name='{{row.id}}-row.paySchedNo'>
+                                        </mat-form-field>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+                                <!--description Column -->
+                                <ng-container matColumnDef="description2">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="min-width: 170px; background: #CCD7EA">
+                                        Description
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.description'
+                                                name='{{row.id}}-row.description'>
+                                        </mat-form-field>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+                                <!-- Work% Column -->
+                                <ng-container matColumnDef="work">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 100px; min-width: 80px; background: #CCD7EA">
+                                        Work%
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.workPercentage'
+                                                name='{{row.id}}-row.workPercentage'>
+                                        </mat-form-field>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> 25% </td>
+                                </ng-container>
+
+                                <!-- Milestone Item -->
+                                <ng-container matColumnDef="milestone">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 120px; min-width: 110px; background: #CCD7EA">
+                                        Milestone
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.milestonePercentage'
+                                                name='{{row.id}}-row.milestonePercentage'>
+                                        </mat-form-field>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+
+                                <!-- payment Column -->
+                                <ng-container matColumnDef="payment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 120px; min-width: 100px; background: #CCD7EA">
+                                        Payment %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.paymentPercentage'
+                                                name='{{row.id}}-row.paymentPercentage'>
+                                        </mat-form-field>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> 75% </td>
+                                </ng-container>
+
+                                <!--Retention Column -->
+                                <ng-container matColumnDef="retention">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 110px; min-width: 100px; background: #CCD7EA">
+                                        Retention %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.retentionPercentage'
+                                                name='{{row.id}}-row.retentionPercentage'>
+                                        </mat-form-field>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+                                <!--release Column -->
+                                <ng-container matColumnDef="release">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 120px; min-width: 100px; background: #CCD7EA">
+                                        Release %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.retentionPercentage'
+                                                name='{{row.id}}-row.retentionPercentage'>
+                                        </mat-form-field>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+                                <!--release value Column -->
+                                <ng-container matColumnDef="releasevalue">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 180px; min-width: 160px; background: #CCD7EA">
+                                        Release Value
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.relesePercentage'
+                                                name='{{row.id}}-row.relesePercentage'>
+                                        </mat-form-field>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> 1354568 USA </td>
+                                </ng-container>
+
+                                <!--comments Column -->
+                                <ng-container matColumnDef="comment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 180px; min-width: 160px; background: #CCD7EA">
+                                        Comments
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.releasevalue'
+                                                name='{{row.id}}-row.releasevalue'>
+                                        </mat-form-field>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumn43"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumn43;"></tr>
+                                <tr mat-footer-row *matFooterRowDef="displayedColumn43; sticky: true"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--table component end-->
+
+
+
+
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Attachments" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderTermsCondition">
+                <ng-template matTabContent>
+                    <div class="relative">
+                        <div class="color-legends justify-end mt-4">
+                            <div class="color-legend">
+                                <div class="status rounded" style="background: #CCD7EA"></div>
+                                <div class="legend-label">Supplier Response Columns
+                                </div>
+                                <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)"
+                                    readonly hidden>
+                            </div>
+                        </div>
+                        <!--table component-->
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg pt-4">
+                            <table mat-table [dataSource]="rfqSupplierHeaderAttachmentViewModel" matSort
+                                class="expanded-rows-table font-helvetica text-gray-500">
+
+                                <!-- srno Column -->
+                                <ng-container matColumnDef="srno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 90px; min-width: 70px">
+                                        SR No
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.srNo}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- title Column -->
+                                <ng-container matColumnDef="title">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                                        Title
+                                    </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.title}}</td>
+                                </ng-container>
+
+                                <!-- File Name -->
+                                <ng-container matColumnDef="filename">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 120px; min-width: 110px">
+                                        File Name
+                                    </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.buyFileName}} </td>
+                                </ng-container>
+
+
+
+                                <!--Attachment Column -->
+                                <ng-container matColumnDef="attachment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 160px; min-width: 150px">
+                                        Attachment
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <span class="text-primary">{{row.buyFileName}}</span>
+                                    </td>
+                                </ng-container>
+
+                                <!--attType Column -->
+                                <ng-container matColumnDef="atttype">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 160px; min-width: 150px">
+                                        Type
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.type}}
+                                    </td>
+                                </ng-container>
+
+                                <!--Attachment2 Column -->
+                                <ng-container matColumnDef="attachment2">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 160px; min-width: 150px; background: #CCD7EA">
+                                        Attachment
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div class="flex items-center w-full pl-2">
+                                            <mat-form-field class="w-full">
+                                                <input type="hidden" [(ngModel)]="row.etMediaId" [name]="row.etMediaId">
+                                                <input matInput readonly [(ngModel)]="row.fileName"
+                                                    [name]="row.fileName">
+                                                <button matSuffix mat-icon-button color="warn"
+                                                    (click)="DeleteFile(row)">
+                                                    <mat-icon class="icon-size-5 text-warn"
+                                                        [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                                </button>
+                                                <mat-icon matSuffix class="icon-size-5 text-secondary"
+                                                    [svgIcon]="'heroicons_outline:paper-clip'"
+                                                    (click)="DownloadMedia(row)"></mat-icon>
+                                            </mat-form-field>
+                                            <div class="pl-2">
+                                                <button class="sm:inline-flex" mat-stroked-button [color]="'primary'"
+                                                    (click)="file.click();currentRow=row;">
+                                                    <mat-icon class="icon-size-5 mx-2" [svgIcon]="'mat_outline:upload'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <!--comment Column -->
+                                <ng-container matColumnDef="comment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 160px; min-width: 150px; background: #CCD7EA">
+                                        Comment
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.comments' [name]='row.comments'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumn62"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumn62;"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                        </div>
+                        <!--table component end-->
+
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Document Text" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderDocumentTexts">
+                <ng-template matTabContent>
+                    <div class="relative">
+                        <div class="color-legends justify-end mt-4">
+                            <div class="color-legend">
+                                <div class="status rounded" style="background: #CCD7EA"></div>
+                                <div class="legend-label">Supplier Response Columns
+                                </div>
+                            </div>
+                        </div>
+                        <!--table component-->
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg pt-4">
+                            <table mat-table [dataSource]="rfqSupplierHeaderDocumentTextModel" matSort
+                                class="expanded-rows-table font-helvetica text-gray-500">
+
+                                <!--documentext Column -->
+                                <ng-container matColumnDef="documentext">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 160px">
+                                        Document Text
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderDocumentTextModel.documentTextTitle}}
+                                    </td>
+                                </ng-container>
+
+                                <!--documentext2 Column -->
+                                <ng-container matColumnDef="documentext2">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="min-width: 160px; background: #CCD7EA">
+                                        Document Text
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]="row.supplierResponse"
+                                                name="{{row.id}}-row.supplierResponse">
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <!--comment Column -->
+                                <ng-container matColumnDef="comment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 250px; background: #CCD7EA">
+                                        Comment
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]="row.comments" name="{{row.id}}-row.comments">
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumn72"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumn72;">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <!-- <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data
+                                        matching the filter "{{input.value}}"</td>
+                                </tr> -->
+                            </table>
+                        </div>
+                        <div class="flex justify-end">
+                            <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                        </div>
+                        <!--table component end-->
+
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Notes" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderNotes">
+                <ng-template matTabContent>
+                    <div class="relative">
+                        <div class="color-legends justify-end mt-4">
+                            <div class="color-legend">
+                                <div class="status rounded" style="background: #CCD7EA"></div>
+                                <div class="legend-label">Supplier Response Columns
+                                </div>
+                            </div>
+                        </div>
+                        <!--table component-->
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg pt-4">
+                            <table mat-table [dataSource]="rfqSupplierHeaderNoteModel" matSort
+                                class="expanded-rows-table font-helvetica text-gray-500">
+
+                                <!-- notes Column -->
+                                <ng-container matColumnDef="notes">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                                        Notes
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.buyDescription}} </td>
+                                </ng-container>
+
+                                <!-- notes Column -->
+                                <ng-container matColumnDef="notes2">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="min-width: 140px; background: #CCD7EA">
+                                        Notes
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.description' [name]='row.description'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <!-- comment Column -->
+                                <ng-container matColumnDef="comment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 250px; background: #CCD7EA">
+                                        Comments
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.comments' [name]='row.comments'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumn82"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumn82;">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <!-- <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data
+                                        matching the filter "{{input.value}}"</td>
+                                </tr> -->
+                            </table>
+                        </div>
+                        <div class="flex justify-end">
+                            <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                        </div>
+                        <!--table component end-->
+
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Deliverables" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderDeliverables">
+                <ng-template matTabContent>
+                    <div class="relative">
+                        <!--table component-->
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg pt-4">
+                            <table mat-table [dataSource]="rfqSupplierHeaderDeliverableModel" matSort
+                                class="expanded-rows-table font-helvetica text-gray-500">
+
+                                <!--  Milestone Number Column -->
+                                <ng-container matColumnDef="milestonenumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 140px; min-width: 120px">
+                                        Milestone #
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderDeliverableModel.mileStoneNo}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Milestone Name Column -->
+                                <ng-container matColumnDef="milestonename">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 150px; min-width: 140px">
+                                        Milestone Name
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderDeliverableModel.name}} </td>
+                                </ng-container>
+
+                                <!-- Description Name Column -->
+                                <ng-container matColumnDef="deliverabledescription">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
+                                        Description
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderDeliverableModel.description}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Previous Milestone Number Column -->
+                                <ng-container matColumnDef="prevmilestonenumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 170px; min-width: 160px">
+                                        Previous Milestone #
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderDeliverableModel.previousMilestoneNo}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Progress % Column -->
+                                <ng-container matColumnDef="progresspercentage">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 150px; min-width: 140px">
+                                        Progress %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderDeliverableModel.progressPercentage}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Stage Progress % Column -->
+                                <ng-container matColumnDef="stagepercentage">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 150px; min-width: 140px">
+                                        Stage Progress %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderDeliverableModel.stagePaymentPercentage}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Begin Date Column -->
+                                <ng-container matColumnDef="begindate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 150px; min-width: 140px">
+                                        Begin Date
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.rfqHeaderDeliverableModel.beginDate}}
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumn92"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumn92;">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <!-- <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data
+                                        matching the filter "{{input.value}}"</td>
+                                </tr> -->
+                            </table>
+                        </div>
+                        <div class="flex justify-end">
+                            <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                        </div>
+                        <!--table component end-->
+
+                        <div class="flex justify-between align-center mt-8">
+                            <p class="font-medium text-lg">
+                                Supplier Response
+                            </p>
+                            <div class="color-legends justify-end">
+                                <div class="color-legend">
+                                    <div class="status rounded" style="background: #CCD7EA"></div>
+                                    <div class="legend-label">Supplier Response
+                                        Columns</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--table component-->
+                        <!--base table component-->
+                        <div class="overflow-auto bg-gray-50 rounded-lg pt-4">
+                            <table mat-table [dataSource]="rfqSupplierHeaderDeliverableModel" matSort
+                                class="expanded-rows-table font-helvetica text-gray-500">
+
+                                <!--  Milestone Number Column -->
+                                <ng-container matColumnDef="milestonenumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 140px; min-width: 120px; background: #CCD7EA">
+                                        Milestone #
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.milestone' name='{{row.id}}-row.milestone'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <!-- Milestone Name Column -->
+                                <ng-container matColumnDef="milestonename">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 150px; min-width: 140px; background: #CCD7EA">
+                                        Milestone Name
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.milestoneName'
+                                                name='{{row.id}}-row.milestoneName'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <!-- Description Name Column -->
+                                <ng-container matColumnDef="deliverabledescription">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="min-width: 140px; background: #CCD7EA">
+                                        Description
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.description'
+                                                name='{{row.id}}-row.description'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <!-- Previous Milestone Number Column -->
+                                <ng-container matColumnDef="prevmilestonenumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 170px; min-width: 160px; background: #CCD7EA">
+                                        Previous Milestone #
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.previousMilestone'
+                                                name='{{row.id}}-row.previousMilestone'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <!-- Progress % Column -->
+                                <ng-container matColumnDef="progresspercentage">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 150px; min-width: 140px; background: #CCD7EA">
+                                        Progress %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.progress' name='{{row.id}}-row.progress'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <!-- Stage Progress % Column -->
+                                <ng-container matColumnDef="stagepercentage">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 150px; min-width: 140px; background: #CCD7EA">
+                                        Stage Progress %
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.stageProgress'
+                                                name='{{row.id}}-row.stageProgress'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <!-- Begin Date Column -->
+                                <ng-container matColumnDef="begindate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 150px; min-width: 140px; background: #CCD7EA">
+                                        Begin Date
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [matDatepicker]="datepicker" [(ngModel)]='row.beginDate'
+                                                name='{{row.id}}-row.beginDate'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <!-- Comment Column -->
+                                <ng-container matColumnDef="comment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="max-width: 150px; min-width: 140px; background: #CCD7EA">
+                                        Comment
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-form-field class="w-full">
+                                            <input matInput [(ngModel)]='row.comments' name='{{row.id}}-row.comments'>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumn93"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumn93;">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <!-- <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data
+                                        matching the filter "{{input.value}}"</td>
+                                </tr> -->
+                            </table>
+                        </div>
+                        <div class="flex justify-end">
+                            <mat-paginator class="flex text-base" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                        </div>
+                        <!--table component end-->
+
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <!-- <mat-tab label="Survey Forms" *ngIf="rfqModel.rfxRules.isNegoStyRFXHeaderSurveyForms">
+                <ng-template matTabContent>
+
+                    <div class="flex flex-auto w-full">
+
+                        <div class="flex flex-col flex-auto w-full">
+                            <ng-container>
+                                <ng-container>
+                                    <div class="grid survey-parent overflow-x-auto w-full">
+     
+                                        <div class="survey-parent-grid grid gap-4 pt-4 pb-2 px-2 text-secondary" matSort
+                                            matSortDisableClear>
+                                            <div [mat-sort-header]="'list'">Template
+                                                Name</div>
+                                            <div [mat-sort-header]="'description'">
+                                                Description</div>
+                                            <div [mat-sort-header]="'type'">Type
+                                            </div>
+                                            <div></div>
+                                        </div>
+
+                                        <ng-container
+                                            *ngIf="rfqSupplierHeaderSurveyTemplateQuestionModel && rfqSupplierHeaderSurveyTemplateQuestionModel.length > 0">
+                                            <ng-container
+                                                *ngFor="let attrGroup of rfqSupplierHeaderSurveyTemplateQuestionModel">
+                                                <div
+                                                    class="survey-parent-grid grid items-center gap-4 py-px px-2 custom-tbl-row">
+                                                    <div class="truncate">
+                                                        {{attrGroup.rfqSurveyQuestionModel.templateName}}
+                                                    </div>
+                                                    <div class="truncate">
+                                                        {{attrGroup.rfqSurveyQuestionModel.templateDescription}}
+                                                    </div>
+                                                    <div class="truncate">
+                                                        {{attrGroup.rfqSurveyQuestionModel.attributeCategoryName}}
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <button class="px-2 leading-6" mat-icon-button
+                                                            (click)=toggleDisplayHeaderSurveyQuestion(attrGroup.id)>
+                                                            <mat-icon color="primary" class="icon-size-6"
+                                                                [svgIcon]="detailsHeaderSurveyQuestionDisplayMap.get(attrGroup.id)? 'heroicons_outline:arrow-circle-up': 'heroicons_outline:arrow-circle-down'">
+                                                            </mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <ng-container
+                                                        *ngIf="getactiveDetailsHeaderSurveyQuestion(attrGroup.id)">
+                                                        <div class="overflow-hidden">
+                                                            <div class="flex">
+
+                                                                <div
+                                                                    class="overflow-auto srm-bg rounded-lg mt-4 w-full">
+                                                                    <div class="grid pl-8 attribute-items-inner">
+
+                                                                        <div class="survey-inner-grid custom-tbl-header grid gap-4 pt-2 pb-2 px-2 text-secondary"
+                                                                            matSort matSortDisableClear>
+                                                                            <div [mat-sort-header]="'name'">
+                                                                                Question
+                                                                                Name
+                                                                            </div>
+                                                                            <div [mat-sort-header]="'desc'">
+                                                                                Description
+                                                                            </div>
+                                                                            <div [mat-sort-header]="'type'">
+                                                                                Type
+                                                                            </div>
+                                                                            <div [mat-sort-header]="'supresponse'">
+                                                                                Supplier
+                                                                                Response
+                                                                            </div>
+                                                                            <div [mat-sort-header]="'remarks'">
+                                                                                Remarks
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <ng-container
+                                                                            *ngIf="rfqSupplierHeaderSurveyTemplateQuestionModel && rfqSupplierHeaderSurveyTemplateQuestionModel.length > 0">
+                                                                            <ng-container>
+
+                                                                                <div
+                                                                                    class="survey-inner-grid grid items-center gap-4 py-0 px-2 custom-tbl-row">
+                                                                                    <div class="truncate">
+                                                                                        {{attrGroup.rfqSurveyQuestionModel.quetionsName}}
+                                                                                    </div>
+                                                                                    <div class="truncate">
+                                                                                        {{attrGroup.rfqSurveyQuestionModel.description}}
+                                                                                    </div>
+                                                                                    <div class="flex">
+                                                                                        {{attrGroup.rfqSurveyQuestionModel.attributeCategoryName}}
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <mat-form-field
+                                                                                            class="w-full standalone-input">
+                                                                                            <input matInput
+                                                                                                [(ngModel)]="attrGroup.supplierResponse"
+                                                                                                name="{{attrGroup.id}}-attrGroup.supplierResponse">
+                                                                                        </mat-form-field>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <mat-form-field
+                                                                                            class="w-full standalone-input">
+                                                                                            <input matInput
+                                                                                                [(ngModel)]="attrGroup.remarks"
+                                                                                                name="{{attrGroup.id}}-attrGroup.remarks">
+                                                                                        </mat-form-field>
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                            </ng-container>
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+
+                                    <mat-paginator class="flex text-base justify-end" [pageSizeOptions]="[10, 25, 100]">
+                                    </mat-paginator>
+                                </ng-container>
+                            </ng-container>
+
+                            <ng-template #rowDetailsTemplate>
+
+                            </ng-template>
+
+                            <ng-template #noProducts>
+                                <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">
+                                    There are no products!</div>
+                            </ng-template>
+
+                        </div>
+
+                    </div>
+                </ng-template>
+            </mat-tab> -->
+        </mat-tab-group>
+    </div>
+</div>

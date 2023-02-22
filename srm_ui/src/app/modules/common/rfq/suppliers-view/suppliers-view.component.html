@@ -1,0 +1,194 @@
+<div class="mt-4">
+    <!-- <fuse-alert *ngIf="Message" [appearance]="'fill'" [dismissible]="true" [dismissed]="false" [name]="'successerror'"
+        [type]="'success'">
+        {{Message}} Successfully
+    </fuse-alert> -->
+    <div class="item-block mb-4 srm-bg rounded-lg p-6">
+        <div class="relative">
+            <!--table component-->
+            <div class="flex justify-end">
+                <!-- <button type="button" class="inline-flex" mat-stroked-button [color]="'primary'"
+                    (click)="addSupplier();">
+                    <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    <span class="mr-8">Add Supplier</span>
+                </button> -->
+                <button [matMenuTriggerFor]="menu" type="button" class="inline-flex" mat-stroked-button
+                    [color]="'primary'" [disabled]="!rfqModel.isSaveAsDraft">
+                    <mat-icon class="icon-size-5 ml-8 mr-2" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    <span class="mr-8">Add New</span>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <div class="flex flex-col max-h-60">
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="addSupplier()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Add Supplier</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="addSupplierList()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Add Supplier Lists</span>
+                        </button>
+                        <button class="sm:inline-flex p-0" mat-menu-item (click)="addEmergencySupplier()">
+                            <mat-icon matPrefix class="icon-size-5 ml-4" [color]="'primary'"
+                                [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                            <span class="mr-4 ml-1">Add Emergency Supplier</span>
+                        </button>
+
+                    </div>
+                </mat-menu>
+            </div>
+            <!--base table component-->
+            <div class="overflow-auto bg-gray-50 rounded-lg">
+                <table mat-table [dataSource]="rfqSupplierSearchModel.rfqSupplierModel" matSort
+                    (matSortChange)="sortData($event)" class="expanded-rows-table font-helvetica text-gray-500">
+
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef style="max-width: 50px; width: 50px"></th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-icon-button [matMenuTriggerFor]="options" aria-label="Choose columns">
+                                <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:dots-vertical">
+                                </mat-icon>
+                            </button>
+                            <mat-menu #options="matMenu" class="min-width-235 z-1">
+                                <button mat-menu-item (click)="resendInvitation(row)" [disabled]="!isBidOpen">
+                                    <mat-icon color="primary" class="icon-size-5" svgIcon="mat_outline:send"></mat-icon>
+                                    Resend Invite
+                                </button>
+                                <button mat-menu-item *ngIf="!row.isFromIFS" (click)="DeleteAttachment(row)" [disabled]="!rfqModel.isSaveAsDraft">
+                                    <mat-icon color="primary" class="icon-size-5" svgIcon="heroicons_outline:trash">
+                                    </mat-icon>
+                                    Delete
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <!--  Supplier ID Column -->
+                    <ng-container matColumnDef="supplierId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 120px; min-width: 100px">
+                            Supplier ID
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{row.supplier.ifsSupplierId}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="supplierName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 150px; min-width: 140px">
+                            Name
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.supplierName}} </td>
+                    </ng-container>
+
+                    <!-- Invited Date & Time Column -->
+                    <ng-container matColumnDef="invitedDateTime">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 190px; min-width: 180px">
+                            Invited Date & Time
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.inviteDate}}
+                        </td>
+                    </ng-container>
+
+                    <!--Supplier Contact Column -->
+                    <ng-container matColumnDef="supplierContact">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 170px; min-width: 160px">
+                            Supplier Contact
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="flex">
+                                <mat-form-field class="standalone-input">
+                                    <mat-select [(ngModel)]="row.supplierContactID"
+                                        (selectionChange)="updateRFQSupplierContact(row,true,$event)" [disabled]="!rfqModel.isSaveAsDraft">
+                                        <mat-option value="">Select Contact</mat-option>
+                                        <mat-option *ngFor="let supplierContact of row.supplierContacts"
+                                            [value]="supplierContact.id">
+                                            {{supplierContact.supplierContactName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- EmailID Column -->
+                    <ng-container matColumnDef="supplierEmail">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 170px; min-width: 160px">
+                            Email ID
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+                    </ng-container>
+
+                    <!-- Currencies Column -->
+                    <ng-container matColumnDef="currencies">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 150px; min-width: 140px">
+                            Currency
+                        </th>
+                        <!-- <td mat-cell *matCellDef="let row"> {{row.currencies[0].currencyName}} </td> -->
+                        <td mat-cell *matCellDef="let row"> {{row.supplier.currency}} </td>
+                    </ng-container>
+
+                    <!-- Acknowledged Column -->
+                    <ng-container matColumnDef="acknowledged">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 150px; min-width: 140px">
+                            Acknowledged
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.isParticipate ? 'Yes' : 'No'}} </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="supplierStatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 180px; min-width: 150px">
+                            Status
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.supplier.supplierStatus}}</td>
+                    </ng-container>
+
+                    <!-- Group Name Column -->
+                    <ng-container matColumnDef="groupName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 170px; min-width: 160px">
+                            List Name
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.supplierGroup ? row.supplierGroup.name : '-'}} </td>
+                        <!-- <td mat-cell *matCellDef="let row"> {{row.supplier.supplierStatus}}</td> -->
+                    </ng-container>
+
+                    <!--Responses Column -->
+                    <ng-container matColumnDef="responses">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            style="max-width: 150px; min-width: 130px">
+                            Responses
+                        </th>
+                        <td mat-cell *matCellDef="let row"> {{row.responseCount}} </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumn12"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumn12;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <!-- <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr> -->
+                </table>
+            </div>
+            <div class="flex justify-end">
+                <mat-paginator [length]="rfqSupplierSearchModel.totalItems" [pageSize]="rfqSupplierSearchModel.pageSize"
+                    [pageSizeOptions]="[10, 25, 100]" (page)="pageEvent=$event;OnPaginateChange($event)"
+                    showFirstLastButtons></mat-paginator>
+            </div>
+            <!--table component end-->
+        </div>
+    </div>
+</div>

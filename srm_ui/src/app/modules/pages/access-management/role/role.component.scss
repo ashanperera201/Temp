@@ -1,0 +1,22 @@
+.user-permission {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    table {
+        width: 100%;
+    }
+}
+
+.role-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+
+    &__header{
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: .1rem;
+    }
+}

@@ -1,0 +1,3 @@
+export const dialogKeys = {
+    REVIEW_FORM_CONFIGURATION: 'REVIEW-FORM-CONFIGURATION',
+}

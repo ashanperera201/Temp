@@ -1,0 +1,43 @@
+.review-container {
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+        .header {
+            padding-top: .5rem;
+
+            h3 {
+                font-weight: 500 !important;
+            }
+        }
+    }
+
+    &__form {
+
+        &--item {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            padding-left: 1rem;
+
+            mat-form-field {
+                width: 48%;
+            }
+        }
+    }
+}
+
+.m-t-2 {
+    margin-top: 2rem;
+}
+
+.btn-actions {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}

@@ -1,0 +1,28 @@
+<mat-label class="label" style="font-weight: 600;color: black;">{{item.label}} <span *ngIf="item.required">*</span>
+</mat-label>
+<mat-form-field class="example-full-width mat-custom-bg pt-2" [ngClass]="{'gray':view === false}">
+    <!-- <label *ngIf="item.label" [ngClass]="{'has-error':item.errors && item.errors.length}">{{item.label}} <span class="required" *ngIf="item.required">*</span></label> -->
+    <ng-container *ngIf="item.items && item.items.length">
+        <app-selection-list *ngIf="!item.style || item.style==='list'" [label]="item.label" [editable]="editable"
+            [required]="item.required" [value]="item.multiple ? item.value : selectedOption" [options]="item.items"
+            [multiple]="true" (selectionChange)="onSelectionChange($event)"></app-selection-list>
+        <app-radio-group *ngIf="item.style==='buttons'" [label]="item.label" [editable]="editable"
+            [required]="item.required" [label]="item.label" [value]="item.multiple ? item.value : selectedOption"
+            [options]="item.items" [multiple]="item.multiple" (selectionChange)="onSelectionChange($event)">
+        </app-radio-group>
+        <app-select *ngIf="item.style==='select'" [label]="item.label" [editable]="editable" [required]="item.required"
+            [value]="item.multiple ? item.value : selectedOption" [options]="item.items" [multiple]="item.multiple"
+            (selectionChange)="onSelectionChange($event)" style="width: 100%;"></app-select>
+        <mat-form-field *ngIf="isExplanationRequired(selectedOption)" class="other-option-field">
+            <mat-label>{{explanationLabel}}</mat-label>
+            <input #inputField matInput [(ngModel)]="explanationValue"
+                (ngModelChange)="onExplanationValueChanges($event, selectedOption)">
+        </mat-form-field>
+    </ng-container>
+
+    <mat-error *ngIf="item.errors && item.errors.length && view">
+        <div *ngFor="let error of item.errors">{{error.message}}</div>
+    </mat-error>
+    <mat-hint align="start" *ngIf="!(item.errors && item.errors.length)">{{item.hint}}</mat-hint>
+    <input matInput hidden="true">
+</mat-form-field>

@@ -1,0 +1,287 @@
+const inviteSuppliers = require('../db_apis/inviteSuppliers.js');
+
+const mailSender = require('../services/mailsender.js');
+
+async function post(req, res, next) {
+  
+  
+  try {
+    console.log("inside insert invite suppliers");
+    
+
+    let supplierTest = getInviteSupplierFromRec(req);
+
+    supplierTest = await inviteSuppliers.create(supplierTest);
+
+    
+    console.log("supplier name: " + supplierTest.invite_supplier_name);
+    console.log("supplier id: " + supplierTest.invite_supplier_id);
+
+    res.status(201).json(supplierTest);
+      const stringWithPlaceholders = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+      <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Demystifying Email Design</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <style>
+      body {
+        text-align: left;
+        font-family: sans-serif;
+      }
+      </style>
+      </head>
+      <body>
+      
+      <p>Hi Sir/ Madam,</p>
+      <p>
+      We would like to invite you for the SRM registration process.
+      </p>
+      <p>
+      Please click on below link for registration. 
+      </p>
+      ##link##
+
+
+      * Kindly note this is an auto generated email. Hence, please don't reply to this email *
+      <br>
+      <br>
+      <br>
+      Best Regards,
+      <br>
+      IMI SRM TEAM
+      <br>
+      <br>
+      <br>
+      <img src="http://www.imi-ksa.com/wp-content/uploads/2018/05/logo.png" title="logo" alt="logo" style="width: 100px;height: 70px;">
+
+
+
+      
+      </P>
+      
+      </body>
+      </html>
+       `;
+      //  let url=' <p><a href="http://localhost:4200/pages/auth/register-2/' + supplier.supplier_id + '/tmp">Click here</a></p>';     
+
+       let url=' <p><a href="http://localhost:4401/pages/auth/register-2/' + supplierTest.invite_supplier_id + '/inv">Click here</a></p>';      
+      //  let url=' <p><a href="http://localhost:4401/pages/auth/register-2/' + '">Click here</a></p>';     
+      //  http://localhost:4401/pages/auth/register-2
+
+       let message = stringWithPlaceholders.replace(/{\w+}/g, placeholder =>
+        replacements[placeholder.substring(1, placeholder.length - 1)] || placeholder,
+      );
+      
+      message = message.replace("##link##", url);
+      
+        mailSender.sendMail(message, 'Invite Supplier Request - IMI', supplierTest.email,'bilal.rifas@gmail.com');
+         console.log("email sent");
+      } catch (err) {
+            next(err);
+          }
+        }
+
+module.exports.post = post;
+
+async function get(req, res, next) {
+  try {
+    const context = {};
+
+    context.id = parseInt(req.params.id, 10);
+    // *** line that parses req.params.id is here ***
+    context.skip = parseInt(req.query.skip, 10);
+    context.limit = parseInt(req.query.limit, 10);
+    context.sort = req.query.sort;
+    // *** line that parses req.query.sort is here ***
+    //context.department_id = parseInt(req.query.department_id, 10);
+    //context.manager_id = parseInt(req.query.manager_id, 10);
+    const rows = await inviteSuppliers.find(context);
+
+    if (req.params.id) {
+      if (rows.length === 1) {
+        res.status(200).json(rows[0]);
+      } else {
+        res.status(404).end();
+      }
+    } else {
+      res.status(200).json(rows);
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.get = get;
+
+function getInviteSupplierFromRec(req) {
+
+  // var cat_type = req.body.inviteSupplier_type;
+
+  // console.log("Cat Type: "+ cat_type);
+
+  
+  // var text = "";
+  // var i;
+  // for (i = 0; i < cat_type.length; i++) {
+  //   text += cat_type[i] + ",";
+  // }
+
+  // console.log("Category Type Comma 11 : " + text);
+
+  var supplier_id = req.body.supplier_id?req.body.supplier_id:0;
+  
+  console.log(supplier_id);
+
+    const inviteSupplier = {
+      invite_supplier_name: req.body.invite_supplier_name,
+      establishment_year: req.body.establishment_year,
+      invite_supplier_type : req.body.invite_supplier_type,
+      country : req.body.country,
+      city : req.body.city,
+      other_city : req.body.other_city,
+      po_box : req.body.po_box,
+      postal_code : req.body.postal_code,
+      address_line1 : req.body.address_line1,
+      address_line2 : req.body.address_line2,
+      title : req.body.title,
+      first_name : req.body.first_name,
+      last_name : req.body.last_name,
+      position : req.body.position,
+      telphone_country_code : req.body.telphone_country_code,
+      telephone_no : req.body.telephone_no,
+      extension : req.body.extension,
+      email : req.body.email,
+      mobile_country_code : req.body.mobile_country_code,
+      mobile_no : req.body.mobile_no,
+      fax_country_code : req.body.fax_country_code,
+      fax_no : req.body.fax_no,
+      cr_no : req.body.cr_no,
+      cr_exp_date : req.body.cr_exp_date,
+      justification : req.body.justification
+    };
+  
+    return inviteSupplier;
+  }
+  
+//   async function post(req, res, next) {
+//     try {
+//       let inviteSupplier = getinviteSupplierFromRec(req);
+      
+
+//       console.log(inviteSuppliers.inviteSupplier_name);
+
+
+//       inviteSupplier = await inviteSuppliers.create(inviteSupplier);
+  
+//       res.status(201).json(inviteSupplier);
+      
+// const replacements = {
+//   inviteSupplier_id: inviteSuppliers.inviteSupplier_id,
+//   inviteSupplier_name: inviteSuppliers.inviteSupplier_name,
+//   establishment_year: inviteSuppliers.establishment_year,
+//   inviteSupplier_type : inviteSuppliers.inviteSupplier_type,
+//   country : inviteSuppliers.country,
+//   city : inviteSuppliers.city,
+//   other_city : inviteSuppliers.other_city,
+//   po_box : inviteSuppliers.po_box,
+//   postal_code : inviteSuppliers.postal_code,
+//   address_line1 : inviteSuppliers.address_line1,
+//   address_line2 : inviteSuppliers.address_line2,
+//   title : inviteSuppliers.title,
+//   first_name : inviteSuppliers.first_name,
+//   last_name : inviteSuppliers.last_name,
+//   position : inviteSuppliers.position,
+//   telphone_country_code : inviteSuppliers.telphone_country_code,
+//   telephone_no : inviteSuppliers.telephone_no,
+//   extension : inviteSuppliers.extension,
+//   email : inviteSuppliers.email,
+//   mobile_country_code : inviteSuppliers.mobile_country_code,
+//   mobile_no : inviteSuppliers.mobile_no,
+//   fax_country_code : inviteSuppliers.fax_country_code,
+//   fax_no : inviteSuppliers.fax_no,
+//   cr_no : inviteSuppliers.cr_no,
+//   cr_exp_date : inviteSuppliers.cr_exp_date,
+//   justification : inviteSuppliers.justification
+
+// };
+
+// // const message = stringWithPlaceholders.replace(/{\w+}/g, placeholder =>
+// //   replacements[placeholder.substring(1, placeholder.length - 1)] || placeholder,
+// // );
+
+//   // mailSender.sendMail(message, 'New Supplier Request', 'bilal.rifas@xitricon.com','bilal.rifas@gmail.com');
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+  
+//   module.exports.post = post;
+
+  async function put(req, res, next) {
+    try {
+
+      const inviteSupplierFormat = {
+        invite_supplier_id : req.body.invite_supplier_id,
+        invite_supplier_name: req.body.invite_supplier_name,
+        establishment_year: req.body.establishment_year,
+        invite_supplier_type : req.body.invite_supplier_type,
+        country : req.body.country,
+        city : req.body.city,
+        other_city : req.body.other_city,
+        po_box : req.body.po_box,
+        postal_code : req.body.postal_code,
+        address_line1 : req.body.address_line1,
+        address_line2 : req.body.address_line2,
+        title : req.body.title,
+        first_name : req.body.first_name,
+        last_name : req.body.last_name,
+        position : req.body.position,
+        telphone_country_code : req.body.telphone_country_code,
+        telephone_no : req.body.telephone_no,
+        extension : req.body.extension,
+        email : req.body.email,
+        mobile_country_code : req.body.mobile_country_code,
+        mobile_no : req.body.mobile_no,
+        fax_country_code : req.body.fax_country_code,
+        fax_no : req.body.fax_no,
+        cr_no : req.body.cr_no,
+        cr_exp_date : req.body.cr_exp_date,
+        justification : req.body.justification
+      };
+
+      // let inviteSupplier = getInviteSupplierFromRec(req);
+  
+      // inviteSupplier.sequence_id = parseInt(req.params.invite_supplier_id, 10);
+  
+      inviteSupplier = await inviteSuppliers.update(inviteSupplierFormat);
+  
+      if (inviteSupplier !== null) {
+        res.status(200).json(inviteSupplier);
+      } else {
+        res.status(404).end();
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+  
+  module.exports.put = put;
+
+  async function del(req, res, next) {
+    try {
+      const id = parseInt(req.params.id, 10);
+  
+      const success = await inviteSuppliers.delete(id);
+  
+      if (success) {
+        res.status(204).end();
+      } else {
+        res.status(404).end();
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+  
+  module.exports.delete = del;

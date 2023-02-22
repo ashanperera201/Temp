@@ -1,0 +1,54 @@
+:host {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 40px;
+
+    .error {
+        color: white;
+        margin: 1rem;
+        font-weight: 600;
+        background-color: #bf3300;
+        padding: 1rem;
+        float: right;
+        width: calc(100% - 2rem);
+    }
+}
+
+pre {
+    background-color: white;
+    padding: 30px;
+    border: 1px solid #ccc;
+}
+
+.submit-button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.align-baseline {
+    align-items: baseline;
+}
+
+.preview {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+
+    span {
+        padding: 0.5rem;
+    }
+}
+
+.required-field::after {
+    content: "*";
+}
+
+.mat-radio-button {
+    padding-right: 1rem;
+}

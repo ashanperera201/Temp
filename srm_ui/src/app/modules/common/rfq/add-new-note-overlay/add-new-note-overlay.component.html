@@ -1,0 +1,30 @@
+<div class="min-w-full p-2">
+    <form class="flex flex-col w-full" [formGroup]="frmHeaderNote" (ngSubmit)="onFormSubmit(frmHeaderNote.value)">
+        <div class="pb-1">
+            <div class="text-3xl font-cairo font-bold mb-6">
+                {{popuptext}} Notes
+            </div>
+        </div>
+        <mat-dialog-content class="min-w-full relative mb-4">
+
+            <div class="w-full">
+                <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
+                    <mat-label>Notes</mat-label>
+                    <textarea matInput formControlName="description" [rows]="4" matTextareaAutosize
+                        [matAutosizeMinRows]="1" (keyup)="addNewNoteButtonEnable()"></textarea>
+                </mat-form-field>
+            </div>
+
+        </mat-dialog-content>
+        <mat-dialog-actions class="flex justify-end sticky bottom-0">
+            <button mat-button mat-dialog-close [color]="'primary'" (click)="doAction()" type="button">
+                <span class="mx-4">Cancel</span>
+            </button>
+            <button class="sm:inline-flex ml-4" mat-raised-button [color]="'primary'" type="submit"
+                [disabled]="isSaved">
+                <span class="mx-4">{{buttontext}}</span>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
+</div>

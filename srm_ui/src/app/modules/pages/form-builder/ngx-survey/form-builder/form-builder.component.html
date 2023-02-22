@@ -1,0 +1,94 @@
+<form name="surveyForm">
+    <mat-card *ngFor="let section of form; let s = index" >
+        <div class="text-base font-medium text-2xl "> Section {{s+1}}</div>
+        <mat-card-header class="section-header mt-2">
+            <mat-card-title class="section-title">
+                <div class="section-title-text flex">
+                    <mat-form-field class="w-1/2 pr-2 text-2xl" appearance="fill">
+                        <mat-label>Title</mat-label>
+                        <input type="text" name="sectionTitle-{{s}}" matInput [(ngModel)]="section.title" required [disabled]="!enableEditFieldValues"> 
+                        <mat-error *ngIf="section.title===''">Title required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-1/2 pr-2 text-2xl" appearance="fill">
+                        <mat-label>Subtitle</mat-label>
+                        <input type="text" name="sectionSubTitle-{{s}}" matInput [(ngModel)]="section.subtitle" [disabled]="!enableEditFieldValues">
+                    </mat-form-field>
+                </div>
+
+                <mat-checkbox class="example-margin" name="enableScore-{{s}}" [(ngModel)]="section.enableScore" [disabled]="!enableEditFieldValues"
+                    color="primary"><span style="font-size: 16px;">Enable score</span></mat-checkbox>
+                <mat-checkbox class="example-margin pl-4" name="enableComment-{{s}}" [(ngModel)]="section.enableComment" [disabled]="!enableEditFieldValues"
+                    color="primary"><span style="font-size: 16px;">Enable comments</span></mat-checkbox>
+
+                <!-- <div class="pl-4">
+                    <mat-form-field appearance="fill">
+                        <input type="text" name="WeightageInput-{{s}}" matInput placeholder="Weightage"
+                            [(ngModel)]="section.Weightage" style="color: #438AFE;">
+                    </mat-form-field>
+                </div> -->
+
+                <button mat-icon-button class="form-item-actions-button " aria-label="Toggle menu" color="warn"
+                    matTooltip="Delete Section" matTooltipPosition="above" (click)="removeSection(section)"
+                    [disabled]="readOnly||!enableEditFieldValues">
+                    <mat-icon>delete</mat-icon>
+                </button>
+
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div *ngIf="service.isSectionVisible(form, section)">
+                <div class="form-items-list">
+                    <div *ngFor="let item of section.items; let i = index" [attr.id]="'form_item_'+item.name" class="form-item" >
+                        
+                        <div class="form-item-actions">
+                            <button mat-icon-button class="form-item-actions-button" aria-label="Toggle menu" [disabled]="readOnly||!enableEditFieldValues"
+                                *ngIf="!readOnly" matTooltip="Clone" matTooltipPosition="above" color="primary"
+                                (click)="cloneItem(item, section)">
+                                <mat-icon>filter_none</mat-icon>
+                            </button>
+                            <button mat-icon-button class="form-item-actions-button" aria-label="Toggle menu" [disabled]="readOnly||!enableEditFieldValues"
+                                matTooltip="Edit Field" matTooltipPosition="above" color="primary"
+                                (click)="openItemDialog(item, section)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+
+                            <button mat-icon-button class="form-item-actions-button" aria-label="Toggle menu" [disabled]="readOnly||!enableEditFieldValues"
+                                matTooltip="Delete Field" matTooltipPosition="above" color="warn"
+                                (click)="removeField(item, section)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+
+                        </div>
+                        <div class="flex w-full" >
+                            <div class="flex flex-col w-full mr-2 ">
+                                <ngx-survey-form-item [type]="item.type" [item]="item"
+                                [editable]="enableEditFieldValues && !readOnly" (changes)="onItemChanges($event)"
+                                [view]="view" #formFieldItem></ngx-survey-form-item>
+                            </div>
+                            <div *ngIf="section.enableScore && item.type!=='label'" class="flex flex-col w-20 mr-2 mt-1">
+                                <mat-form-field appearance="fill">
+                                    <mat-label></mat-label>
+                                    <input type="text" name="WeightageInput-{{s}}-{{i}}" matInput placeholder="Weightage"
+                                        [(ngModel)]="item.Weightage" style="color: #438AFE;">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                    
+                </div>
+            </div>
+            <div class="add-item-button">
+                <button mat-stroked-button color="primary" (click)="addFeild(section)" [disabled]="!enableEditFieldValues||readOnly">Add
+                    Question</button>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+    <div class="add-item-button" matTooltip="Add Section" matTooltipPosition="above" style="padding: 1rem;">
+        <button mat-mini-fab color="primary" aria-label="Add Section" (click)="addSection()" [disabled]="readOnly||!enableEditFieldValues">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</form>
