@@ -108,6 +108,13 @@ namespace SRMDomain
                 .ForMember(e => e.SupplierUniqueId, m => m.MapFrom(t => t.SupplierUniqueId))
                 .ReverseMap();
                 #endregion
+
+                #region Supplier Email Templates
+                mapConfig.CreateMap<EmailTemplateEntity, EmailTemplateDto>()
+                .ForMember(e => e.Id, m => m.MapFrom(t => t.Id))
+                .ReverseMap();
+                #endregion
+
             });
         }
 

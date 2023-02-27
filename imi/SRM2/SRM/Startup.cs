@@ -73,6 +73,7 @@ namespace SRM
             services.AddScoped<IFormConfigurationRepository, FormConfigurationRepository>();
             services.AddScoped<IProcessConfiguratorRepository, ProcessConfiguratorRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<ISupplierEmailTemplateRepository, SupplierEmailTemplateRepository>();
             #endregion
 
             services.AddScoped<ISrmUserData, SrmUserData>();

@@ -202,7 +202,7 @@ namespace SRMDomain.Repositories.Implementations
                         transactionState = await conection.ExecuteAsync(query, entity, transaction);
                         transaction.Commit();
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         transaction.Rollback();
                     }
