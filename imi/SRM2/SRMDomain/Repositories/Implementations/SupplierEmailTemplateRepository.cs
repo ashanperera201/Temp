@@ -2,11 +2,8 @@
 using Dapper;
 using SRMDomain.Entities;
 using SRMDomain.Repositories.Contracts;
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 #endregion
