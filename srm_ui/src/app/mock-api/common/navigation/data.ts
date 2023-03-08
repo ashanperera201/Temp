@@ -279,6 +279,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Process Configurator',
                 type: 'basic',
                 link: '/process-configurator/landing'
+            },
+            {
+                id: 'email-template',
+                title: 'Email Templates',
+                type: 'basic',
+                link: '/email-templates/landing'
             }
         ]
 

@@ -192,6 +192,7 @@ export const appRoutes: Route[] = [
             { path: 'rfx-templates', loadChildren: () => import('app/modules/common/rfx-templates/rfx-templates.module').then(m => m.RfxTemplatesModule) },
             { path: 'export-report/:id', loadChildren: () => import('app/modules/common/export-report/export-report.module').then(m => m.ExportReportModule) },
             { path: 'process-configurator', loadChildren: () => import('app/modules/pages/process-configurator/process-configurator.module').then(m => m.ProcessConfiguratorModule) },
+            { path: 'email-templates', loadChildren: () => import('app/modules/pages/email-template/email-template.module').then(m => m.EmailTemplateModule) },
 
         ]
     },
