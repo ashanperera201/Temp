@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter,ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter,ChangeDetectorRef,NgZone } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BidEvaluationModel } from 'app/main/Models/etendering/ViewModels/bid-evaluation-model';
@@ -95,7 +95,7 @@ export class TechnicalBidEvaluationLineViewComponent implements OnInit {
   processOnApprovel: boolean;
   destroy$ = new Subject<boolean>();
 
-  constructor(private rfqService: RfqService, public dialog: MatDialog, private termsService: TermsService,private _changeDetectorRef:ChangeDetectorRef) { }
+  constructor(private zone:NgZone,private rfqService: RfqService, public dialog: MatDialog, private termsService: TermsService,private _changeDetectorRef:ChangeDetectorRef) { }
 
   ngOnInit() {
 
@@ -417,12 +417,16 @@ export class TechnicalBidEvaluationLineViewComponent implements OnInit {
       disableClose: true
 
     });
+    this.zone.runOutsideAngular(() => {
     dialogRef.afterClosed().subscribe(result => {
       this.rfqModel.isTBEApproved=!result.issuccess;
-      this._changeDetectorRef.detectChanges();
-      if (result.issuccess == true) {
+      this.zone.run(() => {
+        this.rfqModel.approvalType="TBE";
+       this._changeDetectorRef.detectChanges();
+       
         this.rfqUpdated.emit({ rfqModel: this.rfqModel });
-      }
+      });
+    });
     });
   }
 
@@ -439,12 +443,16 @@ export class TechnicalBidEvaluationLineViewComponent implements OnInit {
       },
       disableClose: true
     });
+    this.zone.runOutsideAngular(() => {
     dialogRef.afterClosed().subscribe(result => {
       this.rfqModel.isTBEApproved=!result.issuccess;
-      this._changeDetectorRef.detectChanges();
-      if (result.issuccess == true) {
+      this.zone.run(() => {
+        this.rfqModel.approvalType="TBE";
+       this._changeDetectorRef.detectChanges();
+       
         this.rfqUpdated.emit({ rfqModel: this.rfqModel });
-      }
+      });
+    });
     });
   }
   

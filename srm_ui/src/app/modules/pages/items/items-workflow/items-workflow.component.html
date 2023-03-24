@@ -1,4 +1,4 @@
-<div class="items-page flex flex-auto min-w-0">
+<div class="items-page flex flex-auto min-w-0" *ngxPermissionsOnly="['WORKFLOW']">
     <drawer-mini class="drawer-mini"></drawer-mini>
 
     <div class="flex-auto sm:p-6 md:p-8">
@@ -29,90 +29,6 @@
                         </button>
                     </div>
                 </fuse-card>
-                <!-- <fuse-card class="custom-card px-4 py-2 flex justify-between shadow m-2">
-                    <div class="flex items-center">
-                        <p class="my-6 font-medium mb-2 mt-2 text-default">
-                            Critical Approval
-                        </p>
-                    </div>
-                    <div class="flex justify-end ml-auto p-2">
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:eye'"></mat-icon>
-                            <span class="mr-8">View</span>
-                        </button>
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
-                            <span class="mr-8">Edit</span>
-                        </button>
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'warn'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-                            <span class="mr-8">Delete</span>
-                        </button>
-                    </div>
-                </fuse-card>
-                <fuse-card class="custom-card px-4 py-2 flex justify-between shadow m-2">
-                    <div class="flex items-center">
-                        <p class="my-6 font-medium mb-2 mt-2 text-default">
-                            Emergency Approval
-                        </p>
-                    </div>
-                    <div class="flex justify-end ml-auto p-2">
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:eye'"></mat-icon>
-                            <span class="mr-8">View</span>
-                        </button>
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
-                            <span class="mr-8">Edit</span>
-                        </button>
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'warn'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-                            <span class="mr-8">Delete</span>
-                        </button>
-                    </div>
-                </fuse-card>
-                <fuse-card class="custom-card px-4 py-2 flex justify-between shadow m-2">
-                    <div class="flex items-center">
-                        <p class="my-6 font-medium mb-2 mt-2 text-default">
-                            High Critical Approval
-                        </p>
-                    </div>
-                    <div class="flex justify-end ml-auto p-2">
-                        <button class="sm:inline-flex mr-4"  (click)="editScheme(scheme)" mat-stroked-button [color]="'primary'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:eye'"></mat-icon>
-                            <span class="mr-8">View</span>
-                        </button>
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
-                            <span class="mr-8">Edit</span>
-                        </button>
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'warn'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-                            <span class="mr-8">Delete</span>
-                        </button>
-                    </div>
-                </fuse-card>
-                <fuse-card class="custom-card px-4 py-2 flex justify-between shadow m-2">
-                    <div class="flex items-center">
-                        <p class="my-6 font-medium mb-2 mt-2 text-default">
-                            Normal Approval
-                        </p>
-                    </div>
-                    <div class="flex justify-end ml-auto p-2">
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:eye'"></mat-icon>
-                            <span class="mr-8">View</span>
-                        </button>
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'primary'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
-                            <span class="mr-8">Edit</span>
-                        </button>
-                        <button class="sm:inline-flex mr-4" mat-stroked-button [color]="'warn'">
-                            <mat-icon class="icon-size-5 ml-8 mr-1" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-                            <span class="mr-8">Delete</span>
-                        </button>
-                    </div>
-                </fuse-card> -->
             </div>
 
             <button class="sm:inline-flex mr-4" (click)="createScheme()" mat-stroked-button [color]="'primary'">

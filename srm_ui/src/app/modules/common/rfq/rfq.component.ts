@@ -1329,6 +1329,7 @@ export class RfqComponent implements OnDestroy {
        
         this.rfqService.getRFQById(rfqId, false, false).subscribe((result) => {
             refference.close();
+            this.rfqModel.approvalType="RFQ";
             this.selectedTabIndex  = localStorage.getItem('selectedTabIndexRFQ') || 0;
             this.selectedEvaluationIndex = localStorage.getItem('selectedEvaluationIndexRFQ') || 0;
             this.selectedTabIndexHeader = localStorage.getItem('selectedTabIndexHeader') || 0;
@@ -1570,7 +1571,9 @@ export class RfqComponent implements OnDestroy {
     }
 
     evaluationInitiationRFX() {
+        const loadingDialog = this.dialog.open(ApplicationLoaderComponent, { height: '400px', width: '600px', data: { loadingText: 'Loading....' } });
         this.rfqService.evaluationInitiationRFX(this.rfqId).subscribe(result => {
+            loadingDialog.close();
             if (result.data.isSuccess == true) {
                 Swal.fire({
                     icon: 'success',
@@ -1598,8 +1601,8 @@ export class RfqComponent implements OnDestroy {
                     },
                     target: '#error-alert'
                 });
+                this.getRFQById(this.rfqId);
             }
-            this.getRFQById(this.rfqId);
         });
     }
 
@@ -3857,11 +3860,11 @@ export class RfqComponent implements OnDestroy {
             this.actualApproveRejectTableData = result.model.table1;
 
             this.approveRejectWidgetData = this.actualApproveRejectWidgetData.filter(element => {
-                return element.rfxType.indexOf("RFQ") !== -1;
+                return element.rfxType.indexOf(this.rfqModel.approvalType) !== -1;
             });
 
             this.approveRejectTableData = this.actualApproveRejectTableData.filter(element => {
-                return element.rfxType.indexOf("RFQ") !== -1;
+                return element.rfxType.indexOf(this.rfqModel.approvalType) !== -1;
             });
 
              var approved = this.approveRejectWidgetData.filter(element => {
@@ -3934,9 +3937,9 @@ export class RfqComponent implements OnDestroy {
         }, 0)
     }
 
-    public UpdateRFQModel() {
+    public UpdateRFQModel($event) {
         debugger;
-
+this.rfqModel.approvalType=$event.rfqModel.approvalType;
         this.getRFQById(this.rfqId);
         this.fetchRFXHistoryData();
         this.getApproveRejectWidgetData();

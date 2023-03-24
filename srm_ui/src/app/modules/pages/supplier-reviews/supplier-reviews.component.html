@@ -1,4 +1,5 @@
-<div style="margin-top:10px;padding: 5px 31px;" class="dashboard-page flex flex-col flex-auto min-w-0">
+<div style="margin-top:10px;padding: 5px 31px;" class="dashboard-page flex flex-col flex-auto min-w-0"
+*ngxPermissionsOnly="['EDIT_SUPPLIER_REVIEWS_PAGE', 'VIEW_SUPPLIER_REVIEWS_PAGE']">
 
     <mat-tab-group class="tab-type-one is-parent-tab with-immediate-sticky-child" [(selectedIndex)]="tabIndex"
         [animationDuration]="'0'">

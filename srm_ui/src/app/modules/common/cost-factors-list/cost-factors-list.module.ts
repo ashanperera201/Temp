@@ -25,6 +25,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FuseConfirmationModule } from '@fuse/services/confirmation';
 import { FuseAlertModule } from '@fuse/components/alert';
 
+import { NgxPermissionsModule } from 'ngx-permissions'
+
 const collaborationRoutes: Route[] = [
     {
         path: '',
@@ -61,7 +63,8 @@ const collaborationRoutes: Route[] = [
         MatChipsModule,
         MatDatepickerModule,
         FuseConfirmationModule,
-        FuseAlertModule
+        FuseAlertModule,
+        NgxPermissionsModule
     ]
 })
 

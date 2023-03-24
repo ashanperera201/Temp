@@ -122,6 +122,7 @@ export class RFQViewModel {
     bidClosingDateTimeArrived: boolean;
     programName: string;
     isManual: boolean;
+    approvalType: string;
 }
 
 export class RFQExportModel {

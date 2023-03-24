@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, EventEmitter, Output, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, EventEmitter, Output, ViewChild, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './permissions.component.html',
   styleUrls: ['./permissions.component.scss']
 })
-export class PermissionsComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PermissionsComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 
   @Input() subCategory: any;
   @Input() moduleCode: string;
@@ -31,6 +31,9 @@ export class PermissionsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+  }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
@@ -47,7 +50,8 @@ export class PermissionsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   renderGrid = () => {
     this.dataSource.data = [];
-    const formItems = this.subCategory?.fieldLevels.map(x => x.formItems)[0];
+    const formItems = this.subCategory?.fieldLevels.flatMap(x => x.formItems);
+
     if (formItems && formItems.length > 0) {
       for (let i = 0; i < formItems.length; i++) {
         let form: any = {};
@@ -66,9 +70,11 @@ export class PermissionsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.tempFieldSet.push({ ...form });
             form = {};
           }
+          this.dataSource.data = this.dataSource.data.concat(this.tempFieldSet);
+        } else {
+          this.dataSource.data = this.dataSource.data.concat(this.tempFieldSet.filter(x => x.formCode !== formItems[i].formCode));
         }
       }
-      this.dataSource.data = [...this.tempFieldSet];
     }
   }
 

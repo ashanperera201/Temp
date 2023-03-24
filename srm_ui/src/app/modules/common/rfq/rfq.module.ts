@@ -138,6 +138,8 @@ import { AddAttrLineItemOverlay2Component } from './add-attr-line-item-overlay2/
 import { AddNewLineOverlayComponent } from './add-new-line-overlay/add-new-line-overlay.component';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { AmendBidCloseOverlayComponent } from './amend-bidclose-overlay/amend-bidclose-overlay.component';
+import {NgxPermissionsModule} from 'ngx-permissions'
+
 const collaborationRoutes: Route[] = [
     {
         path: '',
@@ -293,11 +295,12 @@ const collaborationRoutes: Route[] = [
         MatProgressSpinnerModule,
         QuillModule.forRoot(),
         ComponentsModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        NgxPermissionsModule,
     ],
     providers: [
         {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3000}}
-      ]
+    ]
 })
 export class RfqModule {
 }

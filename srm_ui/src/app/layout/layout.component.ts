@@ -163,6 +163,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
             permissionCodeList = permissionCodeList.concat([...new Set(editPermissionSet)]);
             permissionCodeList = permissionCodeList.concat([...new Set(viewPermissionsSet)]);
+            localStorage.setItem('permissions', JSON.stringify(permissionCodeList))
             this._ngxPermissionsService.addPermission(permissionCodeList);
         }
     }

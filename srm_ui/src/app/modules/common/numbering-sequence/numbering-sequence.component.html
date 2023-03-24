@@ -1,4 +1,4 @@
-<div class="dashboard-page flex flex-col flex-auto min-w-0 numbering-sequence">
+<div class="dashboard-page flex flex-col flex-auto min-w-0 numbering-sequence" *ngxPermissionsOnly="['NUMBERING_SEQUENCE']">
 
 
     <div class="flex justify-between">
@@ -56,7 +56,14 @@
                                         <mat-checkbox [(ngModel)]="row.isProjectExists" [color]="'primary'"></mat-checkbox>
                                     </td>
                                 </ng-container>
-
+                                <ng-container matColumnDef="startofseq">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                        Start of Sequence No
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startOfNoSequence}}
+                                    </td>
+                                </ng-container>
                                 <!-- suffix Column -->
                                 <!-- <ng-container matColumnDef="suffix">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
@@ -95,7 +102,14 @@
                                     </td>
                                 </ng-container>
 
-
+                                <ng-container matColumnDef="active">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                        Active
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox [ngModel]="row.isActive" name="row.isActive" [color]="'primary'"></mat-checkbox>
+                                    </td>
+                                </ng-container>
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
@@ -160,7 +174,14 @@
                                         <mat-checkbox [ngModel]="row.isProjectExists" name="row.isProjectExists" [color]="'primary'"></mat-checkbox>
                                     </td>
                                 </ng-container>
-
+                                <ng-container matColumnDef="startofseq">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                        Start of Sequence No
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startOfNoSequence}}
+                                    </td>
+                                </ng-container>
                                 <!-- suffix Column -->
                                 <!-- <ng-container matColumnDef="suffix">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
@@ -198,7 +219,14 @@
                                         {{row.endDate | date: 'dd-MMM-yyyy'}}
                                     </td>
                                 </ng-container>
-
+                                <ng-container matColumnDef="active">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                        Active
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox [ngModel]="row.isActive" name="row.isActive" [color]="'primary'"></mat-checkbox>
+                                    </td>
+                                </ng-container>
 
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -266,7 +294,14 @@
                                         <mat-checkbox [ngModel]="row.isProjectExists" name="row.isProjectExists" [color]="'primary'"></mat-checkbox>
                                     </td>
                                 </ng-container>
-
+                                <ng-container matColumnDef="startofseq">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                        Start of Sequence No
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.startOfNoSequence}}
+                                    </td>
+                                </ng-container>
                                 <!-- suffix Column -->
                                 <!-- <ng-container matColumnDef="suffix">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 140px">
@@ -304,7 +339,14 @@
                                         {{row.endDate | date: 'dd-MMM-yyyy'}}
                                     </td>
                                 </ng-container>
-
+                                <ng-container matColumnDef="active">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 120px; min-width: 110px">
+                                        Active
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox [ngModel]="row.isActive" name="row.isActive" [color]="'primary'"></mat-checkbox>
+                                    </td>
+                                </ng-container>
 
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

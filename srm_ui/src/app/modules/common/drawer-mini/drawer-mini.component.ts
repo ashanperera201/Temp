@@ -20,61 +20,71 @@ export class DrawerMiniComponent {
                 title: 'All',
                 type: 'basic',
                 icon: 'all_inclusive',
-                link: '/items'
+                link: '/items',
+                permission: 'ALL'
             },
             {
                 title: 'Emergency Supplier',
                 type: 'basic',
                 icon: 'heroicons_outline:light-bulb',
-                link: '/items/emergency-supplier'
+                link: '/items/emergency-supplier',
+                permission: 'EMMERGENCY_SUPPLIER'
             },
             {
                 title: 'Invite Supplier',
                 type: 'basic',
                 icon: 'heroicons_outline:mail-open',
                 link: '/items/invite-supplier',
+                permission: 'VIEW_INVITE_SUPPLIER_PAGE'
             },
             {
                 title: 'Workflow',
                 type: 'basic',
                 icon: 'heroicons_outline:template',
-                link: '/items/workflow'
+                link: '/items/workflow',
+                permission: 'WORKFLOW'
             },
             {
                 title: 'Task',
                 type: 'basic',
                 icon: 'heroicons_outline:clipboard-list',
-                link: '/items/task'
+                link: '/items/task',
+                permission: 'TASK'
             },
             {
                 title: 'Report All',
                 type: 'basic',
                 icon: 'heroicons_outline:document-text',
-                link: '/items/reportall'
+                link: '/items/reportall',
+                permission: 'REPORT_ALL'
             },
             {
                 title: 'Report Audit',
                 type: 'basic',
                 icon: 'heroicons_outline:document-search',
-                link: '/items/reportaudit'
+                link: '/items/reportaudit',
+                permission: 'REPORT_AUDIT'
             },
             {
                 title: 'Tags',
                 type: 'basic',
                 icon: 'heroicons_outline:tag',
-                link: '/items/tags'
+                link: '/items/tags',
+                permission: 'TAGS'
             },
             {
                 title: 'KPI Report',
                 type: 'basic',
                 icon: 'heroicons_outline:document-report',
-                link: '/items/kpi'
+                link: '/items/kpi',
+                permission: 'KPI_REPORT'
             },
             {
                 title: 'IFS Integration',
                 type: 'basic',
                 icon: 'heroicons_outline:document-report',
-                link: '/items/ifs'
+                link: '/items/ifs',
+                permission: 'IFS_INTEGRATION'
             }
         ];
 

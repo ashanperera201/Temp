@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnDestroy,ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy,ChangeDetectorRef, NgZone } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { RFQApprovalViewModel } from 'app/main/Models/etendering/ViewModels/rfq-approval-model';
@@ -91,7 +91,7 @@ export class TechnicalBidEvaluationHeaderViewComponent implements OnInit, OnDest
 
   destroy$ = new Subject<boolean>();
 
-  constructor(private rfqService: RfqService, private _changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog, private termsService: TermsService) { }
+  constructor(private zone: NgZone,private rfqService: RfqService, private _changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog, private termsService: TermsService) { }
 
   ngOnInit() {
     if (this.bidEvaluationModel) {
@@ -423,13 +423,17 @@ export class TechnicalBidEvaluationHeaderViewComponent implements OnInit, OnDest
       disableClose: true
 
     });
+    this.zone.runOutsideAngular(() => {
     dialogRef.afterClosed().subscribe(result => {
       this.rfqModel.isTBEApproved=!result.issuccess;
-      this._changeDetectorRef.detectChanges();
-      if (result.issuccess == true) {
+      this.zone.run(() => {
+        this.rfqModel.approvalType="TBE";
+       this._changeDetectorRef.detectChanges();
+       
         this.rfqUpdated.emit({ rfqModel: this.rfqModel });
-      }
+      });
     });
+  });
   }
 
   tBEHeaderRejectionConfirm() {
@@ -445,13 +449,17 @@ export class TechnicalBidEvaluationHeaderViewComponent implements OnInit, OnDest
       },
       disableClose: true
     });
+    this.zone.runOutsideAngular(() => {
     dialogRef.afterClosed().subscribe(result => {
       this.rfqModel.isTBEApproved=!result.issuccess;
-      this._changeDetectorRef.detectChanges();
-      if (result.issuccess == true) {
+      this.zone.run(() => {
+        this.rfqModel.approvalType="TBE";
+       this._changeDetectorRef.detectChanges();
+       
         this.rfqUpdated.emit({ rfqModel: this.rfqModel });
-      }
+      });
     });
+  });
   }
 
   fetchRFQCurrency() {

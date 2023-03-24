@@ -26,6 +26,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseConfirmationModule } from '@fuse/services/confirmation';
 import {QuillModule} from "ngx-quill";
+import {NgxPermissionsModule} from 'ngx-permissions'
 
 const collaborationRoutes: Route[] = [
     {
@@ -66,6 +67,7 @@ const collaborationRoutes: Route[] = [
         FuseAlertModule,
         FuseConfirmationModule,
         QuillModule.forRoot(),
+        NgxPermissionsModule
     ]
 })
 export class TermsModule

@@ -22,6 +22,7 @@ import {AddEditOverlayComponent} from './add-edit-overlay/add-edit-overlay.compo
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
+import {NgxPermissionsModule} from 'ngx-permissions'
 
 const collaborationRoutes: Route[] = [
     {
@@ -57,7 +58,8 @@ const collaborationRoutes: Route[] = [
         DrawerMiniModule,
         MatDialogModule,
         MatChipsModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        NgxPermissionsModule
     ]
 })
 export class CurrencyModule

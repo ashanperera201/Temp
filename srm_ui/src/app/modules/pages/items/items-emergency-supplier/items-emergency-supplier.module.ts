@@ -19,6 +19,7 @@ import { FuseDrawerModule } from '@fuse/components/drawer';
 import { FuseNavigationModule } from '@fuse/components/navigation';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { DrawerMiniModule } from '../../../common/drawer-mini/drawer-mini.module';
+import { NgxPermissionsModule } from 'ngx-permissions'
 
 const itemsEmergencySupplierRoutes: Route[] = [
     {
@@ -50,7 +51,8 @@ const itemsEmergencySupplierRoutes: Route[] = [
         FuseDrawerModule,
         FuseNavigationModule,
         FuseScrollbarModule,
-        ItemsEmergPendingListModule
+        ItemsEmergPendingListModule,
+        NgxPermissionsModule
     ]
 })
 export class ItemsEmergencySupplierModule {

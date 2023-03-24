@@ -1,4 +1,4 @@
-<div class="dashboard-page flex flex-col flex-auto min-w-0">
+<div class="dashboard-page flex flex-col flex-auto min-w-0" *ngxPermissionsOnly="['SUPPLIER_INVITATION_LIST']">
     <div class="flex justify-between">
         <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Supplier Invitation List</div>
         <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" (click)="openDialog()">

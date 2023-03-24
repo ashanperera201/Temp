@@ -9,5 +9,5 @@ export class NumberingSequenceViewModel {
     startDate:Date;
     endDate:Date;
     rfxType:string;
-   
+    isActive:boolean
 }

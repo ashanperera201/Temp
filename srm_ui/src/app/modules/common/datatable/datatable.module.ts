@@ -12,6 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
+import {NgxPermissionsModule} from 'ngx-permissions'
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatCardModule} from '@angular/material/card';
         MatButtonModule,
         MatMenuModule,
         MatCheckboxModule,
-        MatCardModule
+        MatCardModule,
+        NgxPermissionsModule
     ],
     exports: [
         DatatableComponent

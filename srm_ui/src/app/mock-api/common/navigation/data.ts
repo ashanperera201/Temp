@@ -235,6 +235,18 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/users',
                 children: [
                     {
+                        id: 'roles',
+                        title: 'Roles',
+                        type: 'basic',
+                        link: '/access-management/roles'
+                    },
+                    {
+                        id: 'details',
+                        title: 'User Details',
+                        type: 'basic',
+                        link: '/access-management/user/details'
+                    },
+                    {
                         id: 'user-groups',
                         title: 'User-groups',
                         type: 'basic',

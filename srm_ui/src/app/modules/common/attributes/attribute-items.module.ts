@@ -29,7 +29,7 @@ import {QuillModule} from 'ngx-quill';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseConfirmationModule } from '@fuse/services/confirmation';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule,NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
-
+import {NgxPermissionsModule} from 'ngx-permissions'
 
 const collaborationRoutes: Route[] = [
     {
@@ -75,6 +75,7 @@ const collaborationRoutes: Route[] = [
         NgxMatTimepickerModule,
         NgxMatNativeDateModule,
         QuillModule.forRoot(),
+        NgxPermissionsModule
     ]
 })
 export class AttributeItemsModule

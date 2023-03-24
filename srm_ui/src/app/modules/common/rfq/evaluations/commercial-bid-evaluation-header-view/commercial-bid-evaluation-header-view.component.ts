@@ -13,7 +13,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable max-len */
-import { Component, Input, OnInit, Output, EventEmitter, OnDestroy,ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy,ChangeDetectorRef, NgZone } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { RFQApprovalViewModel } from 'app/main/Models/etendering/ViewModels/rfq-approval-model';
@@ -114,7 +114,7 @@ export class CommercialBidEvaluationHeaderViewComponent implements OnInit, OnDes
   destroy$ = new Subject<boolean>();
   processing: boolean = false;
 
-  constructor(private rfqService: RfqService, private _changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog, private termsService: TermsService) { }
+  constructor(private zone: NgZone,private rfqService: RfqService, private _changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog, private termsService: TermsService) { }
 
   ngOnInit() {
     if (this.bidEvaluationModel) {
@@ -423,14 +423,27 @@ export class CommercialBidEvaluationHeaderViewComponent implements OnInit, OnDes
       },
       disableClose: true
     });
+    this.zone.runOutsideAngular(() => {
+    
     dialogRef.afterClosed().subscribe(result => {
+      
       this.rfqModel.isCBEApproved=!result.issuccess;
-      this._changeDetectorRef.detectChanges();
+      
 
       if (result.issuccess == true) {
-        this.rfqUpdated.emit({ rfqModel: this.rfqModel });
+        
+            this.zone.run(() => {
+              this.rfqModel.approvalType="CBE";
+             this._changeDetectorRef.detectChanges();
+             
+              this.rfqUpdated.emit({ rfqModel: this.rfqModel });
+            });
+          
+        
+        
       }
     });
+  });
   }
 
   cBEHeaderRejectionConfirm() {
@@ -447,13 +460,18 @@ export class CommercialBidEvaluationHeaderViewComponent implements OnInit, OnDes
       disableClose: true
 
     });
+    this.zone.runOutsideAngular(() => {
     dialogRef.afterClosed().subscribe(result => {
       this.rfqModel.isCBEApproved=!result.issuccess;
       this._changeDetectorRef.detectChanges();
-      if (result.issuccess == true) {
+      this.zone.run(() => {
+        this.rfqModel.approvalType="CBE";
+       this._changeDetectorRef.detectChanges();
+       
         this.rfqUpdated.emit({ rfqModel: this.rfqModel });
-      }
+      });
     });
+  });
   }
 
   fetchRFQCurrency() {

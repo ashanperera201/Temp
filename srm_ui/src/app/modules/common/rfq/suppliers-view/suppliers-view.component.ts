@@ -202,7 +202,7 @@ export class SuppliersViewComponent implements OnInit {
       this.show('successerror');
       setTimeout(() => { this.dismiss('successerror'); }, 3000);
     });
-    // this.createTenant(data);
+    this.createTenant(data);
   }
 
   getRfqData(): void {

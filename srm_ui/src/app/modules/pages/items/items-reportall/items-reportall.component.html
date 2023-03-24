@@ -3,7 +3,7 @@
 
     <div class="flex-auto overflow-hidden sm:p-6 md:p-8">
         <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">Report - All Supplier</div>
-        <div class="relative">
+        <div class="relative" *ngxPermissionsOnly="['ALL']">
             <app-itemreportall-datatable></app-itemreportall-datatable>
         </div>
     </div>

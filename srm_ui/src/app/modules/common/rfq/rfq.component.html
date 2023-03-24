@@ -1,4 +1,5 @@
-<div class="dashboard-page flex flex-col flex-auto min-w-0">
+<div class="dashboard-page flex flex-col flex-auto min-w-0" 
+*ngxPermissionsOnly="['CREATE_RFX']">
 
     <div class="flex justify-between">
         <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">{{lblRFXHeader}}</div>
@@ -122,7 +123,7 @@
         </fuse-alert> -->
         <mat-tab-group (selectedTabChange)="changeTab($event)" [selectedIndex]="selectedTabIndex"
             class="tab-type-one is-parent-tab with-immediate-sticky-child" [animationDuration]="'0'">
-            <mat-tab label="RFQ Information" class="direct-child-of-parent">
+            <mat-tab label="RFQ Information" class="direct-child-of-parent" >
                 <ng-template matTabContent class="direct-child-of-parent">
                     <div class="mt-4">
                         <form class="flex flex-col w-full" [formGroup]="frmRFQInformationForm">
@@ -140,7 +141,7 @@
                                                         <mat-form-field class="w-1/3 pr-2">
                                                             <mat-label>{{lblRFXNo != '' ? lblRFXNo:'RFX No'}}</mat-label>
                                                             <input type="hidden" formControlName="documentClass">
-                                                            <input matInput readonly formControlName="rfqNo">
+                                                            <input matInput  [disabled]="false" formControlName="rfqNo">
                                                         </mat-form-field>
                                                         <mat-form-field class="w-1/3 px-2">
                                                             <mat-label>REV No</mat-label>
@@ -167,8 +168,9 @@
 
                                                         <mat-form-field class="w-1/3 pr-2">
                                                             <mat-label>Default Currency</mat-label>
-                                                            <mat-select formControlName="currencyID"
-                                                                [disabled]="this.frmRFQInformationForm.get('currencyID').value">
+                                                            <mat-select  [disabled]="false" formControlName="currencyID">
+                                                                
+                                                                <!-- [disabled]="this.frmRFQInformationForm.get('currencyID').value" -->
                                                                 <mat-option *ngFor="let cur of rfqModel.currencyList"
                                                                     [value]="cur.currencyId">{{cur.currencyCode}}
                                                                 </mat-option>
@@ -186,7 +188,7 @@
 
                                                         <mat-form-field class="w-1/3 pl-2">
                                                             <mat-label>Estimated Amount</mat-label>
-                                                            <input matInput readonly formControlName="estimatedAmount">
+                                                            <input matInput [disabled]="false" formControlName="estimatedAmount">
                                                         </mat-form-field>
 
                                                     </div>
@@ -649,7 +651,9 @@
                     </div>
                 </ng-template>
             </mat-tab>
-            <mat-tab [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'">
+
+            <mat-tab [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'"
+            *ngxPermissionsOnly="['VIEW_HEADER_TABS', 'EDIT_HEADER_TABS']">
                 <ng-template mat-tab-label>
                     Header
                     <mat-icon svgIcon="mat_outline:keyboard_arrow_down" class="text-white"></mat-icon>
@@ -725,7 +729,9 @@
                 </ng-template>
             </mat-tab>
 
-            <mat-tab class="direct-child-of-parent" [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'">
+            <mat-tab class="direct-child-of-parent" [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'"
+            *ngxPermissionsOnly="['VIEW_LINES_TABS', 'EDIT_LINES_TABS']"
+            >
                 <ng-template mat-tab-label>
                     Lines
                     <mat-icon svgIcon="mat_outline:keyboard_arrow_down" class="text-white"></mat-icon>
@@ -735,22 +741,28 @@
 
                 </ng-template>
             </mat-tab>
+            
             <mat-tab label="Suppliers" class="direct-child-of-parent"
-                [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'">
+                [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'"
+                *ngxPermissionsOnly="['VIEW_SUPPLIERS_TABS', 'EDIT_SUPPLIERS_TABS']">
                 <ng-template matTabContent class="direct-child-of-parent">
                     <app-suppliers-view [RFQID]="rfqId" [rfqModel]="rfqModel" [dataSource12]="dataSource12"
                         [displayedColumn12]="displayedColumn12"></app-suppliers-view>
                 </ng-template>
             </mat-tab>
+
             <mat-tab label="Collaboration Team" class="direct-child-of-parent"
-                [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'">
+                [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'" 
+                *ngxPermissionsOnly="['VIEW_COLLOBORATION_TABS', 'EDIT_COLLOBORATION_TABS']">
                 <ng-template matTabContent class="direct-child-of-parent">
                     <app-collaboration-team-view [RFQID]="rfqId" [rfqModel]="rfqModel" [dataSource13]="dataSource13"
                         [displayedColumn13]="displayedColumn13"></app-collaboration-team-view>
                 </ng-template>
             </mat-tab>
+
             <mat-tab [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'" label="Rules"
-                class="direct-child-of-parent">
+                class="direct-child-of-parent"
+                *ngxPermissionsOnly="['VIEW_RULES_TABS', 'EDIT_RULES_TABS']">
                 <ng-template matTabContent class="direct-child-of-parent">
                     <app-rules-view (newRulesItemEvent)="addRulesItem($event)" [RFQID]="rfqId" [RFQModel]="rfqModel"
                         [dataSource14]="dataSource14" [displayedColumn14]="displayedColumn14"
@@ -759,15 +771,19 @@
                         (newItemEvent)="addItem($event)"></app-rules-view>
                 </ng-template>
             </mat-tab>
+
             <mat-tab [disabled]="rfqId=='00000000-0000-0000-0000-000000000000'" label="Scoring"
-                class="direct-child-of-parent">
+                class="direct-child-of-parent"
+                *ngxPermissionsOnly="['VIEW_SCORINGS_TABS', 'EDIT_SCORINGS_TABS']">
                 <ng-template matTabContent class="direct-child-of-parent">
                     <app-rfq-scoring (newItemEvent)="addItem($event)" *ngIf="tabIndex === 6" [RFQID]="rfqId"
                         [RFQModel]="rfqModel">
                     </app-rfq-scoring>
                 </ng-template>
             </mat-tab>
-            <mat-tab [disabled]="rfqModel.statusName=='Quote Submitted'" class="direct-child-of-parent">
+
+            <mat-tab [disabled]="rfqModel.statusName=='Quote Submitted'" class="direct-child-of-parent"
+            *ngxPermissionsOnly="['VIEW_RESPONSES_TABS', 'EDIT_RESPONSES_TABS']">
                 <ng-template mat-tab-label>
                     Responses
                     <mat-icon svgIcon="mat_outline:keyboard_arrow_down" class="text-white"></mat-icon>
@@ -839,7 +855,9 @@
                     </mat-tab-group>
                 </ng-template>
             </mat-tab>
-            <mat-tab class="direct-child-of-parent">
+
+            <mat-tab class="direct-child-of-parent"
+            *ngxPermissionsOnly="['VIEW_EVALUATIONS_TABS', 'EDIT_EVALUATIONS_TABS']">
                 <ng-template mat-tab-label>
                     Evaluations
                     <mat-icon svgIcon="mat_outline:keyboard_arrow_down" class="text-white"></mat-icon>

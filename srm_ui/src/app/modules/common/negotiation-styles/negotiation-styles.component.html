@@ -1,4 +1,4 @@
-<div class="dashboard-page flex flex-col flex-auto min-w-0 negotiation-style">
+<div class="dashboard-page flex flex-col flex-auto min-w-0 negotiation-style" *ngxPermissionsOnly="['NEGOTIATION_STYLES']">
     <div class="flex justify-between">
         <div class="text-2xl font-cairo font-bold tracking-tight leading-8 mb-8">Negotiation Styles</div>
         <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" (click)="openDialog()">

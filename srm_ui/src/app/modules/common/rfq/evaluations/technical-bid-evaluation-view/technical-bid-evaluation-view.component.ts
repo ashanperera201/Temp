@@ -31,6 +31,7 @@ export class TechnicalBidEvaluationViewComponent implements OnInit {
 
   public UpdateRFQModel(model) {
     this.RFQModel = model.rfqModel;
+    this.rfqUpdated.emit({rfqModel:this.RFQModel});
     if(this.bidEvaluation.supplierId!=null)
     {
       if(this.bidEvaluation.supplierId=="00000000-0000-0000-0000-000000000000")
@@ -43,7 +44,7 @@ export class TechnicalBidEvaluationViewComponent implements OnInit {
           this.bidTechnicalFlag = true;
         });
       }}
-    this.rfqUpdated.emit();
+    
   }
 
   @Output() approvalHistoryView = new EventEmitter<{ index: any }>();

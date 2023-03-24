@@ -42,6 +42,7 @@ export interface FuseNavigationItem
     meta?: any;
     isModal?: boolean;
     code?: string;
+    permission?: string;
 }
 
 export type FuseVerticalNavigationAppearance =

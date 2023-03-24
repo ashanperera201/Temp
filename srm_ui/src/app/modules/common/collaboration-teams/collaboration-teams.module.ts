@@ -23,6 +23,7 @@ import { AddTeamOverlayComponent } from './add-team-overlay-basicdata/add-team-o
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatChipsModule } from '@angular/material/chips';
+import { NgxPermissionsModule } from 'ngx-permissions'
 //import { AssignUserOverlayComponent } from './assign-user-overlay/assign-user-overlay.component';
 
 const collaborationRoutes: Route[] = [
@@ -60,7 +61,8 @@ const collaborationRoutes: Route[] = [
         MatDialogModule,
         MatTabsModule,
         MatRadioModule,
-        MatChipsModule
+        MatChipsModule,
+        NgxPermissionsModule
     ]
 })
 

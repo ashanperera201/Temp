@@ -26,6 +26,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ApprovalChangesLandingComponent } from './Approval-changes-landing.component';
+import { NgxPermissionsModule } from 'ngx-permissions'
 
 const formRoutes: Route[] = [
     {
@@ -64,7 +65,8 @@ const formRoutes: Route[] = [
         MatRadioModule,
         MatDividerModule,
         MatSlideToggleModule,
-        FormsModule
+        FormsModule,
+        NgxPermissionsModule
     ]
 })
 export class ApprovalChangesLandingModule {

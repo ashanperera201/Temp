@@ -20,6 +20,7 @@ import {MatDialogModule } from '@angular/material/dialog';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatTabsModule} from '@angular/material/tabs';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgxPermissionsModule} from 'ngx-permissions'
 
 const collaborationRoutes: Route[] = [
     {
@@ -54,6 +55,7 @@ const collaborationRoutes: Route[] = [
         MatTabsModule,
         FormsModule,
         ReactiveFormsModule,
+        NgxPermissionsModule
     ]
 })
 export class RfxModule

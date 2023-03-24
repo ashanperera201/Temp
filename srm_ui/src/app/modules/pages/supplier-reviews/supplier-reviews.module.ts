@@ -1,31 +1,31 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatIconModule} from '@angular/material/icon';
-import {CommonModule} from '@angular/common';
-import {MatInputModule} from '@angular/material/input';
-import {MatTableModule} from '@angular/material/table';
-import {MatSortModule} from '@angular/material/sort';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSelectModule} from '@angular/material/select';
-import {MatButtonModule} from '@angular/material/button';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatCardModule} from '@angular/material/card';
-import {TagsOverlayModule} from 'app/modules/common/tags-overlay/tags-overlay.module';
-import {MatDialogContent, MatDialogModule} from '@angular/material/dialog';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {NgApexchartsModule} from "ng-apexcharts";
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { TagsOverlayModule } from 'app/modules/common/tags-overlay/tags-overlay.module';
+import { MatDialogContent, MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { NgApexchartsModule } from "ng-apexcharts";
 import { SuppliersViewComponent } from 'app/modules/common/rfq/suppliers-view/suppliers-view.component';
 import { DatatableModule } from 'app/modules/common/datatable/datatable.module';
 import { DrawerMiniModule } from 'app/modules/common/drawer-mini/drawer-mini.module';
@@ -37,7 +37,7 @@ import { ReviewInitiationSummaryOverlayComponent } from './review-initiation-sum
 import { ReviewOutcomesComponent } from './review-outcomes/review-outcomes.component';
 import { ReviewScheduleOverlayComponent } from './review-schedule-overlay/review-schedule-overlay.component';
 import { ReviewScheduleSummaryOverlayComponent } from './review-schedule-summary-overlay/review-schedule-summary-overlay.component';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { ReviewReinitiationOverlayComponent } from './review-reinitiation-overlay/review-reinitiation-overlay.component';
 import { ReviewApprovalOverlayComponent } from './review-approval-overlay/review-approval-overlay.component';
 import { ReviewRejectionOverlayComponent } from './review-rejection-overlay/review-rejection-overlay.component';
@@ -46,10 +46,11 @@ import { ReviewTodosComponent } from './review-todos/review-todos.component';
 import { ReviewSummaryChartsComponent } from './review-summary-charts/review-summary-charts.component';
 import { BlockSupplierOverlayComponent } from './block-supplier-overlay/block-supplier-overlay.component';
 import { ApprovalHistoryOverlayComponent } from './approval-history-overlay/approval-history-overlay.component';
+import { NgxPermissionsModule } from 'ngx-permissions'
 
 const suppliersRoutes: Route[] = [
     {
-        path     : '',
+        path: '',
         component: SupplierReviewsComponent
     }
 ];
@@ -105,9 +106,9 @@ const suppliersRoutes: Route[] = [
         SearchModule,
         MatAutocompleteModule,
         NgApexchartsModule,
-        MatListModule
+        MatListModule,
+        NgxPermissionsModule
     ]
 })
-export class SupplierReviewsModule
-{
+export class SupplierReviewsModule {
 }

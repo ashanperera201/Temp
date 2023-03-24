@@ -19,6 +19,7 @@ export class RfxNewFromExistingComponent
 {
     displayedColumns: string[] = ['id', 'number', 'createdDate', 'name', 'description', 'type', 'status'];
     pageEvent: PageEvent;
+    templateSelected: boolean = false;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -61,7 +62,7 @@ export class RfxNewFromExistingComponent
     OnInputTypeChange(row)
     {
         this.rfqid=row.rfqid;
-        
+        this.templateSelected = true;
         
     }
     OnPaginateChange(event: PageEvent) {
@@ -78,6 +79,18 @@ export class RfxNewFromExistingComponent
         this.router.navigateByUrl(url, { state: { hello: 'world' } });
     }
     CreateRFX(url) {
+
+        if (!this.templateSelected) {
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: "Please select a template before creating the RFX",
+                showConfirmButton: true
+            });
+            return;
+        }
+
         const refference = this.dialog.open(ApplicationLoaderComponent, { height: '400px', width: '600px', data: { loadingText: 'Processing....' } });       
         this.rfqService.createRFQFromTemplate(this.rfqid).subscribe(result => {
             refference.close();

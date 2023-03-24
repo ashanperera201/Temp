@@ -10,20 +10,23 @@
     </mat-card>
 </div>
 <div *ngIf="show" class="dashboard-page flex flex-col flex-auto min-w-0 sm:p-6 md:p-8">
+<div class="dashboard-page flex flex-col flex-auto min-w-0 sm:p-6 md:p-8" *ngxPermissionsOnly="['DASHBOARD']">
     <div class="flex justify-between">
         <div class="text-3xl font-cairo font-bold tracking-tight leading-8 mb-10">Dashboard</div>
-        <button class="sm:inline-flex ml-auto" mat-stroked-button [color]="'primary'" (click)="openDialog()">
+        <button class="sm:inline-flex ml-auto" *ngxPermissionsOnly="['ADD-ELEMENTS']" mat-stroked-button
+            [color]="'primary'" (click)="openDialog()">
             <span class="mx-8">Add Elements</span>
         </button>
     </div>
-    
+
     <mat-accordion multi>
         <mat-expansion-panel class="dashboard-page-item mb-10" [(expanded)]="pendingxpandStatus"
-            (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle="true">
+            *ngxPermissionsOnly="['PENDING-TASKS']" (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+            hideToggle="true">
             <mat-expansion-panel-header class="h-full" (click)="getPendingData(searchTerm)">
                 <div class="flex flex-col w-full">
                     <mat-panel-title class="text-xl mb-3 blue flex justify-between">
-                        <div class="flex items-center font-cairo font-bold">
+                        <div class="flex items-center font-cairo font-bold" *ngxPermissionsOnly="['PENDING-TASKS']">
                             <div *ngIf="panelOpenState" class="color-circle mr-2"></div>
                             Pending Tasks
                         </div>
@@ -61,7 +64,8 @@
                                     <div class="rounded-item-criticality normal"></div>
                                     <div class="text-4xl text-gray-600">&nbsp;{{NonCriticalVal}}</div>
                                 </div>
-                                <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500 pt-2">
+                                <div
+                                    class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500 pt-2">
                                     Non-Critical</div>
                             </div>
 
@@ -70,7 +74,8 @@
                                     <div class="rounded-item-criticality critical"></div>
                                     <div class="text-4xl text-gray-600">&nbsp;{{CriticalVal}}</div>
                                 </div>
-                                <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500 pt-2">
+                                <div
+                                    class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500 pt-2">
                                     Critical</div>
                             </div>
 
@@ -79,13 +84,15 @@
                                     <div class="rounded-item-criticality highcritical"></div>
                                     <div class="text-4xl text-gray-600">&nbsp;{{HighCriticalVal}}</div>
                                 </div>
-                                <div class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500 pt-2">
+                                <div
+                                    class="text-md uppercase font-medium dashboard-page-item-sub-hero text-gray-500 pt-2">
                                     High-Critical</div>
                             </div>
                         </div>
                         <br>
                         <br>
-                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-HSEQ'">
+                        <div class="hero-items flex items-start divide-x-2" style="justify-content: flex-start"
+                            *ngIf="userrole == 'IMI-HSEQ'">
                             <div class="hero-item flex flex-col pr-15">
                                 <div class="flex items-center">&nbsp;</div>
                                 <div>
@@ -149,7 +156,8 @@
                             </div>
                         </div>
 
-                        <div class="hero-items flex items-start divide-x-2" style="justify-content: flex-start" *ngIf="userrole == 'IMI-SRM Analyst'">
+                        <div class="hero-items flex items-start divide-x-2" style="justify-content: flex-start"
+                            *ngIf="userrole == 'IMI-SRM Analyst'">
                             <div class="hero-item flex flex-col pr-15">
                                 <div class="flex items-center">&nbsp;</div>
                                 <div>
@@ -184,7 +192,8 @@
                             </div>
                         </div>
 
-                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-GM'">
+                        <div class="hero-items flex items-start divide-x-2" style="justify-content: flex-start"
+                            *ngIf="userrole == 'IMI-GM'">
                             <div class="hero-item flex flex-col pr-15">
                                 <div class="flex items-center">&nbsp;</div>
                                 <div>
@@ -203,7 +212,8 @@
                             </div>
                         </div>
 
-                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-VP'">
+                        <div class="hero-items flex items-start divide-x-2" style="justify-content: flex-start"
+                            *ngIf="userrole == 'IMI-VP'">
                             <div class="hero-item flex flex-col pr-15">
                                 <div class="flex items-center">&nbsp;</div>
                                 <div>
@@ -222,7 +232,8 @@
                             </div>
                         </div>
 
-                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-Treasury Bank Reviewer'">
+                        <div class="hero-items flex items-start divide-x-2" style="justify-content: flex-start"
+                            *ngIf="userrole == 'IMI-Treasury Bank Reviewer'">
                             <div class="hero-item flex flex-col pr-15">
                                 <div class="flex items-center">&nbsp;</div>
                                 <div>
@@ -241,7 +252,8 @@
                             </div>
                         </div>
 
-                        <div class="hero-items flex items-start divide-x-2"  style="justify-content: flex-start"  *ngIf="userrole == 'IMI-Treasury Bank Approver'">
+                        <div class="hero-items flex items-start divide-x-2" style="justify-content: flex-start"
+                            *ngIf="userrole == 'IMI-Treasury Bank Approver'">
                             <div class="hero-item flex flex-col pr-15">
                                 <div class="flex items-center">&nbsp;</div>
                                 <div>
@@ -266,11 +278,12 @@
         </mat-expansion-panel>
 
         <mat-expansion-panel class="dashboard-page-item mb-10" [(expanded)]="registeredxpandStatus"
-            (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle="true">
+            *ngxPermissionsOnly="['PENDING-TASKS']" (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+            hideToggle="true">
             <mat-expansion-panel-header class="h-full" (click)="getPendingAllData()">
                 <div class="flex flex-col w-full">
                     <mat-panel-title class="text-xl pending-task-title mb-3 dark-green flex justify-between">
-                        <div class="flex items-center font-cairo font-bold">
+                        <div class="flex items-center font-cairo font-bold" *ngxPermissionsOnly="['PASS-SUPPLIER-REGISTRATION']">
                             <div *ngIf="panelOpenState" class="color-circle pink mr-2"></div>
                             PASS Supplier Registration
                         </div>
@@ -315,7 +328,7 @@
             (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle="true"
             *ngIf="isemergencyVisible">
             <mat-expansion-panel-header class="h-full" (click)="getPendingEmergData()">
-                <div class="flex flex-col w-full">
+                <div class="flex flex-col w-full" *ngxPermissionsOnly="['EMERGENCY-SUPPLIERS']">
                     <mat-panel-title class="text-xl pending-task-title mb-3 light-green flex justify-between">
                         <div class="flex items-center font-cairo font-bold">
                             <div *ngIf="panelOpenState" class="color-circle aqua mr-2"></div>

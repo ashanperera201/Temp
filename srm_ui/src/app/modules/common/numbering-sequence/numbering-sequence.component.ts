@@ -18,7 +18,7 @@ import Swal from 'sweetalert2';
 })
 export class NumberingSequenceComponent
 {
-    displayedColumns: string[] = ['id', 'startNumber', 'exists', 'startDate', 'endDate'];
+    displayedColumns: string[] = ['id', 'startNumber', 'exists' ,'startofseq','startDate', 'endDate','active'];
     numberingSequenceSearchModel: NumberingSequenceSearchModel = new NumberingSequenceSearchModel();
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -55,7 +55,7 @@ export class NumberingSequenceComponent
         this.numberingSequenceService.getNumberingSequenceList(this.numberingSequenceSearchModel).subscribe(result => {
           console.log(result);
           this.numberingSequenceSearchModel = result;
-           
+           console.log(this.numberingSequenceSearchModel);
         });
     }
 

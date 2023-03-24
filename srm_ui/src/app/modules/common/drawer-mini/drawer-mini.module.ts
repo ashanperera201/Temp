@@ -13,6 +13,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
 import {FuseNavigationModule} from '@fuse/components/navigation';
+import {NgxPermissionsModule} from 'ngx-permissions'
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {FuseNavigationModule} from '@fuse/components/navigation';
         MatMenuModule,
         MatCheckboxModule,
         MatCardModule,
-        FuseNavigationModule
+        FuseNavigationModule,
+        NgxPermissionsModule.forChild(),
     ],
     exports: [
         DrawerMiniComponent

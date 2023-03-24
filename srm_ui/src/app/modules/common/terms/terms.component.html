@@ -1,4 +1,4 @@
-<div class="dashboard-page flex flex-col flex-auto min-w-0">
+<div class="dashboard-page flex flex-col flex-auto min-w-0" *ngxPermissionsOnly="['TERMS']">
     <fuse-alert *ngIf="Message"
         [appearance]="'fill'"
         [dismissible]="true"

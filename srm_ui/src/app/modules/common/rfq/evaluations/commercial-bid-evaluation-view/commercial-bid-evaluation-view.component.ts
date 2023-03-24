@@ -31,7 +31,9 @@ export class CommercialBidEvaluationViewComponent implements OnInit {
   }
 
   public UpdateRFQModel(model) {
+    debugger;
     this.RFQModel = model.rfqModel;
+    this.rfqUpdated.emit({rfqModel:this.RFQModel});
     if(this.bidEvaluation.supplierId!=null)
     {
       if(this.bidEvaluation.supplierId=="00000000-0000-0000-0000-000000000000")
@@ -64,7 +66,7 @@ export class CommercialBidEvaluationViewComponent implements OnInit {
       this.bidCommercialFlag = true;
     });
     }
-    this.rfqUpdated.emit({rfqModel:model});
+    // this.rfqUpdated.emit({rfqModel:model});
     }
   }
 

@@ -43,4 +43,9 @@ export class NumberingSequenceService {
     const httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
     return this.http.post<any>(this.url + "DeleteNumberingSequence", models, httpOptions);
   }
+
+  ValidateStartDate(models: any[], index?: any) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), params: null };
+    return this.http.post<any>(this.url + "ValidateStartDate", models[0], httpOptions);
+  }
 }

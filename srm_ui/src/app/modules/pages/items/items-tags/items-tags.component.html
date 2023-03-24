@@ -1,4 +1,4 @@
-<div class="items-page flex flex-auto min-w-0">
+<div class="items-page flex flex-auto min-w-0" *ngxPermissionsOnly="['TAGS']">
     <drawer-mini class="drawer-mini"></drawer-mini>
 
     <div class="flex-auto overflow-hidden sm:p-6 md:p-8">
@@ -10,7 +10,6 @@
             <mat-chip-list class="flex mb-6">
                 <mat-basic-chip #c [selected]="item.templateId == tagselected" (click)="changeSelected(item.templateId,c)" [value]="item"  *ngFor="let item of templateData">
                     {{item.templateName}}
-                    <!-- <mat-icon class="icon-size-5" matChipRemove [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon> -->
                 </mat-basic-chip>
             </mat-chip-list>
             <app-item-tag-datatable></app-item-tag-datatable>

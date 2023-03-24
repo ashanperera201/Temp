@@ -24,6 +24,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseConfirmationModule } from '@fuse/services/confirmation';
+import {NgxPermissionsModule} from 'ngx-permissions'
 
 const collaborationRoutes: Route[] = [
     {
@@ -61,7 +62,8 @@ const collaborationRoutes: Route[] = [
         MatChipsModule,
         MatDatepickerModule,
         FuseConfirmationModule,
-        FuseAlertModule
+        FuseAlertModule,
+        NgxPermissionsModule
     ]
 })
 export class AttributeListModule
